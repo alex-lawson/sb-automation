@@ -1,0 +1,1 @@
+We can work out some better categorization, but for now let's put all scripted objects in this folder.
