@@ -1,18 +1,18 @@
-function isDataWireObject()
-  return true
-end
-
-function onInboundNodeChange(args)
-  --do we even do anything with boolean wire signals? have to think about this as an additional data channel
-  --should probably ignore it since some objects use both binary and data wires for separate functions
-end
-
+--- if you're overwriting this in the implementing object, you MUST add 'datawire.createConnectionTable()' to your function
 function onNodeConnectionChange()
   --world.logInfo("in onNodeConnectionChange()")
-  queryNodes()
+  datawire.createConnectionTable()
 end
 
-function queryNodes()
+datawire = {}
+
+--- this should be called by the implementing object in its own init()
+function datawire.init()
+  datawire.createConnectionTable()
+end
+
+--- Creates connection tables for inbound and outbound nodes
+function datawire.createConnectionTable()
   storage.outboundConnections = {}
   local i = 0
   while i < entity.outboundNodeCount() do
@@ -31,79 +31,84 @@ function queryNodes()
     i = i + 1
   end
 
-  --world.logInfo(string.format("%s finished querying %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.outboundNodeCount(), entity.inboundNodeCount()))
-  --world.logInfo(storage.outboundConnections)
-  --world.logInfo(storage.inboundConnections)
+  world.logInfo(string.format("%s (id %d) finished building tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
+  world.logInfo(storage.outboundConnections)
+  world.logInfo(storage.inboundConnections)
 end
 
-function sendData(data, nodeId)
+--- Sends data to another datawire object
+-- @param data the data to be sent
+-- @param dataType the data type to be sent ("boolean", "number", "string", "area", etc.)
+-- @param nodeId the outbound node id to send to, or "all" for all outbound nodes
+-- @returns true if at least one object successfully received the data
+function datawire.sendData(data, dataType, nodeId)
   local transmitSuccess = false
 
   if nodeId == "all" then
-    local i = 0
-    while i < entity.outboundNodeCount() do
-      transmitSuccess = sendData(data, i) or transmitSuccess
-      i = i + 1
+    for k, v in pairs(storage.outboundConnections) do
+      transmitSuccess = datawire.sendData(data, dataType, k) or transmitSuccess
     end
   else
     if storage.outboundConnections[nodeId] and #storage.outboundConnections[nodeId] > 0 then 
-      --world.logInfo(storage.outboundConnections[nodeId])
       for i, entityId in ipairs(storage.outboundConnections[nodeId]) do
         if entityId ~= entity.id() then
-          transmitSuccess = world.callScriptedEntity(entityId, "receiveData", { data, entity.id() }) or transmitSuccess
+          transmitSuccess = world.callScriptedEntity(entityId, "datawire.receiveData", { data, dataType, entity.id() }) or transmitSuccess
         end
       end
     end
   end
 
+  -- if not transmitSuccess then
+  --   world.logInfo(string.format("DataWire: %s (id %d) FAILED to send data of type %s", entity.configParameter("objectName"), entity.id(), dataType))
+  --   world.logInfo(data)
+  -- end
+
   return transmitSuccess
 end
 
-function receiveData(args)
+--- Receives data from another datawire object
+-- @param data the data received
+-- @param dataType the data type received ("boolean", "number", "string", "area", etc.)
+-- @param sourceEntityId the id of the sending entity, which can be use for an imperfect node association
+-- @returns true if valid data was received
+function datawire.receiveData(args)
+  --unpack args
   local data = args[1]
-  local sourceEntityId = args[2]
-  
+  local dataType = args[2]
+  local sourceEntityId = args[3]
+
   --convert entityId to nodeId
   local nodeId = storage.inboundConnections[sourceEntityId]
 
-  if nodeId ~= nil and validateData(data, nodeId) then
-    onValidDataReceived(data, nodeId)
+  if nodeId ~= nil and validateData(data, dataType, nodeId) then
+    onValidDataReceived(data, dataType, nodeId)
 
-    --world.logInfo(string.format("DataWire: object received data"))
+    --world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
     --world.logInfo(data)
 
     return true
   else
-    world.logInfo(string.format("DataWire: object received INVALID data"))
+    world.logInfo(string.format("DataWire: %s received INVALID data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
     world.logInfo(data)
-    world.logInfo(storage.inboundConnections)
 
     return false
   end
 end
 
-function validateData(data, nodeId)
+--- Validates data received from another datawire object
+-- @param data the data to be validated
+-- @param dataType the data type to be validated ("boolean", "number", "string", "area", etc.)
+-- @param nodeId the inbound node id on which data was received
+-- @returns true if the data is valid
+function validateData(data, dataType, nodeId)
   --to be implemented by object
   return true
 end
 
-function isAreaData(data)
-  return
-      type(data) == "table" and
-      #data > 0 and
-      data[1] and
-      type(data[1]) == "table" and
-      #data[1] == 2
-end
-
-function isPrintData(data)
-  return
-      type(data) == "table" and
-      data["tileArea"] ~= nil and
-      data["fgData"] ~= nil and
-      data["bgData"] ~= nil
-end
-
-function onValidDataReceived(data, nodeId)
+--- Hook for datawire objects to use received data
+-- @param data the data
+-- @param dataType the data type ("boolean", "number", "string", "area", etc.)
+-- @param nodeId the inbound node id on which data was received
+function onValidDataReceived(data, dataType, nodeId)
   --to be implemented by object
 end

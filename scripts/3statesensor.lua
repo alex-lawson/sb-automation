@@ -2,13 +2,14 @@ function init(virtual)
   if not virtual then
     self.detectThresholdHigh = entity.configParameter("detectThresholdHigh")
     self.detectThresholdLow = entity.configParameter("detectThresholdLow")
+
     self.initialized = false
   end
 end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -23,7 +24,7 @@ function main(args)
   end
 
   local sample = getSample()
-  sendData(sample, "all")
+  datawire.sendData(sample, "number", "all")
 
   if sample >= self.detectThresholdLow then
     entity.setOutboundNodeLevel(0, true)

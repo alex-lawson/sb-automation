@@ -30,8 +30,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -62,11 +61,11 @@ function checkNodes()
   swapLayer(entity.getInboundNodeLevel(0))
 end
 
-function validateData(data, nodeId)
-  return isAreaData(data)
+function validateData(data, dataType, nodeId)
+  return dataType == "area"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   if storage.transitionState > 0 then
     storage.pendingAreaData = data
   else
