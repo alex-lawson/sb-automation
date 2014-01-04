@@ -1,0 +1,35 @@
+{
+  "objectName" : "operator",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Smoothly add, subtract, multiply or divide two numbers.",
+  "shortdescription" : "Operator",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : "1000",
+
+  "inventoryIcon" : "operatoricon.png",
+  "orientations" : [
+    {
+      "image" : "operator.png:<color>.add",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "operator.lua" ],
+  "scriptDelta" : 20,
+
+  "animation" : "operator.animation",
+
+  "animationParts" : {
+    "operator" : "operator.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "inboundNodes" : [ [0, 1], [2, 1] ],
+  "outboundNodes" : [ [1, 0] ]
+}

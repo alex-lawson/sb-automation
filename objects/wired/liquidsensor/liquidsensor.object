@@ -1,0 +1,61 @@
+{
+  "objectName" : "liquidsensor",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Get the word on that wetness.",
+  "shortdescription" : "Liquid Sensor",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : "1000",
+
+  "inventoryIcon" : "liquidsensoricon.png",
+
+  "orientations" : [
+    {
+      "image" : "liquidsensor.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    },
+    {
+      "image" : "liquidsensor.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "liquidsensor.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "liquidsensor.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "liquidsensor.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "liquidsensor.lua" ],
+  "scriptDelta" : 15,
+
+  "animation" : "liquidsensor.animation",
+  "animationParts" : {
+    "sensor" : "liquidsensor.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "outboundNodes" : [ [0, 0] ]
+}

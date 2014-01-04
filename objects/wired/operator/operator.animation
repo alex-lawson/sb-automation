@@ -1,0 +1,88 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "operatorState" : {
+        "default" : "add",
+        "states" : {
+          "add" : {
+            "frames" : 1
+          },
+          "subtract" : {
+            "frames" : 1
+          },
+          "multiply" : {
+            "frames" : 1
+          },
+          "divide" : {
+            "frames" : 1
+          },
+          "flipped.add" : {
+            "frames" : 1
+          },
+          "flipped.subtract" : {
+            "frames" : 1
+          },
+          "flipped.multiply" : {
+            "frames" : 1
+          },
+          "flipped.divide" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "operator" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "operatorState" : {
+            "add" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.add"
+              }
+            },
+            "subtract" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.subtract"
+              }
+            },
+            "multiply" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.multiply"
+              }
+            },
+            "divide" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.divide"
+              }
+            },
+            "flipped.add" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.add"
+              }
+            },
+            "flipped.subtract" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.subtract"
+              }
+            },
+            "flipped.multiply" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.multiply"
+              }
+            },
+            "flipped.divide" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.divide"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

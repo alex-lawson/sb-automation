@@ -74,9 +74,9 @@ function receiveData(args)
 
     return true
   else
-    --world.logInfo(string.format("DataWire: object received INVALID data"))
-    --world.logInfo(data)
-    --world.logInfo(storage.inboundConnections)
+    world.logInfo(string.format("DataWire: object received INVALID data"))
+    world.logInfo(data)
+    world.logInfo(storage.inboundConnections)
 
     return false
   end

@@ -1,0 +1,35 @@
+{
+  "objectName" : "freeformmarker",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Selects an arbitrary area of adjacent tiles.",
+  "shortdescription" : "Freeform Survey Marker",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : "100",
+
+  "inventoryIcon" : "freeformmarkericon.png",
+
+  "orientations" : [
+    {
+      "image" : "freeformmarker.png:default.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [  ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/objects/wired/surveymarker/surveymarker.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "freeformmarker.animation",
+  "animationParts" : {
+    "marker" : "freeformmarker.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "outboundNodes" : [ [0, 0] ],
+
+  "markerType" : "freeform"
+}

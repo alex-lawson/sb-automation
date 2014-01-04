@@ -1,0 +1,36 @@
+{
+  "objectName" : "comparator",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Who's the greatest of all?",
+  "shortdescription" : "Comparator",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : "500",
+
+  "inventoryIcon" : "comparatoricon.png",
+  "orientations" : [
+    {
+      "image" : "comparator.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "comparator.lua" ],
+  "scriptDelta" : 20,
+
+  "animation" : "comparator.animation",
+
+  "animationParts" : {
+    "comparator" : "comparator.png",
+    "mode" : "modes.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "inboundNodes" : [ [0, 1], [2, 1] ],
+  "outboundNodes" : [ [1, 0] ]
+}

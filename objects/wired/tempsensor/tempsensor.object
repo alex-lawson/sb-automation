@@ -1,0 +1,36 @@
+{
+  "objectName" : "tempsensor",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Activates the bottom node in moderate temperature and the top node in warm temperature.",
+  "shortdescription" : "Thermometer",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : "1000",
+
+  "inventoryIcon" : "tempsensoricon.png",
+
+  "orientations" : [
+    {
+      "image" : "tempsensor.png:default.med",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/scripts/3statesensor.lua", "tempsensor.lua" ],
+  "scriptDelta" : 50,
+
+  "animation" : "/objects/wired/3statesensor.animation",
+  "animationParts" : {
+    "sensor" : "tempsensor.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "outboundNodes" : [ [0, -1], [0, 1] ],
+
+  "detectThresholdLow" : 0,
+  "detectThresholdHigh" : 20
+}

@@ -1,0 +1,48 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "scannerState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {
+            "frames" : 1
+          },
+          "maxhp" : {
+            "frames" : 1
+          },
+          "currenthp" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "scanner" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "scannerState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            },
+            "maxhp" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.maxhp"
+              }
+            },
+            "currenthp" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.currenthp"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

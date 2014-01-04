@@ -1,0 +1,99 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "modeState" : {
+        "default" : "gt",
+        "states" : {
+          "gt" : {},
+          "lt" : {},
+          "eq" : {},
+          "flipped.gt" : {},
+          "flipped.lt" : {},
+          "flipped.eq" : {}
+        }
+      },
+      "comparatorState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {},
+          "flipped.off" : {},
+          "flipped.on" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "mode" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "modeState" : {
+            "gt" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.gt"
+              }
+            },
+            "lt" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.lt"
+              }
+            },
+            "eq" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.eq"
+              }
+            },
+            "flipped.gt" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.gt"
+              }
+            },
+            "flipped.lt" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.lt"
+              }
+            },
+            "flipped.eq" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.eq"
+              }
+            }
+          }
+        }
+      },
+      "comparator" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "comparatorState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.on"
+              }
+            },
+            "flipped.off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.off"
+              }
+            },
+            "flipped.on" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.on"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
