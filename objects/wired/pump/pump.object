@@ -30,6 +30,7 @@
   
   "scripts" : [
     "/objects/wired/pump/pump.lua",
+    "/scripts/liquidpipes.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
@@ -42,5 +43,8 @@
   "animationPosition" : [0, 0],
   
   "inboundNodes" : [ [0, -1] ],
-  "outboundNodes" : [ [0, 1] ]
+  "outboundNodes" : [ [0, 1] ],
+  
+  "liquidInboundNodes" : [ 0 ],
+  "liquidOutboundNodes" : [ 0 ]
 }
