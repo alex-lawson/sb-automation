@@ -1,0 +1,16 @@
+{
+  "frameGrid" : {
+    "size" : [24, 16],
+    "dimensions" : [3, 1],
+    "names" : [
+      [ "default.gt", "default.lt", "default.eq" ]
+    ]
+  },
+
+  "aliases" : {
+    "default.default" : "default.gt",
+    "default.flipped.gt" : "default.lt",
+    "default.flipped.lt" : "default.gt",
+    "default.flipped.eq" : "default.eq"
+  }
+}

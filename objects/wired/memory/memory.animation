@@ -1,0 +1,72 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "lockState" : {
+        "default" : "none",
+        "states" : {
+          "none" : {},
+          "in" : {},
+          "out" : {},
+          "both" : {},
+          "flipped.none" : {},
+          "flipped.in" : {},
+          "flipped.out" : {},
+          "flipped.both" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "memory" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "lockState" : {
+            "none" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.none"
+              }
+            },
+            "in" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.in"
+              }
+            },
+            "out" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.out"
+              }
+            },
+            "both" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.both"
+              }
+            },
+            "flipped.none" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.none"
+              }
+            },
+            "flipped.in" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.in"
+              }
+            },
+            "flipped.out" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.out"
+              }
+            },
+            "flipped.both" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.both"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

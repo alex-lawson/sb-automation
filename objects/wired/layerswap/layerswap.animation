@@ -1,0 +1,36 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "layerState" : {
+        "default" : "foreground",
+        "states" : {
+          "foreground" : {},
+          "background" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "switch" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "layerState" : {
+            "foreground" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.foreground"
+              }
+            },
+            "background" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.background"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

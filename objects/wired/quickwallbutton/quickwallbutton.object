@@ -1,0 +1,39 @@
+{
+  "objectName" : "quickwallbutton",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Just a quick tap couldn't hurt anyone, could it?",
+  "shortdescription" : "Quick Wall Button",
+  "race" : "generic",
+
+  "floranDescription" : "Floran just push button!",
+  "glitchDescription" : "Temptation. A button, begging to be pressed.",
+
+  "category" : "wire",
+  "price" : "300",
+
+  "inventoryIcon" : "quickwallbuttonicon.png",
+  "orientations" : [
+    {
+      "image" : "quickwallbutton.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/objects/wired/momentaryswitch.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "/objects/wired/switchtoggle.animation",
+
+  "animationParts" : {
+    "switch" : "quickwallbutton.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "outboundNodes" : [ [0, -1] ],
+
+  "interval" : 1
+}

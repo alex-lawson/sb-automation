@@ -1,0 +1,66 @@
+{
+  "objectName" : "windsensor",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Activates the bottom node in low wind and the top node in high wind.",
+  "shortdescription" : "Wind Sensor",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : "1000",
+  "scannable" : false,
+  "printable" : false,
+
+  "inventoryIcon" : "windsensoricon.png",
+
+  "orientations" : [
+    {
+      "image" : "windsensor.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    },
+    {
+      "image" : "windsensor.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "windsensor.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "windsensor.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "windsensor.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/scripts/3statesensor.lua", "windsensor.lua" ],
+  "scriptDelta" : 25,
+
+  "animation" : "/objects/wired/3statesensor.animation",
+  "animationParts" : {
+    "sensor" : "windsensor.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "outboundNodes" : [ [0, -1], [0, 1] ],
+
+  "detectThresholdLow" : 1,
+  "detectThresholdHigh" : 20
+}
