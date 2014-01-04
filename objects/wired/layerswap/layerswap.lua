@@ -22,8 +22,6 @@ function init(virtual)
       storage.fgData = {}
     end
 
-    self.previousFailureCount = { foreground = 0, background = 0 }
-
     self.initialized = false
 
     updateAnimationState()
@@ -90,13 +88,11 @@ function swapLayer(newState)
     storage.swapState = newState
     storage.transitionState = 3
 
-    self.previousFailureCount = { foreground = 0, background = 0 }
+    storage.bgData = scanLayer(storage.tileArea, "background")
+    storage.fgData = scanLayer(storage.tileArea, "foreground")
 
-    storage.bgData = scanLayer("background")
-    storage.fgData = scanLayer("foreground")
-
-    breakLayer("background", false)
-    breakLayer("foreground", false)
+    breakLayer(storage.tileArea, "background", false)
+    breakLayer(storage.tileArea, "foreground", false)
 
     updateAnimationState()
   end
@@ -107,11 +103,12 @@ function main()
     initInWorld()
   end
 
+  --timer waits for blocks to finish being destroyed before starting placement
   if storage.transitionState > 0 then
     if storage.transitionState == 1 then
       --place stored blocks
-      placeLayer("background", storage.fgData, true)
-      placeLayer("foreground", storage.bgData, true)
+      placeLayer(storage.tileArea, "background", storage.fgData, true)
+      placeLayer(storage.tileArea, "foreground", storage.bgData, true)
 
       if storage.pendingAreaData then
         storage.tileArea = storage.pendingAreaData
