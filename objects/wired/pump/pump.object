@@ -1,0 +1,46 @@
+{
+  "objectName" : "liquidpump",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Pump",
+  "shortdescription" : "Pump",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Pump",
+  "avianDescription" : "Pump",
+  "floranDescription" : "Pump",
+  "glitchDescription" : "Pump",
+  "humanDescription" : "Pump",
+  "hylotlDescription" : "Pump",
+
+  "inventoryIcon" : "pump.png",
+  "orientations" : [
+    {
+      "dualImage" : "pump.png",
+
+      "imagePosition" : [0, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pump/pump.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pump/pump.animation",
+  "animationParts" : {
+    "pump" : "pump.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [ [0, -1] ],
+  "outboundNodes" : [ [0, 1] ]
+}

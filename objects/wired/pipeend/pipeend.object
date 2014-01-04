@@ -1,0 +1,47 @@
+{
+  "objectName" : "pipeend",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Pipe Spout",
+  "shortdescription" : "Pipe Spout",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Pipe spout",
+  "avianDescription" : "Pipe spout",
+  "floranDescription" : "Pipe spout",
+  "glitchDescription" : "Pipe spout",
+  "humanDescription" : "Pipe spout",
+  "hylotlDescription" : "Pipe spout",
+
+  "inventoryIcon" : "pipeend.png",
+  "orientations" : [
+    {
+      "dualImage" : "pipeend.png",
+
+      "imagePosition" : [0, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipeend/pipeend.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipeend/pipeend.animation",
+  "animationParts" : {
+    "pipe" : "pipeend.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [ [0, -1] ],
+  "outboundNodes" : [ [0, 1] ]
+}
