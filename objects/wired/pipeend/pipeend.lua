@@ -28,9 +28,10 @@ function getLiquid()
   return liquid
 end
 
-function putLiquid(liquidType, amount)
+function putLiquid(liquidId, quantity)
   world.logInfo("Putting liquid")
+  quantity = 1400
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
-  world.spawnProjectile("createliquid", liquidPos, entity.id(), {0, -1}, false, {})
+  world.spawnProjectile("createliquid", liquidPos, entity.id(), {0, -1}, false, {actionOnReap = { {action = "liquid", quantity = quantity, liquidId = liquidId}}})
 end
