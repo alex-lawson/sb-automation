@@ -31,7 +31,7 @@ end
 
 function process(ox, oy)
   local f = entity.direction()
-  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
+  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox + 0.5, oy }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
   for i,id in ipairs(eids) do
     local e = entityProxy.create(id)

@@ -13,7 +13,7 @@
   "orientations" : [
     {
       "dualImage" : "jumppad.png:idle",
-      "imagePosition" : [-8, 0],
+      "imagePosition" : [ -8, 0],
       "collision" : "solid",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -27,7 +27,7 @@
   "animationParts" : {
     "base" : "jumppad.png"
   },
-  "animationPosition" : [-8, 0],
+  "animationPosition" : [ -8, 0],
 
   "boostPower" : 40,
   "jumpSound" : "/sfx/tech/tech_doublejump.wav"

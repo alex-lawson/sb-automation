@@ -1,5 +1,5 @@
 Set oFSO = CreateObject("Scripting.FileSystemObject")
-Set oF = oFSO.OpenTextFile("testplayer.config", 2, 1)
+Set oF = oFSO.OpenTextFile("player.config", 2, 1)
 Set list = CreateObject("System.Collections.ArrayList")
 
 oF.WriteLine("{")
