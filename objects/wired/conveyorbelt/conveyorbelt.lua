@@ -29,10 +29,6 @@ function filterEntities(eids)
   return ret
 end
 
-function rand()
-  return (math.random() + 1) * 2 / 3
-end
-
 function process(ox, oy)
   local f = entity.direction()
   local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
@@ -41,7 +37,7 @@ function process(ox, oy)
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
-      v[1] = v[1] + self.fanPower * f * (self.affectWidth - ox) * rand() / self.affectWidth
+      v[1] = v[1] + self.workSpeed * f
       e.setVelocity(v)
       self.aet[id] = true
     end
@@ -53,9 +49,9 @@ function main()
     self.aet = {}
     self.st = self.st + 1
     if self.st > 6 then self.st = 0
-    elseif self.st == 3 then entity.playImmediateSound(self.blowSound) end
-    for x=1,self.affectWidth do
-      for y=-1,1 do
+    elseif self.st == 3 then entity.playImmediateSound(self.workSound) end
+    for x=-1,1 do
+      for y=0,2 do
         process(x, y)
       end
     end
