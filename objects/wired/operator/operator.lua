@@ -35,7 +35,7 @@ function initInWorld()
     self.flipStr = "flipped."
   end
   
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -57,11 +57,11 @@ function cycleMode()
   operate()
 end
 
-function validateData(data, nodeId)
-  return type(data) == "number"
+function validateData(data, dataType, nodeId)
+  return dataType == "number"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   if nodeId == 0 then
     storage.data1 = data
   else
@@ -80,7 +80,7 @@ function operate()
     storage.result = storage.data1 / storage.data2
   end
 
-  sendData(storage.result, "all")
+  datawire.sendData(storage.result, "number", "all")
   updateAnimationState()
 end
 
@@ -89,9 +89,9 @@ function updateAnimationState()
 end
 
 function main(args)
-  if not self.initialized then
+  if self.initialized then
+    operate()
+  else
     initInWorld()
   end
-
-  operate()
 end

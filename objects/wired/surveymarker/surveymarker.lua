@@ -21,6 +21,11 @@ function init(virtual)
       self.markerType = "freeform"
     end
 
+    self.triggerDistance = entity.configParameter("triggerDistance")
+    if self.triggerDistance == nil then
+      self.triggerDistance = 5
+    end
+
     self.smashed = false
 
     self.initialized = false
@@ -29,8 +34,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -47,8 +51,8 @@ function triggerConnectedMarkers(scriptName, scriptArgs)
   local entityIds = {}
 
   if self.markerType == "freeform" then
-    local triggerDistance = 2
-    entityIds = world.objectQuery(entity.position(), triggerDistance, {
+    local 
+    entityIds = world.objectQuery(entity.position(), self.triggerDistance, {
           callScript = scriptName, callScriptArgs = scriptArgs
         })
   elseif self.markerType == "rect" then
@@ -60,7 +64,7 @@ end
 
 function startScan()
   local scanInProgress = storage.timer > 0
-  if not scanInProgress then
+  if not scanInProgress and datawire.isOutboundNodeConnected(0) then
     onTrigger()
     storage.isOrigin = true
 
@@ -100,7 +104,7 @@ function finalizeSurvey()
   world.logInfo(string.format("received positions from %d markers", #storage.scanTable))
   world.logInfo(storage.scanTable)
   
-  local transmitSuccess = sendData(storage.scanTable, "all")
+  local transmitSuccess = datawire.sendData(storage.scanTable, "area", "all")
   if transmitSuccess then
     smashConnectedMarkers(entity.id())
   else
@@ -119,19 +123,18 @@ function smashConnectedMarkers(originId)
 end
 
 function main()
-  if not self.initialized then
-    initInWorld()
-  end
-
-  if storage.timer > 0 then
-    storage.timer = storage.timer - 1
-
-    if storage.timer <= 0 then
-      if storage.isOrigin then
-        finalizeSurvey()
-      else
-        storage.triggered = false
+  if self.initialized then
+    if storage.timer > 0 then
+      storage.timer = storage.timer - 1
+      if storage.timer <= 0 then
+        if storage.isOrigin then
+          finalizeSurvey()
+        else
+          storage.triggered = false
+        end
       end
     end
+  else
+    initInWorld()
   end
 end

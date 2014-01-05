@@ -37,7 +37,7 @@ function initInWorld()
 
   updateAnimationState()
   
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -59,11 +59,11 @@ function cycleMode()
   compare()
 end
 
-function validateData(data, nodeId)
-  return type(data) == "number"
+function validateData(data, dataType, nodeId)
+  return dataType == "number"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   if nodeId == 0 then
     storage.data1 = data
   else
@@ -84,11 +84,11 @@ function compare()
     entity.setOutboundNodeLevel(0, storage.state)
     
     if (storage.state) then
-      sendData(storage.data1, "all")
+      datawire.sendData(storage.data1, "number", "all")
     elseif storage.currentMode == "eq" then
-      sendData(0, "all")
+      datawire.sendData(0, "number", "all")
     else
-      sendData(storage.data2, "all")
+      datawire.sendData(storage.data2, "number", "all")
     end
   end
 
@@ -106,9 +106,9 @@ function updateAnimationState()
 end
 
 function main(args)
-  if not self.initialized then
+  if self.initialized then
+    compare()
+  else
     initInWorld()
   end
-
-  compare()
 end

@@ -34,7 +34,7 @@ function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
 
   updateAnimationState()
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -61,6 +61,12 @@ function updateAnimationState()
   entity.setAnimationState("scannerState", storage.currentMode)
 end
 
+function doDetect()
+  local entityIds = world.entityQuery(self.detectOrigin, self.detectArea, { notAnObject = true, order = "nearest" })
+  local nearestValid = firstValidEntity(entityIds)
+  onDetect(nearestValid)
+end
+
 function onDetect(entityId)
   if entityId then
     local sample
@@ -69,9 +75,9 @@ function onDetect(entityId)
     elseif storage.currentMode == "maxhp" then
       sample = math.floor(world.entityHealth(entityId)[2])
     end
-    sendData(sample, 0)
+    datawire.sendData(sample, "number", 0)
   else
-    sendData(0, 0)
+    datawire.sendData(0, "number", 0)
   end
 end
 
@@ -94,11 +100,9 @@ function firstValidEntity(entityIds)
 end
 
 function main()
-  if not self.initialized then
+  if self.initialized then
+    doDetect()
+  else
     initInWorld()
   end
-
-  local entityIds = world.entityQuery(self.detectOrigin, self.detectArea, { notAnObject = true, order = "nearest" })
-  local nearestValid = firstValidEntity(entityIds)
-  onDetect(nearestValid)
 end

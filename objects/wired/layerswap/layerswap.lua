@@ -30,8 +30,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -59,14 +58,18 @@ function onNodeConnectionChange()
 end
 
 function checkNodes()
-  swapLayer(entity.getInboundNodeLevel(0))
+  if storage.transitionState == 0 then
+    swapLayer(entity.getInboundNodeLevel(0))
+  else
+    self.pendingNodeChange = true
+  end
 end
 
-function validateData(data, nodeId)
-  return isAreaData(data)
+function validateData(data, dataType, nodeId)
+  return dataType == "area"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   if storage.transitionState > 0 then
     storage.pendingAreaData = data
   else
@@ -75,7 +78,7 @@ function onValidDataReceived(data, nodeId)
 end
 
 function onInteraction(args)
-  if not entity.isInboundNodeConnected(0) then
+  if not entity.isInboundNodeConnected(0) and storage.transitionState == 0 then
     swapLayer(not storage.swapState)
   end
 end
@@ -93,29 +96,36 @@ function swapLayer(newState)
 
     breakLayer(storage.tileArea, "background", false)
     breakLayer(storage.tileArea, "foreground", false)
-
+    
     updateAnimationState()
   end
 end
 
 function main()
-  if not self.initialized then
-    initInWorld()
-  end
+  if self.initialized then
+    --timer waits for blocks to finish being destroyed before starting placement
+    if storage.transitionState > 0 then
+      if storage.transitionState == 1 then
+        --place stored blocks
+        placeLayer(storage.tileArea, "background", storage.fgData, true)
+        placeLayer(storage.tileArea, "foreground", storage.bgData, true)
 
-  --timer waits for blocks to finish being destroyed before starting placement
-  if storage.transitionState > 0 then
-    if storage.transitionState == 1 then
-      --place stored blocks
-      placeLayer(storage.tileArea, "background", storage.fgData, true)
-      placeLayer(storage.tileArea, "foreground", storage.bgData, true)
+        --sweep out those pesky (but handy!) invisitiles
+        cleanupTransition(storage.tileArea)
 
-      if storage.pendingAreaData then
-        storage.tileArea = storage.pendingAreaData
-        storage.pendingAreaData = false
+        if storage.pendingAreaData then
+          storage.tileArea = storage.pendingAreaData
+          storage.pendingAreaData = false
+        end
+
+        if storage.pendingNodeChange then
+          checkNodes()
+          storage.pendingNodeChange = false
+        end
       end
+      storage.transitionState = storage.transitionState - 1
     end
-
-    storage.transitionState = storage.transitionState - 1
+  else
+    initInWorld()
   end
 end

@@ -118,12 +118,10 @@ function placeLayer(tileArea, targetLayer, tileData, conserveMaterial)
       end
 
       self.previousFailureCount = nil
-      cleanupInvisitiles(tileArea)
     end
   else
 
     self.previousFailureCount = nil
-    cleanupInvisitiles(tileArea)
   end
 end
 
@@ -160,11 +158,18 @@ function dropMatItems(tileArea, tileData)
 end
 
 --- Destroys any background "invisitiles" (used to aid in block placement)
--- @param tileArea list of absolute tile positions where cleanup will be performed
+-- @param tileArea list of absolute tile positions where invisitile cleanup will be performed
 function cleanupInvisitiles(tileArea)
   for i, pos in ipairs(tileArea) do
     if world.material(pos, "background") == "invisitile" then
       world.damageTiles({pos}, "background", entity.position(), "crushing", 9999)
     end
   end
+end
+
+--- Removes 'invisitiles' or other helper tiles/objects after a transition
+-- THIS MUST BE CALLED AFTER A BACKGROUND placeLayer CALL
+-- @param tileArea list of absolute tile positions where cleanup will be performed
+function cleanupTransition(tileArea)
+  cleanupInvisitiles(tileArea)
 end
