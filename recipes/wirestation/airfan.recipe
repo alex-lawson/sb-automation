@@ -1,0 +1,7 @@
+{
+  "input" : [
+    { "item" : "money", "count" : 350 }
+  ],
+  "output" : { "item" : "airfan", "count" : 1 },
+  "groups" : [ "wiringstation", "all" ]
+}
