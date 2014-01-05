@@ -4,6 +4,8 @@ function init(v)
   self.workSound = entity.configParameter("workSound")
   self.moveSpeed = entity.configParameter("moveSpeed")
   self.st = 0
+  self.laet = {}
+  self.raet = {}
 end
 
 function onInteraction(args)
@@ -16,7 +18,7 @@ function filterEntities(eids)
   local valid = { "monster", "npc" }
   local ret = { }
   for i, id in ipairs(eids) do
-    if self.aet[id] == nil then
+    if (self.aet[id] == nil) and (self.laet[id] == nil) and (self.raet[id] == nil) then
       local et = world.entityType(id)
       for j, vt in ipairs(valid) do
         if et == vt then
@@ -37,11 +39,19 @@ function process(ox, oy)
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
-      v[1] = v[1] + self.workSpeed * f
+      v[1] = v[1] + self.moveSpeed * f
       e.setVelocity(v)
       self.aet[id] = true
     end
   end
+end
+
+function setlaet(data)
+  self.laet = data
+end
+
+function setraet(data)
+  self.raet = data
 end
 
 function main()
@@ -53,6 +63,14 @@ function main()
     for x=-1,1 do
       process(x, 1.5)
       process(x, 2.5)
+    end
+    local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "conveyorbelt" })
+    for i,id in ipairs(q) do
+      world.callScriptableEntity(id, "setraet", self.aet)
+    end
+    q = world.objectQuery(entity.toAbsolutePosition({ -4, 0 }), 2, { name = "conveyorbelt" })
+    for i,id in ipairs(q) do
+      world.callScriptableEntity(id, "setlaet", self.aet)
     end
   end
 end

@@ -21,7 +21,7 @@
   ],
 
   "scripts" : [ "jumppad.lua", "/scripts/entityProxy.lua" ],
-  "scriptDelta" : 2,
+  "scriptDelta" : 1,
 
   "animation" : "jumppad.animation",
   "animationParts" : {
