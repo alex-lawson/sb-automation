@@ -20,7 +20,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  queryNodes()
+  datawire.init()
   findAdjacentSegments()
   self.initialized = true
 end
@@ -100,11 +100,11 @@ function isLinkedDisplayToLeft(pos, displaySize, entityId)
   end
 end
 
-function validateData(data, nodeId)
-  return type(data) == "number"
+function validateData(data, dataType, nodeId)
+  return dataType == "number"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   setData(data)
 end
 

@@ -29,8 +29,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -100,7 +99,7 @@ function finalizeSurvey()
   world.logInfo(string.format("received positions from %d markers", #storage.scanTable))
   world.logInfo(storage.scanTable)
   
-  local transmitSuccess = sendData(storage.scanTable, "all")
+  local transmitSuccess = datawire.sendData(storage.scanTable, "area", "all")
   if transmitSuccess then
     smashConnectedMarkers(entity.id())
   else

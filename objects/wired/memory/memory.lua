@@ -4,6 +4,10 @@ function init(virtual)
       storage.data = 0
     end
 
+    if not storage.dataType then
+      storage.dataType = "empty"
+    end
+
     if storage.lockOutbound == nil then
       storage.lockOutbound = false
     end
@@ -26,7 +30,7 @@ function initInWorld()
 
   updateAnimationState()
   
-  queryNodes()
+  datawire.init()
 
   self.initialized = true
 end
@@ -55,18 +59,21 @@ function updateAnimationState()
   end
 end
 
-function validateData(data, nodeId)
-  --only receive data on node 0 and when unlocked
-  return nodeId == 0 and not storage.lockInbound
+function validateData(data, dataType, nodeId)
+  --only receive data on node 0
+  return nodeId == 0
 end
 
-function onValidDataReceived(data, nodeId)
-  storage.data = data
+function onValidDataReceived(data, dataType, nodeId)
+  if not storage.lockInbound then
+    storage.data = data
+    storage.dataType = dataType
+  end
 end
 
 function output()
   if not storage.lockOutbound then
-    sendData(storage.data, 0)
+    datawire.sendData(storage.data, storage.dataType, 0)
   end
 end
 

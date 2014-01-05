@@ -6,7 +6,7 @@ end
 
 function initInWorld()
   --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -23,9 +23,9 @@ function main(args)
 
   local sample = getSample()
   if sample then
-    sendData(sample[1], "all")
+    datawire.sendData(sample[1], "number", "all")
   else
-    sendData(0, "all")
+    datawire.sendData(0, "number", "all")
   end
 
   if not sample then

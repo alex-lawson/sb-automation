@@ -19,7 +19,7 @@ function initInWorld()
     entity.setAnimationState("counterState", "flipped.off")
   end
   
-  queryNodes()
+  datawire.init()
   self.initialized = true
 end
 
@@ -63,11 +63,11 @@ function reset()
   storage.data = 0
 end
 
-function validateData(data, nodeId)
-  return type(data) == "number"
+function validateData(data, dataType, nodeId)
+  return dataType == "number"
 end
 
-function onValidDataReceived(data, nodeId)
+function onValidDataReceived(data, dataType, nodeId)
   storage.data = data
 end
 
@@ -76,5 +76,5 @@ function main(args)
     initInWorld()
   end
 
-  sendData(storage.data, 0)
+  datawire.sendData(storage.data, "number", 0)
 end
