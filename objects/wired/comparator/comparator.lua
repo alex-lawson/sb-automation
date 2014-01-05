@@ -106,9 +106,9 @@ function updateAnimationState()
 end
 
 function main(args)
-  if not self.initialized then
+  if self.initialized then
+    compare()
+  else
     initInWorld()
   end
-
-  compare()
 end

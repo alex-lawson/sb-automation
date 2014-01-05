@@ -100,9 +100,9 @@ function firstValidEntity(entityIds)
 end
 
 function main()
-  if not self.initialized then
+  if self.initialized then
+    doDetect()
+  else
     initInWorld()
   end
-
-  doDetect()
 end

@@ -78,9 +78,9 @@ function output()
 end
 
 function main(args)
-  if not self.initialized then
+  if self.initialized then
+    output()
+  else
     initInWorld()
   end
-
-  output()
 end

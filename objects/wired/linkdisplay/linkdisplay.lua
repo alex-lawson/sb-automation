@@ -173,14 +173,14 @@ function updateDisplay(newDisplayData)
 end
 
 function main()
-  if not self.initialized then
-    initInWorld()
-  end
-
-  if storage.data then
-    if not storage.connectedRight then
-      dataStr = string.format(self.dataFormat, storage.data)
-      takeOneAndPassToYourLeft({data = storage.data, dataString = dataStr:sub(1, #dataStr)})
+  if self.initialized then
+    if storage.data then
+      if not storage.connectedRight then
+        dataStr = string.format(self.dataFormat, storage.data)
+        takeOneAndPassToYourLeft({data = storage.data, dataString = dataStr:sub(1, #dataStr)})
+      end
     end
+  else
+    initInWorld()
   end
 end

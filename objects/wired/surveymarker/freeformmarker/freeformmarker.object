@@ -31,5 +31,6 @@
 
   "outboundNodes" : [ [0, 0] ],
 
-  "markerType" : "freeform"
+  "markerType" : "freeform",
+  "triggerDistance" : 5
 }

@@ -71,10 +71,14 @@ function onValidDataReceived(data, dataType, nodeId)
   storage.data = data
 end
 
+function output()
+  datawire.sendData(storage.data, "number", 0)
+end
+
 function main(args)
-  if not self.initialized then
+  if self.initialized then
+    output()
+  else
     initInWorld()
   end
-
-  datawire.sendData(storage.data, "number", 0)
 end

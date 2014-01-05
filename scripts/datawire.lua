@@ -1,4 +1,11 @@
---- if you're overwriting this in the implementing object, you MUST add 'datawire.createConnectionTable()' to your function
+--- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
+function init(virtual)
+  if not virtual then
+    self.initialized = false
+  end
+end
+
+--- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
 function onNodeConnectionChange()
   --world.logInfo("in onNodeConnectionChange()")
   datawire.createConnectionTable()
@@ -31,9 +38,16 @@ function datawire.createConnectionTable()
     i = i + 1
   end
 
-  world.logInfo(string.format("%s (id %d) finished building tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
+  world.logInfo(string.format("%s (id %d) created connection tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
   world.logInfo(storage.outboundConnections)
   world.logInfo(storage.inboundConnections)
+end
+
+--- determine whether there is a valid recipient on the specified outbound node
+-- @param nodeId the node to be queried
+-- @returns true if there is a recipient connected to the node
+function datawire.isOutboundNodeConnected(nodeId)
+  return storage.outboundConnections and storage.outboundConnections[nodeId] and #storage.outboundConnections[nodeId] > 0
 end
 
 --- Sends data to another datawire object
@@ -67,9 +81,9 @@ function datawire.sendData(data, dataType, nodeId)
 end
 
 --- Receives data from another datawire object
--- @param data the data received
--- @param dataType the data type received ("boolean", "number", "string", "area", etc.)
--- @param sourceEntityId the id of the sending entity, which can be use for an imperfect node association
+-- @param data (args[1]) the data received
+-- @param dataType (args[2]) the data type received ("boolean", "number", "string", "area", etc.)
+-- @param sourceEntityId (args[3]) the id of the sending entity, which can be use for an imperfect node association
 -- @returns true if valid data was received
 function datawire.receiveData(args)
   --unpack args
@@ -80,7 +94,12 @@ function datawire.receiveData(args)
   --convert entityId to nodeId
   local nodeId = storage.inboundConnections[sourceEntityId]
 
-  if nodeId ~= nil and validateData(data, dataType, nodeId) then
+  if nodeId == nil then
+    world.logInfo(string.format("DataWire: %s received data of type %s from UNRECOGNIZED ENTITY %d, not in table:", entity.configParameter("objectName"), dataType, sourceEntityId))
+    world.logInfo(storage.inboundConnections)
+
+    return false
+  elseif validateData(data, dataType, nodeId) then
     onValidDataReceived(data, dataType, nodeId)
 
     --world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
@@ -88,9 +107,9 @@ function datawire.receiveData(args)
 
     return true
   else
-    world.logInfo(string.format("DataWire: %s received INVALID data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
+    world.logInfo(string.format("DataWire: %s received INVALID data of type %s from entity %d", entity.configParameter("objectName"), dataType, sourceEntityId))
     world.logInfo(data)
-
+    
     return false
   end
 end
@@ -111,4 +130,13 @@ end
 -- @param nodeId the inbound node id on which data was received
 function onValidDataReceived(data, dataType, nodeId)
   --to be implemented by object
+end
+
+--- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
+function main()
+  if self.initialized then
+    -- your main() code here
+  else
+    datawire.init()
+  end
 end
