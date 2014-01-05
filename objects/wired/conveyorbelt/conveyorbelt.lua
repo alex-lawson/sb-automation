@@ -31,7 +31,7 @@ end
 
 function process(ox, oy)
   local f = entity.direction()
-  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox + 0.5, oy }), 2, { notAnObject = true, order = "nearest" })
+  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
   for i,id in ipairs(eids) do
     local e = entityProxy.create(id)
@@ -51,9 +51,8 @@ function main()
     if self.st > 6 then self.st = 0
     elseif self.st == 3 then entity.playImmediateSound(self.workSound) end
     for x=-1,1 do
-      for y=0,2 do
-        process(x, y)
-      end
+      process(x, 1.5)
+      process(x, 2.5)
     end
   end
 end

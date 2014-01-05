@@ -10,7 +10,7 @@
           "work" : {
             "frames" : 3,
             "mode" : "loop",
-            "cycle" : 0.1
+            "cycle" : 0.2
           }
         }
       }
@@ -32,46 +32,6 @@
             "work" : {
               "properties" : {
                 "image" : "<partImage>:work.<frame>"
-              }
-            }
-          }
-        }
-      },
-      "l" : {
-        "properties" : {
-          "centered" : false
-        },
-
-        "partStates" : {
-          "workState" : {
-            "idle" : {
-              "properties" : {
-                "image" : "<partImage>:idle_l"
-              }
-            },
-            "work" : {
-              "properties" : {
-                "image" : "<partImage>:work_l.<frame>"
-              }
-            }
-          }
-        }
-      },
-      "r" : {
-        "properties" : {
-          "centered" : false
-        },
-
-        "partStates" : {
-          "workState" : {
-            "idle" : {
-              "properties" : {
-                "image" : "<partImage>:idle_r"
-              }
-            },
-            "work" : {
-              "properties" : {
-                "image" : "<partImage>:work_r.<frame>"
               }
             }
           }

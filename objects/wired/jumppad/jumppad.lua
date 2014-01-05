@@ -9,7 +9,7 @@ function firstValidEntity(eids)
   for i, id in ipairs(eids) do
     local et = world.entityType(id)
     for j, vt in ipairs(valid) do
-      if (et == vt) and not world.callScriptedEntity(id, "entity.onGround") then return id end
+      if et == vt then return id end
     end
   end
   return nil

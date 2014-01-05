@@ -13,7 +13,7 @@
   "orientations" : [
     {
       "dualImage" : "conveyorbelt.png:idle",
-      "imagePosition" : [-8, 0],
+      "imagePosition" : [-16, 0],
       "collision" : "solid",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -25,11 +25,9 @@
 
   "animation" : "conveyorbelt.animation",
   "animationParts" : {
-    "base" : "conveyorbelt.png",
-    "l" : "conveyorbelt.png",
-    "r" : "conveyorbelt.png"
+    "base" : "conveyorbelt.png"
   },
-  "animationPosition" : [-8, 0],
+  "animationPosition" : [-16, 0],
 
   "moveSpeed" : 15,
   "workSound" : "/sfx/tech/tech_hoverloop.wav"
