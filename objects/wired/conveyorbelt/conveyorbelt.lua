@@ -1,22 +1,15 @@
 function init(v)
-  if storage.active == nil then storage.active = false
-  else entity.setParticleEmitterActive("fanwind", storage.active) end
+  if storage.active == nil then storage.active = false end
   entity.setInteractive(true)
-  self.affectWidth = entity.configParameter("affectWidth")
-  self.blowSound = entity.configParameter("blowSound")
-  self.fanPower = entity.configParameter("fanPower")
-  self.timer = 0
+  self.workSound = entity.configParameter("workSound")
+  self.moveSpeed = entity.configParameter("moveSpeed")
   self.st = 0
 end
 
 function onInteraction(args)
   storage.active = not storage.active
-  entity.setParticleEmitterActive("fanwind", storage.active)
-  if storage.active then entity.setAnimationState("fanState", "work")
-  else
-    entity.setAnimationState("fanState", "slow")
-    self.timer = 20
-  end
+  if storage.active then entity.setAnimationState("workState", "work")
+  else entity.setAnimationState("workState", "idle") end
 end
 
 function filterEntities(eids)
@@ -66,9 +59,5 @@ function main()
         process(x, y)
       end
     end
-  elseif self.timer > 0 then
-    if self.timer % 12 == 4 then entity.playImmediateSound(self.blowSound) end
-    self.timer = self.timer - 1
-    if self.timer == 0 then entity.setAnimationState("fanState", "idle") end
   end
 end
