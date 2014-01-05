@@ -1,9 +1,9 @@
 {
-  "objectName" : "scanner",
+  "objectName" : "entityscanner",
   "rarity" : "Common",
   "objectType" : "wire",  
   "description" : "Collects useful data about entities.",
-  "shortdescription" : "Scanner",
+  "shortdescription" : "Entity Scanner",
   "race" : "generic",
   "category" : "wire",
   "price" : "500",
@@ -12,10 +12,10 @@
 
   "apexDescription" : "It's indicating that my power level... is over nine thousand.",
 
-  "inventoryIcon" : "scannericon.png",
+  "inventoryIcon" : "entityscannericon.png",
   "orientations" : [
     {
-      "image" : "scanner.png:<color>.off",
+      "image" : "entityscanner.png:<color>.off",
       "imagePosition" : [-8, -8],
 
       "spaceScan" : 0.1,
@@ -23,12 +23,12 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "/objects/wired/scanner/scanner.lua" ],
+  "scripts" : [ "/scripts/datawire.lua", "/objects/wired/entityscanner/entityscanner.lua" ],
   "scriptDelta" : 10,
 
-  "animation" : "scanner.animation",
+  "animation" : "entityscanner.animation",
   "animationParts" : {
-    "scanner" : "scanner.png"
+    "scanner" : "entityscanner.png"
   },
   "animationPosition" : [-8, -8],
 

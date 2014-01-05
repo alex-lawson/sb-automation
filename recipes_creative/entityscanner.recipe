@@ -1,7 +1,7 @@
 {
   "input" : [ ],
   "output" : {
-    "item" : "scanner",
+    "item" : "entityscanner",
     "count" : 1
   },
   "groups" : [ "wiringstation", "all", "mod" ]
