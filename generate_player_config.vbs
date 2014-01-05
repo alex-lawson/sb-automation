@@ -1,5 +1,5 @@
 Set oFSO = CreateObject("Scripting.FileSystemObject")
-Set oF = oFSO.OpenTextFile "testplayer.config" ForAppending 1
+Set oF = oFSO.OpenTextFile("testplayer.config", 2, 1)
 Set list = CreateObject("System.Collections.ArrayList")
 
 oF.WriteLine("{")
@@ -11,10 +11,15 @@ Recurse(oFSO.GetFolder("recipes\"))
 Recurse(oFSO.GetFolder("recipes_creative\"))
 
 list.Sort
-For i = 0 To list.Count
+For i = 0 To list.Count - 1
   oF.Write("      { ""item"" : """ & list.Item(i) & """ }")
-
+  If i < list.Count - 1 Then oF.WriteLine(",")
 Next
+
+oF.WriteLine
+oF.WriteLine("    ]")
+oF.WriteLine("  }")
+oF.WriteLine("}")
 
 oF.Close
 
