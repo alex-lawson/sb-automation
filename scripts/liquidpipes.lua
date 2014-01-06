@@ -1,14 +1,14 @@
 --Global helper functions
 function hasLiquidInbound()
-  if pipes.pipeInboundNodes ~= nil then
-    return #pipes.pipeInboundNodes
+  if pipes.liquidInboundNodes ~= nil then
+    return #pipes.liquidInboundNodes
   end
   return nil
 end
 
 function hasLiquidOutbound()
-  if pipes.pipeOutboundNodes ~= nil then
-    return #pipes.pipeOutboundNodes
+  if pipes.liquidOutboundNodes ~= nil then
+    return #pipes.liquidOutboundNodes
   end
   return nil
 end
@@ -17,9 +17,9 @@ function acceptLiquidRequestAt(position, lookingFor)
   local entityPos = entity.position()
   local nodeTable = {}
   if lookingFor == "liquidInbound" then
-    nodeTable = pipes.pipeInboundNodes
+    nodeTable = pipes.liquidInboundNodes
   elseif lookingFor == "liquidOutbound" then
-    nodeTable = pipes.pipeOutboundNodes
+    nodeTable = pipes.liquidOutboundNodes
   end
   
   for i,node in ipairs(nodeTable) do
@@ -31,9 +31,27 @@ function acceptLiquidRequestAt(position, lookingFor)
   return false
 end
 
+function acceptItemRequestAt(position, lookingFor)
+  local entityPos = entity.position()
+  local nodeTable = {}
+  if lookingFor == "itemInbound" then
+    nodeTable = pipes.itemInboundNodes
+  elseif lookingFor == "itemOutbound" then
+    nodeTable = pipes.itemOutboundNodes
+  end
+  
+  for i,node in ipairs(nodeTable) do
+    local absNodePos = {entityPos[1] + node.offset[1], entityPos[2] + node.offset[2]}
+    if position[1] == absNodePos[1] and position[2] == absNodePos[2] and node.acceptItems then
+      return true
+    end
+  end
+  return false
+end
+
 function pushLiquid(node, liquidType, amount)
-  if #pipes.outboundEntityIds[node] > 0 then
-    for i,entityId in ipairs(pipes.outboundEntityIds[node]) do
+  if #pipes.liquidOutboundEntityIds[node] > 0 then
+    for i,entityId in ipairs(pipes.liquidOutboundEntityIds[node]) do
       if world.callScriptedEntity(entityId, "hasLiquidInbound") then
         return world.callScriptedEntity(entityId, "putLiquid", liquidType, amount)
       end
@@ -43,10 +61,32 @@ function pushLiquid(node, liquidType, amount)
 end
 
 function pullLiquid(node)
-  if #pipes.inboundEntityIds[node] > 0 then
-    for i,entityId in ipairs(pipes.inboundEntityIds[node]) do
+  if #pipes.liquidInboundEntityIds[node] > 0 then
+    for i,entityId in ipairs(pipes.liquidInboundEntityIds[node]) do
       if world.callScriptedEntity(entityId, "hasLiquidOutbound") then
         return world.callScriptedEntity(entityId, "getLiquid", liquidType, amount)
+      end
+    end
+  end
+  return false
+end
+
+function pushItem(node, itemList)
+  if #pipes.itemOutboundEntityIds[node] > 0 then
+    for i,entityId in ipairs(pipes.itemOutboundEntityIds[node]) do
+      if world.callScriptedEntity(entityId, "hasLiquidInbound") then
+        return world.callScriptedEntity(entityId, "putItem", itemList)
+      end
+    end
+  end
+  return false
+end
+
+function pullItem(node)
+  if #pipes.itemInboundEntityIds[node] > 0 then
+    for i,entityId in ipairs(pipes.itemInboundEntityIds[node]) do
+      if world.callScriptedEntity(entityId, "hasLiquidOutbound") then
+        return world.callScriptedEntity(entityId, "getItem")
       end
     end
   end
@@ -56,31 +96,56 @@ end
 --Pipes object with internal functions
 pipes = {}
 
-function pipes.init()
+function pipes.init(args)
 
   pipes.updateTimer = 0
   pipes.updateInterval = 1
   
-  pipes.pipeInboundNodes = entity.configParameter("pipeInboundNodes")
-  pipes.pipeOutboundNodes = entity.configParameter("pipeOutboundNodes")
-
+  pipes.liquidInboundNodes = entity.configParameter("pipeInboundNodes")
+  pipes.liquidOutboundNodes = entity.configParameter("pipeOutboundNodes")
+  pipes.itemInboundNodes = entity.configParameter("itemInboundNodes")
+  pipes.itemOutboundNodes = entity.configParameter("itemOutboundNodes")
+  
+  if init == false then
+    pipes.liquidInboundEntityIds = pipes.getLiquidInboundEntities()
+    pipes.liquidOutboundEntityIds = pipes.getLiquidOutboundEntities()
+    pipes.itemInboundEntityIds = pipes.getItemInboundEntities()
+    pipes.itemOutboundEntityIds = pipes.getItemOutboundEntities()
+  end
 end
 
-function pipes.getInboundEntities()
+function pipes.getLiquidInboundEntities()
   local position = entity.position()
   local nodeEntities = {}
-    for i,pipeNode in ipairs(pipes.pipeInboundNodes) do
+    for i,pipeNode in ipairs(pipes.liquidInboundNodes) do
       nodeEntities[i] = pipes.walkPipes({position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}, 20, "liquidOutbound")
     end
   return nodeEntities
 end
 
---Will temporarily use wire nodes
-function pipes.getOutboundEntities()
+function pipes.getLiquidOutboundEntities()
   local position = entity.position()
   local nodeEntities = {}
-    for i,pipeNode in ipairs(pipes.pipeOutboundNodes) do
+    for i,pipeNode in ipairs(pipes.liquidOutboundNodes) do
       nodeEntities[i] = pipes.walkPipes({position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}, 20, "liquidInbound")
+    end
+  return nodeEntities
+end
+
+function pipes.getItemInboundEntities()
+  local position = entity.position()
+  local nodeEntities = {}
+    for i,pipeNode in ipairs(pipes.itemInboundNodes) do
+      nodeEntities[i] = pipes.walkPipes({position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}, 20, "itemOutbound")
+    end
+  return nodeEntities
+end
+
+function pipes.getItemOutboundEntities()
+  local position = entity.position()
+  local nodeEntities = {}
+    for i,pipeNode in ipairs(pipes.itemOutboundNodes) do
+      nodeEntities[i] = pipes.walkPipes({position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}, 20, "itemInbound")
     end
   return nodeEntities
 end
@@ -90,17 +155,20 @@ function pipes.update(dt)
   pipes.updateTimer = pipes.updateTimer + dt
   
   if pipes.updateTimer >= pipes.updateInterval then
-    pipes.inboundEntityIds = pipes.getInboundEntities()
-    pipes.outboundEntityIds = pipes.getOutboundEntities()
+    pipes.liquidInboundEntityIds = pipes.getLiquidInboundEntities()
+    pipes.liquidOutboundEntityIds = pipes.getLiquidOutboundEntities()
+    pipes.itemInboundEntityIds = pipes.getItemInboundEntities()
+    pipes.itemOutboundEntityIds = pipes.getItemOutboundEntities()
+    
     pipes.updateTimer = 0
   end
 end
 
 function pipes.validEntity(entityId, position, lookingFor)
-  if lookingFor == "liquidOutbound" then
+  if lookingFor == "liquidOutbound" or lookingFor == "liquidInbound" then
     return world.callScriptedEntity(entityId, "acceptLiquidRequestAt", position, lookingFor) and entityId ~= entity.id()
-  elseif lookingFor == "liquidInbound" then
-    return world.callScriptedEntity(entityId, "acceptLiquidRequestAt", position, lookingFor) and entityId ~= entity.id()
+  elseif lookingFor == "itemOutbound" or lookingFor == "itemInbound" then
+    return world.callScriptedEntity(entityId, "acceptItemRequestAt", position, lookingFor) and entityId ~= entity.id()
   end
 end
   
