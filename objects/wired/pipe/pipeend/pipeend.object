@@ -30,14 +30,14 @@
   ],
   
   "scripts" : [
-    "/objects/wired/pipeend/pipeend.lua",
+    "/objects/wired/pipe/pipeend/pipeend.lua",
     "/scripts/liquidpipes.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
   "scriptDelta" : 5,
   
-  "animation" : "/objects/wired/pipeend/pipeend.animation",
+  "animation" : "/objects/wired/pipe/pipeend/pipeend.animation",
   "animationParts" : {
     "pipe" : "pipeend.png"
   },

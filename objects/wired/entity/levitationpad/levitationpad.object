@@ -1,0 +1,36 @@
+{
+  "objectName" : "levitationpad",
+  "rarity" : "Common",
+  "objectType" : "wire",
+
+  "category" : "wire",
+  "price" : "350",
+  "description" : "I believe I can flyyy...",
+  "shortdescription" : "Levitation Pad",
+  "race" : "generic",
+
+  "inventoryIcon" : "levitationpadicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "levitationpad.png:idle",
+      "imagePosition" : [ -8, 0],
+      "collision" : "solid",
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "inboundNodes" : [ [0, 0] ],
+
+  "scripts" : [ "levitationpad.lua", "/scripts/entityProxy.lua" ],
+  "scriptDelta" : 1,
+
+  "animation" : "levitationpad.animation",
+  "animationParts" : {
+    "base" : "levitationpad.png"
+  },
+  "animationPosition" : [ -8, 0],
+
+  "levitationHeight" : 15,
+  "workSound" : "/sfx/tech/tech_hoverloop.wav"
+}

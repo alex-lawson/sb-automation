@@ -29,14 +29,14 @@
   ],
   
   "scripts" : [
-    "/objects/wired/pump/pump.lua",
+    "/objects/wired/pipe/pump/pump.lua",
     "/scripts/liquidpipes.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
   "scriptDelta" : 5,
   
-  "animation" : "/objects/wired/pump/pump.animation",
+  "animation" : "/objects/wired/pipe/pump/pump.animation",
   "animationParts" : {
     "pump" : "pump.png"
   },
