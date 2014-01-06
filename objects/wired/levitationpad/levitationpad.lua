@@ -41,7 +41,7 @@ function process(ox, oy)
   for i,id in ipairs(eids) do
     local e = entityProxy.create(id)
     local v = e.velocity()
-    if v ~= nil then
+    if (v ~= nil) and (v[2] < self.levitationHeight - oy) then
       v[2] = v[2] + (self.levitationHeight - oy + 1) * rand()
       e.setVelocity(v)
       self.aet[id] = true
