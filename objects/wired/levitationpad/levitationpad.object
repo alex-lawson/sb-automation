@@ -20,6 +20,8 @@
     }
   ],
 
+  "inboundNodes" : [ [0, 0] ],
+
   "scripts" : [ "levitationpad.lua", "/scripts/entityProxy.lua" ],
   "scriptDelta" : 1,
 

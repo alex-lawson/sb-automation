@@ -1,16 +1,36 @@
 function init(v)
   if storage.active == nil then storage.active = false end
-  entity.setInteractive(true)
+  setActive(storage.active)
   self.levitationHeight = entity.configParameter("levitationHeight")
   self.workSound = entity.configParameter("workSound")
   self.st = 0
   self.laet = {}
   self.raet = {}
+  onNodeConnectionChange(nil)
+end
+
+function onNodeConnectionChange(args)
+  if entity.isInboundNodeConnected(0) then
+    entity.setInteractive(false)
+  else
+    entity.setInteractive(true)
+  end
+  onInboundNodeChange(args)
+end
+
+function onInboundNodeChange(args)
+  if entity.isInboundNodeConnected(0) then
+    setActive(entity.getInboundNodeLevel(0))
+  end
 end
 
 function onInteraction(args)
-  storage.active = not storage.active
-  if storage.active then entity.setAnimationState("jumpState", "jump")
+  setActive(not storage.active)
+end
+
+function setActive(flag)
+  storage.active = flag
+  if flag then entity.setAnimationState("jumpState", "jump")
   else entity.setAnimationState("jumpState", "idle") end
 end
 
