@@ -8,23 +8,12 @@ function init(virtual)
       storage.nodeStates = {}
     end
 
-    self.initialized = false
+    if entity.direction() == -1 then
+      entity.setAnimationState("counterState", "flipped.off")
+    end
+
+    datawire.init()
   end
-end
-
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  if entity.direction() == -1 then
-    entity.setAnimationState("counterState", "flipped.off")
-  end
-  
-  datawire.init()
-  self.initialized = true
-end
-
-function onInteraction(args)
-  reset()
 end
 
 function onInboundNodeChange(args)
@@ -75,10 +64,7 @@ function output()
   datawire.sendData(storage.data, "number", 0)
 end
 
-function main(args)
-  if self.initialized then
-    output()
-  else
-    initInWorld()
-  end
+function main()
+  datawire.update()
+  output()
 end

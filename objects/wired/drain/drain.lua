@@ -19,7 +19,7 @@ function output(state)
   end
 end
 
-function main(args)
+function main()
   if entity.getInboundNodeLevel(0) then
     output(true)
 

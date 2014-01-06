@@ -22,16 +22,10 @@ function init(virtual)
       storage.fgData = {}
     end
 
-    self.initialized = false
-
     updateAnimationState()
-  end
-end
 
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  datawire.init()
-  self.initialized = true
+    datawire.init()
+  end
 end
 
 function updateAnimationState()
@@ -102,30 +96,28 @@ function swapLayer(newState)
 end
 
 function main()
-  if self.initialized then
-    --timer waits for blocks to finish being destroyed before starting placement
-    if storage.transitionState > 0 then
-      if storage.transitionState == 1 then
-        --place stored blocks
-        placeLayer(storage.tileArea, "background", storage.fgData, true)
-        placeLayer(storage.tileArea, "foreground", storage.bgData, true)
+  datawire.update()
 
-        --sweep out those pesky (but handy!) invisitiles
-        cleanupTransition(storage.tileArea)
+  --timer waits for blocks to finish being destroyed before starting placement
+  if storage.transitionState > 0 then
+    if storage.transitionState == 1 then
+      --place stored blocks
+      placeLayer(storage.tileArea, "background", storage.fgData, true)
+      placeLayer(storage.tileArea, "foreground", storage.bgData, true)
 
-        if storage.pendingAreaData then
-          storage.tileArea = storage.pendingAreaData
-          storage.pendingAreaData = false
-        end
+      --sweep out those pesky (but handy!) invisitiles
+      cleanupTransition(storage.tileArea)
 
-        if storage.pendingNodeChange then
-          checkNodes()
-          storage.pendingNodeChange = false
-        end
+      if storage.pendingAreaData then
+        storage.tileArea = storage.pendingAreaData
+        storage.pendingAreaData = false
       end
-      storage.transitionState = storage.transitionState - 1
+
+      if storage.pendingNodeChange then
+        checkNodes()
+        storage.pendingNodeChange = false
+      end
     end
-  else
-    initInWorld()
+    storage.transitionState = storage.transitionState - 1
   end
 end

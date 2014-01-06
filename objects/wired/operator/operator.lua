@@ -23,20 +23,13 @@ function init(virtual)
       storage.result = 0
     end
 
-    self.initialized = false
-  end
-end
+    self.flipStr = ""
+    if entity.direction() == -1 then
+      self.flipStr = "flipped."
+    end
 
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  self.flipStr = ""
-  if entity.direction() == -1 then
-    self.flipStr = "flipped."
+    datawire.init()
   end
-  
-  datawire.init()
-  self.initialized = true
 end
 
 function onInteraction()
@@ -88,10 +81,7 @@ function updateAnimationState()
   entity.setAnimationState("operatorState", self.flipStr..storage.currentMode)
 end
 
-function main(args)
-  if self.initialized then
-    operate()
-  else
-    initInWorld()
-  end
+function main()
+  datawire.update()
+  operate()
 end

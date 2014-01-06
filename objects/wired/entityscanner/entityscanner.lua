@@ -26,16 +26,10 @@ function init(virtual)
       storage.currentMode = self.modes[1]
     end
 
-    self.initialized = false
+    updateAnimationState()
+
+    datawire.init()
   end
-end
-
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  updateAnimationState()
-  datawire.init()
-  self.initialized = true
 end
 
 function onInteraction()
@@ -57,7 +51,6 @@ function cycleMode()
 end
 
 function updateAnimationState()
-  world.logInfo(storage.currentMode)
   entity.setAnimationState("scannerState", storage.currentMode)
 end
 
@@ -80,11 +73,6 @@ function onDetect(entityId)
     datawire.sendData(0, "number", 0)
   end
 end
-
-function send(value)
-  local entityIds = world.entityLineQuery({entity.position()[1] + 2, entity.position()[2]}, {entity.position()[1] + 2, entity.position()[2] + 10}, {
-      callScript = "setCount", callScriptArgs = { value } })
-end
   
 function firstValidEntity(entityIds)
   local validTypes = {"player", "monster", "npc"}
@@ -100,9 +88,6 @@ function firstValidEntity(entityIds)
 end
 
 function main()
-  if self.initialized then
-    doDetect()
-  else
-    initInWorld()
-  end
+  datawire.update()
+  doDetect()
 end

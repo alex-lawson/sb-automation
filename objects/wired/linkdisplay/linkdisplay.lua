@@ -14,15 +14,12 @@ function init(virtual)
       self.displaySize = 1
     end
 
-    self.initialized = false
+    datawire.init()
   end
 end
 
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  datawire.init()
+function initAfterLoading()
   findAdjacentSegments()
-  self.initialized = true
 end
 
 function die()
@@ -173,14 +170,12 @@ function updateDisplay(newDisplayData)
 end
 
 function main()
-  if self.initialized then
-    if storage.data then
-      if not storage.connectedRight then
-        dataStr = string.format(self.dataFormat, storage.data)
-        takeOneAndPassToYourLeft({data = storage.data, dataString = dataStr:sub(1, #dataStr)})
-      end
+  datawire.update()
+
+  if storage.data then
+    if not storage.connectedRight then
+      dataStr = string.format(self.dataFormat, storage.data)
+      takeOneAndPassToYourLeft({data = storage.data, dataString = dataStr:sub(1, #dataStr)})
     end
-  else
-    initInWorld()
   end
 end

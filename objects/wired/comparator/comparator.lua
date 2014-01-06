@@ -23,22 +23,15 @@ function init(virtual)
       storage.currentMode = self.modes[1]
     end
 
-    self.initialized = false
+    self.flipStr = ""
+    if entity.direction() == -1 then
+      self.flipStr = "flipped."
+    end
+
+    updateAnimationState()
+
+    datawire.init()
   end
-end
-
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-
-  self.flipStr = ""
-  if entity.direction() == -1 then
-    self.flipStr = "flipped."
-  end
-
-  updateAnimationState()
-  
-  datawire.init()
-  self.initialized = true
 end
 
 function onInteraction()
@@ -105,10 +98,7 @@ function updateAnimationState()
   end
 end
 
-function main(args)
-  if self.initialized then
-    compare()
-  else
-    initInWorld()
-  end
+function main()
+  datawire.update()
+  compare()
 end

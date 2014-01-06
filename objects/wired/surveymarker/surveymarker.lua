@@ -28,14 +28,8 @@ function init(virtual)
 
     self.smashed = false
 
-    self.initialized = false
+    datawire.init()
   end
-end
-
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  datawire.init()
-  self.initialized = true
 end
 
 function onInteraction(args)
@@ -123,18 +117,16 @@ function smashConnectedMarkers(originId)
 end
 
 function main()
-  if self.initialized then
-    if storage.timer > 0 then
-      storage.timer = storage.timer - 1
-      if storage.timer <= 0 then
-        if storage.isOrigin then
-          finalizeSurvey()
-        else
-          storage.triggered = false
-        end
+  datawire.update()
+  
+  if storage.timer > 0 then
+    storage.timer = storage.timer - 1
+    if storage.timer <= 0 then
+      if storage.isOrigin then
+        finalizeSurvey()
+      else
+        storage.triggered = false
       end
     end
-  else
-    initInWorld()
   end
 end

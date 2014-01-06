@@ -3,14 +3,8 @@ function init(virtual)
     self.detectThresholdHigh = entity.configParameter("detectThresholdHigh")
     self.detectThresholdLow = entity.configParameter("detectThresholdLow")
 
-    self.initialized = false
+    datawire.init()
   end
-end
-
-function initInWorld()
-  --world.logInfo(string.format("%s initializing in world", entity.configParameter("objectName")))
-  datawire.init()
-  self.initialized = true
 end
 
 function getSample()
@@ -18,26 +12,24 @@ function getSample()
   return false
 end
 
-function main(args)
-  if self.initialized then
-    local sample = getSample()
-    datawire.sendData(sample, "number", "all")
+function main()
+  datawire.update()
+  
+  local sample = getSample()
+  datawire.sendData(sample, "number", "all")
 
-    if sample >= self.detectThresholdLow then
-      entity.setOutboundNodeLevel(0, true)
-      entity.setAnimationState("sensorState", "med")
-    else
-      entity.setOutboundNodeLevel(0, false)
-      entity.setAnimationState("sensorState", "min")
-    end
-
-    if sample >= self.detectThresholdHigh then
-      entity.setOutboundNodeLevel(1, true)
-      entity.setAnimationState("sensorState", "max")
-    else
-      entity.setOutboundNodeLevel(1, false)
-    end
+  if sample >= self.detectThresholdLow then
+    entity.setOutboundNodeLevel(0, true)
+    entity.setAnimationState("sensorState", "med")
   else
-    initInWorld()
+    entity.setOutboundNodeLevel(0, false)
+    entity.setAnimationState("sensorState", "min")
+  end
+
+  if sample >= self.detectThresholdHigh then
+    entity.setOutboundNodeLevel(1, true)
+    entity.setAnimationState("sensorState", "max")
+  else
+    entity.setOutboundNodeLevel(1, false)
   end
 end

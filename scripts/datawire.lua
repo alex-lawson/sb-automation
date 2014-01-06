@@ -1,13 +1,12 @@
 --- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
 function init(virtual)
   if not virtual then
-    self.initialized = false
+    datawire.init()
   end
 end
 
 --- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
 function onNodeConnectionChange()
-  --world.logInfo("in onNodeConnectionChange()")
   datawire.createConnectionTable()
 end
 
@@ -15,7 +14,13 @@ datawire = {}
 
 --- this should be called by the implementing object in its own init()
 function datawire.init()
+  self.initialized = false
+end
+
+--- this will be called internally, to build connection tables once the world has fully loaded
+function datawire.initAfterLoading()
   datawire.createConnectionTable()
+  self.initialized = true
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -38,9 +43,9 @@ function datawire.createConnectionTable()
     i = i + 1
   end
 
-  world.logInfo(string.format("%s (id %d) created connection tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
-  world.logInfo(storage.outboundConnections)
-  world.logInfo(storage.inboundConnections)
+  --world.logInfo(string.format("%s (id %d) created connection tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
+  --world.logInfo(storage.outboundConnections)
+  --world.logInfo(storage.inboundConnections)
 end
 
 --- determine whether there is a valid recipient on the specified outbound node
@@ -56,6 +61,11 @@ end
 -- @param nodeId the outbound node id to send to, or "all" for all outbound nodes
 -- @returns true if at least one object successfully received the data
 function datawire.sendData(data, dataType, nodeId)
+  -- don't transmit if connection tables haven't been built
+  if not self.initialized then
+    return false
+  end
+
   local transmitSuccess = false
 
   if nodeId == "all" then
@@ -120,7 +130,6 @@ end
 -- @param nodeId the inbound node id on which data was received
 -- @returns true if the data is valid
 function validateData(data, dataType, nodeId)
-  --to be implemented by object
   return true
 end
 
@@ -128,15 +137,22 @@ end
 -- @param data the data
 -- @param dataType the data type ("boolean", "number", "string", "area", etc.)
 -- @param nodeId the inbound node id on which data was received
-function onValidDataReceived(data, dataType, nodeId)
-  --to be implemented by object
+function onValidDataReceived(data, dataType, nodeId) end
+
+--- any datawire operations that need to be run in main()
+function datawire.update()
+  if self.initialized then
+    -- nothing for now
+  else
+    datawire.initAfterLoading()
+    initAfterLoading()
+  end
 end
+
+--- hook for implementing scripts to add their own initialization code in main()
+function initAfterLoading() end
 
 --- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
 function main()
-  if self.initialized then
-    -- your main() code here
-  else
-    datawire.init()
-  end
+  datawire.update()
 end
