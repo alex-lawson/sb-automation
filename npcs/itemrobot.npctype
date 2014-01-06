@@ -1,0 +1,33 @@
+{
+  "type" : "itemrobot",
+  "baseType" : "villager",
+
+  "damageTeam" : 1,
+
+  "levelVariance" : [3, 4],
+
+  "scripts" : [
+    "/npcs/main.lua",
+    "/npcs/timers.lua",
+    "/scripts/sensors.lua",
+    "/scripts/stateMachine.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua",
+    "/scripts/storageapi.lua",
+
+    "/npcs/collectState.lua",
+    "/npcs/fleeState.lua",
+    "/npcs/guard/returnToPostState.lua"
+  ],
+
+  "scriptConfig" : {
+    "returnToPost" : {
+      "moveTime" : 20,
+      "minDistance" : 2
+    },
+    
+    "collect" : {
+      "scanRadius" : 20
+    }
+  }
+}

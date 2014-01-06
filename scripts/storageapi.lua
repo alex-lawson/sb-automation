@@ -64,7 +64,7 @@ function storageApi.getCount()
   return #storageApi.storage
 end
 
--- Analyze storage contents
+-- Analyze an item from storage
 function storageApi.peekItem(index)
   return storageApi.storage[index]
 end
@@ -72,12 +72,20 @@ end
 -- Take an item from storage
 function storageApi.returnItem(index)
   local ret = storageApi.storage[index]
-  storage[index] = nil
+  storageApi.storage[index] = nil
   return ret
 end
 
--- Put an item in storage
+-- Take all items from storage
+function storageApi.returnContents()
+  local ret = storageApi.storage
+  storageApi.storage = {}
+  return ret
+end
+
+-- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
+  if storageApi.isFull() then return false end
   if storageApi.isMerging() then
     for i,stack in ipairs(storageApi.storage) do
       if (stack[1] == itemname) and compareTables(properties, stack[3]) then
@@ -87,5 +95,5 @@ function storageApi.storeItem(itemname, count, properties)
     end
   end
   storage[#storageApi.storage + 1] = { itemname, count, properties }
-  return false
+  return true
 end
