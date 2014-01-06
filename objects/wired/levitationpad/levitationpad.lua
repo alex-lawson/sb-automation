@@ -60,7 +60,6 @@ function main()
       process(0, y)
       process(1, y)
     end
-    world.spawnProjectile("hpbare", entity.toAbsolutePosition({ ox + 0.5, self.st + 1 }))
     local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "levitationpad" })
     for i,id in ipairs(q) do
       world.callScriptedEntity(id, "setraet", self.aet)
