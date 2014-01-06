@@ -20,6 +20,8 @@
     }
   ],
 
+  "inboundNodes" : [ [0, 0] ],
+
   "scripts" : [ "conveyorbelt.lua", "/scripts/entityProxy.lua" ],
   "scriptDelta" : 5,
 

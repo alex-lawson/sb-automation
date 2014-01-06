@@ -1,18 +1,37 @@
 function init(v)
-  if storage.active == nil then storage.active = false
-  else entity.setParticleEmitterActive("fanwind", storage.active) end
-  entity.setInteractive(true)
+  if storage.active == nil then storage.active = false end
+  setActive(storage.active)
   self.affectWidth = entity.configParameter("affectWidth")
   self.blowSound = entity.configParameter("blowSound")
   self.fanPower = entity.configParameter("fanPower")
   self.timer = 0
   self.st = 0
+  onNodeConnectionChange(nil)
+end
+
+function onNodeConnectionChange(args)
+  if entity.isInboundNodeConnected(0) then
+    entity.setInteractive(false)
+  else
+    entity.setInteractive(true)
+  end
+  onInboundNodeChange(args)
+end
+
+function onInboundNodeChange(args)
+  if entity.isInboundNodeConnected(0) then
+    setActive(entity.getInboundNodeLevel(0))
+  end
 end
 
 function onInteraction(args)
-  storage.active = not storage.active
-  entity.setParticleEmitterActive("fanwind", storage.active)
-  if storage.active then entity.setAnimationState("fanState", "work")
+  setActive(not storage.active)
+end
+
+function setActive(flag)
+  storage.active = flag
+  entity.setParticleEmitterActive("fanwind", flag)
+  if flag then entity.setAnimationState("fanState", "work")
   else
     entity.setAnimationState("fanState", "slow")
     self.timer = 20
@@ -69,6 +88,6 @@ function main()
   elseif self.timer > 0 then
     if self.timer % 12 == 4 then entity.playImmediateSound(self.blowSound) end
     self.timer = self.timer - 1
-    if self.timer == 0 then entity.setAnimationState("fanState", "idle") end
+    if self.timer == 1 then entity.setAnimationState("fanState", "idle") end
   end
 end

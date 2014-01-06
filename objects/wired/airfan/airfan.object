@@ -18,6 +18,8 @@
       "anchors" : [ "bottom" ]
     }
   ],
+  
+  "inboundNodes" : [ [0, -2] ],
 
   "scripts" : [ "airfan.lua", "/scripts/entityProxy.lua" ],
   "scriptDelta" : 5,
