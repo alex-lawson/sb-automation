@@ -1,5 +1,6 @@
 -------------------------------------------------
 -- Helper functions
+
 function compareTables(firstTable, secondTable)
   if (next(firstTable) == nil) and (next(secondTable) == nil) then 
     return true
@@ -19,6 +20,7 @@ end
 
 -------------------------------------------------
 -- Definitions
+
 storageApi = { storage = {} }
 
 -------------------------------------------------
@@ -71,8 +73,10 @@ end
 
 -- Take an item from storage
 function storageApi.returnItem(index)
+  if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
   local ret = storageApi.storage[index]
   storageApi.storage[index] = nil
+  if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret[1], ret[2], ret[3]) end
   return ret
 end
 
@@ -80,20 +84,49 @@ end
 function storageApi.returnContents()
   local ret = storageApi.storage
   storageApi.storage = {}
+  if (storageApi.afterAllItemsTaken ~= nil) then storageApi.afterAllItemsTaken() end
   return ret
 end
 
 -- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
+  if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
   if storageApi.isFull() then return false end
   if storageApi.isMerging() then
     for i,stack in ipairs(storageApi.storage) do
       if (stack[1] == itemname) and compareTables(properties, stack[3]) then
         storageApi.storage[i][2] = stack[2] + count
+        if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
         return true
       end
     end
   end
   storage[#storageApi.storage + 1] = { itemname, count, properties }
+  if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(#storageApi.storage, false) end
   return true
 end
+
+-------------------------------------------------
+-- Hook functions
+
+-- Called when an item is about to be taken from storage
+-- index - the requested item index
+-- If this returns true, the item is not taken and the returned item is null
+----- function storageApi.beforeItemTaken(index) end
+
+-- Called when an item has been taken from storage
+-- itemname, count, parameters - item data that was taken
+----- function storageApi.afterItemTaken(itemname, count, properties) end
+
+-- Called when an item is about to be stored in storage
+-- itemname, count, parameters - item data requested to be stored
+-- If this returns true, the item is not stored and the parent method returns false
+----- function storageApi.beforeItemStored(itemname, count, properties) end
+
+-- Called when an item has been stored in storage
+-- index - the index assigned to the item
+-- merged - tells whenever the item stack was merged into another, or not
+----- function storageApi.afterItemStored(index, merged) end
+
+-- Called when all items have been taken from storage
+----- function storageApi.afterAllItemsTaken() end
