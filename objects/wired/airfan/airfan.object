@@ -13,7 +13,7 @@
   "orientations" : [
     {
       "dualImage" : "airfan.png:idle",
-      "imagePosition" : [-8, -8],
+      "imagePosition" : [-8, -16],
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }
@@ -26,7 +26,7 @@
   "animationParts" : {
     "base" : "airfan.png"
   },
-  "animationPosition" : [-8, -8],
+  "animationPosition" : [-8, -16],
 
   "affectWidth" : 20,
   "fanPower" : 20,

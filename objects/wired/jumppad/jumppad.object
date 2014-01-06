@@ -13,7 +13,7 @@
   "orientations" : [
     {
       "dualImage" : "jumppad.png:idle",
-      "imagePosition" : [-8, 0],
+      "imagePosition" : [ -8, 0],
       "collision" : "solid",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -21,13 +21,13 @@
   ],
 
   "scripts" : [ "jumppad.lua", "/scripts/entityProxy.lua" ],
-  "scriptDelta" : 2,
+  "scriptDelta" : 1,
 
   "animation" : "jumppad.animation",
   "animationParts" : {
     "base" : "jumppad.png"
   },
-  "animationPosition" : [-8, 0],
+  "animationPosition" : [ -8, 0],
 
   "boostPower" : 40,
   "jumpSound" : "/sfx/tech/tech_doublejump.wav"

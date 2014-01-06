@@ -40,9 +40,9 @@ function rand()
   return (math.random() + 1) * 2 / 3
 end
 
-function process(ox, oy, mult)
+function process(ox, oy)
   local f = entity.direction()
-  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
+  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox + 0.5, oy + 0.5 }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
   for i,id in ipairs(eids) do
     local e = entityProxy.create(id)
@@ -62,7 +62,7 @@ function main()
     if self.st > 6 then self.st = 0
     elseif self.st == 3 then entity.playImmediateSound(self.blowSound) end
     for x=1,self.affectWidth do
-      for y=-1,1 do
+      for y=-2,1 do
         process(x, y)
       end
     end

@@ -16,13 +16,13 @@ function firstValidEntity(eids)
 end
 
 function process(offset)
-  local eids = world.entityQuery(entity.toAbsolutePosition({ 0, offset }), 2, { notAnObject = true, order = "nearest" })
+  local eids = world.entityQuery(entity.toAbsolutePosition({ 0.5, offset }), 2, { notAnObject = true, order = "nearest" })
   local id = firstValidEntity(eids)
   if id ~= nil then
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
-      if v[2] < self.boostPower then v[2] = -v[2] * 1.05
+      if v[2] < -self.boostPower then v[2] = -v[2] * 1.05
       elseif v[2] < 0 then v[2] = -v[2] + self.boostPower
       else return end
       e.setVelocity(v)
@@ -34,9 +34,8 @@ end
 function main()
   if self.jumpt > 0 then self.jumpt = self.jumpt - 1
   else
-    process(2)
+    process(2.5)
     if self.jumpt == 0 then process(1.5) end
-    if self.jumpt == 0 then process(1) end
   end
   local state = entity.animationState("jumpState")
   if state == "idle" and self.jumpt > 0 then

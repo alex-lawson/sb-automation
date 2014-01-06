@@ -1,0 +1,42 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "workState" : {
+        "default" : "idle",
+        "states" : {
+          "idle" : {
+            "frames" : 1
+          },
+          "work" : {
+            "frames" : 3,
+            "mode" : "loop",
+            "cycle" : 0.2
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "base" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "workState" : {
+            "idle" : {
+              "properties" : {
+                "image" : "<partImage>:idle"
+              }
+            },
+            "work" : {
+              "properties" : {
+                "image" : "<partImage>:work.<frame>"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
