@@ -45,6 +45,10 @@
   "inboundNodes" : [ [0, -1] ],
   "outboundNodes" : [ [0, 1] ],
   
-  "liquidInboundNodes" : [ 0 ],
-  "liquidOutboundNodes" : [ 0 ]
+  "pipeInboundNodes" : [ 
+    {"offset": [-1, 1], "acceptLiquid": false, "acceptItems": false} 
+  ],
+  "pipeOutboundNodes" : [ 
+    {"offset": [2, 1], "acceptLiquid": false, "acceptItems": false} 
+  ]
 }

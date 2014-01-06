@@ -1,5 +1,5 @@
 function init(args)
-  self.pipes = liquidPipes.create()
+  pipes.init()
   entity.setInteractive(true)
 end
 
@@ -11,7 +11,5 @@ function onInteraction(args)
 end
 
 function main(args)
-  if self.pipes ~= nil then
-    self.pipes.update(entity.dt())
-  end
+  pipes.update(entity.dt())
 end

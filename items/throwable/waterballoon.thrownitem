@@ -1,0 +1,21 @@
+{
+  "itemName" : "waterbomb",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/guns/unsorted/waterballoon/icon.png",
+  "image" : "bombicon.png",
+  "shortdescription" : "Water Balloon",
+  "description" : "SPLASH!",
+
+  "ammoUsage" : 0,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "waterballoon",
+  "projectileConfig" : {
+    "speed" : 30,
+    "power" : 100
+  }
+}
+
