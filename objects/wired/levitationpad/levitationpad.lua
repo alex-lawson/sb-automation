@@ -1,8 +1,8 @@
 function init(v)
   if storage.active == nil then storage.active = false end
   entity.setInteractive(true)
+  self.levitationHeight = entity.configParameter("levitationHeight")
   self.workSound = entity.configParameter("workSound")
-  self.moveSpeed = entity.configParameter("moveSpeed")
   self.st = 0
   self.laet = {}
   self.raet = {}
@@ -10,8 +10,8 @@ end
 
 function onInteraction(args)
   storage.active = not storage.active
-  if storage.active then entity.setAnimationState("workState", "work")
-  else entity.setAnimationState("workState", "idle") end
+  if storage.active then entity.setAnimationState("jumpState", "jump")
+  else entity.setAnimationState("jumpState", "idle") end
 end
 
 function filterEntities(eids)
@@ -21,7 +21,7 @@ function filterEntities(eids)
     if (self.aet[id] == nil) and (self.laet[id] == nil) and (self.raet[id] == nil) then
       local et = world.entityType(id)
       for j, vt in ipairs(valid) do
-        if (et == vt) and world.callScriptedEntity(id, "entity.onGround") then
+        if (et == vt) then
           ret[#ret + 1] = id
           break
         end
@@ -31,27 +31,22 @@ function filterEntities(eids)
   return ret
 end
 
+function rand()
+  return math.random() / 5 + 0.9
+end
+
 function process(ox, oy)
-  local f = entity.direction()
-  local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
+  local eids = world.entityQuery(entity.toAbsolutePosition({ ox + 0.5, oy }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
   for i,id in ipairs(eids) do
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
-      v[1] = v[1] + self.moveSpeed * f
+      v[2] = v[2] + (self.levitationHeight - oy + 1) * rand()
       e.setVelocity(v)
       self.aet[id] = true
     end
   end
-end
-
-function setlaet(data)
-  self.laet = data
-end
-
-function setraet(data)
-  self.raet = data
 end
 
 function main()
@@ -60,15 +55,17 @@ function main()
     self.st = self.st + 1
     if self.st > 6 then self.st = 0
     elseif self.st == 3 then entity.playImmediateSound(self.workSound) end
-    for x=-1,1 do
-      process(x, 1.5)
-      process(x, 2.5)
+    for y=1,self.levitationHeight-1 do
+      process(-1, y)
+      process(0, y)
+      process(1, y)
     end
-    local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "conveyorbelt" })
+    world.spawnProjectile("hpbare", entity.toAbsolutePosition({ ox + 0.5, self.st + 1 }))
+    local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "levitationpad" })
     for i,id in ipairs(q) do
       world.callScriptedEntity(id, "setraet", self.aet)
     end
-    q = world.objectQuery(entity.toAbsolutePosition({ -4, 0 }), 2, { name = "conveyorbelt" })
+    q = world.objectQuery(entity.toAbsolutePosition({ -4, 0 }), 2, { name = "levitationpad" })
     for i,id in ipairs(q) do
       world.callScriptedEntity(id, "setlaet", self.aet)
     end
