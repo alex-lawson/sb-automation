@@ -37,10 +37,10 @@ end
 function filterEntities(eids)
   local valid = { "monster", "npc" }
   local ret = { }
-  for i, id in ipairs(eids) do
+  for i, id in pairs(eids) do
     if (self.aet[id] == nil) and (self.laet[id] == nil) and (self.raet[id] == nil) then
       local et = world.entityType(id)
-      for j, vt in ipairs(valid) do
+      for j, vt in pairs(valid) do
         if (et == vt) and world.callScriptedEntity(id, "entity.onGround") then
           ret[#ret + 1] = id
           break
@@ -55,7 +55,7 @@ function process(ox, oy)
   local f = entity.direction()
   local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox, oy }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
-  for i,id in ipairs(eids) do
+  for i,id in pairs(eids) do
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
@@ -85,11 +85,11 @@ function main()
       process(x, 2.5)
     end
     local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "conveyorbelt" })
-    for i,id in ipairs(q) do
+    for i,id in pairs(q) do
       world.callScriptedEntity(id, "setraet", self.aet)
     end
     q = world.objectQuery(entity.toAbsolutePosition({ -4, 0 }), 2, { name = "conveyorbelt" })
-    for i,id in ipairs(q) do
+    for i,id in pairs(q) do
       world.callScriptedEntity(id, "setlaet", self.aet)
     end
   end

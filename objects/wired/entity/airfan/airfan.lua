@@ -41,10 +41,10 @@ end
 function filterEntities(eids)
   local valid = { "monster", "npc" }
   local ret = { }
-  for i, id in ipairs(eids) do
+  for i, id in pairs(eids) do
     if self.aet[id] == nil then
       local et = world.entityType(id)
-      for j, vt in ipairs(valid) do
+      for j, vt in pairs(valid) do
         if et == vt then
           ret[#ret + 1] = id
           break
@@ -63,7 +63,7 @@ function process(ox, oy)
   local f = entity.direction()
   local eids = world.entityQuery(entity.toAbsolutePosition({ f * ox + 0.5, oy + 0.5 }), 2, { notAnObject = true, order = "nearest" })
   eids = filterEntities(eids)
-  for i,id in ipairs(eids) do
+  for i,id in pairs(eids) do
     local e = entityProxy.create(id)
     local v = e.velocity()
     if v ~= nil then
