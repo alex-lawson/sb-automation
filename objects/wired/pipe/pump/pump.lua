@@ -1,12 +1,14 @@
 function init(args)
-  pipes.init()
   entity.setInteractive(true)
+  
+  pipes.init({liquidPipe,itemPipe})
 end
 
 function onInteraction(args)
   local getLiquid = pullLiquid(1)
   if getLiquid then
-    pushLiquid(1, getLiquid[1], getLiquid[2])
+    getLiquid[2] = 1400
+    pushLiquid(1, getLiquid)
   end
   local getItems = pullItem(1)
   if getItems then

@@ -31,7 +31,9 @@
   
   "scripts" : [
     "/objects/wired/pipe/pipeend/pipeend.lua",
-    "/scripts/liquidpipes.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
@@ -43,14 +45,8 @@
   },
   "animationPosition" : [0, 0],
   
-  "inboundNodes" : [ [0, -1] ],
-  "outboundNodes" : [ [0, 1] ],
-  
-  "liquidInboundNodes" : [ 0 ],
-  "liquidOutboundNodes" : [ 0 ],
-  
-  "pipeInboundNodes" : [ {"offset": [0, 1], "acceptLiquid": true} ],
-  "pipeOutboundNodes" : [ {"offset": [0, 1], "acceptLiquid": true} ],
-  "itemInboundNodes" : [ {"offset": [0, 1], "acceptItems": true} ],
-  "itemOutboundNodes" : [ {"offset": [0, 1], "acceptItems": true} ]
+  "liquidInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
+  "liquidOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
+  "itemInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
+  "itemOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ]
 }
