@@ -45,10 +45,8 @@
   "inboundNodes" : [ [0, -1] ],
   "outboundNodes" : [ [0, 1] ],
   
-  "pipeInboundNodes" : [ 
-    {"offset": [-1, 1], "acceptLiquid": false, "acceptItems": false} 
-  ],
-  "pipeOutboundNodes" : [ 
-    {"offset": [2, 1], "acceptLiquid": false, "acceptItems": false} 
-  ]
+  "pipeInboundNodes" : [ {"offset": [-1, 1], "acceptLiquid": false} ],
+  "pipeOutboundNodes" : [ {"offset": [2, 1], "acceptLiquid": false} ],
+  "itemInboundNodes" : [ {"offset": [-1, 1], "acceptItems": false} ],
+  "itemOutboundNodes" : [ {"offset": [2, 1], "acceptItems": false} ]
 }
