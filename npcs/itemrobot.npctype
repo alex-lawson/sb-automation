@@ -15,8 +15,9 @@
     "/scripts/vec2.lua",
     "/scripts/storageapi.lua",
 
-    "/npcs/collectState.lua",
     "/npcs/fleeState.lua",
+    "/npcs/collectState.lua",
+    "/npcs/transportState.lua",
     "/npcs/guard/returnToPostState.lua"
   ],
 
@@ -28,6 +29,16 @@
     
     "collect" : {
       "scanRadius" : 20
+    },
+    
+    "transport" : {
+      "scanRadius" : 20
+    },
+    
+    "storageapi" : {
+      "merge" : true,
+      "capacity" : 20,
+      "mode" : 1
     }
   }
 }

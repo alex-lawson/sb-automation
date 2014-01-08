@@ -6,9 +6,9 @@ end
 
 function firstValidEntity(eids)
   local valid = { "monster", "npc" }
-  for i, id in ipairs(eids) do
+  for i, id in pairs(eids) do
     local et = world.entityType(id)
-    for j, vt in ipairs(valid) do
+    for j, vt in pairs(valid) do
       if et == vt then return id end
     end
   end

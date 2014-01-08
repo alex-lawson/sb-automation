@@ -30,8 +30,8 @@ storageApi = { storage = {} }
 -- space: capacity of item stacks, max 999
 -- join: should the storage merge stacks if possible?
 function storageApi.init(mode, space, join)
-  storageApi.isout = bit.band(mode, 1) == 1
-  storageApi.isin = bit.band(mode, 2) == 1
+  storageApi.isin = mode % 2 == 1
+  storageApi.isout = mode % 4 > 2
   storageApi.capacity = math.min(999, space)
   storageApi.isjoin = join
 end
@@ -71,6 +71,15 @@ function storageApi.peekItem(index)
   return storageApi.storage[index]
 end
 
+-- Retrieve a list of indices in storage for iteration
+function storageApi.getStorageIndices()
+  local ret = {}
+  for i,k in pairs(storageApi.storage) do
+    ret[#ret] = i
+  end
+  return ret
+end
+
 -- Take an item from storage
 function storageApi.returnItem(index)
   if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
@@ -93,7 +102,7 @@ function storageApi.storeItem(itemname, count, properties)
   if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
   if storageApi.isFull() then return false end
   if storageApi.isMerging() then
-    for i,stack in ipairs(storageApi.storage) do
+    for i,stack in pairs(storageApi.storage) do
       if (stack[1] == itemname) and compareTables(properties, stack[3]) then
         storageApi.storage[i][2] = stack[2] + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
