@@ -1,6 +1,7 @@
-function init(args)
-  pipes.init()
+function init(virtual)
   entity.setInteractive(true)
+  
+  pipes.init({liquidPipe,itemPipe})
 end
 
 --------------------------------------------------------------------------------
@@ -21,17 +22,16 @@ function getLiquid()
   local liquid = world.liquidAt(liquidPos)
   
   if liquid then
-    world.spawnProjectile("destroyliquid", liquidPos, entity.id(), {0, 1}, false, {speed = 0.01})
+    world.spawnProjectile("destroyliquid", liquidPos, entity.id(), {0, -1}, false, {speed = 100})
   end
   return liquid
 end
 
-function putLiquid(liquidId, quantity)
+function putLiquid(liquid)
   world.logInfo("Putting liquid")
-  quantity = 1400
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2]}
-  world.spawnProjectile("createliquid", liquidPos, entity.id(), {0, -1}, false, {speed = 100, actionOnReap = { {action = "liquid", quantity = quantity, liquidId = liquidId}}})
+  world.spawnProjectile("createliquid", liquidPos, entity.id(), {0, -1}, false, {speed = 100, actionOnReap = { {action = "liquid", quantity = liquid[2], liquidId = liquid[1]}}})
 end
 
 function getItem()
