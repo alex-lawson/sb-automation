@@ -1,2 +1,9 @@
+=======
+# Developer Scripts #
+#####################
 *.cmd
 *.vbs
+
+# OS generated files #
+######################
+thumbs.db
