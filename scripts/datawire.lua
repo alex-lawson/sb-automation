@@ -139,7 +139,7 @@ end
 -- @param nodeId the inbound node id on which data was received
 function onValidDataReceived(data, dataType, nodeId) end
 
---- any datawire operations that need to be run in main()
+--- any datawire operations that need to be run when main() is first called
 function datawire.update()
   if self.initialized then
     -- nothing for now
@@ -149,7 +149,7 @@ function datawire.update()
   end
 end
 
---- hook for implementing scripts to add their own initialization code in main()
+--- hook for implementing scripts to add their own initialization code when main() is first called
 function initAfterLoading() end
 
 --- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
