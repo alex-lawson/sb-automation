@@ -5,12 +5,14 @@ function init(virtual)
       self.lampColor = "white"
     end
 
-    entity.setGlobalTag("color", self.lampColor)
-
     self.projectileLocation = {entity.position()[1], entity.position()[2] + 1}
 
     checkNodes()
   end
+end
+
+function onInteraction(args)
+  storage.state = not storage.state
 end
 
 function onNodeConnectionChange()
@@ -22,6 +24,7 @@ function onInboundNodeChange(args)
 end
 
 function checkNodes()
+  entity.setInteractive(not entity.isInboundNodeConnected(0))
   storage.state = entity.getInboundNodeLevel(0)
 end
 
