@@ -6,8 +6,6 @@ function init(virtual)
     end
 
     self.projectileLocation = {entity.position()[1], entity.position()[2] + 1}
-
-    checkNodes()
   end
 end
 

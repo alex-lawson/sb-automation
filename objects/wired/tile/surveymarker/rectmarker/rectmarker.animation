@@ -1,0 +1,37 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "markerState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "marker" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "markerState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

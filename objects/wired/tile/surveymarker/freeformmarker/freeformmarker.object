@@ -3,7 +3,7 @@
   "objectType" : "wire",
   "rarity" : "Common",
   "description" : "Selects an arbitrary area of adjacent tiles.",
-  "shortdescription" : "Freeform Survey Marker",
+  "shortdescription" : "Freeform Marker",
   "race" : "generic",
   "category" : "wire",
   "price" : "100",
@@ -20,7 +20,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "/objects/wired/tile/surveymarker/surveymarker.lua" ],
+  "scripts" : [ "/scripts/datawire.lua", "freeformmarker.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "freeformmarker.animation",
