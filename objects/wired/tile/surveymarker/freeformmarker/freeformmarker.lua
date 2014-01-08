@@ -42,17 +42,9 @@ function onTrigger()
 end
 
 function triggerConnectedMarkers(scriptName, scriptArgs)
-  local entityIds = {}
-
-  if self.markerType == "freeform" then
-    local 
-    entityIds = world.objectQuery(entity.position(), self.triggerDistance, {
+  local entityIds = world.objectQuery(entity.position(), self.triggerDistance, {
           callScript = scriptName, callScriptArgs = scriptArgs
         })
-  elseif self.markerType == "rect" then
-    --TODO
-  end
-
   return entityIds
 end
 
