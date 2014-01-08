@@ -23,6 +23,15 @@ end
 
 --Pipes object with internal functions
 pipes = {}
+
+pipes.directions = {}
+pipes.directions["horz"] = {{1,0}, {-1, 0}}
+pipes.directions["vert"] = {{0, 1}, {0, -1}}
+pipes.directions["b1"] = {{1,0}, {1, 0}}
+pipes.directions["b2"] = {{1, 0}, {0, -1}}
+pipes.directions["b3"] = {{-1,0}, {0, -1}}
+pipes.directions["b4"] = {{-1, 0}, {0, 1}}
+
 function pipes.init(pipeTypes)
 
   pipes.updateTimer = 1
@@ -78,6 +87,33 @@ function pipes.peek(pipeName, pipeFunction, nodeId, args)
       return world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.peek, pipeFunction, args)
     end
   end
+  return false
+end
+
+function pipes.pipesConnect(firstDirection, secondDirections)
+  for _,secondDirection in ipairs(secondDirections) do
+    if firstDirection[1] == -secondDirection[1] and firstDirection[2] == -secondDirection[2] then
+      return true
+    end
+  end
+  return false
+end
+
+function pipes.getPipeDirections(pipeName, position)
+  local backgroundTile = world.material(position, "background")
+  for orientation,directions in pairs(pipes.directions) do
+    if backgroundTile == pipes.types[pipeName].tiles .. orientation then
+      return directions
+    end
+  end
+  
+  local foregroundTile = world.material(position, "background")
+  for orientation,directions in pairs(pipes.directions) do
+    if foregroundTile == pipes.types[pipeName].tiles .. orientation then
+      return directions
+    end
+  end
+  
   return false
 end
 
@@ -140,20 +176,19 @@ function pipes.walkPipes(pipeName, startPos, length, lookingFor)
     local newVisitTiles = {}
     for i,tile in ipairs(tilesToVisit) do
       local tileName = pipes.types[pipeName].tiles
-      if pipes.checkTile({tile[1], tile[2]}, tileName) then
+      local pipeDirections = pipes.getPipeDirections(pipeName, {tile[1], tile[2]})
+      
+      if pipeDirections ~= false then
         if visitedTiles[tile[1]] == nil then visitedTiles[tile[1]] = {} end
         visitedTiles[tile[1]][tile[2]] = true
         
         --Inspect bordering tiles (no diagonals for now)
-        local nearTiles = {}
-        nearTiles[1] = {tile[1] + 1, tile[2]}
-        nearTiles[2] = {tile[1], tile[2] - 1}
-        nearTiles[3] = {tile[1] - 1, tile[2]}
-        nearTiles[4] = {tile[1], tile[2] + 1}
         
-        for i,nearTile in ipairs(nearTiles) do
+        for i,direction in ipairs(pipeDirections) do
+          nearTile = {tile[1] + direction[1], tile[2] + direction[2]}
+          nearPipeDirections = pipes.getPipeDirections(pipeName, nearTile)
           --Add them to visited
-          if pipes.checkTile({nearTile[1], nearTile[2]}, tileName) and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
+          if nearPipeDirections ~= false and pipes.pipesConnect(direction, nearPipeDirections) and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
             newVisitTiles[#newVisitTiles+1] = {nearTile[1], nearTile[2]}
           end
           

@@ -7,6 +7,7 @@
   "frameNumber" : 1,
 
   "speed" : 20,
+  "timeToLive": 0.1,
   "fallSpeed" : 0,
 
   "actionOnReap" : [
