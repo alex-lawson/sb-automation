@@ -6,9 +6,9 @@ itemPipe = {
   },
   tiles = "metalpipe",
   hooks = {
-    put = "putItem", --Should take whatever argument get returns
-    get = "getItem", --Should return whatever argument you want to plug into the put hook, can take whatever argument you want like a filter or something
-    peek = "peekItem" --Should return true if item accepts the request
+    put = "onItemPut", --Should take whatever argument get returns
+    get = "onItemGet", --Should return whatever argument you want to plug into the put hook, can take whatever argument you want like a filter or something
+    peek = "onItemPeek" --Should return true if item accepts the request
   }
 }
 function pushItem(nodeId, itemList)
@@ -16,4 +16,7 @@ function pushItem(nodeId, itemList)
 end
 function pullItem(nodeId, itemFilter)
   return pipes.pull("item", nodeId, itemFilter)
+end
+function peekItem(nodeId, pipeFunction, itemArgs)
+  return pipes.peek("item", pipeFunction, nodeId, itemArgs)
 end

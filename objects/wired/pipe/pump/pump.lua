@@ -5,14 +5,24 @@ function init(args)
 end
 
 function onInteraction(args)
-  local getLiquid = pullLiquid(1)
-  if getLiquid then
+
+  --pump liquid
+  local getLiquidList = pullLiquid(1)
+  for entityId, getLiquid in pairs(getLiquidList) do
     getLiquid[2] = 1400
-    pushLiquid(1, getLiquid)
+    
+    if getLiquid and peekLiquid("put", 1, getLiquid) then
+      pushLiquid(1, getLiquid)
+    end
   end
-  local getItems = pullItem(1)
-  if getItems then
-    pushItem(1, getItems)
+  
+  --Pump items
+  local getItemList = pullItem(1)
+  
+  for entityId, getItems in pairs(getItemList) do
+    if getItems and peekItem("put", 1, getItems) then
+      pushItem(1, getItems)
+    end
   end
 end
 

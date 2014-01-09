@@ -58,25 +58,30 @@ function pipes.init(pipeTypes)
 end
 
 function pipes.push(pipeName, nodeId, args)
+  local returnTable = {}
   if #pipes.nodeEntityIds[pipeName].outbound[nodeId] > 0 then
     for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].outbound[nodeId]) do
-      return world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.put, args)
+      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.put, args)
+      if entityReturn then returnTable[entityId] = entityReturn end
     end
   end
-  return false
+  return returnTable
 end
 
 function pipes.pull(pipeName, nodeId, args)
+  local returnTable = {}
   if #pipes.nodeEntityIds[pipeName].inbound[nodeId] > 0 then
     for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].inbound[nodeId]) do
-      return world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.get, args)
+      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.get, args)
+      if entityReturn then returnTable[entityId] = entityReturn end
     end
   end
-  return false
+  return returnTable
 end
 
 function pipes.peek(pipeName, pipeFunction, nodeId, args)
   local nodesTable = {}
+  local returnTable = {}
   if pipeFunction == "get" then
     nodesTable = pipes.nodeEntityIds[pipeName].inbound[nodeId]
   elseif pipeFunction == "put" then 
@@ -84,10 +89,11 @@ function pipes.peek(pipeName, pipeFunction, nodeId, args)
   end
   if #nodesTable > 0 then
     for i,entityId in ipairs(nodesTable) do
-      return world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.peek, pipeFunction, args)
+      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.peek, pipeFunction, args)
+      if entityReturn then returnTable[entityId] = entityReturn end
     end
   end
-  return false
+  return returnTable
 end
 
 function pipes.pipesConnect(firstDirection, secondDirections)
