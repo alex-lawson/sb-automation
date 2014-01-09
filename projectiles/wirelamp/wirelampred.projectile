@@ -9,6 +9,8 @@
   "pointLight" : true,
   "lightColor" : [255, 0, 0],
   "timeToLive" : 0.15,
- 
-  "damageKind" : "default"
+  "piercing" : true,
+
+  "damageKind" : "default",
+  "power" : 0
 }
