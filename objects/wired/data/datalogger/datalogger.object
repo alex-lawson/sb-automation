@@ -1,0 +1,35 @@
+{
+  "objectName" : "datalogger",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Engrave upon the very fabric of time.",
+  "shortdescription" : "Data Logger",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : "500",
+
+  "inventoryIcon" : "dataloggericon.png",
+  "orientations" : [
+    {
+      "image" : "datalogger.png:<color>.none",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "datalogger.lua" ],
+  "scriptDelta" : 10,
+
+  "animation" : "datalogger.animation",
+
+  "animationParts" : {
+    "memory" : "datalogger.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [-1, -1], [-1, 0], [0, 0] ],
+  "outboundNodes" : [ [0, -1] ]
+}
