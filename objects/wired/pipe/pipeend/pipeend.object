@@ -45,8 +45,8 @@
   },
   "animationPosition" : [0, 0],
   
-  "liquidInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
-  "liquidOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
-  "itemInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ],
-  "itemOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true} ]
+  "liquidInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true, "dir": [0, 1]} ],
+  "liquidOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true, "dir": [0, 1]} ],
+  "itemInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true, "dir": [0, 1]} ],
+  "itemOutboundNodes" : [ {"offset": [0, 1], "acceptRequest": true, "dir": [0, 1]} ]
 }

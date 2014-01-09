@@ -1,5 +1,5 @@
 --Global helper functions
-function acceptPipeRequestAt(pipeName, position, lookingFor)
+function acceptPipeRequestAt(pipeName, position, pipeDirection, lookingFor)
   if pipes == nil or pipes.nodes[pipeName] == nil then return false end
   
   local entityPos = entity.position()
@@ -14,7 +14,7 @@ function acceptPipeRequestAt(pipeName, position, lookingFor)
   
   for i,node in ipairs(nodeTable) do
     local absNodePos = {entityPos[1] + node.offset[1], entityPos[2] + node.offset[2]}
-    if position[1] == absNodePos[1] and position[2] == absNodePos[2] and node.acceptRequest then
+    if position[1] == absNodePos[1] and position[2] == absNodePos[2] and pipes.pipesConnect(node.dir, {pipeDirection}) and node.acceptRequest then
       return true
     end
   end
@@ -134,7 +134,7 @@ function pipes.getNodeEntities(pipeName, direction)
   if nodesTable == nil then return {} end
   for i,pipeNode in ipairs(nodesTable) do
     local pipePos = {position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}
-    nodeEntities[i] = pipes.walkPipes(pipeName, pipePos, 20, lookingFor)
+    nodeEntities[i] = pipes.walkPipes(pipeName, pipePos, pipeNode.dir, lookingFor)
   end
   return nodeEntities
   
@@ -158,15 +158,15 @@ function pipes.update(dt)
   end
 end
 
-function pipes.validEntity(pipeName, entityId, position, lookingFor)
-  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, lookingFor) and entityId ~= entity.id()
+function pipes.validEntity(pipeName, entityId, position, direction, lookingFor)
+  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction, lookingFor) and entityId ~= entity.id()
 end
 
 function pipes.checkTile(position, tileName)
   return (world.material(position, "foreground") == tileName or world.material(position, "background") == tileName)
 end
 
-function pipes.walkPipes(pipeName, startPos, length, lookingFor)
+function pipes.walkPipes(pipeName, startPos, startDir, lookingFor)
   local validEntities = {}
   
   local visitedTiles = {}
@@ -177,6 +177,10 @@ function pipes.walkPipes(pipeName, startPos, length, lookingFor)
     for i,tile in ipairs(tilesToVisit) do
       local tileName = pipes.types[pipeName].tiles
       local pipeDirections = pipes.getPipeDirections(pipeName, {tile[1], tile[2]})
+      if startDir then
+        pipeDirections = {startDir}
+        startDir = false
+      end
       
       if pipeDirections ~= false then
         if visitedTiles[tile[1]] == nil then visitedTiles[tile[1]] = {} end
@@ -201,7 +205,7 @@ function pipes.walkPipes(pipeName, startPos, length, lookingFor)
               for i,id in ipairs(validEntities) do
                 if objectId == id then notAdded = false end
               end
-              if pipes.validEntity(pipeName, objectId, tile, lookingFor) and notAdded then
+              if pipes.validEntity(pipeName, objectId, tile, direction, lookingFor) and notAdded then
                 validEntities[#validEntities+1] = objectId
               end
             end
