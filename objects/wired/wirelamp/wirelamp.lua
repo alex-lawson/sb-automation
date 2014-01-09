@@ -6,6 +6,8 @@ function init(virtual)
     end
 
     self.projectileLocation = {entity.position()[1], entity.position()[2] + 1}
+
+    entity.setInteractive(true)
   end
 end
 
