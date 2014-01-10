@@ -1,13 +1,5 @@
 function init(virtual)
   if not virtual then
-    if not storage.data then
-      storage.data = 0
-    end
-
-    if not storage.dataType then
-      storage.dataType = "empty"
-    end
-
     if storage.enabled == nil then
       storage.enabled = true
     end
@@ -53,9 +45,7 @@ end
 -- Done
 function onValidDataReceived(data, dataType, nodeId)
   if storage.enabled then
-    storage.data = data
-    storage.dataType = dataType
-	logInfo(storage.dataType .. storage.data)
+    logInfo(data .. dataType)
   end
 end
 

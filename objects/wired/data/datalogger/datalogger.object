@@ -13,7 +13,7 @@
   "orientations" : [
     {
       "image" : "datalogger.png:<color>.none",
-      "imagePosition" : [-8, -8],
+      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
@@ -28,8 +28,7 @@
   "animationParts" : {
     "memory" : "datalogger.png"
   },
-  "animationPosition" : [-8, -8],
+  "animationPosition" : [0, 0],
 
-  "inboundNodes" : [ [-1, -1], [-1, 0], [0, 0] ],
-  "outboundNodes" : [ [0, -1] ]
+  "inboundNodes" : [ [0, 0]
 }
