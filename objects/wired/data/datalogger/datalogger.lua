@@ -8,14 +8,11 @@ function init(virtual)
       storage.dataType = "empty"
     end
 
-    if storage.lockOutbound == nil then
-      storage.lockOutbound = false
+    if storage.enabled == nil then
+      storage.enabled = true
     end
 
-    if storage.lockInbound == nil then
-      storage.lockInbound = false
-    end
-
+    -- what do?
     self.flipStr = ""
     if entity.direction() == -1 then
       self.flipStr = "flipped."
@@ -27,49 +24,47 @@ function init(virtual)
   end
 end
 
+-- Done
 function onInteraction(args)
-  reset()
+  storage.enabled ==  not storage.enabled
 end
 
 function onInboundNodeChange(args)
-  storage.lockInbound = entity.getInboundNodeLevel(1)
-  storage.lockOutbound = entity.getInboundNodeLevel(2)
-
+  
   output()
   updateAnimationState()
 end
 
+
 function updateAnimationState()
-  if entity.getInboundNodeLevel(1) and entity.getInboundNodeLevel(2) then
-    entity.setAnimationState("lockState", self.flipStr.."both")
-  elseif entity.getInboundNodeLevel(1) then
-    entity.setAnimationState("lockState", self.flipStr.."in")
-  elseif entity.getInboundNodeLevel(2) then
-    entity.setAnimationState("lockState", self.flipStr.."out")
+  if storage.enabled then
+    -- set the animation state to glowing
   else
-    entity.setAnimationState("lockState", self.flipStr.."none")
+    -- set the animation state to dark
   end
 end
 
+-- Done
 function validateData(data, dataType, nodeId)
   --only receive data on node 0
   return nodeId == 0
 end
 
+-- Done
 function onValidDataReceived(data, dataType, nodeId)
-  if not storage.lockInbound then
+  if storage.enabled then
     storage.data = data
     storage.dataType = dataType
+	logInfo(storage.dataType .. storage.data)
   end
 end
 
-function output()
-  if not storage.lockOutbound then
-    datawire.sendData(storage.data, storage.dataType, 0)
-  end
+-- Done
+function logInfo(stringToLog)
+  world.logInfo(stringToLog)
 end
 
+-- Done
 function main()
   datawire.update()
-  output()
 end
