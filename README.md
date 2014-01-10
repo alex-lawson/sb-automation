@@ -25,5 +25,5 @@ Managers
 ---
 *  metadept - wire and tile manipulation systems
 *  Healthire - liquid and item pipe systems
-*  XspeedPL - entity manipulation system and storage API
+*  XspeedPL - entity manipulation systems and behavior scripts
 *  SeveredSkullz - energy systems
