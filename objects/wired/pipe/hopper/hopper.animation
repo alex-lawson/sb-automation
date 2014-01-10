@@ -1,0 +1,14 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "hopper" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 3
+        }
+      }
+    }
+  }
+}

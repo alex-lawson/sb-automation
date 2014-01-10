@@ -1,0 +1,45 @@
+{
+  "objectName" : "ejector",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Spits items out of pipes.",
+  "shortdescription" : "Ejector",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Ejector",
+  "avianDescription" : "Ejector",
+  "floranDescription" : "Ejector",
+  "glitchDescription" : "Ejector",
+  "humanDescription" : "Ejector",
+  "hylotlDescription" : "Ejector",
+
+  "inventoryIcon" : "ejector.png",
+  "orientations" : [
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/ejector/ejector.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/ejector/ejector.animation",
+  "animationParts" : {
+    "ejector" : "ejector.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "itemInboundNodes" : [ {"offset": [0, 1], "acceptRequest": true, "dir": [0, 1]} ]
+}

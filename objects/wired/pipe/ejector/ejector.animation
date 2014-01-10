@@ -1,0 +1,12 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "ejector" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false
+        }
+      }
+    }
+  }
+}

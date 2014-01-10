@@ -1,7 +1,7 @@
 {
   "input" : [ ],
   "output" : {
-    "item" : "metalpipe",
+    "item" : "hopper",
     "count" : 1
   },
   "groups" : [ "wiringstation", "all", "mod" ]

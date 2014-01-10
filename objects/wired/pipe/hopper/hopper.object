@@ -1,0 +1,48 @@
+{
+  "objectName" : "hopper",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Sucks up nearby items into pipes.",
+  "shortdescription" : "Hopper",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Hopper",
+  "avianDescription" : "Hopper",
+  "floranDescription" : "Hopper",
+  "glitchDescription" : "Hopper",
+  "humanDescription" : "Hopper",
+  "hylotlDescription" : "Hopper",
+
+  "inventoryIcon" : "hopper.png",
+  "orientations" : [
+    {
+      "dualImage" : "hopper.png",
+
+      "imagePosition" : [-8, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/hopper/hopper.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/hopper/hopper.animation",
+  "animationParts" : {
+    "hopper" : "hopper.png"
+  },
+  "animationPosition" : [-8, 0],
+  
+  "itemOutboundNodes" : [ {"offset": [-1, -1], "acceptRequest": true, "dir": [0, -1]}, {"offset": [0, -1], "acceptRequest": true, "dir": [0, -1]} ]
+}
