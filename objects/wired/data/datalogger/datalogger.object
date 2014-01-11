@@ -12,7 +12,7 @@
   "inventoryIcon" : "dataloggericon.png",
   "orientations" : [
     {
-      "image" : "datalogger.png:<color>.disabled1",
+      "image" : "datalogger.png:disabled1",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,

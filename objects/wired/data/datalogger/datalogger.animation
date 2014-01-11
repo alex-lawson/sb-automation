@@ -9,7 +9,7 @@
             "cycle" : 0.15
           },
           "enabled" : {
-            "frames" : 3,
+            "frames" : 4,
             "cycle" : 0.7,
             "mode" : "loop"
           }

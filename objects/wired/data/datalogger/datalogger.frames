@@ -1,9 +1,9 @@
 {
   "frameGrid" : {
     "size" : [16, 16],
-    "dimensions" : [4, 1],
+    "dimensions" : [5, 1],
     "names" : [
-      [ "default.disabled1", "default.enabled1", "default.enabled2", "default.enabled3" ],
+      [ "default.disabled1", "default.enabled1", "default.enabled2", "default.enabled3", "default.enabled4" ],
     ]
   },
 
