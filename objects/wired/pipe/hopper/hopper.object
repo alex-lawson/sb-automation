@@ -24,7 +24,9 @@
       "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "anchors" : [ "background" ],
+
+      "collision" : "solid"
 
     }
   ],
@@ -36,7 +38,7 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
   
   "animation" : "/objects/wired/pipe/hopper/hopper.animation",
   "animationParts" : {

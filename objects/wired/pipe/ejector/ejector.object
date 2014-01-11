@@ -33,7 +33,7 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 100,
   
   "animation" : "/objects/wired/pipe/ejector/ejector.animation",
   "animationParts" : {
