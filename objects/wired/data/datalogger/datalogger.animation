@@ -27,13 +27,13 @@
           "loggerState" : {
             "disabled" : {
               "properties" : {
-                "image" : "<partImage>:default.default"
+                "image" : "<partImage>:default"
               }
             },
 
             "enabled" : {
               "properties" : {
-                "image" : "<partImage>:default.<frame>"
+                "image" : "<partImage>:default.enabled<frame>"
               }
             }
           }
