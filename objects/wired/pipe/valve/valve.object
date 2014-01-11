@@ -1,0 +1,66 @@
+{
+  "objectName" : "valve",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Passes items or liquids between opposite sides when active.",
+  "shortdescription" : "Valve Junction",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : "300",
+
+  "inventoryIcon" : "valveicon.png",
+  "orientations" : [
+    {
+      "image" : "valve.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [
+    "/objects/wired/pipe/valve/valve.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 100,
+
+  "animation" : "/objects/wired/switchtoggle.animation",
+
+  "animationParts" : {
+    "switch" : "valve.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "inboundNodes" : [ [0, 0] ],
+
+  "liquidInboundNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ],
+  "liquidOutboundNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ],
+  "itemInboundNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ],
+  "itemOutboundNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ]
+}
