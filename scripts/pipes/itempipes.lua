@@ -26,17 +26,17 @@ function peekPullItem(nodeId, filter)
 end
 
 function isItemOutboundConnected(nodeId)
-  if pipes.nodeEntityIds["item"] == nil then return false end
-  if #pipes.nodeEntityIds["item"].outbound[nodeId] > 0 then
-    return pipes.nodeEntityIds["item"].outbound[nodeId]
+  if pipes.nodeEntities["item"] == nil then return false end
+  if #pipes.nodeEntities["item"].outbound[nodeId] > 0 then
+    return pipes.nodeEntities["item"].outbound[nodeId]
   else
     return false
   end
 end
 function isItemInboundConnected(nodeId)
-  if pipes.nodeEntityIds["item"] == nil then return false end
-  if #pipes.nodeEntityIds["item"].inbound[nodeId] > 0 then
-    return pipes.nodeEntityIds["item"].inbound[nodeId]
+  if pipes.nodeEntities["item"] == nil then return false end
+  if #pipes.nodeEntities["item"].inbound[nodeId] > 0 then
+    return pipes.nodeEntities["item"].inbound[nodeId]
   else
     return false
   end

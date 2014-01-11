@@ -19,7 +19,7 @@ function acceptPipeRequestAt(pipeName, position, pipeDirection, lookingFor)
   for i,node in ipairs(nodeTable) do
     local absNodePos = {entityPos[1] + node.offset[1], entityPos[2] + node.offset[2]}
     if position[1] == absNodePos[1] and position[2] == absNodePos[2] and pipes.pipesConnect(node.dir, {pipeDirection}) then
-      return true
+      return i
     end
   end
   return false
@@ -43,7 +43,7 @@ function pipes.init(pipeTypes)
   
   pipes.types = {}
   pipes.nodes = {} 
-  pipes.nodeEntityIds = {}
+  pipes.nodeEntities = {}
   
   for _,pipeType in ipairs(pipeTypes) do
   pipes.types[pipeType.pipeName] = pipeType
@@ -54,7 +54,7 @@ function pipes.init(pipeTypes)
       inbound = entity.configParameter(pipeType.configParameters.inbound), 
       outbound = entity.configParameter(pipeType.configParameters.outbound)
     }
-    pipes.nodeEntityIds[pipeName] = {
+    pipes.nodeEntities[pipeName] = {
       inbound = {}, 
       outbound = {}
     }
@@ -63,9 +63,9 @@ end
 
 function pipes.push(pipeName, nodeId, args)
   local returnTable = {}
-  if #pipes.nodeEntityIds[pipeName].outbound[nodeId] > 0 then
-    for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].outbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.put, args)
+  if #pipes.nodeEntities[pipeName].outbound[nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName].outbound[nodeId]) do
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.put, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end
@@ -73,9 +73,9 @@ function pipes.push(pipeName, nodeId, args)
 end
 
 function pipes.pull(pipeName, nodeId, args)
-  if #pipes.nodeEntityIds[pipeName].inbound[nodeId] > 0 then
-    for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].inbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.get, args)
+  if #pipes.nodeEntities[pipeName].inbound[nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName].inbound[nodeId]) do
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.get, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end
@@ -83,9 +83,9 @@ function pipes.pull(pipeName, nodeId, args)
 end
 
 function pipes.peekPush(pipeName, nodeId, args)
-  if #pipes.nodeEntityIds[pipeName].outbound[nodeId] > 0 then
-    for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].outbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.peekPut, pipeFunction, args)
+  if #pipes.nodeEntities[pipeName].outbound[nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName].outbound[nodeId]) do
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekPut, pipeFunction, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end
@@ -93,9 +93,9 @@ function pipes.peekPush(pipeName, nodeId, args)
 end
 
 function pipes.peekPull(pipeName, nodeId, args)
-  if #pipes.nodeEntityIds[pipeName].inbound[nodeId] > 0 then
-    for i,entityId in ipairs(pipes.nodeEntityIds[pipeName].inbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entityId, pipes.types[pipeName].hooks.peekGet, pipeFunction, args)
+  if #pipes.nodeEntities[pipeName].inbound[nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName].inbound[nodeId]) do
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekGet, pipeFunction, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end
@@ -161,9 +161,9 @@ function pipes.update(dt)
     --Get connected entities
     for pipeName,pipeType in pairs(pipes.types) do
       --Get inbound
-      pipes.nodeEntityIds[pipeName].inbound = pipes.getNodeEntities(pipeName, "inbound")
+      pipes.nodeEntities[pipeName].inbound = pipes.getNodeEntities(pipeName, "inbound")
       --Get outbound
-      pipes.nodeEntityIds[pipeName].outbound = pipes.getNodeEntities(pipeName, "outbound")
+      pipes.nodeEntities[pipeName].outbound = pipes.getNodeEntities(pipeName, "outbound")
     end
     
     pipes.updateTimer = 0
@@ -171,7 +171,7 @@ function pipes.update(dt)
 end
 
 function pipes.validEntity(pipeName, entityId, position, direction, lookingFor)
-  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction, lookingFor) and entityId ~= entity.id()
+  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction, lookingFor)
 end
 
 function pipes.checkTile(position, tileName)
@@ -220,8 +220,9 @@ function pipes.walkPipes(pipeName, startPos, startDir, lookingFor)
                 for i,id in ipairs(validEntities) do
                   if objectId == id then notAdded = false end
                 end
-                if pipes.validEntity(pipeName, objectId, nearTile, direction, lookingFor) and notAdded then
-                  validEntities[#validEntities+1] = objectId
+                local validEntity = pipes.validEntity(pipeName, objectId, nearTile, direction, lookingFor)
+                if validEntity and notAdded then
+                  validEntities[#validEntities+1] = {id = objectId, nodeId = validEntity}
                 end
               end
             end

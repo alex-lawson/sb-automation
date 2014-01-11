@@ -26,17 +26,17 @@ function peekPullLiquid(nodeId, liquid)
 end
 
 function isLiquidOutboundConnected(nodeId)
-  if pipes.nodeEntityIds["liquid"] == nil then return false end
-  if #pipes.nodeEntityIds["liquid"].outbound[nodeId] > 0 then
-    return pipes.nodeEntityIds["liquid"].outbound[nodeId]
+  if pipes.nodeEntities["liquid"] == nil then return false end
+  if #pipes.nodeEntities["liquid"].outbound[nodeId] > 0 then
+    return pipes.nodeEntities["liquid"].outbound[nodeId]
   else
     return false
   end
 end
 function isLiquidInboundConnected(nodeId)
-  if pipes.nodeEntityIds["liquid"] == nil then return false end
-  if #pipes.nodeEntityIds["liquid"].inbound[nodeId] > 0 then
-    return pipes.nodeEntityIds["liquid"].inbound[nodeId]
+  if pipes.nodeEntities["liquid"] == nil then return false end
+  if #pipes.nodeEntities["liquid"].inbound[nodeId] > 0 then
+    return pipes.nodeEntities["liquid"].inbound[nodeId]
   else
     return false
   end
