@@ -12,7 +12,7 @@
   "inventoryIcon" : "dataloggericon.png",
   "orientations" : [
     {
-      "image" : "datalogger.png:<color>.none",
+      "image" : "datalogger.png:<color>.<frame>",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -26,9 +26,9 @@
   "animation" : "datalogger.animation",
 
   "animationParts" : {
-    "memory" : "datalogger.png"
+    "logger" : "datalogger.png"
   },
   "animationPosition" : [0, 0],
 
-  "inboundNodes" : [ [0, 0]
+  "inboundNodes" : [ [0, 0] ]
 }

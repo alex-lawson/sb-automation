@@ -1,67 +1,37 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "lockState" : {
-        "default" : "none",
+      "loggerState" : {
+        "default" : "disabled",
         "states" : {
-          "none" : {},
-          "in" : {},
-          "out" : {},
-          "both" : {},
-          "flipped.none" : {},
-          "flipped.in" : {},
-          "flipped.out" : {},
-          "flipped.both" : {}
+          "disabled" : {
+            "frames" : 1,
+            "cycle" : 0.15
+          },
+          "enabled" : {
+            "frames" : 3,
+            "cycle" : 0.7,
+            "mode" : "loop"
+          }
         }
       }
     },
 
     "parts" : {
-      "memory" : {
+      "logger" : {
         "properties" : {
           "centered" : false
         },
-
         "partStates" : {
-          "lockState" : {
-            "none" : {
+          "loggerState" : {
+            "disabled" : {
               "properties" : {
-                "image" : "<partImage>:<color>.none"
+                "image" : "<partImage>:default.default"
               }
             },
-            "in" : {
+            "enabled" : {
               "properties" : {
-                "image" : "<partImage>:<color>.in"
-              }
-            },
-            "out" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.out"
-              }
-            },
-            "both" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.both"
-              }
-            },
-            "flipped.none" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.flipped.none"
-              }
-            },
-            "flipped.in" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.flipped.in"
-              }
-            },
-            "flipped.out" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.flipped.out"
-              }
-            },
-            "flipped.both" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.flipped.both"
+                "image" : "<partImage>:default.<frame>"
               }
             }
           }
