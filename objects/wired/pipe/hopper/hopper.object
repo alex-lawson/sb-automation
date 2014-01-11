@@ -19,7 +19,7 @@
     {
       "dualImage" : "hopper.png",
 
-      "imagePosition" : [-8, 0],
+      "imagePosition" : [0, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
@@ -44,7 +44,7 @@
   "animationParts" : {
     "hopper" : "hopper.png"
   },
-  "animationPosition" : [-8, 0],
+  "animationPosition" : [0, 0],
   
-  "itemOutboundNodes" : [ {"offset": [-1, -1], "acceptRequest": true, "dir": [0, -1]}, {"offset": [0, -1], "acceptRequest": true, "dir": [0, -1]} ]
+  "itemOutboundNodes" : [ {"offset": [0, 0], "dir": [0, -1]}, {"offset": [1, 0], "dir": [0, -1]} ]
 }

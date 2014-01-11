@@ -2,26 +2,29 @@ function init(virtual)
   if not virtual then
     pipes.init({itemPipe})
   end
+  
+  self.timer = 0
+  self.pickupCooldown = 1
 end
 
 --------------------------------------------------------------------------------
 function main(args)
   pipes.update(entity.dt())
-
-  local itemDropList = findItemDrops()
-  if #itemDropList > 0 then
-    world.logInfo(itemDropList)
-    local itemList = {}
-    for i, itemId in ipairs(itemDropList) do
-      itemList[i] = world.takeItemDrop(itemId)
+  
+  if self.timer > self.pickupCooldown then
+    local itemDropList = findItemDrops()
+    if #itemDropList > 0 then
+      world.logInfo(itemDropList)
+      
+      for i, itemId in ipairs(itemDropList) do
+        item = world.takeItemDrop(itemId)
+        local result = pushItem(1, item)
+        world.logInfo(result)
+      end
     end
-    world.logInfo(itemList)
-
-    if #itemList > 0 then
-      local result = pushItem(1, itemList)
-      world.logInfo(result)
-    end
+    self.timer = 0
   end
+  self.timer = self.timer + entity.dt()
 end
 
 function findItemDrops()

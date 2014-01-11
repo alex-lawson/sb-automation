@@ -1,28 +1,19 @@
 function init(args)
   entity.setInteractive(true)
   
-  pipes.init({liquidPipe,itemPipe})
+  pipes.init({liquidPipe})
 end
 
 function onInteraction(args)
-
   --pump liquid
-  local getLiquidList = pullLiquid(1)
-  for entityId, getLiquid in pairs(getLiquidList) do
-    getLiquid[2] = 1400
-    
-    if getLiquid and peekLiquid("put", 1, getLiquid) then
-      pushLiquid(1, getLiquid)
-    end
-  end
+  local canGetLiquid = peekPullLiquid(1)
+  local canPutLiquid = peekPushLiquid(1, canGetLiquid)
+  world.logInfo("%s %s", canGetLiquid, canPutLiquid)
   
-  --Pump items
-  local getItemList = pullItem(1)
-  
-  for entityId, getItems in pairs(getItemList) do
-    if getItems and peekItem("put", 1, getItems) then
-      pushItem(1, getItems)
-    end
+  if canGetLiquid and canPutLiquid then
+    local liquid = pullLiquid(1)
+    liquid[2] = 1400 --Set amount to 1400 because reasons
+    pushLiquid(1, liquid)
   end
 end
 
