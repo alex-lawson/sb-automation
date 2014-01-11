@@ -3,11 +3,11 @@
     "size" : [16, 16],
     "dimensions" : [5, 1],
     "names" : [
-      [ "default.disabled1", "default.enabled1", "default.enabled2", "default.enabled3", "default.enabled4" ],
+      [ "idle", "enabled.1", "enabled.2", "enabled.3", "enabled.4" ]
     ]
   },
 
   "aliases" : {
-    "default.default" : "default.disabled1"
+    "default.default" : "idle"
   }
 }
