@@ -7,6 +7,10 @@ function main(args)
   pipes.update(entity.dt())
 end
 
+function beforeItemPut(item)
+  return true
+end
+
 function onItemPut(item)
   if item then
     local position = entity.position()
