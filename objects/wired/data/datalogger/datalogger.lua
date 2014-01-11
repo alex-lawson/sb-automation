@@ -13,8 +13,10 @@ function onInteraction(args)
   storage.enabled =  not storage.enabled
   if storage.enabled then
     entity.setAnimationState("loggerState", "enabled")
+    logInfo("DataLogger: Enabling Logging")
   else
     entity.setAnimationState("loggerState", "disabled")
+    logInfo("DataLogger: Disabling Logging")
   end
 end
 
@@ -25,7 +27,7 @@ end
 
 function onValidDataReceived(data, dataType, nodeId)
   if storage.enabled then
-    logInfo(data .. dataType)
+    logInfo("DataLogger: " .. dataType .. ": " .. data)
   end
 end
 
