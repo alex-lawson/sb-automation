@@ -22,6 +22,7 @@
         "properties" : {
           "centered" : false
         },
+
         "partStates" : {
           "loggerState" : {
             "disabled" : {
@@ -29,6 +30,7 @@
                 "image" : "<partImage>:default.default"
               }
             },
+
             "enabled" : {
               "properties" : {
                 "image" : "<partImage>:default.<frame>"
