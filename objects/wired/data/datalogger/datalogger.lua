@@ -10,6 +10,7 @@ function init(virtual)
 end
 
 function onInteraction(args)
+<<<<<<< HEAD
   storage.state =  not storage.state
   output(storage.state)
 end
@@ -23,6 +24,15 @@ function output(state)
         entity.setAnimationState("alarmState", "off")
         logInfo("DataLogger: --- Disabling Logging ---")
     end
+=======
+  storage.enabled =  not storage.enabled
+  if storage.enabled then
+    entity.setAnimationState("loggerState", "enabled")
+    logInfo("DataLogger: Enabling Logging")
+  else
+    entity.setAnimationState("loggerState", "disabled")
+    logInfo("DataLogger: Disabling Logging")
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
   end
 end
 
@@ -32,7 +42,11 @@ function validateData(data, dataType, nodeId)
 end
 
 function onValidDataReceived(data, dataType, nodeId)
+<<<<<<< HEAD
   if storage.state then
+=======
+  if storage.enabled then
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
     logInfo("DataLogger: " .. dataType .. ": " .. data)
   end
 end
