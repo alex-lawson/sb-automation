@@ -39,9 +39,9 @@ function findItemDrops()
   return world.itemDropQuery(pos, {pos[1] + 2, pos[2] + 1})
 end
 
-function canPushItem(item)
-  return peekPushItem(1, item) or peekPushItem(2, item)
-end
+-- function canPushItem(item)
+--   return peekPushItem(1, item) or peekPushItem(2, item)
+-- end
 
 function outputItem(item)
   -- try to push to both nodes (in a dangerous and confusing way!)
@@ -54,11 +54,6 @@ function outputItem(item)
 end
 
 function ejectItem(item)
-  --not sure whether this is needed
-  -- if item[3] == nil then
-  --   item[3] = {}
-  -- end
-
   local itemDropId
   if next(item[3]) == nil then
     itemDropId = world.spawnItem(item[1], self.dropPoint, item[2])
@@ -66,6 +61,7 @@ function ejectItem(item)
     itemDropId = world.spawnItem(item[1], self.dropPoint, item[2], item[3])
   end
   self.ignoreIds[itemDropId] = true
-  world.logInfo("ejected item with id %s", itemDropId)
-  world.logInfo(item)
+
+  -- world.logInfo("ejected item with id %s", itemDropId)
+  -- world.logInfo(item)
 end

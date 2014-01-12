@@ -85,7 +85,7 @@ end
 function pipes.peekPush(pipeName, nodeId, args)
   if #pipes.nodeEntities[pipeName].outbound[nodeId] > 0 then
     for i,entity in ipairs(pipes.nodeEntities[pipeName].outbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekPut, pipeFunction, args, entity.nodeId)
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekPut, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end
@@ -95,7 +95,7 @@ end
 function pipes.peekPull(pipeName, nodeId, args)
   if #pipes.nodeEntities[pipeName].inbound[nodeId] > 0 then
     for i,entity in ipairs(pipes.nodeEntities[pipeName].inbound[nodeId]) do
-      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekGet, pipeFunction, args, entity.nodeId)
+      local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekGet, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
   end

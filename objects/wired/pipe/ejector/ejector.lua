@@ -11,7 +11,7 @@ function main(args)
   pipes.update(entity.dt())
 end
 
-function beforeItemPut(item)
+function beforeItemPut(item, nodeId)
   return true
 end
 
