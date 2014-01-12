@@ -32,6 +32,9 @@ function output(state)
   else
     entity.setAnimationState("loggerState", "disabled")
     logInfo("DataLogger: Disabling Logging")
+<<<<<<< HEAD
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
+=======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
   end
 end
@@ -46,6 +49,9 @@ function onValidDataReceived(data, dataType, nodeId)
   if storage.state then
 =======
   if storage.enabled then
+<<<<<<< HEAD
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
+=======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
     logInfo("DataLogger: " .. dataType .. ": " .. data)
   end
