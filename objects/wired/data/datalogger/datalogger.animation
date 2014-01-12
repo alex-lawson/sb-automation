@@ -2,15 +2,14 @@
   "animatedParts" : {
     "stateTypes" : {
       "loggerState" : {
-        "default" : "disabled",
+        "default" : "off",
         "states" : {
-          "disabled" : {
-            "frames" : 1,
-            "cycle" : 0.15
+          "off" : {
+            "frames" : 1
           },
-          "enabled" : {
+          "on" : {
             "frames" : 4,
-            "cycle" : 0.7,
+            "cycle" : 0.5,
             "mode" : "loop"
           }
         }
@@ -25,15 +24,15 @@
 
         "partStates" : {
           "loggerState" : {
-            "disabled" : {
+            "off" : {
               "properties" : {
-                "image" : "<partImage>:idle"
+                "image" : "<partImage>:<color>.off"
               }
             },
 
-            "enabled" : {
+            "on" : {
               "properties" : {
-                "image" : "<partImage>:enabled.<frame>"
+                "image" : "<partImage>:<color>.<frame>"
               }
             }
           }

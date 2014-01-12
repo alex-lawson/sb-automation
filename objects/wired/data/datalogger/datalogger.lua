@@ -1,20 +1,28 @@
 function init(virtual)
   if not virtual then
-    if storage.enabled == nil then
-      storage.enabled = true
+    if storage.state == nil then
+      storage.state = false
     end
 
-    entity.setAnimationState("loggerState", "disabled")
+    output(storage.state)
     datawire.init()
   end
 end
 
 function onInteraction(args)
-  storage.enabled =  not storage.enabled
-  if storage.enabled then
-    entity.setAnimationState("loggerState", "enabled")
-  else
-    entity.setAnimationState("loggerState", "disabled")
+  storage.state =  not storage.state
+  output(storage.state)
+end
+
+function output(state)
+  if state ~= storage.state then
+    if state then
+        entity.setAnimationState("alarmState", "on")
+        logInfo("DataLogger: --- Enabling Logging ---")
+      else
+        entity.setAnimationState("alarmState", "off")
+        logInfo("DataLogger: --- Disabling Logging ---")
+    end
   end
 end
 
@@ -24,8 +32,8 @@ function validateData(data, dataType, nodeId)
 end
 
 function onValidDataReceived(data, dataType, nodeId)
-  if storage.enabled then
-    logInfo(data .. dataType)
+  if storage.state then
+    logInfo("DataLogger: " .. dataType .. ": " .. data)
   end
 end
 
