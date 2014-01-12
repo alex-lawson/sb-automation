@@ -34,6 +34,9 @@ function output(state)
     logInfo("DataLogger: Disabling Logging")
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
+=======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
 =======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
@@ -54,6 +57,9 @@ function onValidDataReceived(data, dataType, nodeId)
   if storage.enabled then
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
+=======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
 =======
 >>>>>>> ee3db06bdfcfdfcc8737abc805b55dcf630d8511
