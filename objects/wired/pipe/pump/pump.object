@@ -14,10 +14,10 @@
   "humanDescription" : "Pump",
   "hylotlDescription" : "Pump",
 
-  "inventoryIcon" : "pump.png",
+  "inventoryIcon" : "pump.png:pump.4",
   "orientations" : [
     {
-      "dualImage" : "pump.png",
+      "dualImage" : "pump.png:idle",
 
       "imagePosition" : [0, 0],
       "frames" : 1,
@@ -44,6 +44,9 @@
   },
   "animationPosition" : [0, 0],
   
-  "liquidInboundNodes" : [ {"offset": [0, 1], "dir": [0, 1]} ],
-  "liquidOutboundNodes" : [ {"offset": [1, 1], "dir": [0, 1]} ]
+  "inboundNodes" : [[0, 1]],
+  "outboundNodes" : [[1, 1]],
+  
+  "liquidInboundNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
+  "liquidOutboundNodes" : [ {"offset": [1, 0], "dir": [1, 0]} ]
 }
