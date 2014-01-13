@@ -1,0 +1,17 @@
+{
+  "itemName" : "cabletool",
+  "inventoryIcon" : "cablegunicon.png",
+  "dropCollision" : [-4.0, -3.0, 4.0, 3.0],
+  "maxStack" : 1,
+  "rarity" : "Uncommon",
+  "description" : "Built to place physical wires between input points.",
+  "shortdescription" : "Wiring Tool",
+  "largeImage" : "cabletoolbig.png",
+  "inspectionKind" : "tool",
+
+  "image" : "cablegun.png",
+  "handPosition" : [-4, 0],
+  "fireTime" : 0.25,
+  "twoHanded" : true,
+  "strikeSound" : "/sfx/tools/wiretool.wav"
+}

@@ -1,0 +1,39 @@
+{
+  "objectName" : "testcable1",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Helps you get rid of bugs... somehow.",
+  "shortdescription" : "M04R T3ST1NG",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : "666",
+
+  "inventoryIcon" : "testcable1icon.png",
+  "orientations" : [
+    {
+      "image" : "testcable1.png:off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "inboundNodes" : [ [-1, 0] ],
+  "outboundNodes" : [ [0, 0] ],
+
+  "scripts" : [ "testcable1.lua", "/scripts/datacableapi.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "testcable1.animation",
+
+  "animationParts" : {
+    "switch" : "testcable1.png",
+    "incable1" : "cable.png",
+    "outcable1" : "cable.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "interval" : 1
+}

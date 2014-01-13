@@ -1,0 +1,101 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "switchState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {
+            "frames" : 1
+          },
+          "on" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "switch" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "switchState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            }
+          }
+        }
+      },
+      "incable1" : {
+        "properties" : {
+          "offset" : [-1, 0],
+          "centered" : true,
+          "scalingGroup" : "incable1",
+          "rotationGroup" : "incable1"
+        },
+        "partStates" : {
+          "switchState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            }
+          }
+        }
+      },
+      "outcable1" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : true,
+          "scalingGroup" : "outcable1",
+          "rotationGroup" : "outcable1"
+        },
+        "partStates" : {
+          "switchState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+  "rotationGroups" : {
+    "incable1" : {
+      "angularVelocity" : 360
+    },
+    "outcable1" : {
+      "angularVelocity" : 360
+    }
+  },
+  
+  "scalingGroups" : {
+    "incable1" : { },
+    "outcable1" : { }
+  }
+}
