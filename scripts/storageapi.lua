@@ -1,5 +1,6 @@
 -------------------------------------------------
 -- Helper functions
+-------------------------------------------------
 
 function compareTables(firstTable, secondTable)
   if (next(firstTable) == nil) and (next(secondTable) == nil) then 
@@ -20,58 +21,62 @@ end
 
 -------------------------------------------------
 -- Definitions
+-------------------------------------------------
 
-storageApi = { storage = {} }
+storageApi = {}
 
 -------------------------------------------------
 -- API functions
+-------------------------------------------------
 
--- mode: 0 none, 1 in, 2 out, 3 both
--- space: capacity of item stacks, max 999
--- join: should the storage merge stacks if possible?
+--- Initializes the storage
+-- @param mode should other entities access this storage: 0 not, 1 store, 2 take, 3 both
+-- @param space capacity of item stacks, max 999
+-- @param join should the storage merge stacks if possible?
 function storageApi.init(mode, space, join)
+  if storage.sApi == nil then storage.sApi = {}
   storageApi.isin = mode % 2 == 1
-  storageApi.isout = mode % 4 > 2
+  storageApi.isout = mode % 4 >= 2
   storageApi.capacity = math.min(999, space)
   storageApi.isjoin = join
 end
 
--- Should we take items from storage from outside the object?
+--- Should we take items from storage from outside the object?
 function storageApi.isOutput()
   return storageApi.isout
 end
 
--- Should we put items in storage from outside the object?
+--- Should we put items in storage from outside the object?
 function storageApi.isInput()
   return storageApi.isin
 end
 
--- Is this storage merging stacks?
+--- Is this storage merging stacks?
 function storageApi.isMerging()
   return storageApi.isjoin
 end
 
--- Is this storage full?
+--- Is this storage full?
 function storageApi.isFull()
   return storageApi.getCount() >= storageApi.getCapacity()
 end
 
--- How many item stacks can be stored?
+--- How many item stacks can be stored?
 function storageApi.getCapacity()
   return storageApi.capacity
 end
 
--- How many item stacks are stored?
+--- How many item stacks are stored?
 function storageApi.getCount()
   return #storageApi.storage
 end
 
--- Analyze an item from storage
+--- Analyze an item from storage
 function storageApi.peekItem(index)
   return storageApi.storage[index]
 end
 
--- Retrieve a list of indices in storage for iteration
+--- Retrieve a list of indices in storage for iteration
 function storageApi.getStorageIndices()
   local ret = {}
   for i,k in pairs(storageApi.storage) do
@@ -80,7 +85,7 @@ function storageApi.getStorageIndices()
   return ret
 end
 
--- Take an item from storage
+--- Take an item from storage
 function storageApi.returnItem(index)
   if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
   local ret = storageApi.storage[index]
@@ -89,7 +94,7 @@ function storageApi.returnItem(index)
   return ret
 end
 
--- Take all items from storage
+--- Take all items from storage
 function storageApi.returnContents()
   local ret = storageApi.storage
   storageApi.storage = {}
@@ -97,7 +102,7 @@ function storageApi.returnContents()
   return ret
 end
 
--- Put an item in storage, returns true if successfully
+--- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
   if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
   if storageApi.isFull() then return false end
@@ -117,6 +122,7 @@ end
 
 -------------------------------------------------
 -- Hook functions
+-------------------------------------------------
 
 -- Called when an item is about to be taken from storage
 -- index - the requested item index
