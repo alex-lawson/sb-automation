@@ -39,25 +39,13 @@
 
   "inboundNodes" : [ [0, 0] ],
 
-  "liquidInboundNodes" : [
+  "liquidNodes" : [
     {"offset": [0, 0], "dir": [-1, 0]},
     {"offset": [0, 0], "dir": [1, 0]},
     {"offset": [0, 0], "dir": [0, -1]},
     {"offset": [0, 0], "dir": [0, 1]}
   ],
-  "liquidOutboundNodes" : [
-    {"offset": [0, 0], "dir": [-1, 0]},
-    {"offset": [0, 0], "dir": [1, 0]},
-    {"offset": [0, 0], "dir": [0, -1]},
-    {"offset": [0, 0], "dir": [0, 1]}
-  ],
-  "itemInboundNodes" : [
-    {"offset": [0, 0], "dir": [-1, 0]},
-    {"offset": [0, 0], "dir": [1, 0]},
-    {"offset": [0, 0], "dir": [0, -1]},
-    {"offset": [0, 0], "dir": [0, 1]}
-  ],
-  "itemOutboundNodes" : [
+  "itemNodes" : [
     {"offset": [0, 0], "dir": [-1, 0]},
     {"offset": [0, 0], "dir": [1, 0]},
     {"offset": [0, 0], "dir": [0, -1]},

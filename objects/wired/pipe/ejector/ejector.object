@@ -41,5 +41,5 @@
   },
   "animationPosition" : [0, 0],
   
-  "itemInboundNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ]
+  "itemNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ]
 }

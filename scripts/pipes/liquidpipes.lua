@@ -1,9 +1,6 @@
 liquidPipe = {
   pipeName = "liquid",
-  configParameters = {
-    inbound = "liquidInboundNodes",
-    outbound = "liquidOutboundNodes"
-  },
+  nodesConfigParameter = "liquidNodes",
   tiles = "metalpipe",
   hooks = {
     put = "onLiquidPut",  --Should take whatever argument get returns
@@ -25,18 +22,10 @@ function peekPullLiquid(nodeId, liquid)
   return pipes.peekPull("liquid", nodeId, liquid)
 end
 
-function isLiquidOutboundConnected(nodeId)
+function isLiquidNodeConnected(nodeId)
   if pipes.nodeEntities["liquid"] == nil then return false end
-  if #pipes.nodeEntities["liquid"].outbound[nodeId] > 0 then
-    return pipes.nodeEntities["liquid"].outbound[nodeId]
-  else
-    return false
-  end
-end
-function isLiquidInboundConnected(nodeId)
-  if pipes.nodeEntities["liquid"] == nil then return false end
-  if #pipes.nodeEntities["liquid"].inbound[nodeId] > 0 then
-    return pipes.nodeEntities["liquid"].inbound[nodeId]
+  if #pipes.nodeEntities["liquid"] > 0 then
+    return pipes.nodeEntities["liquid"]
   else
     return false
   end

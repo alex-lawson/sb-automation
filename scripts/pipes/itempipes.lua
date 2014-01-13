@@ -1,9 +1,6 @@
 itemPipe = {
   pipeName = "item",
-  configParameters = {
-    inbound = "itemInboundNodes",
-    outbound = "itemOutboundNodes"
-  },
+  nodesConfigParameter = "itemNodes",
   tiles = "metalpipe",
   hooks = {
     put = "onItemPut", --Should take whatever argument get returns
@@ -25,18 +22,10 @@ function peekPullItem(nodeId, filter)
   return pipes.peekPull("item", nodeId, filter)
 end
 
-function isItemOutboundConnected(nodeId)
+function isItemNodeConnected(nodeId)
   if pipes.nodeEntities["item"] == nil then return false end
-  if #pipes.nodeEntities["item"].outbound[nodeId] > 0 then
-    return pipes.nodeEntities["item"].outbound[nodeId]
-  else
-    return false
-  end
-end
-function isItemInboundConnected(nodeId)
-  if pipes.nodeEntities["item"] == nil then return false end
-  if #pipes.nodeEntities["item"].inbound[nodeId] > 0 then
-    return pipes.nodeEntities["item"].inbound[nodeId]
+  if #pipes.nodeEntities["item"] > 0 then
+    return pipes.nodeEntities["item"]
   else
     return false
   end

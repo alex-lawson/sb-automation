@@ -1,22 +1,11 @@
 --Global helper functions
-function acceptPipeRequestAt(pipeName, position, pipeDirection, lookingFor)
+function acceptPipeRequestAt(pipeName, position, pipeDirection)
   if pipes == nil or pipes.nodes[pipeName] == nil then
     return false 
   end
-  
   local entityPos = entity.position()
-  local nodeTable = {}
-  if lookingFor == "inbound" then
-    nodeTable = pipes.nodes[pipeName].inbound
-  elseif lookingFor == "outbound" then
-    nodeTable = pipes.nodes[pipeName].outbound
-  end
   
-  if nodeTable == nil then 
-    return false 
-  end
-  
-  for i,node in ipairs(nodeTable) do
+  for i,node in ipairs(pipes.nodes[pipeName]) do
     local absNodePos = {entityPos[1] + node.offset[1], entityPos[2] + node.offset[2]}
     if position[1] == absNodePos[1] and position[2] == absNodePos[2] and pipes.pipesConnect(node.dir, {pipeDirection}) then
       return i
@@ -50,21 +39,15 @@ function pipes.init(pipeTypes)
   end
   
   for pipeName,pipeType in pairs(pipes.types) do
-    pipes.nodes[pipeName] = {
-      inbound = entity.configParameter(pipeType.configParameters.inbound), 
-      outbound = entity.configParameter(pipeType.configParameters.outbound)
-    }
-    pipes.nodeEntities[pipeName] = {
-      inbound = {}, 
-      outbound = {}
-    }
+    pipes.nodes[pipeName] = entity.configParameter(pipeType.nodesConfigParameter)
+    pipes.nodeEntities[pipeName] = {}
   end
 end
 
 function pipes.push(pipeName, nodeId, args)
-  local returnTable = {}
-  if #pipes.nodeEntities[pipeName].outbound[nodeId] > 0 then
-    for i,entity in ipairs(pipes.nodeEntities[pipeName].outbound[nodeId]) do
+  world.logInfo("%s", pipes.nodeEntities)
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.put, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
@@ -73,8 +56,8 @@ function pipes.push(pipeName, nodeId, args)
 end
 
 function pipes.pull(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName].inbound[nodeId] > 0 then
-    for i,entity in ipairs(pipes.nodeEntities[pipeName].inbound[nodeId]) do
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.get, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
@@ -83,8 +66,8 @@ function pipes.pull(pipeName, nodeId, args)
 end
 
 function pipes.peekPush(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName].outbound[nodeId] > 0 then
-    for i,entity in ipairs(pipes.nodeEntities[pipeName].outbound[nodeId]) do
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekPut, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
@@ -93,8 +76,8 @@ function pipes.peekPush(pipeName, nodeId, args)
 end
 
 function pipes.peekPull(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName].inbound[nodeId] > 0 then
-    for i,entity in ipairs(pipes.nodeEntities[pipeName].inbound[nodeId]) do
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+    for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekGet, args, entity.nodeId)
       if entityReturn then return entityReturn end
     end
@@ -129,24 +112,15 @@ function pipes.getPipeDirections(pipeName, position)
   return false
 end
 
-function pipes.getNodeEntities(pipeName, direction)
+function pipes.getNodeEntities(pipeName)
   local position = entity.position()
   local nodeEntities = {}
   local nodesTable = {}
-  local lookingFor = ""
   
-  if direction == "inbound" then
-    nodesTable = pipes.nodes[pipeName].inbound
-    lookingFor = "outbound"
-  elseif direction == "outbound" then
-    nodesTable = pipes.nodes[pipeName].outbound
-    lookingFor = "inbound"
-  end
-  
-  if nodesTable == nil then return {} end
-  for i,pipeNode in ipairs(nodesTable) do
+  if pipes.nodes[pipeName] == nil then return {} end
+  for i,pipeNode in ipairs(pipes.nodes[pipeName]) do
     local pipePos = {position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}
-    nodeEntities[i] = pipes.walkPipes(pipeName, pipePos, pipeNode.dir, lookingFor)
+    nodeEntities[i] = pipes.walkPipes(pipeName, pipePos, pipeNode.dir)
   end
   return nodeEntities
   
@@ -161,24 +135,18 @@ function pipes.update(dt)
     --Get connected entities
     for pipeName,pipeType in pairs(pipes.types) do
       --Get inbound
-      pipes.nodeEntities[pipeName].inbound = pipes.getNodeEntities(pipeName, "inbound")
-      --Get outbound
-      pipes.nodeEntities[pipeName].outbound = pipes.getNodeEntities(pipeName, "outbound")
+      pipes.nodeEntities[pipeName] = pipes.getNodeEntities(pipeName)
     end
     
     pipes.updateTimer = 0
   end
 end
 
-function pipes.validEntity(pipeName, entityId, position, direction, lookingFor)
-  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction, lookingFor)
+function pipes.validEntity(pipeName, entityId, position, direction)
+  return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction)
 end
 
-function pipes.checkTile(position, tileName)
-  return (world.material(position, "foreground") == tileName or world.material(position, "background") == tileName)
-end
-
-function pipes.walkPipes(pipeName, startPos, startDir, lookingFor)
+function pipes.walkPipes(pipeName, startPos, startDir)
   local validEntities = {}
   
   local visitedTiles = {}
@@ -220,7 +188,7 @@ function pipes.walkPipes(pipeName, startPos, startDir, lookingFor)
                 for i,id in ipairs(validEntities) do
                   if objectId == id then notAdded = false end
                 end
-                local validEntity = pipes.validEntity(pipeName, objectId, nearTile, direction, lookingFor)
+                local validEntity = pipes.validEntity(pipeName, objectId, nearTile, direction)
                 if validEntity and notAdded then
                   validEntities[#validEntities+1] = {id = objectId, nodeId = validEntity}
                 end

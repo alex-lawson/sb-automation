@@ -14,7 +14,7 @@ end
 function main(args)
   pipes.update(entity.dt())
   
-  if self.timer > self.pickupCooldown and (isItemOutboundConnected(1) or isItemOutboundConnected(2)) then
+  if self.timer > self.pickupCooldown and (isItemNodeConnected(1) or isItemNodeConnected(2)) then
     local itemDropList = findItemDrops()
     if #itemDropList > 0 then
       --world.logInfo(itemDropList)

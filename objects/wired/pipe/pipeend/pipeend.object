@@ -45,6 +45,5 @@
   },
   "animationPosition" : [0, 0],
   
-  "liquidInboundNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ],
-  "liquidOutboundNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ]
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ]
 }
