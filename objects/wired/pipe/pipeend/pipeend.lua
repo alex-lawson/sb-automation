@@ -28,14 +28,7 @@ function canGetLiquid(liquid)
 end
 
 function canPutLiquid(liquid)
-  --Only put liquid if the pipe is not emerged in liquid
-  local position = entity.position()
-  local liquidPos = {position[1] + 0.5, position[2] + 0.5}
-  local liquidAt = world.liquidAt(liquidPos)
-  
-  if liquidAt then
-    return false
-  end
+  --Always put liquid. ALWAYS.
   return true
 end
 
