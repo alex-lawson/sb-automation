@@ -5,6 +5,16 @@
 cableApi = {}
 
 --------------------------------------------------
+--- CONCEPT OBJECT REQUIREMENTS TO USE THE API ---
+--------------------------------------------------
+
+--- The list:
+--  * at least one input node for input devices
+--  * at least one output node for output devices
+--  * 'incable#' rotation and scaling groups for each IN slot
+--  * 'outcable#' rotation and scaling groups for each OUT slot
+
+--------------------------------------------------
 --- HOOK STUFF -- TO BE DECLARED IN OBJ SCRIPT ---
 --------------------------------------------------
 
