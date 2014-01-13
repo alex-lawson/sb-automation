@@ -47,6 +47,6 @@
   "inboundNodes" : [[0, 1]],
   "outboundNodes" : [[1, 1]],
   
-  "liquidInboundNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
-  "liquidOutboundNodes" : [ {"offset": [1, 0], "dir": [1, 0]} ]
+  "liquidInboundNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [1, 0], "dir": [1, 0]} ],
+  "liquidOutboundNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [1, 0], "dir": [1, 0]} ]
 }

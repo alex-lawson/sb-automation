@@ -57,6 +57,42 @@ function updateAnimationState()
   end
 end
 
+function beforeLiquidGet(liquid, nodeId)
+  if storage.state then
+    world.logInfo("passing liquid peek get from %s to %s", nodeId, self.connectionMap[nodeId])
+    return peekPullLiquid(self.connectionMap[nodeId], liquid)
+  else
+    return false
+  end
+end
+
+function onLiquidGet(liquid, nodeId)
+  if storage.state then
+    world.logInfo("passing liquid get from %s to %s", nodeId, self.connectionMap[nodeId])
+    return pullLiquid(self.connectionMap[nodeId], liquid)
+  else
+    return false
+  end
+end
+
+function beforeLiquidPut(liquid, nodeId)
+  if storage.state then
+    world.logInfo("passing liquid peek from %s to %s", nodeId, self.connectionMap[nodeId])
+    return peekPushLiquid(self.connectionMap[nodeId], liquid)
+  else
+    return false
+  end
+end
+
+function onLiquidPut(liquid, nodeId)
+  if storage.state then
+    world.logInfo("passing liquid from %s to %s", nodeId, self.connectionMap[nodeId])
+    return pushLiquid(self.connectionMap[nodeId], liquid)
+  else
+    return false
+  end
+end
+
 function beforeItemPut(item, nodeId)
   if storage.state then
     world.logInfo("passing item peek from %s to %s", nodeId, self.connectionMap[nodeId])

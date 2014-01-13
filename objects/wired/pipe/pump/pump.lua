@@ -29,20 +29,29 @@ function main(args)
     entity.setAllOutboundNodes(false)
   else
     
+    local srcNode
+    local tarNode
+    if entity.direction() == 1 then
+      srcNode = 1
+      tarNode = 2
+    else
+      srcNode = 2
+      tarNode = 1
+    end
     
     if self.pumpTimer > self.pumpRate then
 
-      local canGetLiquid = peekPullLiquid(1)
-      local canPutLiquid = peekPushLiquid(1, canGetLiquid)
+      local canGetLiquid = peekPullLiquid(srcNode)
+      local canPutLiquid = peekPushLiquid(tarNode, canGetLiquid)
       
       if canGetLiquid and canPutLiquid then
       
         entity.setAnimationState("pumping", "pump")
         entity.setAllOutboundNodes(true)
         
-        local liquid = pullLiquid(1)
+        local liquid = pullLiquid(srcNode)
         liquid[2] = 1400 --Set amount to 1400 because reasons
-        pushLiquid(1, liquid)
+        pushLiquid(tarNode, liquid)
       else
         
         entity.setAllOutboundNodes(false)
