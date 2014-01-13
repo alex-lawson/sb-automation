@@ -45,7 +45,6 @@ function pipes.init(pipeTypes)
 end
 
 function pipes.push(pipeName, nodeId, args)
-  world.logInfo("%s", pipes.nodeEntities)
   if #pipes.nodeEntities[pipeName][nodeId] > 0 then
     for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.put, args, entity.nodeId)
