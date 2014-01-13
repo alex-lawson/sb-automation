@@ -93,21 +93,58 @@ function pipes.pipesConnect(firstDirection, secondDirections)
   return false
 end
 
-function pipes.getPipeDirections(pipeName, position)
-  local backgroundTile = world.material(position, "background")
-  for orientation,directions in pairs(pipes.directions) do
-    if backgroundTile == pipes.types[pipeName].tiles .. orientation then
-      return directions
-    end
-  end
-  
+function pipes.foregroundTileDirections(pipeName, position)
   local foregroundTile = world.material(position, "foreground")
   for orientation,directions in pairs(pipes.directions) do
     if foregroundTile == pipes.types[pipeName].tiles .. orientation then
       return directions
     end
   end
+  return false
+end
+
+function pipes.backgroundTileDirections(pipeName, position)
+  local backgroundTile = world.material(position, "background")
+  for orientation,directions in pairs(pipes.directions) do
+    if backgroundTile == pipes.types[pipeName].tiles .. orientation then
+      return directions
+    end
+  end
+  return false
+end
+
+function pipes.getPipeTileData(pipeName, position, layerMode, direction)
+  local firstCheck = nil
+  local secondCheck = nil
+  local oppositeLayer = nil
+  local firstConnects = true
+  local secondConnects = true
   
+  --Find tiles at the position
+  if layerMode == nil or layerMode == "foreground" then
+    firstCheck = pipes.foregroundTileDirections(pipeName, position)
+    secondCheck = pipes.backgroundTileDirections(pipeName, position)
+    oppositeLayer = "background"
+  elseif layerMode == "background" then
+    firstCheck = pipes.backgroundTileDirections(pipeName, position)
+    secondCheck = pipes.foregroundTileDirections(pipeName, position)
+    oppositeLayer = "foreground"
+  end
+  
+  --Check if the found tiles connect 
+  if direction and firstCheck then
+    firstConnects = pipes.pipesConnect(direction, firstCheck)
+  end
+  if direction and secondCheck then
+    secondConnects = pipes.pipesConnect(direction, secondCheck)
+  end
+  
+  --Return relevant values
+  if firstCheck and firstConnects then
+    return firstCheck, layerMode
+  elseif secondCheck and secondConnects then
+    return secondCheck, oppositeLayer
+  end
   return false
 end
 
@@ -151,29 +188,33 @@ function pipes.walkPipes(pipeName, startPos, startDir)
   local visitedTiles = {}
   local tilesToVisit = {{startPos[1], startPos[2]}}
   
+  local layerMode = nil
+  
   
   while #tilesToVisit > 0 do
     local newVisitTiles = {}
     for i,tile in ipairs(tilesToVisit) do
       local tileName = pipes.types[pipeName].tiles
-      local pipeDirections = pipes.getPipeDirections(pipeName, {tile[1], tile[2]})
+      local pipeDirections = nil
+      
       if startDir then
         pipeDirections = {startDir}
         startDir = false
+      else
+        pipeDirections, layerMode = pipes.getPipeTileData(pipeName, {tile[1], tile[2]}, layerMode)
       end
       
       
-      if pipeDirections ~= false then
+      if pipeDirections then
         if visitedTiles[tile[1]] == nil then visitedTiles[tile[1]] = {} end
         visitedTiles[tile[1]][tile[2]] = true
         
         --Get tiles that the current pipe might connect to
         for i,direction in ipairs(pipeDirections) do
           nearTile = {tile[1] + direction[1], tile[2] + direction[2]}
-          nearPipeDirections = pipes.getPipeDirections(pipeName, nearTile)
+          local nearPipeDirections = pipes.getPipeTileData(pipeName, nearTile, layerMode, direction)
           
-          --Add them to the list of tiles to visit if they do connect
-          if nearPipeDirections ~= false and pipes.pipesConnect(direction, nearPipeDirections) and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
+          if nearPipeDirections and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
             newVisitTiles[#newVisitTiles+1] = {nearTile[1], nearTile[2]}
           end
           
