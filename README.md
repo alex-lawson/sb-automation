@@ -19,11 +19,4 @@ Collaboration Guidelines
 *  Don't work on the master (or the primary dev) branch. Use a development branch that describes what you are doing, e.g. "dev-pipes"
   *  metadept will periodically merge these branches into the primary dev branch
 *  Try to be consistent with starbound's existing asset structure
-*  If you need to change something in a common script, work with the person in charge of it to do so
-
-Managers
----
-*  metadept - wire and tile manipulation systems
-*  Healthire - liquid and item pipe systems
-*  XspeedPL - entity manipulation systems and behavior scripts
-*  SeveredSkullz - energy systems
+*  If you need to change something in a common script, please consult with the group or author of that script first
