@@ -1,0 +1,28 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "box" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 1
+        }
+      },
+      "invbar" : {
+        "properties" : {
+          "image" : "<partImage>:low",
+          "offset" : [1, 0.5],
+          "centered" : false,
+          "zLevel" : 2,
+          "scalingGroup" : "invbar"
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "invbar" : {
+      "pivot" : [0, 0]
+    }
+  }
+}

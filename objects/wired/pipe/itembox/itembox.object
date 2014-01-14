@@ -1,0 +1,49 @@
+{
+  "objectName" : "itembox",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Item Storage Box",
+  "shortdescription" : "Item Storage Box",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Storage Box",
+  "avianDescription" : "Storage Box",
+  "floranDescription" : "Storage Box",
+  "glitchDescription" : "Storage Box",
+  "humanDescription" : "Storage Box",
+  "hylotlDescription" : "Storage Box",
+
+  "inventoryIcon" : "itembox.png",
+  "orientations" : [
+    {
+      "dualImage" : "itembox.png",
+
+      "imagePosition" : [0, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/itembox/itembox.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/storageapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/itembox/itembox.animation",
+  "animationParts" : {
+    "box" : "itembox.png",
+    "invbar" : "invbar.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "itemNodes" : [ {"offset": [0, 1], "dir": [0, 1]}, {"offset": [2, 1], "dir": [0, 1]} ]
+}
