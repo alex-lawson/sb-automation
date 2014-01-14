@@ -68,18 +68,18 @@ end
 
 --- How many item stacks are stored?
 function storageApi.getCount()
-  return #storageApi.storage
+  return #storage.sApi
 end
 
 --- Analyze an item from storage
 function storageApi.peekItem(index)
-  return storageApi.storage[index]
+  return storage.sApi[index]
 end
 
 --- Retrieve a list of indices in storage for iteration
 function storageApi.getStorageIndices()
   local ret = {}
-  for i,k in pairs(storageApi.storage) do
+  for i,k in pairs(storage.sApi) do
     ret[#ret] = i
   end
   return ret
@@ -88,35 +88,42 @@ end
 --- Take an item from storage
 function storageApi.returnItem(index)
   if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
-  local ret = storageApi.storage[index]
-  storageApi.storage[index] = nil
+  local ret = storage.sApi[index]
+  storage.sApi[index] = nil
   if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret[1], ret[2], ret[3]) end
   return ret
 end
 
 --- Take all items from storage
 function storageApi.returnContents()
-  local ret = storageApi.storage
-  storageApi.storage = {}
+  local ret = storage.sApi
+  storage.sApi = {}
   if (storageApi.afterAllItemsTaken ~= nil) then storageApi.afterAllItemsTaken() end
   return ret
 end
 
 --- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
-  if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
+  if storageApi.beforeItemStored ~= nil and storageApi.beforeItemStored(itemname, count, properties) == false then return end
+  world.logInfo("Seeing if storage is full")
   if storageApi.isFull() then return false end
   if storageApi.isMerging() then
-    for i,stack in pairs(storageApi.storage) do
+    world.logInfo("Merging in stack")
+    local stackIndex = #storage.sApi+1
+    local stackCount = count
+    for i,stack in pairs(storage.sApi) do
+      world.logInfo("Trying to merge in to %s", stack)
       if (stack[1] == itemname) and compareTables(properties, stack[3]) then
-        storageApi.storage[i][2] = stack[2] + count
+        stackIndex = i
+        stackCount = stack[2] + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
-        return true
       end
     end
+    storage.sApi[stackIndex] = {itemname, stackCount, properties}
+    return true 
   end
-  storage[#storageApi.storage + 1] = { itemname, count, properties }
-  if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(#storageApi.storage, false) end
+  storage[#storage.sApi + 1] = { itemname, count, properties }
+  if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(#storage.sApi, false) end
   return true
 end
 
