@@ -34,7 +34,7 @@ storageApi = {}
 -- @param space capacity of item stacks, max 999
 -- @param join should the storage merge stacks if possible?
 function storageApi.init(mode, space, join)
-  if storage.sApi == nil then storage.sApi = {}
+  if storage.sApi == nil then storage.sApi = {} end
   storageApi.isin = mode % 2 == 1
   storageApi.isout = mode % 4 >= 2
   storageApi.capacity = math.min(999, space)
