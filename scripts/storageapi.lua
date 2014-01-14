@@ -34,7 +34,7 @@ storageApi = {}
 -- @param space capacity of item stacks, max 999
 -- @param join should the storage merge stacks if possible?
 function storageApi.init(mode, space, join)
-  if storage.sApi == nil then storage.sApi = {}
+  if storage.sApi == nil then storage.sApi = {} end
   storageApi.isin = mode % 2 == 1
   storageApi.isout = mode % 4 >= 2
   storageApi.capacity = math.min(999, space)
@@ -68,38 +68,44 @@ end
 
 --- How many item stacks are stored?
 function storageApi.getCount()
-  return #storageApi.storage
+  local ret = 0
+  for _ in pairs(storage.sApi) do ret = ret + 1 end
+  return ret
 end
 
 --- Analyze an item from storage
 function storageApi.peekItem(index)
-  return storageApi.storage[index]
+  return storage.sApi[index]
 end
 
---- Retrieve a list of indices in storage for iteration
-function storageApi.getStorageIndices()
-  local ret = {}
-  for i,k in pairs(storageApi.storage) do
-    ret[#ret] = i
-  end
-  return ret
+--- Returns an iterator for the whole storage 
+function storageApi.getIterator()
+  return pairs(storage.sApi)
 end
 
 --- Take an item from storage
 function storageApi.returnItem(index)
   if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
-  local ret = storageApi.storage[index]
-  storageApi.storage[index] = nil
+  local ret = storage.sApi[index]
+  storage.sApi[index] = nil
   if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret[1], ret[2], ret[3]) end
   return ret
 end
 
 --- Take all items from storage
 function storageApi.returnContents()
-  local ret = storageApi.storage
-  storageApi.storage = {}
+  local ret = storage.sApi
+  storage.sApi = {}
   if (storageApi.afterAllItemsTaken ~= nil) then storageApi.afterAllItemsTaken() end
   return ret
+end
+
+--- Get first empty key in storage table
+function storageApi.getFirstEmptyIndex()
+  for i=1,999 do
+    if storage.sApi[i] == nil then return i end
+  end
+  return 1000
 end
 
 --- Put an item in storage, returns true if successfully
@@ -107,21 +113,28 @@ function storageApi.storeItem(itemname, count, properties)
   if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
   if storageApi.isFull() then return false end
   if storageApi.isMerging() then
-    for i,stack in pairs(storageApi.storage) do
-      if (stack[1] == itemname) and compareTables(properties, stack[3]) then
-        storageApi.storage[i][2] = stack[2] + count
+    for i,stack in pairs(storage.sApi) do
+      if (stack[1] == itemname) and (stack[2] < 1000) and compareTables(properties, stack[3]) then
+        if (stack[2] + count > 1000) then
+          local i = storageApi.getFirstEmptyIndex()
+          storage.sApi[i] = { itemname, stack[2] + count - 1000, properties }
+          if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
+          count = 1000 - stack[2] - count
+        end
+        storage.sApi[i][2] = stack[2] + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
         return true
       end
     end
   end
-  storage[#storageApi.storage + 1] = { itemname, count, properties }
-  if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(#storageApi.storage, false) end
+  local i = storageApi.getFirstEmptyIndex()
+  storage.sApi[i] = { itemname, count, properties }
+  if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
   return true
 end
 
 -------------------------------------------------
--- Hook functions
+-- Event functions
 -------------------------------------------------
 
 -- Called when an item is about to be taken from storage
