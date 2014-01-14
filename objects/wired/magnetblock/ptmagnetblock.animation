@@ -1,0 +1,76 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "magnetState" : {
+        "default" : "neutral",
+        "states" : {
+          "negative" : {
+            "frames" : 1
+          },
+          "positive" : {
+            "frames" : 1
+          },
+          "neutral" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "sign" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "magnetState" : {
+            "negative" : {
+              "properties" : {
+                "image" : "<partImage>:<charge>"
+              }
+            },
+
+            "positive" : {
+              "properties" : {
+                "image" : "<partImage>:<charge>"
+              }
+            },
+
+            "neutral" : {
+              "properties" : {
+                "image" : "<partImage>:0"
+              }
+            }
+          }
+        }
+      },
+      "magnet" : {
+        "properties" : {
+          "centered" : false,
+          "back" : true
+        },
+        "partStates" : {
+          "magnetState" : {
+            "negative" : {
+              "properties" : {
+                "image" : "<partImage>:negative"
+              }
+            },
+
+            "positive" : {
+              "properties" : {
+                "image" : "<partImage>:positive"
+              }
+            },
+
+            "neutral" : {
+              "properties" : {
+                "image" : "<partImage>:neutral"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

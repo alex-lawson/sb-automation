@@ -1,0 +1,57 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "magnetball" : {
+        "default" : "off",
+        "states" : {
+          "off" : { },
+          "on" : {
+            "frames" : 5,
+            "cycle" : 0.5,
+            "mode" : "loop",
+            "properties" : {
+              "persistentSound" : "/sfx/objects/plasmadisc.wav"
+            }
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "magnetball" : {
+        "partStates" : {
+          "magnetball" : {
+            "on" : {
+              "properties" : {
+                "centered" : true,
+                "image" : "magnetball.png"
+              }
+            }
+          }
+        }
+      },
+      "bubble" : {
+        "properties" : {
+          "scalingGroup" : "test"
+        },
+        "partStates" : {
+          "magnetball" : {
+            "on" : {
+              "properties" : {
+                "centered" : true,
+                "image" : "/animations/gravitybubble/gravitybubble.png:<frameIndex>",
+                "back" : true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+  "scalingGroups" : {
+    "test" : {
+      "pivot" : [0, 0]
+    }
+  }
+}

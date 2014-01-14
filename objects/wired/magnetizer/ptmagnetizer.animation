@@ -1,0 +1,40 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "magnetizerState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {
+            "frames" : 1
+          },
+          "on" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "magnetizer" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "magnetizerState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
