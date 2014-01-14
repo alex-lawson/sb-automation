@@ -57,18 +57,18 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 10,
+  "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/pipe/pipeliquiddetector/pipeliquiddetector.animation",
 
   "animationParts" : {
-    "switch" : "pipeliquiddetector.png"
+    "detector" : "pipeliquiddetector.png"
   },
   "animationPosition" : [0, 0],
 
   "outboundNodes" : [ [0, 0] ],
 
-  "detectCooldown" : 0.2,
+  "detectCooldown" : 0.35,
 
   "liquidNodes" : [
     {"offset": [0, 0], "dir": [-1, 0]},
