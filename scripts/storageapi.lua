@@ -80,7 +80,7 @@ end
 function storageApi.getStorageIndices()
   local ret = {}
   for i,k in pairs(storage.sApi) do
-    ret[#ret] = i
+    ret[#ret+1] = i
   end
   return ret
 end
