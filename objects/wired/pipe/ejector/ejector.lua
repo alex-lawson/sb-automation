@@ -27,11 +27,11 @@ function beforeItemPut(item, nodeId)
 end
 
 function onItemPut(item, nodeId)
-  world.logInfo(item)
-  world.logInfo(nodeId)
+  --world.logInfo(item)
+  --world.logInfo(nodeId)
   if item then
     local position = entity.position()
-    world.logInfo("Putting item %s", item[1])
+    --world.logInfo("Putting item %s", item[1])
     if next(item[3]) == nil then 
       world.spawnItem(item[1], self.dropPoint, item[2])
     else
