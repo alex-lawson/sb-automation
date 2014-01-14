@@ -105,14 +105,11 @@ end
 --- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
   if storageApi.beforeItemStored ~= nil and storageApi.beforeItemStored(itemname, count, properties) == false then return end
-  world.logInfo("Seeing if storage is full")
   if storageApi.isFull() then return false end
   if storageApi.isMerging() then
-    world.logInfo("Merging in stack")
     local stackIndex = #storage.sApi+1
     local stackCount = count
     for i,stack in pairs(storage.sApi) do
-      world.logInfo("Trying to merge in to %s", stack)
       if (stack[1] == itemname) and compareTables(properties, stack[3]) then
         stackIndex = i
         stackCount = stack[2] + count
