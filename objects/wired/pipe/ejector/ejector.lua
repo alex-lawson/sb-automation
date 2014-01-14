@@ -9,6 +9,17 @@ end
 --------------------------------------------------------------------------------
 function main(args)
   pipes.update(entity.dt())
+  
+  --Pull items
+  local pulledItem = pullItem(1)
+  if pulledItem then
+    if next(pulledItem[3]) == nil then 
+      world.spawnItem(pulledItem[1], self.dropPoint, pulledItem[2])
+    else
+      world.spawnItem(pulledItem[1], self.dropPoint, pulledItem[2], pulledItem[3])
+    end
+  end
+  
 end
 
 function beforeItemPut(item, nodeId)
