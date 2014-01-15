@@ -117,22 +117,19 @@ end
 -- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
 -- returns the total amount of energy accepted
 function energy.receiveEnergy(amount, visited)
-  world.logInfo("%s %d receiving energy...", entity.configParameter("objectName"), entity.id())
-  world.logInfo("Visited: %s", visited)
-  local newVisited = visited
-  newVisited[entity.id()] = true
+  visited[entity.id()] = true
   if onEnergyReceive == nil then
     local newEnergy = energy.getEnergy() + amount
     if newEnergy <= energy.getCapacity() then
       energy.setEnergy(newEnergy)
-      return amount, newVisited
+      return {amount, visited}
     else
       local acceptedEnergy = energy.getUnusedCapacity()
       energy.setEnergy(energy.getCapacity())
-      return acceptedEnergy, newVisited
+      return {acceptedEnergy, visited}
     end
   else
-    return onEnergyReceive(amount, newVisited), newVisited
+    return onEnergyReceive(amount, visited)
   end
 end
 
@@ -233,17 +230,15 @@ end
 -- pushes energy to connected entities. amount is divided between # of valid receivers
 function energy.sendEnergy(amount, visited)
   local remainingEnergy = amount
-  world.logInfo("Connections: %s", energy.connections)
+  world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
   for entityId,_ in pairs(energy.connections) do
-    if visited[entityId] then 
-      world.logInfo("Node was visited")
+    if visited[tostring(entityId)] then 
+    
     else
-      world.logInfo("%s %d sending energy to %d, visited: %s", entity.configParameter("objectName"), entity.id(), entityId, visited)
-      local usedEnergy, newVisited = world.callScriptedEntity(entityId, "energy.receiveEnergy", remainingEnergy, visited)
-      world.logInfo("Used: %s Visited: %s", usedEnergy, newVisited)
-      visited = newVisited
-      remainingEnergy = remainingEnergy - usedEnergy
+      local energyReturn = world.callScriptedEntity(entityId, "energy.receiveEnergy", remainingEnergy, visited)
+      visited = energyReturn[2]
+      remainingEnergy = remainingEnergy - energyReturn[1]
     end
   end
-  return (amount - remainingEnergy), visited
+  return {(amount - remainingEnergy), visited}
 end

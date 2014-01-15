@@ -14,8 +14,7 @@ end
 
 function onEnergyReceive(amount, visited)
   world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
-  local usedEnergy, newVisited = energy.sendEnergy(amount, visited)
-  return usedEnergy, newVisited
+  return energy.sendEnergy(amount, visited)
 end
 
 function updateAnimationState()
