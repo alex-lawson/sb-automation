@@ -120,7 +120,7 @@ end
 -- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
 -- returns the total amount of energy accepted
 function energy.receiveEnergy(amount, visited)
-  world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
+  --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
   visited[entity.id()] = true
   if onEnergyReceive == nil then
     local newEnergy = energy.getEnergy() + amount
@@ -206,8 +206,8 @@ function energy.findConnections()
       callScript = "energy.usesEnergy"
     })
 
-  world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
-  world.logInfo(entityIds)
+  --world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
+  --world.logInfo(entityIds)
 
   --connect
   for i, entityId in ipairs(entityIds) do
@@ -242,7 +242,7 @@ end
 
 -- pushes energy to connected entities. amount is divided between # of valid receivers
 function energy.sendEnergy(amount, visited)
-  world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
+  --world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
 
   local energyNeeds = {}
   -- check energy needs for all connected entities
@@ -257,7 +257,7 @@ function energy.sendEnergy(amount, visited)
 
   -- sort table of energy needs
   table.sort(energyNeeds, energy.compareNeeds)
-  world.logInfo(energyNeeds)
+  --world.logInfo(energyNeeds)
 
   -- process list and distribute remainder evenly at each step
   local totalEnergyToSend = amount
@@ -270,7 +270,7 @@ function energy.sendEnergy(amount, visited)
         visited = energyReturn[2]
         remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
       else
-        world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
+        --world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
       end
     end
     table.remove(energyNeeds, 1)
@@ -278,7 +278,7 @@ function energy.sendEnergy(amount, visited)
 
   --remove the total amount of energy sent
   local totalSent = totalEnergyToSend - remainingEnergyToSend
-  world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
+  --world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 
   return {totalSent, visited}
 end
