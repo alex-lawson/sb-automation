@@ -1,193 +1,211 @@
--- Holds top level storage location for saved data
-local energy = storage.energy
+energy = {}
 
+-- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
+function energy.init()
+  --capacity of internal energy storage
+  energy.capacity = entity.configParameter("energyCapacity")
+  if energy.capacity == nil then
+    energy.capacity = 100
+  end
 
---[[
--- Initializes the energy module.
--- Energy modules must have the following script config in "energy" array
--- 
--- battery (boolean): Determines whether or not this object acts as a battery
---		and whether or not it is able to send out energy to other objects
---		if false, then this object is a consumer
--- maxEnergy (integer): How much energy can the object hold. Please note that
---		consumers may also have an internal storage even if they are not a 
---		battery.
---]]
-function initEnergy()
-	if not energy then
-		storage.energy = {
-			batteries = {}, -- Table for each entry is: {ID (K)= location (V)}
-			objects = {}, -- Table for each entry is: {ID (K)= location (V)}
-			power = 0,
-			maxEnergy = entity.configParameter("energy.maxEnergy")
-			isBattery = entity.configParameter("energy.battery"),
-			}
-	end
-	updateBatteries()
-	updateObjects()
-	scanForBatteries()
+  --current energy storage
+  if storage.curEnergy == nil then
+    storage.curEnergy = 0
+  end
+
+  --maximum amount of energy to push per tick (if 0, this object cannot send energy)
+  energy.sendMax = entity.configParameter("energySendMax")
+  if energy.sendMax == nil then
+    energy.sendMax = 0
+  end
+
+  --maximum range (in blocks) that this device will search for entities to connect to
+  --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
+  energy.linkRange = entity.configParameter("energyLinkRange")
+  if energy.linkRange == nil then
+    energy.linkRange = 10
+  end
+
+  --use this to run more initialization the first time main() is called (in energy.update())
+  self.energyInitialized = false
+
+  --frequency (in seconds) to perform LoS checks on connected entities
+  energy.connectCheckFrequency = 5
+
+  --timer variable that tracks cooldown until next connection LoS check
+  energy.connectCheckTimer = energy.connectCheckFrequency
+
+  --table to hold id's of connected entities (no point storing this since id's change on reload)
+  energy.connections = {}
 end
+
+-- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
+function energy.die()
+  for entityId, v in pairs(energy.connections) do
+    disconnect(entityId)
+  end
+end
+
+-- Performs per-tick updates for energy module (MUST BE CALLED IN OBJECT main() FUNCTION)
+function energy.update()
+  if self.energyInitialized then
+    energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
+    if energy.connectCheckTimer <= 0 then
+      energy.checkConnections()
+      energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFrequency
+    end
+  else
+    energy.findConnections()
+    self.energyInitialized = true
+  end
+end
+
+-------------------------------------------------
 
 -- Returns how much energy the object currently holds
-function getEnergy()
-	return energy.power
+function energy.getEnergy()
+  return storage.curEnergy
 end
 
--- Gets all attached objects that this object is providing energy for
-function getObjects()
-	return energy.objects
+-- sets the current energy pool (and provides a place to update animations, etc.)
+function energy.setEnergy(amount)
+  if amount ~= energy.getEnergy() then
+    storage.curEnergy = amount
+    onEnergyChange(amount)
+  end
 end
 
--- Adds the specified amount of energy
-function addEnergy( amount )
-	local power = getEnergy() -- Good practice, but tiny bit slower.
-	power = math.max(0, math.min(power + amount, maxEnergy))
+-- object hook called when energy amount is changed
+if not onEnergyChange then
+  function onEnergyChange(newAmount) end
 end
 
--- Attempts to initiate a link with the specified object
-function initiateLink(id)
-	local object = world.callScriptedEntity(id, "linkObject" , {id = entity.id, location = entity.location, batter = energy.isBattery})
-	
-	--if object then
-		--It worked. Fancy a debug statement here?
-	--end
+-- returns the total amount of space in the object's energy storage
+function energy.getCapacity()
+  return energy.capacity
 end
 
--- Link this object with the other object. Will automatically put it in the Batteries or Objects table
--- depending on its type. Should not call this function directly. Use initiateLink(id) instead.
-function linkObject(object)
-	if not world.entityExists(object.id) then return end
-	
-	
-	if object.battery and (not energy.battery) then -- Only link if THEY are battery and WE are consumer
-		-- Are we missing our battery
-		if not energy.batteries[object.id] then
-			energy.batteries[object.id] = object.location
-			
-			-- Call the script back on the original object that called this one to complete the link
-			world.callScriptedEntity(object.id, "linkObject" , {id = entity.id, location = entity.location, batter = energy.isBattery})
-		end
-	elseif (not object.battery) and energy.battery then -- Only link if THEY are consumer and WE are battery
-		-- Are we missing our consumer?
-		if not energy.objects[object.id] then
-			energy.objects[object.id] = object.location
-			
-			-- Call the script back on the original object that called this one to complete the link
-			world.callScriptedEntity(object.id, "linkObject" , {id = entity.id, location = entity.location, batter = energy.isBattery})
-		end
-	end
+-- returns the amount of free space in the object's energy storage
+function energy.getUnusedCapacity()
+  return energy.capacity - energy.getEnergy()
 end
 
---Used to determine if it uses the energy system.
-function isEnergyMod()
-	return true
+-- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
+-- returns the total amount of energy accepted
+function energy.addEnergy(amount)
+  local newEnergy = energy.getEnergy() + amount
+  if newEnergy <= energy.getCapacity() then
+    energy.setEnergy(newEnergy)
+    return amount
+  else
+    local acceptedEnergy = energy.getUnusedCapacity()
+    energy.setEnergy(energy.getCapacity())
+    return amount - acceptedEnergy
+  end
 end
 
--- Consumes the specified energy from internal storage first. If
--- amount is more than held, will search for energy in its linked
--- batteries
-function consumeEnergy(amount)
-	--TODO: Set battery level animation?
-	
-	if energy.power <= amount then
-		amount = amount - energy.power
-		energy.power = 0
-		
-		if amount > 0 and not isBattery() then
-			for k, v in pairs(getBatteries()) do
-				-- If we no longer need any, return 0
-				if amount <= 0 then return 0 end
-				
-				-- Set amount to amount that is now left to consume
-				amount = world.callScriptedEntity(k, "consumeEnergy", amount)
-			end
-		end
-		
-	else
-		energy.power = energy.power - amount
-	end
-	
-	return amount
+-- reduces the current energy pool by the specified amount, to a minimum of 0
+function energy.removeEnergy(amount)
+  energy.setEnergy(math.max(0, energy.getEnergy() - amount))
 end
 
--- Takes an amount of energy from the specified battery and transfers it to this object's storage.
--- It will not take more than it can hold.
-function takeEnergy(batteryID, amount)
-	amount = math.min( amount, energy.maxAmount) -- First limit amount to the max storage.
-	
-	-- Make sure the other object is a battery
-	if world.callScriptedEntity(batteryID, "isBattery") then
-		-- Take some energy, and then add in the amount returned from the call.
-		amount = world.callScriptedEntity(batteryID, "consumeEnergy", amount)
-		
-		if amount then -- Prevent possible Nil>0 compare error from bad ID?
-			addEnergy(amount)
-		end
-	end
+-- attempt to remove the specified amount of energy
+-- @returns false if there is insufficient energy stored (and does not remove energy)
+function energy.consumeEnergy(amount)
+  if amount <= energy.getEnergy() then
+    energy.removeEnergy(amount)
+    return true
+  else
+    return false
+  end
 end
 
--- Returns true if the object has atleast the specified amount of energy in its storage
-function hasEnergy(amount)
-	return getEnergy() >= amount
+-------------------------------------------------
+
+--Used to determine if it uses the energy system
+function energy.usesEnergy()
+  return true
 end
 
--- Returns true if the object is a battery, false if it is a consumer
-function isBattery()
-	return energy.isBattery
+-- returns true if object is a valid energy receiver
+function energy.canReceiveEnergy()
+  return energy.getUnusedCapacity() > 0
 end
 
--- Returns a list of all the batteries currently linked to this object
-function getBatteries()
-	return energy.batteries
+-- disconnects from the specified entity id
+function energy.disconnect(entityId)
+  world.callScriptedEntity(entityId, "energy.onDisconnect")
+  energy.connections[entityId] = nil
 end
 
--- Attempts to find and add batteries.
-function scanForBatteries()
-	if not isBattery() then return end
-	
-	-- I dont know how this is going to function yet. Holding off till then.
-	-- Can manually link entities by using initiateLink(id)
+-- callback for energy.disconnect
+function energy.onDisconnect(entityId)
+  energy.connections[entityId] = nil
 end
 
---Update that battteries that this consumer uses
-function updateBatteries()
-	if not isBattery() then return end
-	
-	local batteries = getBatteries()
-	for k, v in pairs(batteries) do
-		if not world.entityExists(k) then
-			local possibleObjs = world.objectQuery(v, 2, {order = "nearest"})
-			if possibleObjs and world.callScriptedEntity(possibleObjects[1], "isBattery") then
-				batteries[k] = nil -- Get rid of old ID data
-				initiateLink(k)
-			end
-		else
-			-- Did we HAPPEN to get an ID saved that was reloaded and coincidentally matches up with a non energy object?
-			if not world.callScriptedEntity(k, "isBattery") then
-				batteries[k] = nil
-			end
-		end
-	end
+-- Returns a list of connected entity id's
+function energy.getConnections()
+  return self.energyConnections
 end
 
+-- finds and connects to entities within <energy.linkRange> blocks
+function energy.findConnections()
+  energy.connections = {}
 
--- Update the consumers that use this battery
-function updateObjects()
-	if not isBattery() then return end
-	
-	local objects = getObjects()
-	for k, v in pairs(objects) do
-		if not world.entityExists(k) then
-			local possibleObjs = world.objectQuery(v, 2, {order = "nearest"})
-			if possibleObjs and not world.callScriptedEntity(possibleObjects[1], "isBattery") then
-				objects[k] = nil -- Get rid of old ID data
-				initiateLink(k)
-			end
-		else
-			-- Did we HAPPEN to get an ID saved that was reloaded and coincidentally matches up with a non energy object?
-			if world.callScriptedEntity(k, "isBattery") then
-				objects[k] = nil
-			end
-		end
-	end
+  --find nearby energy devices within LoS
+  local entityIds = world.objectQuery(entity.position(), energy.linkRange, { 
+      withoutEntityId = entity.id(),
+      inSightOf = entity.id(), 
+      callScript = "energy.usesEnergy"
+    })
+
+  --world.logInfo("%s found %d entities within range:", entity.configParameter("objectName"), #entityIds)
+
+  --connect
+  for i, entityId in ipairs(entitIds) do
+    energy.connections[entityId] = true
+  end
+end
+
+-- performs a LoS check to the given entity
+function energy.checkLoS(entityId)
+  --TODO
+  return true
+end
+
+-- performs periodic LoS checks on connected entities
+function energy.checkConnections()
+  --TODO
+end
+
+-- comparator function for table sorting
+function energy.compareNeeds(a, b)
+  return a[2] < b[2]
+end
+
+-- pushes energy to connected entities. amount is divided between # of valid receivers
+function energy.pushEnergy()
+  local energyNeeds = {}
+
+  -- check energy needs for all connected entities
+  for entityId, v in pairs(energy.connections) do
+    energyNeeds[#energyNeeds + 1] = {entityId, world.callScriptedEntity(entityId, "energy.getUnusedCapacity")}
+  end
+
+  -- sort table of energy needs
+  table.sort(energyNeeds, energy.compareNeeds)
+
+  -- process list and distribute remainder evenly at each step
+  local totalEnergyToSend = math.min(energy.getEnergy(), energy.sendMax)
+  local remainingEnergyToSend = totalEnergyToSend
+  while #energyNeeds > 0 do
+    if energyNeeds[1][2] > 0 then
+      local sendAmt = remainingEnergyToSend / #energyNeeds
+      remainingEnergyToSend = remainingEnergyToSend - world.callScriptedEntity(energyNeeds[1][1], "energy.addEnergy", sendAmt)
+    end
+    table.remove(energyNeeds, 1)
+  end
+
+  --remove the total amount of energy sent
+  energy.removeEnergy(totalEnergyToSend - remainingEnergyToSend)
 end
