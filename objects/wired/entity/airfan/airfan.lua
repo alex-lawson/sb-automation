@@ -1,4 +1,6 @@
 function init(v)
+  energy.init()
+
   if storage.active == nil then storage.active = false end
   setActive(storage.active)
   self.affectWidth = entity.configParameter("affectWidth")
@@ -75,6 +77,10 @@ function process(ox, oy)
 end
 
 function main()
+  energy.update()
+  if energy.consumeEnergy(10) == false then
+    setActive(false)
+  end
   if storage.active then
     self.aet = {}
     self.st = self.st + 1

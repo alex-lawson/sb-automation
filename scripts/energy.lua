@@ -65,7 +65,9 @@ function energy.update()
     if energy.sendMax > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
-        energy.sendEnergy()
+        local visited = {}
+        visited[entity.id()] = true
+        energy.sendEnergy(energy.sendMax, visited)
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
@@ -114,15 +116,23 @@ end
 
 -- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
 -- returns the total amount of energy accepted
-function energy.receiveEnergy(amount)
-  local newEnergy = energy.getEnergy() + amount
-  if newEnergy <= energy.getCapacity() then
-    energy.setEnergy(newEnergy)
-    return amount
+function energy.receiveEnergy(amount, visited)
+  world.logInfo("%s %d receiving energy...", entity.configParameter("objectName"), entity.id())
+  world.logInfo("Visited: %s", visited)
+  local newVisited = visited
+  newVisited[entity.id()] = true
+  if onEnergyReceive == nil then
+    local newEnergy = energy.getEnergy() + amount
+    if newEnergy <= energy.getCapacity() then
+      energy.setEnergy(newEnergy)
+      return amount, newVisited
+    else
+      local acceptedEnergy = energy.getUnusedCapacity()
+      energy.setEnergy(energy.getCapacity())
+      return acceptedEnergy, newVisited
+    end
   else
-    local acceptedEnergy = energy.getUnusedCapacity()
-    energy.setEnergy(energy.getCapacity())
-    return amount - acceptedEnergy
+    return onEnergyReceive(amount, newVisited), newVisited
   end
 end
 
@@ -221,41 +231,19 @@ function energy.compareNeeds(a, b)
 end
 
 -- pushes energy to connected entities. amount is divided between # of valid receivers
-function energy.sendEnergy()
-  world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
-  local energyNeeds = {}
-
-  -- check energy needs for all connected entities
-  for entityId, v in pairs(energy.connections) do
-    if not energy.recentSources[entityId] then
-      local thisEnergyNeed = world.callScriptedEntity(entityId, "energy.getUnusedCapacity")
-      if thisEnergyNeed then
-        energyNeeds[#energyNeeds + 1] = {entityId, thisEnergyNeed}
-      end
+function energy.sendEnergy(amount, visited)
+  local remainingEnergy = amount
+  world.logInfo("Connections: %s", energy.connections)
+  for entityId,_ in pairs(energy.connections) do
+    if visited[entityId] then 
+      world.logInfo("Node was visited")
+    else
+      world.logInfo("%s %d sending energy to %d, visited: %s", entity.configParameter("objectName"), entity.id(), entityId, visited)
+      local usedEnergy, newVisited = world.callScriptedEntity(entityId, "energy.receiveEnergy", remainingEnergy, visited)
+      world.logInfo("Used: %s Visited: %s", usedEnergy, newVisited)
+      visited = newVisited
+      remainingEnergy = remainingEnergy - usedEnergy
     end
   end
-
-  -- sort table of energy needs
-  table.sort(energyNeeds, energy.compareNeeds)
-
-  world.logInfo(energyNeeds)
-
-  -- process list and distribute remainder evenly at each step
-  local totalEnergyToSend = math.min(energy.getEnergy(), energy.sendMax)
-  local remainingEnergyToSend = totalEnergyToSend
-  while #energyNeeds > 0 do
-    if energyNeeds[1][2] > 0 then
-      local sendAmt = remainingEnergyToSend / #energyNeeds
-      remainingEnergyToSend = remainingEnergyToSend - world.callScriptedEntity(energyNeeds[1][1], "energy.receiveEnergy", sendAmt)
-    end
-    table.remove(energyNeeds, 1)
-  end
-
-  --remove the total amount of energy sent
-  local totalSent = totalEnergyToSend - remainingEnergyToSend
-  world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
-  energy.removeEnergy(totalSent)
-
-  --reset anti-looping table
-  energy.recentSources = {}
+  return (amount - remainingEnergy), visited
 end

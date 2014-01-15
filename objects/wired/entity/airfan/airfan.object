@@ -21,7 +21,7 @@
   
   "inboundNodes" : [ [0, -2] ],
 
-  "scripts" : [ "airfan.lua", "/scripts/entityProxy.lua" ],
+  "scripts" : [ "airfan.lua", "/scripts/entityProxy.lua", "/scripts/energy.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "airfan.animation",
