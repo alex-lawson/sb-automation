@@ -33,5 +33,5 @@
 
   "outboundNodes" : [ [0, 0] ],
 
-  "energySendMax" : 0
+  "energyRelayMax" : 500
 }

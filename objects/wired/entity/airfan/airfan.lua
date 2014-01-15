@@ -30,14 +30,17 @@ function onInteraction(args)
   setActive(not storage.active)
 end
 
-function setActive(flag)
-  storage.active = flag
-  entity.setParticleEmitterActive("fanwind", flag)
-  if flag then entity.setAnimationState("fanState", "work")
-  else
+function setActive(isActive)
+  entity.setParticleEmitterActive("fanwind", isActive)
+  if isActive then
+    entity.setAnimationState("fanState", "work")
+  elseif storage.active then
     entity.setAnimationState("fanState", "slow")
     self.timer = 20
+  else
+    entity.setAnimationState("fanState", "idle")
   end
+  storage.active = isActive
 end
 
 function filterEntities(eids)
@@ -78,10 +81,13 @@ end
 
 function main()
   energy.update()
-  if energy.consumeEnergy(1) == false then
-    setActive(false)
-  end
   if storage.active then
+    if energy.consumeEnergy(1) == false then
+      setActive(false)
+    end
+
+    --world.logInfo("air fan has %d energy", energy.getEnergy())
+
     self.aet = {}
     self.st = self.st + 1
     if self.st > 6 then self.st = 0

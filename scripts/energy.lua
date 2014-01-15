@@ -5,7 +5,7 @@ function energy.init()
   --capacity of internal energy storage
   energy.capacity = entity.configParameter("energyCapacity")
   if energy.capacity == nil then
-    energy.capacity = 100
+    energy.capacity = 0
   end
 
   --current energy storage
@@ -20,7 +20,7 @@ function energy.init()
   end
 
   --frequency (in seconds) to push energy (maybe make this hard coded)
-  energy.sendFreq = entity.configParameter("energysendFreq")
+  energy.sendFreq = entity.configParameter("energySendFreq")
   if energy.sendFreq == nil then
     energy.sendFreq = 1
   end
@@ -34,6 +34,9 @@ function energy.init()
   if energy.linkRange == nil then
     energy.linkRange = 10
   end
+
+  --determines how much power the device can transfer (without storing)
+  energy.relayMax = entity.configParameter("energyRelayMax")
 
   --use this to run more initialization the first time main() is called (in energy.update())
   self.energyInitialized = false
@@ -117,6 +120,7 @@ end
 -- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
 -- returns the total amount of energy accepted
 function energy.receiveEnergy(amount, visited)
+  world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
   visited[entity.id()] = true
   if onEnergyReceive == nil then
     local newEnergy = energy.getEnergy() + amount
@@ -161,7 +165,7 @@ end
 
 -- returns true if object is a valid energy receiver
 function energy.canReceiveEnergy()
-  return energy.getUnusedCapacity() > 20
+  return energy.getUnusedCapacity() > 0
 end
 
 -- connects to the specified entity id
@@ -222,6 +226,15 @@ function energy.checkConnections()
   --TODO
 end
 
+-- returns the empty capacity (for consumers) or a Very Large Number TM for relays
+function energy.getEnergyNeeds()
+  if energy.relayMax then
+    return energy.relayMax
+  else
+    return energy.getUnusedCapacity()
+  end
+end
+
 -- comparator function for table sorting
 function energy.compareNeeds(a, b)
   return a[2] < b[2]
@@ -229,16 +242,43 @@ end
 
 -- pushes energy to connected entities. amount is divided between # of valid receivers
 function energy.sendEnergy(amount, visited)
-  local remainingEnergy = amount
   world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
-  for entityId,_ in pairs(energy.connections) do
-    if visited[tostring(entityId)] then 
-    
-    else
-      local energyReturn = world.callScriptedEntity(entityId, "energy.receiveEnergy", remainingEnergy, visited)
-      visited = energyReturn[2]
-      remainingEnergy = remainingEnergy - energyReturn[1]
+
+  local energyNeeds = {}
+  -- check energy needs for all connected entities
+  for entityId, v in pairs(energy.connections) do
+    if not visited[tostring(entityId)] then 
+      local thisEnergyNeed = world.callScriptedEntity(entityId, "energy.getEnergyNeeds")
+      if thisEnergyNeed and thisEnergyNeed > 0 then
+        energyNeeds[#energyNeeds + 1] = {entityId, thisEnergyNeed}
+      end
     end
   end
-  return {(amount - remainingEnergy), visited}
+
+  -- sort table of energy needs
+  table.sort(energyNeeds, energy.compareNeeds)
+  world.logInfo(energyNeeds)
+
+  -- process list and distribute remainder evenly at each step
+  local totalEnergyToSend = amount
+  local remainingEnergyToSend = totalEnergyToSend
+  while #energyNeeds > 0 do
+    if energyNeeds[1][2] > 0 then
+      local sendAmt = remainingEnergyToSend / #energyNeeds
+      local energyReturn = world.callScriptedEntity(energyNeeds[1][1], "energy.receiveEnergy", sendAmt, visited)
+      if energyReturn then
+        visited = energyReturn[2]
+        remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
+      else
+        world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
+      end
+    end
+    table.remove(energyNeeds, 1)
+  end
+
+  --remove the total amount of energy sent
+  local totalSent = totalEnergyToSend - remainingEnergyToSend
+  world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
+
+  return {totalSent, visited}
 end

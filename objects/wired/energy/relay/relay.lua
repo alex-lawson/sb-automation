@@ -14,6 +14,7 @@ end
 
 function onEnergyReceive(amount, visited)
   world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
+  datawire.sendData(amount, "number", "all")
   return energy.sendEnergy(amount, visited)
 end
 
