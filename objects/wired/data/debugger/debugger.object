@@ -15,11 +15,11 @@
       "imagePosition" : [-8, -8],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "top" ]
+      "anchors" : [ "background" ]
     }
   ],
 
-  "scripts" : [ "debugger.lua" ],
+  "scripts" : [ "/scripts/datawire.lua", "debugger.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "debugger.animation",
@@ -29,6 +29,6 @@
   },
   "animationPosition" : [-8, -8],
 
-  "inboundNodes" : [ [0, 0] ],
+  "inboundNodes" : [ [0, 0] ]
 
 }
