@@ -34,5 +34,6 @@
   "fanPower" : 20,
   "blowSound" : "/sfx/tech/tech_hoverloop.wav",
 
-  "energyCapacity" : 100
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5
 }

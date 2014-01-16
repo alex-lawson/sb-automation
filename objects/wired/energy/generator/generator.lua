@@ -6,8 +6,9 @@ function init(virtual)
 end
 
 function main()
-  energy.setEnergy(100) --unlimited generation for testing
+  -- yes, it really is that easy. uses the energyGenerationRate config parameter
+  energy.generateEnergy()
+
   energy.update()
   datawire.update()
-  energy.setEnergy(100) --unlimited generation for testing
 end

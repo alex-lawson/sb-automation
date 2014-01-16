@@ -8,15 +8,35 @@ function energy.init()
     energy.capacity = 0
   end
 
+  --amount of energy generated per second when active
+  energy.generationRate = entity.configParameter("energyGenerationRate")
+  if energy.generationRate == nil then
+    energy.generationRate = 0
+  end
+
+  if storage.energyGenerationState == nil then
+    storage.energyGenerationState = false
+  end
+
+  --amount of energy consumed per second when active
+  energy.consumptionRate = entity.configParameter("energyConsumptionRate")
+  if energy.consumptionRate == nil then
+    energy.consumptionRate = 0
+  end
+
+  if storage.energyConsumptionState == nil then
+    storage.energyConsumptionState = false
+  end
+
   --current energy storage
   if storage.curEnergy == nil then
     storage.curEnergy = 0
   end
 
-  --maximum amount of energy to push per tick (if 0, this object cannot send energy)
-  energy.sendMax = entity.configParameter("energySendMax")
-  if energy.sendMax == nil then
-    energy.sendMax = 0
+  --maximum amount of energy transmitted per second
+  energy.sendRate = entity.configParameter("energySendRate")
+  if energy.sendRate == nil then
+    energy.sendRate = 0
   end
 
   --frequency (in seconds) to push energy (maybe make this hard coded)
@@ -63,12 +83,15 @@ end
 function energy.update()
   if self.energyInitialized then
     --periodic energy transmission pulses
-    if energy.sendMax > 0 then
+    if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
+        local pulseEnergy = math.min(energy.getEnergy(), energy.sendRate * energy.sendFreq)
+        --world.logInfo("initiating pulse with %f energy", pulseEnergy)
         local visited = {}
         visited[entity.id()] = true
-        energy.sendEnergy(energy.sendMax, visited)
+        local result = energy.sendEnergy(pulseEnergy, visited)
+        energy.removeEnergy(result[1])
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
@@ -116,21 +139,34 @@ function energy.getUnusedCapacity()
   return energy.capacity - energy.getEnergy()
 end
 
--- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity>
--- returns the total amount of energy accepted
+-- adds the appropriate periodic energy generation based on energyGenerationRate and scriptDelta
+-- @returns amount of energy generated
+function energy.generateEnergy()
+  local amount = energy.generationRate * entity.dt()
+  --world.logInfo("generating %f energy", amount)
+  return energy.addEnergy(amount)
+end
+
+-- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity> and returns the amount added
+function energy.addEnergy(amount)
+  local newEnergy = energy.getEnergy() + amount
+  if newEnergy <= energy.getCapacity() then
+    energy.setEnergy(newEnergy)
+    return amount
+  else
+    local addedEnergy = energy.getUnusedCapacity()
+    energy.setEnergy(energy.getCapacity())
+    return addedEnergy
+  end
+end
+
+-- callback for receiving incoming energy pulses
 function energy.receiveEnergy(amount, visited)
   --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
   visited[entity.id()] = true
   if onEnergyReceive == nil then
-    local newEnergy = energy.getEnergy() + amount
-    if newEnergy <= energy.getCapacity() then
-      energy.setEnergy(newEnergy)
-      return {amount, visited}
-    else
-      local acceptedEnergy = energy.getUnusedCapacity()
-      energy.setEnergy(energy.getCapacity())
-      return {acceptedEnergy, visited}
-    end
+    local acceptedEnergy = energy.addEnergy(amount)
+    return {acceptedEnergy, visited}
   else
     return onEnergyReceive(amount, visited)
   end
@@ -142,8 +178,14 @@ function energy.removeEnergy(amount, entityId)
 end
 
 -- attempt to remove the specified amount of energy
+-- if no amount is provided, will attempt to consume the periodic amount
+--     as determined by energyConsumptionRate and scriptDelta
 -- @returns false if there is insufficient energy stored (and does not remove energy)
 function energy.consumeEnergy(amount)
+  if amount == nil then
+    amount = energy.consumptionRate * entity.dt()
+  end
+  --world.logInfo("consuming %f energy", amount)
   if amount <= energy.getEnergy() then
     energy.removeEnergy(amount)
     return true
@@ -281,7 +323,9 @@ function energy.sendEnergy(amount, visited)
       if energyReturn then
         visited = energyReturn[2]
         remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
-        energy.showTransferEffect(energyNeeds[1][1])
+        if energyReturn[1] > 0 then
+          energy.showTransferEffect(energyNeeds[1][1])
+        end
       else
         --world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
       end

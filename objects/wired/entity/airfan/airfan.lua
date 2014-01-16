@@ -82,7 +82,7 @@ end
 function main()
   energy.update()
   if storage.active then
-    if energy.consumeEnergy(1) == false then
+    if not energy.consumeEnergy() then
       setActive(false)
     end
 

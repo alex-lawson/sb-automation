@@ -40,5 +40,7 @@
 
   "outboundNodes" : [ [0, 0] ],
 
-  "energySendMax" : 20
+  "energySendRate" : 50,
+  "energyGenerationRate" : 20,
+  "energyCapacity" : 50
 }
