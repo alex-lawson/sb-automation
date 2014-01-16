@@ -41,6 +41,14 @@ function storageApi.init(mode, space, join)
   storageApi.isjoin = join
 end
 
+--- Sets storage contents and returns previous contents
+-- @param itemArray an array of item structures (name, count, params)
+function storageApi.setContents(itemArray)
+  local ret = storage.sApi
+  storage.sApi = itemArray
+  return ret
+end
+
 --- Should we take items from storage from outside the object?
 function storageApi.isOutput()
   return storageApi.isout
