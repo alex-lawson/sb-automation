@@ -75,7 +75,7 @@ end
 -- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
 function energy.die()
   for entityId, v in pairs(energy.connections) do
-    disconnect(entityId)
+    energy.disconnect(entityId)
   end
 end
 
