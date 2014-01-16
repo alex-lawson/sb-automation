@@ -38,7 +38,7 @@
   },
   "animationPosition" : [-8, -8],
 
-  "outboundNodes" : [ [0, 0] ],
+  //"outboundNodes" : [ [0, 0] ],
 
   "energySendRate" : 50,
   "energyGenerationRate" : 20,

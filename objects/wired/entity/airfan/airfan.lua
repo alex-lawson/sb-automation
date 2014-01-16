@@ -11,6 +11,10 @@ function init(v)
   onNodeConnectionChange(nil)
 end
 
+function die()
+  energy.die()
+end
+
 function onNodeConnectionChange(args)
   if entity.isInboundNodeConnected(0) then
     entity.setInteractive(false)

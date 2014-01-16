@@ -2,6 +2,12 @@ energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
 function energy.init()
+  --can be used to disallow direct connection (e.g. for batteries)
+  energy.allowConnection = entity.configParameter("energyAllowConnection")
+  if energy.allowConnection == nil then
+    energy.allowConnection = true
+  end
+
   --capacity of internal energy storage
   energy.capacity = entity.configParameter("energyCapacity")
   if energy.capacity == nil then
@@ -58,11 +64,8 @@ function energy.init()
   --determines how much power the device can transfer (without storing)
   energy.relayMax = entity.configParameter("energyRelayMax")
 
-  --use this to run more initialization the first time main() is called (in energy.update())
-  self.energyInitialized = false
-
   --frequency (in seconds) to perform LoS checks on connected entities
-  energy.connectCheckFreq = 2
+  energy.connectCheckFreq = 1
 
   --timer variable that tracks cooldown until next connection LoS check
   energy.connectCheckTimer = energy.connectCheckFreq
@@ -70,12 +73,15 @@ function energy.init()
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
+
+  --flag used to run more initialization the first time main() is called (in energy.update())
+  self.energyInitialized = false
 end
 
 -- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
 function energy.die()
   for entityId, v in pairs(energy.connections) do
-    disconnect(entityId)
+    energy.disconnect(entityId)
   end
 end
 
@@ -103,8 +109,10 @@ function energy.update()
       energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
     end
   else
-    energy.findConnections()
-    energy.checkConnections()
+    if energy.allowConnection then
+      energy.findConnections()
+      energy.checkConnections()
+    end
     self.energyInitialized = true
   end
 end
@@ -196,9 +204,9 @@ end
 
 -------------------------------------------------
 
---Used to determine if it uses the energy system
-function energy.usesEnergy()
-  return true
+--Used to determine if device can connect directly to other nodes
+function energy.canConnect()
+  return energy.allowConnection
 end
 
 -- returns true if object is a valid energy receiver
@@ -206,7 +214,7 @@ function energy.canReceiveEnergy()
   return energy.getUnusedCapacity() > 0
 end
 
--- compute all the configuration stuff for the connection
+-- compute all the configuration stuff for the connection and projectile effect
 function energy.makeConnectionConfig(entityId)
   local config = {}
   local srcPos = energy.getProjectileSourcePosition()
@@ -260,8 +268,7 @@ function energy.findConnections()
   --find nearby energy devices within LoS
   local entityIds = world.objectQuery(entity.position(), energy.linkRange, { 
       withoutEntityId = entity.id(),
-      --inSightOf = entity.id(), should connect and do block checking later
-      callScript = "energy.usesEnergy"
+      callScript = "energy.canConnect"
     })
 
   --world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
