@@ -1,0 +1,41 @@
+{
+  "objectName" : "batterycharger",
+  "rarity" : "Common",
+  "description" : "Holds 3 batteries for charging/discharging",
+  "shortdescription" : "Battery Holder",
+  "race" : "generic",
+  "price" : "200",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "batterychargericon.png",
+  "orientations" : [
+    {
+      "image" : "batterycharger.png",
+      "imagePosition" : [-8, -8],
+
+      "spaces" : [ [-1, -1], [0, -1], [1, -1], [-1, 1], [0, 1], [1, 1] ],
+      "anchors" : [ "bottom" ],
+      "collision" : "platform"
+    },
+    {
+      "image" : "batterycharger.png",
+      "imagePosition" : [-8, -8],
+
+      "spaces" : [ [-1, -1], [0, -1], [1, -1], [-1, 1], [0, 1], [1, 1] ],
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "batterycharger.animation",
+  "animationParts" : {
+    "charger" : "batterycharger.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "energySendRate" : 50,
+  "energyConsumptionRate" : 20
+}

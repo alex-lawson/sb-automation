@@ -2,6 +2,12 @@ energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
 function energy.init()
+  --can be used to disallow direct connection (e.g. for batteries)
+  energy.allowConnection = entity.configParameter("energyAllowConnection")
+  if energy.allowConnection == nil then
+    energy.allowConnection = true
+  end
+
   --capacity of internal energy storage
   energy.capacity = entity.configParameter("energyCapacity")
   if energy.capacity == nil then
@@ -103,8 +109,10 @@ function energy.update()
       energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
     end
   else
-    energy.findConnections()
-    energy.checkConnections()
+    if energy.allowConnection then
+      energy.findConnections()
+      energy.checkConnections()
+    end
     self.energyInitialized = true
   end
 end
@@ -196,9 +204,9 @@ end
 
 -------------------------------------------------
 
---Used to determine if it uses the energy system
-function energy.usesEnergy()
-  return true
+--Used to determine if device can connect directly to other nodes
+function energy.canConnect()
+  return energy.allowConnection
 end
 
 -- returns true if object is a valid energy receiver
@@ -260,8 +268,7 @@ function energy.findConnections()
   --find nearby energy devices within LoS
   local entityIds = world.objectQuery(entity.position(), energy.linkRange, { 
       withoutEntityId = entity.id(),
-      --inSightOf = entity.id(), should connect and do block checking later
-      callScript = "energy.usesEnergy"
+      callScript = "energy.canConnect"
     })
 
   --world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
