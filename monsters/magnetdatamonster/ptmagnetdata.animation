@@ -1,0 +1,56 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "default" : {
+        "priority" : 0,
+        "default" : "idle",
+
+        "states" : {
+          "idle" : {
+            "frames" : 1
+          },
+          "invisible" : {
+            "frames" : 1
+          }
+        }
+      },
+
+      "portrait" : {
+        "priority" : -1,
+        "default" : "portrait",
+        "states" : {
+          "portrait" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "body" : {
+        "partStates" : {
+          "default" : {
+            "idle" : {
+              "properties" : {
+                "image" : "<partImage>:idle"
+              }
+            },
+            "invisible" : {
+              "properties" : {
+                "image" : "<partImage>:invisible"
+              }
+            }
+          },
+
+          "portrait" : {
+            "portrait" : {
+              "properties" : {
+                "image" : "<partImage>:portrait"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

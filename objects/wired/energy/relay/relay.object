@@ -1,0 +1,35 @@
+{
+  "objectName" : "relay",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Let the force flow through you.",
+  "shortdescription" : "Energy Relay",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : "1000",
+  "scannable" : false,
+  "printable" : false,
+
+  "inventoryIcon" : "relayicon.png",
+
+  "orientations" : [
+    {
+      "image" : "relay.png:default.min",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "relay.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "relay.animation",
+  "animationParts" : {
+    "relay" : "relay.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "energyRelayMax" : 500
+}

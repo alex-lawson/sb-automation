@@ -21,7 +21,7 @@
   
   "inboundNodes" : [ [0, -2] ],
 
-  "scripts" : [ "airfan.lua", "/scripts/entityProxy.lua" ],
+  "scripts" : [ "airfan.lua", "/scripts/entityProxy.lua", "/scripts/energy.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "airfan.animation",
@@ -32,5 +32,8 @@
 
   "affectWidth" : 20,
   "fanPower" : 20,
-  "blowSound" : "/sfx/tech/tech_hoverloop.wav"
+  "blowSound" : "/sfx/tech/tech_hoverloop.wav",
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5
 }

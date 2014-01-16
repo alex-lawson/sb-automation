@@ -1,0 +1,46 @@
+{
+  "objectName" : "generator",
+  "rarity" : "Common",
+  "description" : "Who the hell made this trash??",
+  "shortdescription" : "Test Generator",
+  "race" : "generic",
+  "price" : "200",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "generatoricon.png",
+  "orientations" : [
+    {
+      "image" : "generator.png",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "collision" : "platform"
+
+    }
+  ],
+
+  "statusEffects" : [
+    {
+      "kind" : "Warmth",
+      "amount" : 70,
+      "range" : 8
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "generator.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "generator.animation",
+  "animationParts" : {
+    "generator" : "generator.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "outboundNodes" : [ [0, 0] ],
+
+  "energySendRate" : 50,
+  "energyGenerationRate" : 20,
+  "energyCapacity" : 50
+}
