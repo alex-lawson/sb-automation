@@ -62,7 +62,7 @@ function energy.init()
   self.energyInitialized = false
 
   --frequency (in seconds) to perform LoS checks on connected entities
-  energy.connectCheckFreq = 2
+  energy.connectCheckFreq = 1
 
   --timer variable that tracks cooldown until next connection LoS check
   energy.connectCheckTimer = energy.connectCheckFreq
