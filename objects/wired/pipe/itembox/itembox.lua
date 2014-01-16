@@ -61,39 +61,3 @@ function onItemGet(filter, nodeId)
   end
   return false
 end
-
-
---Generator
-function main(args)
-  local remainingEnergy = energyapi.currentEnergy
-  for _, node in ipairs(nodes)
-    local visited = {entity.id()}
-    remainingEnergy = pushEnergy(node, remainingEnergy, visited) --Gives energy to the node if specified, and calls onRecieveEnergy
-  end
-end
-
---Node
-function onRecieveEnergy(energy, visited)
-  local remainingEnergy = energy
-  for _, node in ipairs(nodes)
-    visited[#visited+1] = entity.id()
-    local willSend = true
-    for _,visitedId in ipairs(visited) do
-      if node == visitedId then willSend = false end
-    end
-    if willSend then
-      remainingEnergy = pushEnergy(node, remainingEnergy, visited) --Gives energy to the node if specified, and calls onRecieveEnergy
-    end
-  end
-end
-
---Machine using energy (this can be done internally)
-function energyapi.recieveEnergy(energy, visited)
-  if energy < energyapi.maxEnergy - energyapi.curEnergy then
-    energyapi.curEnergy = energyapi.curEnergy + energy
-  else
-    energyapi.curEnergy = energyApi.
-  end
-
-
-end
