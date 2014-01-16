@@ -5,6 +5,10 @@ function init(virtual)
   end
 end
 
+function die()
+  energy.die()
+end
+
 function main()
   -- yes, it really is that easy. uses the energyGenerationRate config parameter
   energy.generateEnergy()

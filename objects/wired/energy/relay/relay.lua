@@ -4,6 +4,10 @@ function init(virtual)
   end
 end
 
+function die()
+  energy.die()
+end
+
 function onEnergyReceive(amount, visited)
   --world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
   return energy.sendEnergy(amount, visited)
