@@ -74,7 +74,7 @@ function onLiquidGet(liquid, nodeId)
   local result = pullLiquid(self.connectionMap[nodeId], liquid)
   if result then
     activate()
-    output(liquid)
+    output(result)
   end
   return result
 end
@@ -102,4 +102,14 @@ end
 function onItemPut(item, nodeId)
   --world.logInfo("passing item from %s to %s", nodeId, self.connectionMap[nodeId])
   return pushItem(self.connectionMap[nodeId], item)
+end
+
+function beforeItemGet(filter, nodeId)
+  --world.logInfo("passing item peek get from %s to %s", nodeId, self.connectionMap[nodeId])
+  return peekPullItem(self.connectionMap[nodeId], filter)
+end
+
+function onItemGet(filter, nodeId)
+  --world.logInfo("passing item get from %s to %s", nodeId, self.connectionMap[nodeId])
+  return pullItem(self.connectionMap[nodeId], filter)
 end

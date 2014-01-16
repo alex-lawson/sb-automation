@@ -110,3 +110,21 @@ function onItemPut(item, nodeId)
     return false
   end
 end
+
+function beforeItemGet(filter, nodeId)
+  if storage.state then
+    --world.logInfo("passing item peek get from %s to %s", nodeId, self.connectionMap[nodeId])
+    return peekPullItem(self.connectionMap[nodeId], filter)
+  else
+    return false
+  end
+end
+
+function onItemGet(filter, nodeId)
+  if storage.state then
+    --world.logInfo("passing item get from %s to %s", nodeId, self.connectionMap[nodeId])
+    return pullItem(self.connectionMap[nodeId], filter)
+  else
+    return false
+  end
+end
