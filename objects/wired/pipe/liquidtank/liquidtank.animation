@@ -1,0 +1,85 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "liquid" : {
+        "priority" : 1,
+        "default" : "water",
+
+        "states" : {
+          "water" : {
+            "frames" : 1
+          },
+          "tar" : {
+            "frames" : 1
+          },
+          "poison" : {
+            "frames" : 1
+          },
+          "juice" : {
+            "frames" : 1
+          },
+          "lava" : {
+            "frames" : 1
+          },
+          "other" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+    "parts" : {
+      "fore" : {
+        "properties" : {
+          "image" : "<partImage>:foreground",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 3
+        }
+      },
+      "back" : {
+        "properties" : {
+          "image" : "<partImage>:background",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 1
+        }
+      },
+      "liquid" : {
+        "properties" : {
+          "image" : "<partImage>:water",
+          "offset" : [2.625, 1.5],
+          "centered" : false,
+          "zLevel" : 2,
+          "scalingGroup" : "liquid"
+        },
+        "partStates" : {
+          "liquid" : {
+            "water" : {
+              "image" : "<partImage>:water"
+            },
+            "tar" : {
+              "image" : "<partImage>:tar"
+            },
+            "poison" : {
+              "image" : "<partImage>:poison"
+            },
+            "juice" : {
+              "image" : "<partImage>:juice"
+            },
+            "lava" : {
+              "image" : "<partImage>:lava"
+            },
+            "other" : {
+              "image" : "<partImage>:other"
+            }
+          }
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "liquid" : {
+      "pivot" : [0, 0]
+    }
+  }
+}
