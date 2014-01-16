@@ -14,13 +14,13 @@ datawire = {}
 
 --- this should be called by the implementing object in its own init()
 function datawire.init()
-  self.initialized = false
+  self.dataWireInitialized = false
 end
 
 --- this will be called internally, to build connection tables once the world has fully loaded
 function datawire.initAfterLoading()
   datawire.createConnectionTable()
-  self.initialized = true
+  self.dataWireInitialized = true
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -62,7 +62,7 @@ end
 -- @returns true if at least one object successfully received the data
 function datawire.sendData(data, dataType, nodeId)
   -- don't transmit if connection tables haven't been built
-  if not self.initialized then
+  if not self.dataWireInitialized then
     return false
   end
 
@@ -141,7 +141,7 @@ function onValidDataReceived(data, dataType, nodeId) end
 
 --- any datawire operations that need to be run when main() is first called
 function datawire.update()
-  if self.initialized then
+  if self.dataWireInitialized then
     -- nothing for now
   else
     datawire.initAfterLoading()
