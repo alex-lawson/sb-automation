@@ -13,6 +13,8 @@
   "glitchDescription" : "Storage Box",
   "humanDescription" : "Storage Box",
   "hylotlDescription" : "Storage Box",
+  
+  "breakDropOptions": [],
 
   "inventoryIcon" : "itembox.png",
   "orientations" : [

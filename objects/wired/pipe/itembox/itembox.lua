@@ -5,17 +5,36 @@ function init(args)
     pipes.init({itemPipe})
     storageApi.init(3, 16, true)
     entity.scaleGroup("invbar", {1, 1})
+    
+    if entity.direction() < 0 then
+      entity.setAnimationState("flipped", "left")
+    end
+    
+    local initInv = entity.configParameter("initialInventory")
+    if initInv then
+      storage.sApi = initInv
+    end
   end
 end
 
-function onInteraction(args)
+function die()
+  local position = entity.position()
+  world.spawnItem("itembox", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.sApi})
 end
 
 function main(args)
   pipes.update(entity.dt())
   
   --Scale inventory bar
-  entity.scaleGroup("invbar", {1, storageApi.getCount() / storageApi.getCapacity()})
+  local relStorage = storageApi.getCount() / storageApi.getCapacity()
+  entity.scaleGroup("invbar", {1, relStorage})
+  if relStorage < 0.5 then 
+    entity.setAnimationState("invbar", "low")
+  elseif relStorage < 1 then
+    entity.setAnimationState("invbar", "medium")
+  else
+    entity.setAnimationState("invbar", "full")
+  end
 end
 
 function onItemPut(item, nodeId)
@@ -27,16 +46,15 @@ function onItemPut(item, nodeId)
 end
 
 function onItemGet(filter, nodeId)
-  local storageIndices = storageApi.getStorageIndices()
-  world.logInfo("Storage indices: %s", storageIndices)
+  world.logInfo("filter: %s", filter)
   if filter then
-    for _,i in ipairs(storageIndices) do
+    for i,item in storageApi.getIterator() do
       for _, filterString in ipairs(filter) do
-        if storageApi.peekItem(i)[1] == filterString then return storage.returnItem(i) end
+        if storageApi.peekItem(i)[1] == filterString then return storageApi.returnItem(i) end
       end
     end
   else
-    for _,i in ipairs(storageIndices) do
+    for i,item in storageApi.getIterator() do
       world.logInfo(i)
       return storageApi.returnItem(i)
     end

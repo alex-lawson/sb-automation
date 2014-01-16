@@ -12,7 +12,7 @@ itemPipe = {
 function pushItem(nodeId, item)
   return pipes.push("item", nodeId, item)
 end
-function pullItem(nodeId, itemFilter)
+function pullItem(nodeId, filter)
   return pipes.pull("item", nodeId, filter)
 end
 function peekPushItem(nodeId, item)
