@@ -12,7 +12,7 @@
   "orientations" : [
     {
       "image" : "generator.png",
-      "imagePosition" : [0, 0],
+      "imagePosition" : [-8, -8],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ],
@@ -36,7 +36,7 @@
   "animationParts" : {
     "generator" : "generator.png"
   },
-  "animationPosition" : [0, 0],
+  "animationPosition" : [-8, -8],
 
   "outboundNodes" : [ [0, 0] ],
 

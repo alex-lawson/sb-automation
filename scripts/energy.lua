@@ -42,13 +42,13 @@ function energy.init()
   self.energyInitialized = false
 
   --frequency (in seconds) to perform LoS checks on connected entities
-  energy.connectCheckFreq = 5
+  energy.connectCheckFreq = 2
 
   --timer variable that tracks cooldown until next connection LoS check
   energy.connectCheckTimer = energy.connectCheckFreq
 
   --table to hold id's of connected entities (no point storing this since id's change on reload)
-  -- also stores the relative positions for projectile display
+  --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
 end
 
@@ -81,6 +81,7 @@ function energy.update()
     end
   else
     energy.findConnections()
+    energy.checkConnections()
     self.energyInitialized = true
   end
 end
@@ -163,15 +164,35 @@ function energy.canReceiveEnergy()
   return energy.getUnusedCapacity() > 0
 end
 
+-- compute all the configuration stuff for the connection
+function energy.makeConnectionConfig(entityId)
+  local config = {}
+  local srcPos = energy.getProjectileSourcePosition()
+  local tarPos = world.entityPosition(entityId)
+  tarPos = {tarPos[1] + 0.5, tarPos[2] + 0.5}
+  config.aimVector = {tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
+  config.srcPos = srcPos
+  config.tarPos = tarPos
+  local distToTarget = world.magnitude(srcPos, tarPos)
+  config.speed = (distToTarget / 1.1) -- denominator must == projectile's timeToLive
+  config.blocked = world.lineCollision(srcPos, tarPos)
+  return config
+end
+
+-- get the source position for the visual effect (replace with something better)
+function energy.getProjectileSourcePosition()
+  return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
+end
+
 -- connects to the specified entity id
 function energy.connect(entityId)
-  energy.connections[entityId] = energy.getProjectileConfig(entityId)
+  energy.connections[entityId] = energy.makeConnectionConfig(entityId)
   world.callScriptedEntity(entityId, "energy.onConnect", entity.id())
 end
 
 -- callback for energy.connect
 function energy.onConnect(entityId)
-  energy.connections[entityId] = energy.getProjectileConfig(entityId)
+  energy.connections[entityId] = energy.makeConnectionConfig(entityId)
 end
 
 -- disconnects from the specified entity id
@@ -197,7 +218,7 @@ function energy.findConnections()
   --find nearby energy devices within LoS
   local entityIds = world.objectQuery(entity.position(), energy.linkRange, { 
       withoutEntityId = entity.id(),
-      inSightOf = entity.id(), 
+      --inSightOf = entity.id(), should connect and do block checking later
       callScript = "energy.usesEnergy"
     })
 
@@ -210,15 +231,11 @@ function energy.findConnections()
   end
 end
 
--- performs a LoS check to the given entity
-function energy.checkLoS(entityId)
-  --TODO
-  return true
-end
-
 -- performs periodic LoS checks on connected entities
 function energy.checkConnections()
-  --TODO
+  for entityId, pConfig in pairs(energy.connections) do
+    energy.connections[entityId].blocked = world.lineCollision(pConfig.srcPos, pConfig.tarPos)
+  end
 end
 
 -- returns the empty capacity (for consumers) or a Very Large Number TM for relays
@@ -241,8 +258,8 @@ function energy.sendEnergy(amount, visited)
 
   local energyNeeds = {}
   -- check energy needs for all connected entities
-  for entityId, v in pairs(energy.connections) do
-    if not visited[tostring(entityId)] then 
+  for entityId, config in pairs(energy.connections) do
+    if not visited[tostring(entityId)] and not config.blocked then 
       local thisEnergyNeed = world.callScriptedEntity(entityId, "energy.getEnergyNeeds")
       if thisEnergyNeed and thisEnergyNeed > 0 then
         energyNeeds[#energyNeeds + 1] = {entityId, thisEnergyNeed}
@@ -279,29 +296,8 @@ function energy.sendEnergy(amount, visited)
   return {totalSent, visited}
 end
 
--- compute all the configuration stuff for the projectile
-function energy.getProjectileConfig(entityId)
-  local config = {}
-
-  local srcPos = energy.getProjectileSourcePosition()
-  local tarPos = world.entityPosition(entityId)
-  tarPos = {tarPos[1] + 0.5, tarPos[2] + 0.5}
-  config.aimVector = {tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
-
-  local distToTarget = world.magnitude(srcPos, tarPos)
-  config.speed = (distToTarget / 1.5) -- denominator must == projectile's timeToLive
-  --world.logInfo("ttl: %f, dtt: %f, speed: %f", config.timeToLive, distToTarget, config.speed)
-  return config
-end
-
--- get the source position for the visual effect (replace with something better)
-function energy.getProjectileSourcePosition()
-  return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
-end
-
 -- display a visual indicator of the energy transfer
 function energy.showTransferEffect(entityId)
-  local srcPos = energy.getProjectileSourcePosition()
-  local pConfig = energy.connections[entityId]
-  world.spawnProjectile("energytransfer", srcPos, entity.id(), pConfig.aimVector, false, { speed=pConfig.speed })
+  local config = energy.connections[entityId]
+  world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
 end
