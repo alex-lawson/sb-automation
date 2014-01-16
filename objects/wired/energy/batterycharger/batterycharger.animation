@@ -1,0 +1,12 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "charger" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false
+        }
+      }
+    }
+  }
+}
