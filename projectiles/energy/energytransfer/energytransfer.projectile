@@ -1,6 +1,6 @@
 {
   "projectileName" : "energytransfer",
-  "physics" : "laser",
+  "physics" : "nocollision",
   //"bounces" : 0,
   "level" : 3,
   "damageKindImage" : "icon.png",
