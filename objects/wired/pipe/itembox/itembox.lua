@@ -46,7 +46,7 @@ function onItemPut(item, nodeId)
 end
 
 function onItemGet(filter, nodeId)
-  world.logInfo("filter: %s", filter)
+  --world.logInfo("filter: %s", filter)
   if filter then
     for i,item in storageApi.getIterator() do
       for _, filterString in ipairs(filter) do
@@ -55,7 +55,7 @@ function onItemGet(filter, nodeId)
     end
   else
     for i,item in storageApi.getIterator() do
-      world.logInfo(i)
+      --world.logInfo(i)
       return storageApi.returnItem(i)
     end
   end
