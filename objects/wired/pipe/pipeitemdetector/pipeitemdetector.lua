@@ -98,3 +98,18 @@ function onItemPut(item, nodeId)
   end
   return result
 end
+
+function beforeItemGet(filter, nodeId)
+  --world.logInfo("passing item peek get from %s to %s", nodeId, self.connectionMap[nodeId])
+  return peekPullItem(self.connectionMap[nodeId], filter)
+end
+
+function onItemGet(filter, nodeId)
+  --world.logInfo("passing item get from %s to %s", nodeId, self.connectionMap[nodeId])
+  local result = pullItem(self.connectionMap[nodeId], filter)
+  if result then
+    activate()
+    output(result)
+  end
+  return result
+end
