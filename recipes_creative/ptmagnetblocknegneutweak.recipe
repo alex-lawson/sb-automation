@@ -1,7 +1,0 @@
-{
-  "input" : [
-    { "item" : "money", "count" : 1 }
-  ],
-  "output" : { "item" : "ptmagnetblocknegneutweak", "count" : 1 },
-  "groups" : [ "mod", "all" ]
-}

@@ -1,5 +1,6 @@
 function init(args)
   if not args then
+    energy.init()
     storage.magnetOnAnim = (entity.configParameter("chargeStrengthOn") == 0) and "neutral" or entity.configParameter("chargeStrengthOn") > 0 and "positive" or "negative"
     storage.magnetOffAnim = (entity.configParameter("chargeStrengthOff") == 0) and "neutral" or entity.configParameter("chargeStrengthOff") > 0 and "positive" or "negative"
   
@@ -8,7 +9,7 @@ function init(args)
 	
     storage.charge = 0
     
-    die()
+    killData()
 	
     entity.setInteractive(true)
     if storage.state == nil then
@@ -20,16 +21,19 @@ function init(args)
 end
 
 function die()
+  energy.die()
+  killData()
+end
+
+function killData()
   if storage.dataID ~= nil then
     world.callScriptedEntity(storage.dataID, "kill")
-	storage.dataID = nil
+    storage.dataID = nil
   end
 end
 
 function onInteraction(args)
   output(not storage.state)
-
-  entity.playSound("onSounds");
 end
 
 function onInboundNodeChange(args)
@@ -54,12 +58,18 @@ function output(state)
 end
 
 function main()
+  energy.update()
   if (storage.dataID == nil or (storage.dataID ~= nil and not world.entityExists(storage.dataID))) then
     updateMagnetData()
   end
   
   local charge = storage.charge
-  if charge ~= 0 then
+  if storage.state then -- Magnet is active
+    if not energy.consumeEnergy() then
+      output(false)
+      return
+    end
+    
     -- Push monsters/npcs
     local radius = magnets.radius
     local pos = entity.position()
@@ -74,7 +84,7 @@ function main()
 end
 
 function updateMagnetData()
-  die()
+  killData()
   
   -- 13/9 Is the level the monster needs for the health to scale by 1
   local charge = storage.charge

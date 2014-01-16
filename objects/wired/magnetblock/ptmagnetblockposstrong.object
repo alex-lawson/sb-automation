@@ -1,15 +1,15 @@
 {
-  "objectName" : "ptmagnetblockposnegweak",
+  "objectName" : "ptmagnetblockposstrong",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "It's a weak magnet! (It's actually a point charge) Toggles between positive and negative.",
-  "shortdescription" : "Weak Pos/Neg Magnet",
+  "description" : "It's a strong magnet! (It's actually a point charge) Toggles between positive and neutral.",
+  "shortdescription" : "Strong Positive Magnet",
   "race" : "generic",
 
   "category" : "wire",
   "price" : "1",
 
-  "inventoryIcon" : "ptmagnetblockposnegweakicon.png",
+  "inventoryIcon" : "ptmagnetblockposstrongicon.png",
   "orientations" : [
     {
       "image" : "ptmagnetblock.png:positive",
@@ -20,7 +20,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetblock/ptmagnetblock.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetblock/ptmagnetblock.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "/objects/wired/magnetblock/ptmagnetblock.animation",
@@ -33,6 +33,9 @@
   
   "inboundNodes" : [ [0, 0] ],
   
-  "chargeStrengthOn" : 20,
-  "chargeStrengthOff" : -20
+  "chargeStrengthOn" : 70,
+  "chargeStrengthOff" : 0,
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 6
 }
