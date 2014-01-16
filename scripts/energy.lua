@@ -58,9 +58,6 @@ function energy.init()
   --determines how much power the device can transfer (without storing)
   energy.relayMax = entity.configParameter("energyRelayMax")
 
-  --use this to run more initialization the first time main() is called (in energy.update())
-  self.energyInitialized = false
-
   --frequency (in seconds) to perform LoS checks on connected entities
   energy.connectCheckFreq = 1
 
@@ -70,6 +67,9 @@ function energy.init()
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
+
+  --flag used to run more initialization the first time main() is called (in energy.update())
+  self.energyInitialized = false
 end
 
 -- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
@@ -206,7 +206,7 @@ function energy.canReceiveEnergy()
   return energy.getUnusedCapacity() > 0
 end
 
--- compute all the configuration stuff for the connection
+-- compute all the configuration stuff for the connection and projectile effect
 function energy.makeConnectionConfig(entityId)
   local config = {}
   local srcPos = energy.getProjectileSourcePosition()
