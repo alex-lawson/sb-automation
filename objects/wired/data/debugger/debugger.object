@@ -1,0 +1,34 @@
+{
+  "objectName" : "debugger",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "category" : "wire",
+  "price" : "500",
+  "description" : "When activated, writes input to starbound.log",
+  "shortdescription" : "Debugger",
+  "race" : "generic",
+
+  "inventoryIcon" : "debuggericon.png",
+  "orientations" : [
+    {
+      "image" : "debugger.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "debugger.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "debugger.animation",
+
+  "animationParts" : {
+    "debugger" : "debugger.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [0, 0] ]
+
+}
