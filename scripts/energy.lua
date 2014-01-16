@@ -22,7 +22,7 @@ function energy.init()
   --frequency (in seconds) to push energy (maybe make this hard coded)
   energy.sendFreq = entity.configParameter("energySendFreq")
   if energy.sendFreq == nil then
-    energy.sendFreq = 1
+    energy.sendFreq = 0.5
   end
 
   --timer variable that tracks the cooldown until next transmission pulse
@@ -48,10 +48,8 @@ function energy.init()
   energy.connectCheckTimer = energy.connectCheckFreq
 
   --table to hold id's of connected entities (no point storing this since id's change on reload)
+  -- also stores the relative positions for projectile display
   energy.connections = {}
-
-  --prevent looping
-  energy.recentSources = {}
 end
 
 -- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
@@ -140,9 +138,6 @@ end
 -- reduces the current energy pool by the specified amount, to a minimum of 0
 function energy.removeEnergy(amount, entityId)
   energy.setEnergy(math.max(0, energy.getEnergy() - amount))
-  if (entityId) then
-    energy.recentSources[entityId] = true
-  end
 end
 
 -- attempt to remove the specified amount of energy
@@ -170,13 +165,13 @@ end
 
 -- connects to the specified entity id
 function energy.connect(entityId)
-  energy.connections[entityId] = true
+  energy.connections[entityId] = energy.getProjectileConfig(entityId)
   world.callScriptedEntity(entityId, "energy.onConnect", entity.id())
 end
 
 -- callback for energy.connect
 function energy.onConnect(entityId)
-  energy.connections[entityId] = true
+  energy.connections[entityId] = energy.getProjectileConfig(entityId)
 end
 
 -- disconnects from the specified entity id
@@ -269,6 +264,7 @@ function energy.sendEnergy(amount, visited)
       if energyReturn then
         visited = energyReturn[2]
         remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
+        energy.showTransferEffect(energyNeeds[1][1])
       else
         --world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
       end
@@ -281,4 +277,31 @@ function energy.sendEnergy(amount, visited)
   --world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 
   return {totalSent, visited}
+end
+
+-- compute all the configuration stuff for the projectile
+function energy.getProjectileConfig(entityId)
+  local config = {}
+
+  local srcPos = energy.getProjectileSourcePosition()
+  local tarPos = world.entityPosition(entityId)
+  tarPos = {tarPos[1] + 0.5, tarPos[2] + 0.5}
+  config.aimVector = {tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
+
+  local distToTarget = world.magnitude(srcPos, tarPos)
+  config.speed = (distToTarget / 1.5) -- denominator must == projectile's timeToLive
+  --world.logInfo("ttl: %f, dtt: %f, speed: %f", config.timeToLive, distToTarget, config.speed)
+  return config
+end
+
+-- get the source position for the visual effect (replace with something better)
+function energy.getProjectileSourcePosition()
+  return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
+end
+
+-- display a visual indicator of the energy transfer
+function energy.showTransferEffect(entityId)
+  local srcPos = energy.getProjectileSourcePosition()
+  local pConfig = energy.connections[entityId]
+  world.spawnProjectile("energytransfer", srcPos, entity.id(), pConfig.aimVector, false, { speed=pConfig.speed })
 end
