@@ -1,0 +1,12 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "generator" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false
+        }
+      }
+    }
+  }
+}

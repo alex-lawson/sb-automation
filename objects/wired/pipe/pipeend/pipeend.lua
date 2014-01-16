@@ -26,8 +26,8 @@ function main(args)
   for i=0,3 do 
     local angle = (math.pi / 2) * i
     local tilePos = {position[1] + checkDirs[i][1], position[2] + checkDirs[i][2]}
-    local pipeDirections = pipes.getPipeDirections("liquid", tilePos)
-    if pipeDirections and pipes.pipesConnect(checkDirs[i], pipeDirections) then
+    local pipeDirections = pipes.getPipeTileData("liquid", tilePos, "foreground", checkDirs[i])
+    if pipeDirections then
       entity.rotateGroup("pipe", angle)
       self.usedNode = i + 1
     end
