@@ -1,7 +1,5 @@
 {
-  "input" : [
-    { "item" : "money", "count" : 1 }
-  ],
+  "input" : [ ],
   "output" : {
     "item" : "ptmagnetblockposnegstrong",
     "count" : 1
