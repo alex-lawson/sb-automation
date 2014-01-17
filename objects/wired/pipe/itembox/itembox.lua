@@ -3,23 +3,32 @@ function init(args)
   
   if args == false then
     pipes.init({itemPipe})
+    
+    local initInv = entity.configParameter("initialInventory")
+    if initInv and storage.sApi == nil then
+      storage.sApi = initInv
+    end
+    
     storageApi.init(3, 16, true)
-    entity.scaleGroup("invbar", {1, 1})
+    
+    entity.scaleGroup("invbar", {1, 0})
     
     if entity.direction() < 0 then
       entity.setAnimationState("flipped", "left")
     end
     
-    local initInv = entity.configParameter("initialInventory")
-    if initInv then
-      storage.sApi = initInv
-    end
+    self.pushRate = entity.configParameter("itemPushRate")
+    self.pushTimer = 0
   end
 end
 
 function die()
   local position = entity.position()
-  world.spawnItem("itembox", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.sApi})
+  if storageApi.getCount() == 0 then
+    world.spawnItem("itembox", {position[1] + 1.5, position[2] + 1}, 1)
+  else
+    world.spawnItem("itembox", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.sApi})
+  end
 end
 
 function main(args)
@@ -35,6 +44,18 @@ function main(args)
   else
     entity.setAnimationState("invbar", "full")
   end
+  
+  --Push out items if switched on
+  if entity.getInboundNodeLevel(0) then
+    if self.pushTimer > self.pushRate then
+      for i,item in storageApi.getIterator() do
+        pushItem(2, storageApi.returnItem(i))
+        break
+      end
+      self.pushTimer = 0
+    end
+    self.pushTimer = self.pushTimer + entity.dt()
+  end
 end
 
 function onItemPut(item, nodeId)
@@ -46,7 +67,7 @@ function onItemPut(item, nodeId)
 end
 
 function onItemGet(filter, nodeId)
-  world.logInfo("filter: %s", filter)
+  --world.logInfo("filter: %s", filter)
   if filter then
     for i,item in storageApi.getIterator() do
       for _, filterString in ipairs(filter) do
@@ -55,7 +76,7 @@ function onItemGet(filter, nodeId)
     end
   else
     for i,item in storageApi.getIterator() do
-      world.logInfo(i)
+      --world.logInfo(i)
       return storageApi.returnItem(i)
     end
   end
