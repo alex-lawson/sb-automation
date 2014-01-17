@@ -120,6 +120,9 @@ function setData(data)
 end
 
 function takeOneAndPassToYourLeft(args)
+  --abort if not initialized
+  if not self.dataWireInitialized then return end
+
   storage.data = args.data
 
   --take one

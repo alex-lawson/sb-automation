@@ -1,5 +1,13 @@
 {
   "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
     "parts" : {
       "charger" : {
         "properties" : {
