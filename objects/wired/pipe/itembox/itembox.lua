@@ -31,6 +31,33 @@ function die()
   end
 end
 
+function onInboundNodeChange(args)
+  if args.level then
+    for i,item in storageApi.getIterator() do
+      pushItem(2, storageApi.returnItem(i))
+      break
+    end
+    self.pushTimer = 0
+  end
+end
+
+function onInteraction(args)
+  local count = storageApi.getCount()
+  local capacity = storageApi.getCapacity()
+  local itemList = ""
+  
+  for _,item in storageApi.getIterator() do
+    itemList = itemList .. "^green;" .. item[1] .. "^white; x " .. item[2] .. ", "
+  end
+  
+  return { "ShowPopup", { message = "^white;Holding ^green;" .. count ..
+									"^white; / ^green;" .. capacity ..
+                  "^white; stacks of items." ..
+                  "\n\nStorage: " ..
+                  itemList
+									}}
+end
+
 function main(args)
   pipes.update(entity.dt())
   
