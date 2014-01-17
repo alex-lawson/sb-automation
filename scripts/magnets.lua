@@ -62,13 +62,22 @@ function magnets.lengthSquared(vec)
 end
 
 ------------------------------------------------------------------
--- Checks whether or not the entity should be effected by magnets
+-- Checks whether or not the entity should be affected by magnets
 -- @param entID The ID of the entity
 -- @return Whether or not the entity should be pushed by magnets
 ------------------------------------------------------------------
-function magnets.shouldEffect(entID)
+function magnets.shouldAffect(entID)
   -- Make sure the entity has been magnetized
-  if math.magnetizers ~= nil and magnets.isValidTarget(entID) then
+  return magnets.isValidTarget(entID) and magnets.isMagnetized(entID)
+end
+
+------------------------------------------------------------------
+-- Checks whether or not the entity should be affected by magnets
+-- @param entID The ID of the entity
+-- @return Whether or not the entity has been magnetized
+------------------------------------------------------------------
+function magnets.isMagnetized(entID)
+  if math.magnetizers ~= nil then
     for key,value in pairs(math.magnetizers) do
       if world.entityExists(key) then
         if world.callScriptedEntity(key, "isMagnetized", entID) then

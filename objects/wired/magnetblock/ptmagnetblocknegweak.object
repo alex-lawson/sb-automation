@@ -1,18 +1,18 @@
 {
-  "objectName" : "ptmagnetblockposstrong",
+  "objectName" : "ptmagnetblocknegweak",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "It's a strong magnet! (It's actually a point charge) Toggles between positive and neutral.",
-  "shortdescription" : "Powered Positive Magnet",
+  "description" : "It's a weak magnet! (It's actually a point charge) Toggles between positive and neutral.",
+  "shortdescription" : "Permanent Negative Magnet",
   "race" : "generic",
 
   "category" : "wire",
   "price" : "1",
 
-  "inventoryIcon" : "ptmagnetblockposstrongicon.png",
+  "inventoryIcon" : "ptmagnetblocknegweakicon.png",
   "orientations" : [
     {
-      "image" : "ptmagnetblock.png:positive",
+      "image" : "ptmagnetblock.png:negative",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -33,9 +33,7 @@
   
   "inboundNodes" : [ [0, 0] ],
   
-  "chargeStrength" : 100,
+  "chargeStrength" : -20,
 
-  "energyAllowConnection" : true,
-  "energyConsumptionRate" : 5,
-  "energyCapacity" : 5
+  "energyAllowConnection" : false
 }

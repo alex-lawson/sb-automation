@@ -30,5 +30,7 @@
   },
   "animationPosition" : [0, 0],
   
-  "inboundNodes" : [ [0, 0] ]
+  "inboundNodes" : [ [0, 0] ],
+  
+  "magnetizeDuration" : 5
 }
