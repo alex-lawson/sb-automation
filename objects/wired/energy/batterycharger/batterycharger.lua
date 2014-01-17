@@ -4,7 +4,6 @@ function init(virtual)
     datawire.init()
 
     --table of batteries in the charger
-    --keys are entityIds, values are configuration tables
     self.batteries = {}
 
     -- will be updated when batteries are checked
@@ -40,15 +39,24 @@ function die()
   energy.die()
 end
 
+function battCompare(a, b)
+  return a.position[1] < b.position[1]
+end
+
 function checkBatteries()
   self.batteries = {}
   self.batteryUnusedCapacity = 0
 
   local entityIds = world.objectQuery(self.batteryCheckArea[1], self.batteryCheckArea[2], { withoutEntityId = entity.id(), callScript = "isBattery" })
   for i, entityId in ipairs(entityIds) do
-    self.batteries[entityId] = world.callScriptedEntity(entityId, "getBatteryStatus")
-    self.batteryUnusedCapacity = self.batteryUnusedCapacity + self.batteries[entityId].unusedCapacity
+    local batteryStatus = world.callScriptedEntity(entityId, "getBatteryStatus")
+    self.batteries[#self.batteries + 1] = batteryStatus
+    self.batteryUnusedCapacity = self.batteryUnusedCapacity + batteryStatus.unusedCapacity
   end
+
+  --order batteries left -> right
+  table.sort(self.batteries, battCompare)
+
   updateAnimationState()
   self.batteryCheckTimer = self.batteryCheckFreq --reset this here so we don't perform periodic checks right after a pulse
 
@@ -73,13 +81,13 @@ end
 
 function chargeBatteries(amount)
   local amountRemaining = amount
-  for entityId, bStatus in pairs(self.batteries) do
-    local amountAccepted = world.callScriptedEntity(entityId, "energy.addEnergy", amountRemaining)
+  for i, bStatus in ipairs(self.batteries) do
+    local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
       if amountAccepted > 0 then
-        world.callScriptedEntity(entityId, "entity.setParticleEmitterActive", "charging", true)
+        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", true)
       else
-        world.callScriptedEntity(entityId, "entity.setParticleEmitterActive", "charging", false)
+        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", false)
       end
       amountRemaining = amountRemaining - amountAccepted
     end

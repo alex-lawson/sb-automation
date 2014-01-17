@@ -32,7 +32,8 @@ function getBatteryStatus()
     id=entity.id(),
     capacity=energy.getCapacity(),
     energy=energy.getEnergy(),
-    unusedCapacity=energy.getUnusedCapacity()
+    unusedCapacity=energy.getUnusedCapacity(),
+    position=entity.position()
   }
 end
 
