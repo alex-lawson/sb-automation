@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "ptmagnetblockposnegstrong",
-    "count" : 1
-  },
-  "groups" : [ "mod", "all" ]
-}

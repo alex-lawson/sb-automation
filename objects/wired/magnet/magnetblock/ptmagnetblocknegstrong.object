@@ -1,9 +1,9 @@
 {
-  "objectName" : "ptmagnetblocknegneutstrong",
+  "objectName" : "ptmagnetblocknegstrong",
   "rarity" : "Rare",
   "objectType" : "wire",
   "description" : "It's a strong magnet! (It's actually a point charge) Toggles between negative and neutral.",
-  "shortdescription" : "Strong Negative Magnet",
+  "shortdescription" : "Powered Negative Magnet",
   "race" : "generic",
 
   "category" : "wire",
@@ -20,10 +20,10 @@
     }
   ],
 
-  "scripts" : [ "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetblock/ptmagnetblock.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetblock.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/magnetblock/ptmagnetblock.animation",
+  "animation" : "ptmagnetblock.animation",
 
   "animationParts" : {
     "magnet" : "ptmagnetblock.png",
@@ -33,6 +33,9 @@
   
   "inboundNodes" : [ [0, 0] ],
   
-  "chargeStrengthOn" : -70,
-  "chargeStrengthOff" : 0
+  "chargeStrength" : -100,
+
+  "energyAllowConnection" : true,
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5
 }
