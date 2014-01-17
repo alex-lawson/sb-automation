@@ -235,7 +235,7 @@ function energy.makeConnectionConfig(entityId)
   config.srcPos = srcPos
   config.tarPos = tarPos
   local distToTarget = world.magnitude(srcPos, tarPos)
-  config.speed = (distToTarget / 1.1) -- denominator must == projectile's timeToLive
+  config.speed = (distToTarget / 1.2) -- denominator must == projectile's timeToLive
   config.blocked = world.lineCollision(srcPos, tarPos)
   return config
 end

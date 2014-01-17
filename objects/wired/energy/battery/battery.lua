@@ -1,6 +1,8 @@
 function init(virtual)
   if not virtual then
     energy.init()
+    entity.setParticleEmitterActive("charging", false)
+    updateAnimationState()
   end
 end
 
@@ -19,6 +21,15 @@ function getBatteryStatus()
     energy=energy.getEnergy(),
     unusedCapacity=energy.getUnusedCapacity()
   }
+end
+
+function onEnergyChange(newAmount)
+  updateAnimationState()
+end
+
+function updateAnimationState()
+  local chargeAmt = energy.getEnergy() / energy.getCapacity()
+  entity.scaleGroup("chargebar", {1, chargeAmt})
 end
 
 function main()

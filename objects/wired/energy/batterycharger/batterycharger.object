@@ -1,7 +1,7 @@
 {
   "objectName" : "batterycharger",
   "rarity" : "Common",
-  "description" : "Holds 3 batteries for charging/discharging",
+  "description" : "Connects up to three batteries to the energy network.",
   "shortdescription" : "Battery Holder",
   "race" : "generic",
   "price" : "200",
@@ -12,17 +12,17 @@
   "orientations" : [
     {
       "image" : "batterycharger.png",
-      "imagePosition" : [-8, -8],
+      "imagePosition" : [-8, -16],
 
-      "spaces" : [ [-1, -1], [0, -1], [1, -1], [-1, 1], [0, 1], [1, 1] ],
+      "spaces" : [ [-1, -2], [0, -2], [1, -2], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "bottom" ],
       "collision" : "platform"
     },
     {
       "image" : "batterycharger.png",
-      "imagePosition" : [-8, -8],
+      "imagePosition" : [-8, -16],
 
-      "spaces" : [ [-1, -1], [0, -1], [1, -1], [-1, 1], [0, 1], [1, 1] ],
+      "spaces" : [ [-1, -2], [0, -2], [1, -2], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "background" ]
     }
   ],
@@ -34,7 +34,7 @@
   "animationParts" : {
     "charger" : "batterycharger.png"
   },
-  "animationPosition" : [-8, -8],
+  "animationPosition" : [-8, -16],
 
   "energySendRate" : 20,
   "energyCapacity" : 5

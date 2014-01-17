@@ -25,7 +25,7 @@ function init(virtual)
     --store this so that we don't have to compute it repeatedly
     local pos = entity.position()
     self.batteryCheckArea = {
-      pos,
+      {pos[1], pos[2] - 1},
       1.5
     }
   end
@@ -43,19 +43,16 @@ end
 function checkBatteries()
   self.batteries = {}
   self.batteryUnusedCapacity = 0
-  --world.logInfo(self.batteryCheckArea[1])
-  --world.logInfo(self.batteryCheckArea[2])
 
   local entityIds = world.objectQuery(self.batteryCheckArea[1], self.batteryCheckArea[2], { withoutEntityId = entity.id(), callScript = "isBattery" })
   for i, entityId in ipairs(entityIds) do
     self.batteries[entityId] = world.callScriptedEntity(entityId, "getBatteryStatus")
     self.batteryUnusedCapacity = self.batteryUnusedCapacity + self.batteries[entityId].unusedCapacity
-    world.logInfo(self.batteries[entityId])
-    world.logInfo(world.entityPosition(entityId))
   end
   updateAnimationState()
   self.batteryCheckTimer = self.batteryCheckFreq --reset this here so we don't perform periodic checks right after a pulse
-  world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
+
+  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
   --world.logInfo(self.batteries)
 end
 
@@ -79,6 +76,11 @@ function chargeBatteries(amount)
   for entityId, bStatus in pairs(self.batteries) do
     local amountAccepted = world.callScriptedEntity(entityId, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
+      if amountAccepted > 0 then
+        world.callScriptedEntity(entityId, "entity.setParticleEmitterActive", "charging", true)
+      else
+        world.callScriptedEntity(entityId, "entity.setParticleEmitterActive", "charging", false)
+      end
       amountRemaining = amountRemaining - amountAccepted
     end
   end

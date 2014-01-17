@@ -27,7 +27,8 @@
 
   "animation" : "battery.animation",
   "animationParts" : {
-    "battery" : "battery.png"
+    "battery" : "battery.png",
+    "chargebar" : "chargebar.png"
   },
   "animationPosition" : [0, 0],
 
