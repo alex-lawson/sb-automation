@@ -20,10 +20,10 @@
     }
   ],
 
-  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetizer/ptmagnetizer.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetizer.lua" ],
   "scriptDelta" : 30,
 
-  "animation" : "/objects/wired/magnetizer/ptmagnetizer.animation",
+  "animation" : "ptmagnetizer.animation",
 
   "animationParts" : {
     "magnetizer" : "ptmagnetizer.png"

@@ -20,10 +20,10 @@
     }
   ],
 
-  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetblock/ptmagnetblock.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetblock.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/magnetblock/ptmagnetblock.animation",
+  "animation" : "ptmagnetblock.animation",
 
   "animationParts" : {
     "magnet" : "ptmagnetblock.png",

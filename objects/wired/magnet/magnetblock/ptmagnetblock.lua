@@ -70,7 +70,7 @@ function main()
   
   local charge = storage.charge
   if storage.state then -- Magnet is active
-    if storage.usesEnergy and not energy.consumeEnergy() then
+    if storage.usesEnergy and not energy.consumeEnergy(getEnergyUsage()) then
       output(false)
       return
     end
@@ -86,6 +86,11 @@ function main()
       end
     end
   end
+end
+
+-- Function for other magnets to overwrite
+function getEnergyUsage()
+  return nil
 end
 
 function updateMagnetData()
