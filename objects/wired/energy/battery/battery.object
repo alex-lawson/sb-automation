@@ -17,12 +17,10 @@
   "orientations" : [
     {
       "image" : "battery.png",
-      "imagePosition" : [0.001, 0],
+      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ ],
-
-      "direction" : "right"
+      "anchors" : [ ]
     }
   ],
 
@@ -34,7 +32,7 @@
     "battery" : "battery.png",
     "chargebar" : "chargebar.png"
   },
-  "animationPosition" : [0.001, 0],
+  "animationPosition" : [0, 0],
 
   "energyCapacity" : 100,
   "energyAllowConnection" : false
