@@ -1,4 +1,5 @@
 function init(args)  
+  entity.setInteractive(true)
   if args == false then
     pipes.init({liquidPipe})
     if entity.direction() < 0 then
@@ -33,6 +34,24 @@ function die()
     world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
   else
     world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1)
+  end
+end
+
+
+function onInteraction(args)
+  local liquid = self.liquidMap[storage.liquid[1]]
+  local count = storage.liquid[2]
+  local capacity = self.capacity
+  local itemList = ""
+  
+  if liquid == nil then liquid = "other" end
+  if count ~= nil then 
+    return { "ShowPopup", { message = "^white;Holding ^green;" .. count ..
+      "^white; / ^green;" .. capacity ..
+      "^white; units of liquid ^green;" .. liquid
+    }}
+  else
+    return { "ShowPopup", { message = "Tank is empty."}}
   end
 end
 
