@@ -75,10 +75,10 @@ function energy.init()
   energy.relayMax = entity.configParameter("energyRelayMax")
 
   --frequency (in seconds) to perform LoS checks on connected entities
-  energy.connectCheckFreq = 1
+  --energy.connectCheckFreq = 1
 
   --timer variable that tracks cooldown until next connection LoS check
-  energy.connectCheckTimer = energy.connectCheckFreq
+  --energy.connectCheckTimer = energy.connectCheckFreq
 
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
@@ -113,11 +113,12 @@ function energy.update()
     end
 
     --periodic connection checks
-    energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
-    if energy.connectCheckTimer <= 0 then
-      energy.checkConnections()
-      energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
-    end
+    -- DOING THESE ON EVERY PULSE FOR NOW
+    -- energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
+    -- if energy.connectCheckTimer <= 0 then
+    --   energy.checkConnections()
+    --   energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
+    -- end
   else
     if energy.allowConnection then
       energy.findConnections()
@@ -316,6 +317,8 @@ end
 -- pushes energy to connected entities. amount is divided between # of valid receivers
 function energy.sendEnergy(amount, visited)
   --world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
+
+  energy.checkConnections()
 
   local energyNeeds = {}
   -- check energy needs for all connected entities
