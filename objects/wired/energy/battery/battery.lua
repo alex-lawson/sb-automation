@@ -1,12 +1,25 @@
 function init(virtual)
   if not virtual then
     energy.init()
+
+    local initialEnergy = entity.configParameter("initialEnergy")
+    if initialEnergy then
+      energy.setEnergy(initialEnergy)
+    end
+
     entity.setParticleEmitterActive("charging", false)
     updateAnimationState()
   end
 end
 
 function die()
+  local position = entity.position()
+  if energy.getEnergy() == 0 then
+    world.spawnItem("battery", {position[1] + 0.5, position[2] + 1}, 1)
+  else
+    world.spawnItem("battery", {position[1] + 0.5, position[2] + 1}, 1, {initialEnergy=energy.getEnergy()})
+  end
+
   energy.die()
 end
 

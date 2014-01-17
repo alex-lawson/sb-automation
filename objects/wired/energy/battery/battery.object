@@ -12,6 +12,8 @@
 
   "inventoryIcon" : "batteryicon.png",
 
+  "breakDropOptions": [],
+
   "orientations" : [
     {
       "image" : "battery.png",
