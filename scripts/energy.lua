@@ -1,3 +1,13 @@
+-- HOOKS
+
+-- called when energy needs are queried, should return the quantity of energy this object requests
+-- function onEnergyNeedsCheck() end
+
+-- called when energy is sent to the object, should return 
+--    { totalEnergyAccepted, visited }
+-- (no need to manually add entity.id() to visited)
+-- function onEnergyReceived(amount, visited) end
+
 energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
@@ -172,11 +182,11 @@ end
 function energy.receiveEnergy(amount, visited)
   --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
   visited[entity.id()] = true
-  if onEnergyReceive == nil then
+  if onEnergyReceived == nil then
     local acceptedEnergy = energy.addEnergy(amount)
     return {acceptedEnergy, visited}
   else
-    return onEnergyReceive(amount, visited)
+    return onEnergyReceived(amount, visited)
   end
 end
 
@@ -289,7 +299,9 @@ end
 
 -- returns the empty capacity (for consumers) or a Very Large Number TM for relays
 function energy.getEnergyNeeds()
-  if energy.relayMax then
+  if onEnergyNeedsCheck then
+    return onEnergyNeedsCheck()
+  elseif energy.relayMax then
     return energy.relayMax
   else
     return energy.getUnusedCapacity()

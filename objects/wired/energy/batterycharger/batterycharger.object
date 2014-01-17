@@ -36,6 +36,6 @@
   },
   "animationPosition" : [-8, -8],
 
-  "energySendRate" : 50,
-  "energyConsumptionRate" : 20
+  "energySendRate" : 20,
+  "energyCapacity" : 5
 }

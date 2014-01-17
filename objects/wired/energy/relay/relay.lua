@@ -8,7 +8,7 @@ function die()
   energy.die()
 end
 
-function onEnergyReceive(amount, visited)
+function onEnergyReceived(amount, visited)
   --world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
   return energy.sendEnergy(amount, visited)
 end
