@@ -1,4 +1,12 @@
 {
+  "stateTypes" : {
+    "nullState" : {
+      "default" : "off",
+      "states" : {
+        "off" : {}
+      }
+    }
+  },
   "animatedParts" : {
     "parts" : {
       "battery" : {

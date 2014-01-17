@@ -14,6 +14,9 @@ datawire = {}
 
 --- this should be called by the implementing object in its own init()
 function datawire.init()
+  datawire.inboundConnections = {}
+  datawire.outboundConnections = {}
+
   self.dataWireInitialized = false
 end
 
@@ -25,34 +28,34 @@ end
 
 --- Creates connection tables for inbound and outbound nodes
 function datawire.createConnectionTable()
-  storage.outboundConnections = {}
+  datawire.outboundConnections = {}
   local i = 0
   while i < entity.outboundNodeCount() do
-    storage.outboundConnections[i] = entity.getOutboundNodeIds(i)
+    datawire.outboundConnections[i] = entity.getOutboundNodeIds(i)
     i = i + 1
   end
 
-  storage.inboundConnections = {}
+  datawire.inboundConnections = {}
   local entityIds
   i = 0
   while i < entity.inboundNodeCount() do
     entityIds = entity.getInboundNodeIds(i)
     for j, entityId in ipairs(entityIds) do
-      storage.inboundConnections[entityId] = i
+      datawire.inboundConnections[entityId] = i
     end
     i = i + 1
   end
 
   --world.logInfo(string.format("%s (id %d) created connection tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
-  --world.logInfo(storage.outboundConnections)
-  --world.logInfo(storage.inboundConnections)
+  --world.logInfo(datawire.outboundConnections)
+  --world.logInfo(datawire.inboundConnections)
 end
 
 --- determine whether there is a valid recipient on the specified outbound node
 -- @param nodeId the node to be queried
 -- @returns true if there is a recipient connected to the node
 function datawire.isOutboundNodeConnected(nodeId)
-  return storage.outboundConnections and storage.outboundConnections[nodeId] and #storage.outboundConnections[nodeId] > 0
+  return datawire.outboundConnections and datawire.outboundConnections[nodeId] and #datawire.outboundConnections[nodeId] > 0
 end
 
 --- Sends data to another datawire object
@@ -69,12 +72,12 @@ function datawire.sendData(data, dataType, nodeId)
   local transmitSuccess = false
 
   if nodeId == "all" then
-    for k, v in pairs(storage.outboundConnections) do
+    for k, v in pairs(datawire.outboundConnections) do
       transmitSuccess = datawire.sendData(data, dataType, k) or transmitSuccess
     end
   else
-    if storage.outboundConnections[nodeId] and #storage.outboundConnections[nodeId] > 0 then 
-      for i, entityId in ipairs(storage.outboundConnections[nodeId]) do
+    if datawire.outboundConnections[nodeId] and #datawire.outboundConnections[nodeId] > 0 then 
+      for i, entityId in ipairs(datawire.outboundConnections[nodeId]) do
         if entityId ~= entity.id() then
           transmitSuccess = world.callScriptedEntity(entityId, "datawire.receiveData", { data, dataType, entity.id() }) or transmitSuccess
         end
@@ -102,11 +105,11 @@ function datawire.receiveData(args)
   local sourceEntityId = args[3]
 
   --convert entityId to nodeId
-  local nodeId = storage.inboundConnections[sourceEntityId]
+  local nodeId = datawire.inboundConnections[sourceEntityId]
 
   if nodeId == nil then
-    world.logInfo(string.format("DataWire: %s received data of type %s from UNRECOGNIZED ENTITY %d, not in table:", entity.configParameter("objectName"), dataType, sourceEntityId))
-    world.logInfo(storage.inboundConnections)
+    world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
+    world.logInfo(datawire.inboundConnections)
 
     return false
   elseif validateData(data, dataType, nodeId) then
@@ -117,7 +120,7 @@ function datawire.receiveData(args)
 
     return true
   else
-    world.logInfo(string.format("DataWire: %s received INVALID data of type %s from entity %d", entity.configParameter("objectName"), dataType, sourceEntityId))
+    world.logInfo("DataWire: %s received INVALID data of type %s from entity %d", entity.configParameter("objectName"), dataType, sourceEntityId)
     world.logInfo(data)
     
     return false
