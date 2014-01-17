@@ -20,7 +20,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetizer/ptmagnetizer.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "/objects/wired/magnetizer/ptmagnetizer.lua" ],
   "scriptDelta" : 30,
 
   "animation" : "/objects/wired/magnetizer/ptmagnetizer.animation",
@@ -32,5 +32,7 @@
   
   "inboundNodes" : [ [0, 0] ],
   
-  "magnetizeDuration" : 5
+  "magnetizeDuration" : 5,
+  "energyPerMonster" : 10,
+  "energyCapacity" : 30
 }

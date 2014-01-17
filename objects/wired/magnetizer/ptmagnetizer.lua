@@ -1,9 +1,11 @@
 function init(args)
   if not args then
+    energy.init()
     entity.setInteractive(true)
     
     storage.magnetized = {}
     storage.magnetizeDuration = entity.configParameter("magnetizeDuration", 5)
+    storage.energyPerMonster = entity.configParameter("energyPerMonster", 10)
     
     if math.magnetizers == nil then
       math.magnetizers = { }
@@ -19,6 +21,7 @@ end
 
 -- Remove self from global magnetizer list on death
 function die()
+  energy.die()
   if math.magnetizers ~= nil then
     math.magnetizers[entity.id()] = nil
   end
@@ -50,6 +53,8 @@ function output(state)
 end
 
 function main()
+  energy.update()
+
   -- Ensure that this magnetizer is still in the global table
   if not math.magnetizers[entity.id()] then
     math.magnetizers[entity.id()] = true
@@ -74,7 +79,7 @@ function main()
     local pos = entity.position()
     local ents = world.entityQuery(pos, radius, { withoutEntityId = storage.dataID, notAnObject = true })
     for key,value in pairs(ents) do
-      if magnets.isValidTarget(value) and (not magnets.isMagnetized(value)) then
+      if magnets.isValidTarget(value) and (not magnets.isMagnetized(value)) and energy.consumeEnergy(storage.energyPerMonster) then
         storage.magnetized[value] = storage.magnetizeDuration
       end
     end
