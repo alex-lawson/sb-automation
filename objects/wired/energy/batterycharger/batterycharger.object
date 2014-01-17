@@ -12,9 +12,9 @@
   "orientations" : [
     {
       "image" : "batterycharger.png",
-      "imagePosition" : [-8, -16],
+      "imagePosition" : [-8, -24],
 
-      "spaces" : [ [-1, -2], [0, -2], [1, -2], [-1, 0], [0, 0], [1, 0] ],
+      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "bottom" ],
       "collision" : "platform"
     },
@@ -22,7 +22,7 @@
       "image" : "batterycharger.png",
       "imagePosition" : [-8, -16],
 
-      "spaces" : [ [-1, -2], [0, -2], [1, -2], [-1, 0], [0, 0], [1, 0] ],
+      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "background" ]
     }
   ],
@@ -34,7 +34,7 @@
   "animationParts" : {
     "charger" : "batterycharger.png"
   },
-  "animationPosition" : [-8, -16],
+  "animationPosition" : [-8, -24],
 
   "energySendRate" : 20,
   "energyCapacity" : 5

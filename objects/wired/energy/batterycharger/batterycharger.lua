@@ -54,13 +54,15 @@ function checkBatteries()
     self.batteryUnusedCapacity = self.batteryUnusedCapacity + batteryStatus.unusedCapacity
   end
 
+  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
+  --world.logInfo(self.batteries)
+
   --order batteries left -> right
   table.sort(self.batteries, battCompare)
 
   updateAnimationState()
   self.batteryCheckTimer = self.batteryCheckFreq --reset this here so we don't perform periodic checks right after a pulse
 
-  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
   --world.logInfo(self.batteries)
 end
 
