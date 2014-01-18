@@ -1,0 +1,20 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
+    "parts" : {
+      "smelter" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false
+        }
+      }
+    }
+  }
+}

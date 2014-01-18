@@ -1,0 +1,45 @@
+{
+  "objectName" : "powersmelter",
+  "rarity" : "Common",
+  "description" : "Uses energy to smelt ores hard and fast.",
+  "shortdescription" : "Power Smelter",
+  "race" : "generic",
+  "price" : "200",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "powersmeltericon.png",
+  "orientations" : [
+    {
+      "image" : "powersmelter.png",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "scripts" : [ 
+    "/scripts/datawire.lua",
+    "/scripts/energy.lua",
+    "powersmelter.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/storageapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+
+  "animation" : "powersmelter.animation",
+  "animationParts" : {
+    "smelter" : "powersmelter.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "itemNodes" : [ {"offset": [-1, 0], "dir": [0, 1]}, {"offset": [1, 0], "dir": [0, 1]} ],
+
+  "energySendRate" : 50,
+  "energyGenerationRate" : 20,
+  "energyCapacity" : 50
+}
