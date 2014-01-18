@@ -77,6 +77,9 @@ end
 -- @return Whether or not the entity has been magnetized
 ------------------------------------------------------------------
 function magnets.isMagnetized(entID)
+  if world.callScriptedEntity(entID, "isMagnetized", false) == true then
+    return true
+  end
   if math.magnetizers ~= nil then
     for key,value in pairs(math.magnetizers) do
       if world.entityExists(key) then

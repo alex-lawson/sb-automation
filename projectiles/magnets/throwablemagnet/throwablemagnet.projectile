@@ -1,0 +1,20 @@
+{
+  "projectileName" : "throwablemagnet",
+  "physics" : "bullet",
+  "bounces" : 0,
+  "level" : 1,
+  "timeToLive" : 0.05,
+  "frames" : "throwablemagnet.png",
+  "animationCycle" : 1,
+  "frameNumber" : 1,
+  "actionOnReap" : [
+    {
+      "action" : "spawnmonster",
+      "offset" : [0, 0],
+      "type" : "throwablemagnet",
+      "arguments" : { }
+    }
+  ],
+  "power" : 0,
+  "damageKind" : "default"
+}
