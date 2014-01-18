@@ -21,7 +21,7 @@
           "image" : "<partImage>",
           "centered" : false,
           "scalingGroup" : "chargebar",
-          "offset" : [0.375, 0.125],
+          "offset" : [0, 0.375],
           "zLevel" : 2
         }
       }
@@ -30,7 +30,7 @@
 
   "scalingGroups" : {
     "chargebar" : {
-      "pivot" : [0.375, 0.125]
+      "pivot" : [0, 0.375]
     }
   },
 
@@ -42,7 +42,7 @@
           "particle" : {
             "type" : "animated",
             "animation" : "/animations/statuseffects/battcharge/battcharge.animation",
-            "position" : [0.5, 0.5],
+            "position" : [0.5, 1],
             "finalVelocity" : [0, 4],
             "approach" : [0, 50],
             "destructionAction" : "shrink",

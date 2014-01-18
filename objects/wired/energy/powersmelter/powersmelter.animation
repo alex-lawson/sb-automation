@@ -9,7 +9,7 @@
       }
     },
     "parts" : {
-      "generator" : {
+      "smelter" : {
         "properties" : {
           "image" : "<partImage>",
           "centered" : false

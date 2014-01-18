@@ -1,0 +1,36 @@
+{
+  "stateTypes" : {
+    "nullState" : {
+      "default" : "off",
+      "states" : {
+        "off" : {}
+      }
+    }
+  },
+  "animatedParts" : {
+    "parts" : {
+      "generator" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false,
+          "zLevel" : 2
+        }
+      },
+      "turbine" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false,
+          "offset" : [0.375, 0.375],
+          "zLevel" : 1,
+          "rotationGroup" : "turbine"
+        }
+      }
+    }
+  },
+  "rotationGroups" : {
+    "turbine" : {
+      "rotationCenter" : [1.5625, 1.5625],
+      "angularVelocity" : 2
+    }
+  }
+}
