@@ -11,7 +11,7 @@
   "inventoryIcon" : "batterychargericon.png",
   "orientations" : [
     {
-      "image" : "batterycharger.png",
+      "image" : "batterycharger.png:off",
       "imagePosition" : [-8, -24],
 
       "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
@@ -19,7 +19,7 @@
       "collision" : "platform"
     },
     {
-      "image" : "batterycharger.png",
+      "image" : "batterycharger.png:off",
       "imagePosition" : [-8, -16],
 
       "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],

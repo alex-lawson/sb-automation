@@ -1,18 +1,42 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "nullState" : {
-        "default" : "off",
+      "chargeState" : {
+        "default" : "on",
         "states" : {
-          "off" : {}
+          "off" : {},
+          "on" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "error" : {}
         }
       }
     },
     "parts" : {
       "charger" : {
         "properties" : {
-          "image" : "<partImage>",
           "centered" : false
+        },
+        "partStates" : {
+          "chargeState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            }
+          }
         }
       }
     }
