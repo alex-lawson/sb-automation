@@ -1,12 +1,21 @@
--- HOOKS
+-- RED LIGHT DISTRICT
+-- (for hooks... get it?)
 
--- called when energy needs are queried, should return the quantity of energy this object requests
--- function onEnergyNeedsCheck() end
+--- return the amount of energy requested (defaults to current unused capacity)
+-- onEnergyNeedsCheck()
 
--- called when energy is sent to the object, should return 
---    { totalEnergyAccepted, visited }
--- (no need to manually add entity.id() to visited)
--- function onEnergyReceived(amount, visited) end
+--- return the amount of energy available to send (defaults to current energy)
+-- onEnergySendCheck()
+
+--- called when energy amount changes
+-- onEnergyChange(newAmount)
+
+--- called when energy is sent to the object, should return 
+---    { totalEnergyAccepted, visited }
+--- (no need to manually add entity.id() to visited)
+-- onEnergyReceived(amount, visited)
+
+-------------------------------------------------------------------------------------
 
 energy = {}
 
@@ -102,8 +111,9 @@ function energy.update()
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
-        if energy.getEnergy() >= 1 then --no nickels or dimes please
-          local pulseEnergy = math.min(energy.getEnergy(), energy.sendRate * energy.sendFreq)
+        local energyToSend = energy.getAvailableEnergy()
+        if energyToSend >= 1 then --no nickels or dimes please
+          local pulseEnergy = math.min(energyToSend, energy.sendRate * energy.sendFreq)
           --world.logInfo("initiating pulse with %f energy", pulseEnergy)
           local visited = {}
           visited[entity.id()] = true
@@ -141,13 +151,19 @@ end
 function energy.setEnergy(amount)
   if amount ~= energy.getEnergy() then
     storage.curEnergy = amount
-    onEnergyChange(amount)
+    if onEnergyChange then
+      onEnergyChange(amount)
+    end
   end
 end
 
--- object hook called when energy amount is changed
-if not onEnergyChange then
-  function onEnergyChange(newAmount) end
+-- gets the available energy to send
+function energy.getAvailableEnergy()
+  if onEnergySendCheck then
+    return onEnergySendCheck()
+  else
+    return energy.getEnergy()
+  end
 end
 
 -- returns the total amount of space in the object's energy storage

@@ -30,6 +30,15 @@ function onEnergyNeedsCheck()
   return 0
 end
 
+--only send energy while generating (even if it's in the pool... could try revamping this later)
+function onEnergySendCheck()
+  if storage.state then
+    return energy.getEnergy()
+  else
+    return 0
+  end
+end
+
 function main()
   if storage.state then
     -- yes, it really is that easy. uses the energyGenerationRate config parameter
