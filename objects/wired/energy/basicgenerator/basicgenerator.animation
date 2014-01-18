@@ -1,18 +1,42 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "nullState" : {
+      "generatorState" : {
         "default" : "off",
         "states" : {
-          "off" : {}
+          "off" : {},
+          "on" : {
+            "frames" : 6,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "error" : {}
         }
       }
     },
     "parts" : {
       "generator" : {
         "properties" : {
-          "image" : "<partImage>",
           "centered" : false
+        },
+        "partStates" : {
+          "generatorState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            }
+          }
         }
       }
     }

@@ -11,8 +11,8 @@
   "inventoryIcon" : "basicgeneratoricon.png",
   "orientations" : [
     {
-      "image" : "basicgenerator.png",
-      "imagePosition" : [-8, -8],
+      "image" : "basicgenerator.png:off",
+      "imagePosition" : [0, -8],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -26,9 +26,7 @@
   "animationParts" : {
     "generator" : "basicgenerator.png"
   },
-  "animationPosition" : [-8, -8],
-
-  //"outboundNodes" : [ [0, 0] ],
+  "animationPosition" : [0, -8],
 
   "energySendRate" : 50,
   "energyGenerationRate" : 20,

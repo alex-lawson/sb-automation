@@ -4,6 +4,7 @@ function init(virtual)
     datawire.init()
 
     entity.setInteractive(true)
+    updateAnimationState()
   end
 end
 
@@ -13,6 +14,15 @@ end
 
 function onInteraction(args)
   storage.state = not storage.state
+  updateAnimationState()
+end
+
+function updateAnimationState()
+  if storage.state then
+    entity.setAnimationState("generatorState", "on")
+  else
+    entity.setAnimationState("generatorState", "off")
+  end
 end
 
 --never accept energy from elsewhere
