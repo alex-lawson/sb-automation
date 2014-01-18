@@ -102,12 +102,14 @@ function energy.update()
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
-        local pulseEnergy = math.min(energy.getEnergy(), energy.sendRate * energy.sendFreq)
-        --world.logInfo("initiating pulse with %f energy", pulseEnergy)
-        local visited = {}
-        visited[entity.id()] = true
-        local result = energy.sendEnergy(pulseEnergy, visited)
-        energy.removeEnergy(result[1])
+        if energy.getEnergy() >= 1 then --no nickels or dimes please
+          local pulseEnergy = math.min(energy.getEnergy(), energy.sendRate * energy.sendFreq)
+          --world.logInfo("initiating pulse with %f energy", pulseEnergy)
+          local visited = {}
+          visited[entity.id()] = true
+          local result = energy.sendEnergy(pulseEnergy, visited)
+          energy.removeEnergy(result[1])
+        end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
@@ -166,7 +168,8 @@ function energy.generateEnergy()
   return energy.addEnergy(amount)
 end
 
--- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity> and returns the amount added
+-- Adds the specified amount of energy to the storage pool, to a maximum of <energy.capacity> 
+-- @returns the amount added
 function energy.addEnergy(amount)
   local newEnergy = energy.getEnergy() + amount
   if newEnergy <= energy.getCapacity() then
@@ -192,8 +195,16 @@ function energy.receiveEnergy(amount, visited)
 end
 
 -- reduces the current energy pool by the specified amount, to a minimum of 0
+-- @returns the amount of energy removed
 function energy.removeEnergy(amount, entityId)
-  energy.setEnergy(math.max(0, energy.getEnergy() - amount))
+  local newEnergy = energy.getEnergy() - amount
+  if newEnergy <= 0 then
+    energy.setEnergy(0)
+    return amount + newEnergy
+  else
+    energy.setEnergy(newEnergy)
+    return amount
+  end
 end
 
 -- attempt to remove the specified amount of energy
@@ -316,7 +327,9 @@ end
 
 -- pushes energy to connected entities. amount is divided between # of valid receivers
 function energy.sendEnergy(amount, visited)
-  --world.logInfo("%s %d sending energy...", entity.configParameter("objectName"), entity.id())
+  --if entity.configParameter("objectName") ~= "relay" then
+    --world.logInfo("%s %d sending %f energy...", entity.configParameter("objectName"), entity.id(), amount)
+  --end
 
   energy.checkConnections()
 
