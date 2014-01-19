@@ -20,11 +20,12 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "basicgenerator.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "basicgenerator.animation",
   "animationParts" : {
-    "generator" : "basicgenerator.png"
+    "generator" : "basicgenerator.png",
+    "fuelbar" : "fuelbar.png"
   },
   "animationPosition" : [0, -8],
 

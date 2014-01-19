@@ -21,6 +21,9 @@ energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
 function energy.init()
+  --energy per unit of fuel for automated conversions
+  energy.fuelEnergyConversion = 100
+
   --can be used to disallow direct connection (e.g. for batteries)
   energy.allowConnection = entity.configParameter("energyAllowConnection")
   if energy.allowConnection == nil then
@@ -39,18 +42,10 @@ function energy.init()
     energy.generationRate = 0
   end
 
-  if storage.energyGenerationState == nil then
-    storage.energyGenerationState = false
-  end
-
   --amount of energy consumed per second when active
   energy.consumptionRate = entity.configParameter("energyConsumptionRate")
   if energy.consumptionRate == nil then
     energy.consumptionRate = 0
-  end
-
-  if storage.energyConsumptionState == nil then
-    storage.energyConsumptionState = false
   end
 
   --current energy storage
