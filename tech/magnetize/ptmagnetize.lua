@@ -123,8 +123,9 @@ function isMagnet(id)
 end
 
 magnetUtil = {
-  constant = 20,
-  radius = 50
+  constant = 40,
+  radius = 50,
+  minDist = 2
 }
 
 function magnetUtil.magnetCenter(objPos)
@@ -132,5 +133,11 @@ function magnetUtil.magnetCenter(objPos)
 end
 
 function magnetUtil.lengthSquared(vec)
-  return (vec[1] * vec[1]) + (vec[2] * vec[2])
+  local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
+  if out > 0 and out < magnetUtil.minDist then
+    out = magnetUtil.minDist
+  elseif out < 0 and out > -magnetUtil.minDist then
+    out = -magnetUtil.minDist
+  end
+  return out
 end

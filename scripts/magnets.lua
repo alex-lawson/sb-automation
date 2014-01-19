@@ -1,8 +1,9 @@
 
 magnets = {
-  constant = 20,
+  constant = 40,
   radius = 50,
-  limit = 100
+  limit = 100,
+  minDist = 2
 }
 
 ------------------------------------------------------------------------------------------
@@ -53,12 +54,18 @@ function magnets.vecSum(u, v)
 end
 
 -----------------------------------------------
--- Gets the square length of a vector.
+-- Gets the square length of a vector, with a capped minimun distance.
 -- @param vec The vector to get the length of.
 -- @return The square length of the vector.
 -----------------------------------------------
 function magnets.lengthSquared(vec)
-  return (vec[1] * vec[1]) + (vec[2] * vec[2])
+  local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
+  if out > 0 and out < magnets.minDist then
+    out = magnets.minDist
+  elseif out < 0 and out > -magnets.minDist then
+    out = -magnets.minDist
+  end
+  return out
 end
 
 ------------------------------------------------------------------
