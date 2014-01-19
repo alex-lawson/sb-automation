@@ -1,0 +1,22 @@
+{
+  "projectileName" : "placeblock",
+  "level" : 1,
+  "frames" : "invisibleprojectile.png",
+  "animationCycle" : 1,
+  "frameNumber" : 1,
+  "timeToLive" : 0.1,
+
+  "speed" : 1,
+  "fallSpeed" : 0,
+
+  "damageKind" : "default",
+
+  "actionOnReap" : [
+    {
+        "action" : "placematerial",
+        "type" : "dirt",
+        "arguments" : { "health" : 1000000}
+    }
+  ]
+  
+}
