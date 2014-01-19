@@ -125,7 +125,7 @@ end
 magnetUtil = {
   constant = 40,
   radius = 50,
-  minDist = 2
+  minDist = 1
 }
 
 function magnetUtil.magnetCenter(objPos)
@@ -135,9 +135,9 @@ end
 function magnetUtil.lengthSquared(vec)
   local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
   if out > 0 and out < magnetUtil.minDist then
-    out = magnetUtil.minDist
+    out = 2 * magnetUtil.minDist - out
   elseif out < 0 and out > -magnetUtil.minDist then
-    out = -magnetUtil.minDist
+    out = 2 * -magnetUtil.minDist + out
   end
   return out
 end
