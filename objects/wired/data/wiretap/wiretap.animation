@@ -1,7 +1,7 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "debugState" : {
+      "tapState" : {
         "default" : "off",
         "states" : {
           "off" : {
@@ -17,13 +17,13 @@
     },
 
     "parts" : {
-      "debugger" : {
+      "wiretap" : {
         "properties" : {
           "centered" : false
         },
 
         "partStates" : {
-          "debugState" : {
+          "tapState" : {
             "off" : {
               "properties" : {
                 "image" : "<partImage>:<color>.off"

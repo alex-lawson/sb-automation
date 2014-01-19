@@ -1,0 +1,35 @@
+{
+  "objectName" : "wiretap",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "category" : "wire",
+  "price" : "500",
+  "description" : "When activated, writes data passed through to starbound.log",
+  "shortdescription" : "Wiretap",
+  "race" : "generic",
+
+  "inventoryIcon" : "wiretapicon.png",
+  "orientations" : [
+    {
+      "image" : "wiretap.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "wiretap.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "wiretap.animation",
+
+  "animationParts" : {
+    "wiretap" : "wiretap.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [-1, -1] ],
+  "outboundNodes" : [ [ 0, -1] ]
+
+}

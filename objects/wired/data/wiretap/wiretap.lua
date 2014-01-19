@@ -28,17 +28,17 @@ function output(state)
   if state ~= storage.state then
     storage.state = state
     if state then
-      entity.setAnimationState("debugState", "on")
+      entity.setAnimationState("tapState", "on")
       logInfo("--- Enabling Logging ---")
     else
-      entity.setAnimationState("debugState", "off")
+      entity.setAnimationState("tapState", "off")
       logInfo("--- Disabling Logging ---")
     end
   end
 end
 
 function logInfo(stringToLog)
-  world.logInfo("Debugger " .. storage.name .. ": " .. stringToLog)
+  world.logInfo("Wiretap " .. storage.name .. ": " .. stringToLog)
 end
 
 function validateData(data, dataType, nodeId)
@@ -50,6 +50,7 @@ function onValidDataReceived(data, dataType, nodeId)
   if storage.state then
     logInfo(dataType .. ": " .. data)
   end
+  datawire.sendData(data, dataType, 0)
 end
 
 function name(newName)
