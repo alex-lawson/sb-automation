@@ -1,0 +1,11 @@
+{
+  "projectileName" : "magnetexplosion",
+  "physics" : "bullet",
+  "bounces" : 0,
+  "animationCycle" : 0.2,
+  "frameNumber" : 6,
+  "level" : 1,
+  "timeToLive" : 0.2,
+  "frames" : "magnetexplosion.png",
+  "damageKind" : "default"
+}

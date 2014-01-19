@@ -1,10 +1,10 @@
 {
-  "type" : "ptmagnetdata",
+  "type" : "throwablemagnet",
 
-  "categories" : [ "ptmagnetdata" ],
+  "categories" : [ "throwablemagnet" ],
   "parts" : [ "body" ],
 
-  "animation" : "ptmagnetdata.animation",
+  "animation" : "throwablemagnet.animation",
   "projectiles" : "/monsters/projectiles.config",
   "colors" : "/monsters/colors.config",
 
@@ -12,28 +12,27 @@
 
   "baseParameters" : {
     "scripts" : [
-      "/monsters/magnetdatamonster/behavior.lua"
+      "/monsters/magnets/throwablemagnet/behavior.lua"
     ],
 
-    "scriptDelta" : -1,
-    "damageTeam" : 0,
+    "scriptDelta" : 1,
 
-    "metaBoundBox" : [-0.25, -0.25, 0.25, 0.25],
-    "scale" : 0,
+    "metaBoundBox" : [-0.5, -0.5, 0.5, 0.5],
+    "scale" : 1,
 
     "movementSettings" : {
-      "collisionPoly" : [ ],
+      "collisionPoly" : [ [-0.5, -0.5], [0.5, -0.5], [0.5, 0.5], [-0.5, 0.5] ],
 
-      "mass" : 0.0,
+      "mass" : 1,
       "walkSpeed" : 0,
       "runSpeed" : 0,
       "jumpSpeed" : 0,
       "flySpeed" : 0,
-      "airFriction" : 0,
-      "airForce" : 0,
-      "gravityEnabled" : false,
-	  "collisionEnabled" : false,
-	  "frictionEnabled" : false
+      "airFriction" : 0.5,
+      "airForce" : 20.0,
+      "gravityEnabled" : true,
+      "collisionEnabled" : true,
+      "frictionEnabled" : true
     },
 
     "bodyMaterialKind" : "organic",
@@ -54,7 +53,7 @@
     },
 
     "statusParameters" : {
-      "baseMaxHealth" : 0,
+      "baseMaxHealth" : 10,
       "bodyMaterialKind" : "organic",
       "damageConfig" : "/damage/damageresponse/allergen.config"
     },
@@ -67,8 +66,6 @@
     ],
 	
     "mouthOffset" : [0, 0],
-    "feetOffset" : [0, 0],
-	
-    "isMagnetData" : true
+    "feetOffset" : [0, 0]
   }
 }

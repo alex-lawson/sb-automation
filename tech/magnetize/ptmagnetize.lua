@@ -5,6 +5,7 @@ function init()
   data.dataStart = "ptmagnetblock"
   data.dataStartLen = string.len(data.dataStart)
   data.magnetConstant = magnetUtil.constant
+  data.positive = true
 end
 
 function uninit()
@@ -25,8 +26,15 @@ function input(args)
       return "magnetizeActivate"
     end
   end
+  
+  if args.moves["special"] == 2 and not data.specialLast2 then
+    if data.active then
+      return "magnetizeReverse"
+    end
+  end
 
   data.specialLast = args.moves["special"] == 1
+  data.specialLast2 = args.moves["special"] == 2
 
   return move
 end
@@ -35,7 +43,7 @@ function update(args)
   local radius = magnetUtil.radius
 
   if not data.active and args.actions["magnetizeActivate"] then
-    tech.setAnimationState("magnetball", "on")
+    tech.setAnimationState("magnetball", (data.positive and "pos" or "neg"))
     tech.translate({0, tech.parameter("ballTransformHeightChange")})
     tech.setParentAppearance("hidden")
     data.active = true
@@ -62,6 +70,13 @@ function update(args)
         data.active = false
       end
     end
+  elseif data.active and (args.actions["magnetizeReverse"]) then
+    data.positive = not data.positive
+    if data.positive then
+      tech.setAnimationState("magnetball", "pos")
+    else
+      tech.setAnimationState("magnetball", "neg")
+    end
   end
 
   if data.active then
@@ -80,7 +95,7 @@ function update(args)
         local magnetCharge = world.entityHealth(magnetDataID)[2]
       
         local posDif = world.distance(playerCenter(), magnetPos)
-        local qQ = magnetCharge * data.magnetConstant
+        local qQ = magnetCharge * data.magnetConstant * (data.positive and 1 or -1)
         local forceMag = qQ / magnetUtil.lengthSquared(posDif)
         local theta = math.atan2(posDif[2], posDif[1])
       
@@ -108,8 +123,9 @@ function isMagnet(id)
 end
 
 magnetUtil = {
-  constant = 20,
-  radius = 50
+  constant = 40,
+  radius = 50,
+  minDist = 2
 }
 
 function magnetUtil.magnetCenter(objPos)
@@ -117,5 +133,11 @@ function magnetUtil.magnetCenter(objPos)
 end
 
 function magnetUtil.lengthSquared(vec)
-  return (vec[1] * vec[1]) + (vec[2] * vec[2])
+  local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
+  if out > 0 and out < magnetUtil.minDist then
+    out = magnetUtil.minDist
+  elseif out < 0 and out > -magnetUtil.minDist then
+    out = -magnetUtil.minDist
+  end
+  return out
 end
