@@ -103,8 +103,16 @@ function onItemGet(filter, nodeId)
   --world.logInfo("filter: %s", filter)
   if filter then
     for i,item in storageApi.getIterator() do
-      for _, filterString in ipairs(filter) do
-        if storageApi.peekItem(i)[1] == filterString then return storageApi.returnItem(i) end
+      world.logInfo("Filter : %s Item: %s", filter, item)
+      for filterString,amount  in pairs(filter) do
+        if item[1] == filterString and item[2] >= amount[1] then
+          if item[2] <= amount[2] then
+            return storageApi.returnItem(i)
+          else
+            item[2] = item[2] - amount[2]
+            return {item[1], amount[2], item[3]}
+          end
+        end
       end
     end
   else
@@ -116,11 +124,13 @@ function onItemGet(filter, nodeId)
   return false
 end
 
-function beforeItemGet(item, nodeId)
+function beforeItemGet(filter, nodeId)
   if filter then
     for i,item in storageApi.getIterator() do
-      for _, filterString in ipairs(filter) do
-        if storageApi.peekItem(i)[1] == filterString then return true end
+      for filterString,amount  in ipairs(filter) do
+        if item[1] == filterString and item[2] >= amount[1] then
+          return true 
+        end
       end
     end
   else

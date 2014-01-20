@@ -75,8 +75,8 @@ end
 function pullOre() 
   storage.ore = {}
   local pullFilter = {}
-  for matitem,_ in pairs(self.conversions) do
-    pullFilter[#pullFilter+1] = matitem
+  for matitem,conversion in pairs(self.conversions) do
+    pullFilter[matitem] = {conversion[1], conversion[1]}
   end
   local pulledItem = pullItem(1, pullFilter)
   if pulledItem then

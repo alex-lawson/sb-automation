@@ -82,8 +82,8 @@ function main(args)
     if storage.block[1] == nil or storage.block[2] <= 0 then
       storage.block = {}
       local pullFilter = {}
-      for matitem,_ in pairs(self.conversions) do
-        pullFilter[#pullFilter+1] = matitem
+      for matitem,conversion in pairs(self.conversions) do
+        pullFilter[matitem] = {1, conversion.input}
       end
       local pulledItem = pullItem(1, pullFilter)
       if pulledItem then
