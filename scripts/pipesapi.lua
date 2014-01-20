@@ -6,8 +6,10 @@ function acceptPipeRequestAt(pipeName, position, pipeDirection)
   local entityPos = entity.position()
   
   for i,node in ipairs(pipes.nodes[pipeName]) do
-    local absNodePos = {entityPos[1] + node.offset[1], entityPos[2] + node.offset[2]}
-    if position[1] == absNodePos[1] and position[2] == absNodePos[2] and pipes.pipesConnect(node.dir, {pipeDirection}) then
+    local absNodePos = entity.toAbsolutePosition(node.offset)
+    local distance = world.distance(position, absNodePos)
+    world.logInfo("Testing positions %s : %s Distance: %s", position, absNodePos, distance)
+    if distance[1] == 0 and distance[2] == 0 and pipes.pipesConnect(node.dir, {pipeDirection}) then
       return i
     end
   end
@@ -155,8 +157,7 @@ function pipes.getNodeEntities(pipeName)
   
   if pipes.nodes[pipeName] == nil then return {} end
   for i,pipeNode in ipairs(pipes.nodes[pipeName]) do
-    local pipePos = {position[1] + pipeNode.offset[1], position[2] + pipeNode.offset[2]}
-    nodeEntities[i] = pipes.walkPipes(pipeName, pipePos, pipeNode.dir)
+    nodeEntities[i] = pipes.walkPipes(pipeName, pipeNode.offset, pipeNode.dir)
   end
   return nodeEntities
   
@@ -182,11 +183,11 @@ function pipes.validEntity(pipeName, entityId, position, direction)
   return world.callScriptedEntity(entityId, "acceptPipeRequestAt", pipeName, position, direction)
 end
 
-function pipes.walkPipes(pipeName, startPos, startDir)
+function pipes.walkPipes(pipeName, startOffset, startDir)
   local validEntities = {}
   
   local visitedTiles = {}
-  local tilesToVisit = {{startPos[1], startPos[2]}}
+  local tilesToVisit = {{startOffset[1], startOffset[2]}}
   
   local layerMode = nil
   
@@ -201,9 +202,10 @@ function pipes.walkPipes(pipeName, startPos, startDir)
         pipeDirections = {startDir}
         startDir = false
       else
-        pipeDirections, layerMode = pipes.getPipeTileData(pipeName, {tile[1], tile[2]}, layerMode)
+        pipeDirections, layerMode = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile), layerMode)
       end
       
+      if world.entityName(entity.id()) == "liquidpump" then world.logInfo("Walking through tile %s", entity.toAbsolutePosition(tile)) end
       
       if pipeDirections then
         if visitedTiles[tile[1]] == nil then visitedTiles[tile[1]] = {} end
@@ -212,24 +214,27 @@ function pipes.walkPipes(pipeName, startPos, startDir)
         --Get tiles that the current pipe might connect to
         for i,direction in ipairs(pipeDirections) do
           nearTile = {tile[1] + direction[1], tile[2] + direction[2]}
-          local nearPipeDirections = pipes.getPipeTileData(pipeName, nearTile, layerMode, direction)
+          nearTilePos = entity.toAbsolutePosition(nearTile)
+          local nearPipeDirections = pipes.getPipeTileData(pipeName, nearTilePos, layerMode, direction)
           
           if nearPipeDirections and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
             newVisitTiles[#newVisitTiles+1] = {nearTile[1], nearTile[2]}
           end
           
           --Add valid entities to the entity list
-          local connectedObjects = world.entityLineQuery({nearTile[1] + 0.4, nearTile[2] + 0.4}, {nearTile[1] + 0.6, nearTile[2] + 0.6}, {notAnObject = false})
+          local connectedObjects = world.entityLineQuery({nearTilePos[1] + 0.4, nearTilePos[2] + 0.4}, {nearTilePos[1] + 0.6, nearTilePos[2] + 0.6}, {notAnObject = false})
           if connectedObjects then
             for key,objectId in ipairs(connectedObjects) do
               if objectId ~= entity.id() then
                 local notAdded = true
                 
+                world.logInfo("Object found %s %s", world.entityName(objectId), objectId)
                 for i,id in ipairs(validEntities) do
                   if objectId == id then notAdded = false end
                 end
-                local validEntity = pipes.validEntity(pipeName, objectId, nearTile, direction)
+                local validEntity = pipes.validEntity(pipeName, objectId, nearTilePos, direction)
                 if validEntity and notAdded then
+                  world.logInfo("Object added %s", objectId)
                   validEntities[#validEntities+1] = {id = objectId, nodeId = validEntity}
                 end
               end
