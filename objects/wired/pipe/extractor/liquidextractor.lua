@@ -30,10 +30,22 @@ function init(args)
   
   if storage.block == nil then storage.block = {} end
   if storage.placedBlock == nil then storage.placedBlock = {} end
+  if storage.state == nil then storage.state = false end
+end
+
+function onInboundNodeChange(args)
+  storage.state = args.level
+end
+
+function onNodeConnectionChange()
+  storage.state = entity.getInboundNodeLevel(0)
 end
 
 function onInteraction(args)
-
+  --pump liquid
+  if entity.isInboundNodeConnected(0) == false then
+    storage.state = not storage.state
+  end
 end
 
 function die()
@@ -81,7 +93,7 @@ end
 function main(args)
   pipes.update(entity.dt())
   
-  if entity.getInboundNodeLevel(0) then
+  if storage.state then
     --Pull item if we don't have any
     if storage.block[1] == nil or storage.block[2] <= 0 then
       storage.block = {}
