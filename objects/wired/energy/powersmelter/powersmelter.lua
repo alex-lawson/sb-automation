@@ -31,10 +31,20 @@ function die()
   ejectOre() --Temporary
 end
 
-function onInteraction(args)
-  storage.state = not storage.state
+function onInboundNodeChange(args)
+  storage.state = args.level
 end
 
+function onNodeConnectionChange()
+  storage.state = entity.getInboundNodeLevel(0)
+end
+
+function onInteraction(args)
+  --pump liquid
+  if entity.isInboundNodeConnected(0) == false then
+    storage.state = not storage.state
+  end
+end
 function main()
   energy.update()
   datawire.update()
