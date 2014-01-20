@@ -20,7 +20,7 @@
     }
   ],
 
-  "scripts" : [ "jumppad.lua", "/scripts/entityProxy.lua" ],
+  "scripts" : [ "jumppad.lua", "/scripts/entityProxy.lua", "/scripts/energy.lua" ],
   "scriptDelta" : 1,
 
   "animation" : "jumppad.animation",
@@ -30,5 +30,8 @@
   "animationPosition" : [ -8, 0],
 
   "boostPower" : 40,
-  "jumpSound" : "/sfx/tech/tech_doublejump.wav"
+  "jumpSound" : "/sfx/tech/tech_doublejump.wav",
+
+  "energyPerJump" : 5,
+  "energyCapacity" : 15
 }

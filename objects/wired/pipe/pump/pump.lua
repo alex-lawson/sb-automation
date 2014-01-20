@@ -2,6 +2,7 @@ function init(args)
   entity.setInteractive(true)
   
   pipes.init({liquidPipe})
+  energy.init()
   
   entity.setAnimationState("pumping", "idle")
   
@@ -14,8 +15,13 @@ function onInteraction(args)
   --pump liquid
 end
 
+function die()
+  energy.die()
+end
+
 function main(args)
   pipes.update(entity.dt())
+  energy.update()
   
   
   if entity.getInboundNodeLevel(0) then
@@ -44,7 +50,7 @@ function main(args)
       local canGetLiquid = peekPullLiquid(srcNode)
       local canPutLiquid = peekPushLiquid(tarNode, canGetLiquid)
       
-      if canGetLiquid and canPutLiquid then
+      if canGetLiquid and canPutLiquid and energy.consumeEnergy() then
       
         entity.setAnimationState("pumping", "pump")
         entity.setAllOutboundNodes(true)

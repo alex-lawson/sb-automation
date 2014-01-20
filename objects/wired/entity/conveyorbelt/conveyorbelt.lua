@@ -1,4 +1,6 @@
 function init(v)
+  energy.init()
+  
   if storage.active == nil then storage.active = false end
   setActive(storage.active)
   self.workSound = entity.configParameter("workSound")
@@ -7,6 +9,10 @@ function init(v)
   self.laet = {}
   self.raet = {}
   onNodeConnectionChange(nil)
+end
+
+function die()
+  energy.die()
 end
 
 function onNodeConnectionChange(args)
@@ -75,7 +81,12 @@ function setraet(data)
 end
 
 function main()
+  energy.update()
   if storage.active then
+    if not energy.consumeEnergy() then
+      setActive(false)
+    end
+    
     self.aet = {}
     self.st = self.st + 1
     if self.st > 6 then self.st = 0

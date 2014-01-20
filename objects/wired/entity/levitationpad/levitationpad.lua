@@ -1,5 +1,8 @@
 function init(v)
-  if storage.active == nil then storage.active = false end
+  energy.init()
+  if storage.active == nil then 
+    storage.active = false
+  end
   setActive(storage.active)
   self.levitationHeight = entity.configParameter("levitationHeight")
   self.workSound = entity.configParameter("workSound")
@@ -7,6 +10,10 @@ function init(v)
   self.laet = {}
   self.raet = {}
   onNodeConnectionChange(nil)
+end
+
+function die()
+  energy.die()
 end
 
 function onNodeConnectionChange(args)
@@ -30,8 +37,11 @@ end
 
 function setActive(flag)
   storage.active = flag
-  if flag then entity.setAnimationState("jumpState", "jump")
-  else entity.setAnimationState("jumpState", "idle") end
+  if flag then 
+    entity.setAnimationState("jumpState", "jump")
+  else 
+    entity.setAnimationState("jumpState", "idle")
+  end
 end
 
 function filterEntities(eids)
@@ -70,11 +80,18 @@ function process(ox, oy)
 end
 
 function main()
+  energy.update()
   if storage.active then
+    if not energy.consumeEnergy() then
+      setActive(false)
+    end
     self.aet = {}
     self.st = self.st + 1
-    if self.st > 6 then self.st = 0
-    elseif self.st == 3 then entity.playImmediateSound(self.workSound) end
+    if self.st > 6 then 
+      self.st = 0
+    elseif self.st == 3 then 
+      entity.playImmediateSound(self.workSound)
+    end
     for y=1,self.levitationHeight-1 do
       process(-1, y)
       process(0, y)
