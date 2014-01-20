@@ -6,6 +6,24 @@
         "states" : {
           "off" : {}
         }
+      },
+      "smelting" : {
+        "priority" : 0,
+        "default" : "idle",
+
+        "states" : {
+          "idle" : {
+            "frames" : 1
+          },
+          "error" : {
+            "frames" : 1
+          },
+          "smelt" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          }
+        }
       }
     },
     "parts" : {
@@ -13,6 +31,25 @@
         "properties" : {
           "image" : "<partImage>",
           "centered" : false
+        },
+        "partStates" : {
+          "smelting" : {
+            "idle" : {
+              "properties" : {
+                "image" : "<partImage>:idle"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            },
+            "smelt" : {
+              "properties" : {
+                "image" : "<partImage>:smelt.<frame>"
+              }
+            }
+          }
         }
       }
     }

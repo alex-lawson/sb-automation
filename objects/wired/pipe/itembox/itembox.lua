@@ -89,7 +89,13 @@ function onItemPut(item, nodeId)
   if item then
     return storageApi.storeItem(item[1], item[2], item[3])
   end
-  
+  return false
+end
+
+function beforeItemPut(item, nodeId)
+  if item then
+    return not storageApi.isFull()
+  end
   return false
 end
 
@@ -105,6 +111,21 @@ function onItemGet(filter, nodeId)
     for i,item in storageApi.getIterator() do
       --world.logInfo(i)
       return storageApi.returnItem(i)
+    end
+  end
+  return false
+end
+
+function beforeItemGet(item, nodeId)
+  if filter then
+    for i,item in storageApi.getIterator() do
+      for _, filterString in ipairs(filter) do
+        if storageApi.peekItem(i)[1] == filterString then return true end
+      end
+    end
+  else
+    for i,item in storageApi.getIterator() do
+      return true
     end
   end
   return false
