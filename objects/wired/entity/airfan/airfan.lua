@@ -94,16 +94,23 @@ function main()
 
     self.aet = {}
     self.st = self.st + 1
-    if self.st > 6 then self.st = 0
-    elseif self.st == 3 then entity.playImmediateSound(self.blowSound) end
+    if self.st > 6 then 
+      self.st = 0
+    elseif self.st == 3 then 
+      entity.playImmediateSound(self.blowSound)
+    end
     for x=1,self.affectWidth do
       for y=-2,1 do
         process(x, y)
       end
     end
   elseif self.timer > 0 then
-    if self.timer % 12 == 4 then entity.playImmediateSound(self.blowSound) end
+    if self.timer % 12 == 4 then 
+      entity.playImmediateSound(self.blowSound) 
+    end
     self.timer = self.timer - 1
-    if self.timer == 1 then entity.setAnimationState("fanState", "idle") end
+    if self.timer == 1 then 
+      entity.setAnimationState("fanState", "idle") 
+    end
   end
 end

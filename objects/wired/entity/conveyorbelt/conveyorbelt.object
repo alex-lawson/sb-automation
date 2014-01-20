@@ -22,7 +22,7 @@
 
   "inboundNodes" : [ [0, 0] ],
 
-  "scripts" : [ "conveyorbelt.lua", "/scripts/entityProxy.lua" ],
+  "scripts" : [ "conveyorbelt.lua", "/scripts/entityProxy.lua", "/scripts/energy.lua" ],
   "scriptDelta" : 5,
 
   "animation" : "conveyorbelt.animation",
@@ -32,5 +32,8 @@
   "animationPosition" : [-16, 0],
 
   "moveSpeed" : 15,
-  "workSound" : "/sfx/tech/tech_hoverloop.wav"
+  "workSound" : "/sfx/tech/tech_hoverloop.wav",
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5
 }
