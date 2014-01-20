@@ -3,6 +3,7 @@
 
 --- hook to request a custom amount of energy (defaults to current unused capacity)
 -- should return energyNeeds, with energyNeeds[tostring(entity.id())] equal to the requested energy
+-- if energy requested > 0, then energyNeeds["total"] should be incremented appropriately
 -- onEnergyNeedsCheck(energyNeeds)
 
 --- return the amount of energy available to send (defaults to current energy)
@@ -107,7 +108,9 @@ function energy.update()
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
         local energyToSend = math.min(energy.getAvailableEnergy(), energy.sendRate * energy.sendFreq)
-        energy.sendEnergy(energyToSend)
+        if energyToSend > 0 then
+          energy.sendEnergy(energyToSend)
+        end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
@@ -306,6 +309,7 @@ function energy.getEnergyNeeds(energyNeeds)
   if onEnergyNeedsCheck then
     return onEnergyNeedsCheck(energyNeeds)
   else
+    energyNeeds["total"] = energyNeeds["total"] + energy.getUnusedCapacity()
     energyNeeds[tostring(entity.id())] = energy.getUnusedCapacity()
     return energyNeeds
   end
@@ -313,21 +317,25 @@ end
 
 -- comparator function for table sorting
 function energy.compareNeeds(a, b)
-  return a[2] < b[2]
+  if a == -1 then
+    return false -- used to move relays to the end of the list
+  else
+    return a[2] < b[2]
+  end
 end
 
 -- traverse the tree and build a list of receivers requesting energy
 function energy.energyNeedsQuery(energyNeeds)
   -- check energy needs for all connected entities
   for entityId, config in pairs(energy.connections) do
-    if not energyNeeds[tostring(entityId)] and not config.blocked then 
+    if not energyNeeds[tostring(entityId)] and not config.blocked then
+      local prevTotal = energyNeeds["total"]
       energyNeeds = world.callScriptedEntity(entityId, "energy.getEnergyNeeds", energyNeeds)
-      if energyNeeds[tostring(entityId)] then
-        if energyNeeds[tostring(entityId)] > 0 then
-          energy.showTransferEffect(entityId)
-        end
-      else
+      if energyNeeds[tostring(entityId)] == nil then
         world.logInfo("%s %d failed to add itself to energyNeeds table", world.callScriptedEntity(entityId, "entity.configParameter", "objectName"), entityId)
+      end
+      if energyNeeds["total"] > prevTotal then
+        energy.showTransferEffect(entityId)
       end
     end
   end
@@ -355,9 +363,10 @@ function energy.sendEnergy(amount)
   energy.checkConnections()
 
   -- get the network's energy needs
-  local energyNeeds = {}
+  local energyNeeds = {total=0}
   energyNeeds[tostring(entity.id())] = 0
   energyNeeds = energy.energyNeedsQuery(energyNeeds)
+  energyNeeds["total"] = nil
 
   -- world.logInfo("initial energyNeeds")
   -- world.logInfo(energyNeeds)

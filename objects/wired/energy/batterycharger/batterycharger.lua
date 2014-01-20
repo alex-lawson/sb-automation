@@ -84,7 +84,9 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  energyNeeds[tostring(entity.id())] = math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+  local thisNeed = math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+  energyNeeds["total"] = energyNeeds["total"] + thisNeed
+  energyNeeds[tostring(entity.id())] = thisNeed
   return energyNeeds
 end
 
