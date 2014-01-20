@@ -76,7 +76,9 @@ function main(args)
   if entity.getInboundNodeLevel(0) then
     if self.pushTimer > self.pushRate then
       for i,item in storageApi.getIterator() do
-        pushItem(2, storageApi.returnItem(i))
+        local result = pushItem(2, item)
+        if result == true then storageApi.returnItem(i) end --Whole stack was accepted
+        if result and result ~= true then item[2] = item[2] - result end --Only part of the stack was accepted
         break
       end
       self.pushTimer = 0
@@ -94,7 +96,7 @@ end
 
 function beforeItemPut(item, nodeId)
   if item then
-    return not storageApi.isFull()
+    return not storageApi.isFull() --TODO: Make this use the future function for fitting in a stack of items
   end
   return false
 end
@@ -103,8 +105,16 @@ function onItemGet(filter, nodeId)
   --world.logInfo("filter: %s", filter)
   if filter then
     for i,item in storageApi.getIterator() do
-      for _, filterString in ipairs(filter) do
-        if storageApi.peekItem(i)[1] == filterString then return storageApi.returnItem(i) end
+      world.logInfo("Filter : %s Item: %s", filter, item)
+      for filterString,amount  in pairs(filter) do
+        if item[1] == filterString and item[2] >= amount[1] then
+          if item[2] <= amount[2] then
+            return storageApi.returnItem(i)
+          else
+            item[2] = item[2] - amount[2]
+            return {item[1], amount[2], item[3]}
+          end
+        end
       end
     end
   else
@@ -116,11 +126,13 @@ function onItemGet(filter, nodeId)
   return false
 end
 
-function beforeItemGet(item, nodeId)
+function beforeItemGet(filter, nodeId)
   if filter then
     for i,item in storageApi.getIterator() do
-      for _, filterString in ipairs(filter) do
-        if storageApi.peekItem(i)[1] == filterString then return true end
+      for filterString,amount  in ipairs(filter) do
+        if item[1] == filterString and item[2] >= amount[1] then
+          return true 
+        end
       end
     end
   else
