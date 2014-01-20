@@ -1,8 +1,8 @@
 {
   "objectName" : "batterycharger",
   "rarity" : "Common",
-  "description" : "Connects up to three batteries to the energy network.",
-  "shortdescription" : "Battery Holder",
+  "description" : "Connects batteries to the energy network for charging or discharging.",
+  "shortdescription" : "Battery Rack",
   "race" : "generic",
   "price" : "200",
   "objectType" : "wire",
