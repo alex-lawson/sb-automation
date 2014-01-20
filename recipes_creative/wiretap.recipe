@@ -1,7 +1,7 @@
 {
   "input" : [ ],
   "output" : {
-    "item" : "debugger",
+    "item" : "wiretap",
     "count" : 1
   },
   "groups" : [ "wiringstation", "all", "mod" ]

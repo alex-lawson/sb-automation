@@ -1,0 +1,14 @@
+{
+  "animatedParts" : {
+    "parts" : {
+      "extractor" : {
+        "properties" : {
+          "image" : "<partImage>:default.0",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 3
+        }
+      }
+    }
+  }
+}

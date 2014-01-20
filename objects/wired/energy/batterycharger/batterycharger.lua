@@ -3,6 +3,8 @@ function init(virtual)
     energy.init()
     datawire.init()
 
+    entity.setInteractive(true)
+
     --table of batteries in the charger
     self.batteries = {}
 
@@ -27,6 +29,8 @@ function init(virtual)
       {pos[1], pos[2] - 1},
       1.5
     }
+
+    updateAnimationState()
   end
 end
 
@@ -37,6 +41,11 @@ end
 
 function die()
   energy.die()
+end
+
+function onInteraction(args)
+  storage.discharging = not storage.discharging
+  updateAnimationState()
 end
 
 function battCompare(a, b)
@@ -54,22 +63,37 @@ function checkBatteries()
     self.batteryUnusedCapacity = self.batteryUnusedCapacity + batteryStatus.unusedCapacity
   end
 
+  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
+  --world.logInfo(self.batteries)
+
   --order batteries left -> right
   table.sort(self.batteries, battCompare)
 
   updateAnimationState()
   self.batteryCheckTimer = self.batteryCheckFreq --reset this here so we don't perform periodic checks right after a pulse
 
-  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
   --world.logInfo(self.batteries)
 end
 
 function updateAnimationState()
-  --TODO: display indicators, I guess. some of this may be handled by the battery
+  if storage.discharging then
+    entity.setAnimationState("chargeState", "error")
+  else
+    entity.setAnimationState("chargeState", "on")
+  end
 end
 
 function onEnergyNeedsCheck()
   return math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+end
+
+--only send energy while discharging (even if it's in the pool... could try revamping this later)
+function onEnergySendCheck()
+  if storage.discharging then
+    return energy.getEnergy()
+  else
+    return 0
+  end
 end
 
 function onEnergyReceived(amount, visited)
@@ -85,9 +109,7 @@ function chargeBatteries(amount)
     local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
       if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", true)
-      else
-        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", false)
+        world.callScriptedEntity(bStatus.id, "entity.burstParticleEmitter", "charging")
       end
       amountRemaining = amountRemaining - amountAccepted
     end
@@ -96,16 +118,31 @@ function chargeBatteries(amount)
   return amount - amountRemaining
 end
 
-function dischargeBatteries(amount)
-  --TODO
-
-  --return energyRemoved
+--fills the charger's energy pool from the contained batteries
+function dischargeBatteries()
+  local sourceBatt = #self.batteries
+  local energyNeeded = energy.getUnusedCapacity()
+  --world.logInfo("discharging batteries starting with %f energy", energy.getEnergy())
+  while sourceBatt >= 1 and energyNeeded > 0 do
+    
+    local discharge = world.callScriptedEntity(self.batteries[sourceBatt].id, "energy.removeEnergy", energyNeeded)
+    if discharge and discharge > 0 then
+      energy.addEnergy(discharge)
+      energyNeeded = energyNeeded - discharge
+    end
+    sourceBatt = sourceBatt - 1
+  end
+  --world.logInfo("ended up with %f energy", energy.getEnergy())
 end
 
 function main()
   self.batteryCheckTimer = self.batteryCheckTimer - entity.dt()
   if self.batteryCheckTimer <= 0 then
     checkBatteries()
+  end
+
+  if storage.discharging then
+    dischargeBatteries()
   end
 
   datawire.update()

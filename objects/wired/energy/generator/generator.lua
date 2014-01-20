@@ -9,6 +9,11 @@ function die()
   energy.die()
 end
 
+--never accept energy from elsewhere
+function onEnergyNeedsCheck()
+  return 0
+end
+
 function main()
   -- yes, it really is that easy. uses the energyGenerationRate config parameter
   energy.generateEnergy()

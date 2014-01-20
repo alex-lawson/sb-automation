@@ -11,7 +11,7 @@ function init(args)
     
     storageApi.init(3, 16, true)
     
-    entity.scaleGroup("invbar", {1, 0})
+    entity.scaleGroup("invbar", {2, 0})
     
     if entity.direction() < 0 then
       entity.setAnimationState("flipped", "left")
@@ -63,7 +63,7 @@ function main(args)
   
   --Scale inventory bar
   local relStorage = storageApi.getCount() / storageApi.getCapacity()
-  entity.scaleGroup("invbar", {1, relStorage})
+  entity.scaleGroup("invbar", {2, relStorage})
   if relStorage < 0.5 then 
     entity.setAnimationState("invbar", "low")
   elseif relStorage < 1 then
