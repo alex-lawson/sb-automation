@@ -8,9 +8,9 @@ function die()
   energy.die()
 end
 
-function onEnergyReceived(amount, visited)
-  --world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
-  return energy.sendEnergy(amount, visited)
+function onEnergyNeedsCheck(energyNeeds)
+  energyNeeds[tostring(entity.id())] = 0
+  return energy.energyNeedsQuery(energyNeeds)
 end
 
 function main()

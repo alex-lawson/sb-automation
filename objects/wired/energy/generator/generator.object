@@ -40,7 +40,7 @@
 
   //"outboundNodes" : [ [0, 0] ],
 
-  "energySendRate" : 50,
+  "energySendRate" : 20,
   "energyGenerationRate" : 20,
-  "energyCapacity" : 50
+  "energyCapacity" : 20
 }

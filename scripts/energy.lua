@@ -1,8 +1,9 @@
 -- RED LIGHT DISTRICT
 -- (for hooks... get it?)
 
---- return the amount of energy requested (defaults to current unused capacity)
--- onEnergyNeedsCheck()
+--- hook to request a custom amount of energy (defaults to current unused capacity)
+-- should return energyNeeds, with energyNeeds[tostring(entity.id())] equal to the requested energy
+-- onEnergyNeedsCheck(energyNeeds)
 
 --- return the amount of energy available to send (defaults to current energy)
 -- onEnergySendCheck()
@@ -10,10 +11,9 @@
 --- called when energy amount changes
 -- onEnergyChange(newAmount)
 
---- called when energy is sent to the object, should return 
----    { totalEnergyAccepted, visited }
---- (no need to manually add entity.id() to visited)
--- onEnergyReceived(amount, visited)
+--- called when energy is sent to the object
+-- should return amount of energy accepted
+-- onEnergyReceived(amount)
 
 -------------------------------------------------------------------------------------
 
@@ -106,15 +106,8 @@ function energy.update()
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
-        local energyToSend = energy.getAvailableEnergy()
-        if energyToSend >= 1 then --no nickels or dimes please
-          local pulseEnergy = math.min(energyToSend, energy.sendRate * energy.sendFreq)
-          --world.logInfo("initiating pulse with %f energy", pulseEnergy)
-          local visited = {}
-          visited[entity.id()] = true
-          local result = energy.sendEnergy(pulseEnergy, visited)
-          energy.removeEnergy(result[1])
-        end
+        local energyToSend = math.min(energy.getAvailableEnergy(), energy.sendRate * energy.sendFreq)
+        energy.sendEnergy(energyToSend)
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
@@ -190,18 +183,6 @@ function energy.addEnergy(amount)
     local addedEnergy = energy.getUnusedCapacity()
     energy.setEnergy(energy.getCapacity())
     return addedEnergy
-  end
-end
-
--- callback for receiving incoming energy pulses
-function energy.receiveEnergy(amount, visited)
-  --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
-  visited[entity.id()] = true
-  if onEnergyReceived == nil then
-    local acceptedEnergy = energy.addEnergy(amount)
-    return {acceptedEnergy, visited}
-  else
-    return onEnergyReceived(amount, visited)
   end
 end
 
@@ -321,13 +302,12 @@ function energy.checkConnections()
 end
 
 -- returns the empty capacity (for consumers) or a Very Large Number TM for relays
-function energy.getEnergyNeeds()
+function energy.getEnergyNeeds(energyNeeds)
   if onEnergyNeedsCheck then
-    return onEnergyNeedsCheck()
-  elseif energy.relayMax then
-    return energy.relayMax
+    return onEnergyNeedsCheck(energyNeeds)
   else
-    return energy.getUnusedCapacity()
+    energyNeeds[tostring(entity.id())] = energy.getUnusedCapacity()
+    return energyNeeds
   end
 end
 
@@ -336,54 +316,81 @@ function energy.compareNeeds(a, b)
   return a[2] < b[2]
 end
 
--- pushes energy to connected entities. amount is divided between # of valid receivers
-function energy.sendEnergy(amount, visited)
+-- traverse the tree and build a list of receivers requesting energy
+function energy.energyNeedsQuery(energyNeeds)
+  -- check energy needs for all connected entities
+  for entityId, config in pairs(energy.connections) do
+    if not energyNeeds[tostring(entityId)] and not config.blocked then 
+      energyNeeds = world.callScriptedEntity(entityId, "energy.getEnergyNeeds", energyNeeds)
+      if energyNeeds[tostring(entityId)] then
+        if energyNeeds[tostring(entityId)] > 0 then
+          energy.showTransferEffect(entityId)
+        end
+      else
+        world.logInfo("%s %d failed to add itself to energyNeeds table", world.callScriptedEntity(entityId, "entity.configParameter", "objectName"), entityId)
+      end
+    end
+  end
+
+  return energyNeeds
+end
+
+-- callback for receiving incoming energy pulses
+function energy.receiveEnergy(amount)
+  --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
+  if onEnergyReceived then
+    return onEnergyReceived(amount)
+  else
+    return energy.addEnergy(amount)
+  end
+end
+
+-- pushes energy to connected entities. amount is divided "fairly" between the valid receivers
+function energy.sendEnergy(amount)
   --if entity.configParameter("objectName") ~= "relay" then
     --world.logInfo("%s %d sending %f energy...", entity.configParameter("objectName"), entity.id(), amount)
   --end
 
+  -- update connection status
   energy.checkConnections()
 
+  -- get the network's energy needs
   local energyNeeds = {}
-  -- check energy needs for all connected entities
-  for entityId, config in pairs(energy.connections) do
-    if not visited[tostring(entityId)] and not config.blocked then 
-      local thisEnergyNeed = world.callScriptedEntity(entityId, "energy.getEnergyNeeds")
-      if thisEnergyNeed and thisEnergyNeed > 0 then
-        energyNeeds[#energyNeeds + 1] = {entityId, thisEnergyNeed}
-      end
-    end
-  end
+  energyNeeds[tostring(entity.id())] = 0
+  energyNeeds = energy.energyNeedsQuery(energyNeeds)
 
-  -- sort table of energy needs
-  table.sort(energyNeeds, energy.compareNeeds)
-  --world.logInfo(energyNeeds)
+  -- world.logInfo("initial energyNeeds")
+  -- world.logInfo(energyNeeds)
+
+  -- build and sort a table from least to most energy requested
+  local sortedEnergyNeeds = {}
+  for entityId, thisNeed in pairs(energyNeeds) do
+    sortedEnergyNeeds[#sortedEnergyNeeds + 1] = {entityId, thisNeed}
+  end
+  table.sort(sortedEnergyNeeds, energy.compareNeeds)
+
+  -- world.logInfo("sorted energyNeeds")
+  -- world.logInfo(sortedEnergyNeeds)
 
   -- process list and distribute remainder evenly at each step
   local totalEnergyToSend = amount
   local remainingEnergyToSend = totalEnergyToSend
-  while #energyNeeds > 0 do
-    if energyNeeds[1][2] > 0 then
-      local sendAmt = remainingEnergyToSend / #energyNeeds
-      local energyReturn = world.callScriptedEntity(energyNeeds[1][1], "energy.receiveEnergy", sendAmt, visited)
-      if energyReturn then
-        visited = energyReturn[2]
-        remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
-        if energyReturn[1] > 0 then
-          energy.showTransferEffect(energyNeeds[1][1])
-        end
-      else
-        --world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
+  while #sortedEnergyNeeds > 0 do
+    if sortedEnergyNeeds[1][2] > 0 then
+      local sendAmt = remainingEnergyToSend / #sortedEnergyNeeds
+      local acceptedEnergy = world.callScriptedEntity(sortedEnergyNeeds[1][1], "energy.receiveEnergy", sendAmt)
+      if acceptedEnergy > 0 then
+        remainingEnergyToSend = remainingEnergyToSend - acceptedEnergy
       end
     end
-    table.remove(energyNeeds, 1)
+    table.remove(sortedEnergyNeeds, 1)
   end
 
   --remove the total amount of energy sent
   local totalSent = totalEnergyToSend - remainingEnergyToSend
-  --world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
+  energy.removeEnergy(totalSent)
 
-  return {totalSent, visited}
+  -- world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 end
 
 -- display a visual indicator of the energy transfer

@@ -83,8 +83,9 @@ function updateAnimationState()
   end
 end
 
-function onEnergyNeedsCheck()
-  return math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+function onEnergyNeedsCheck(energyNeeds)
+  energyNeeds[tostring(entity.id())] = math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+  return energyNeeds
 end
 
 --only send energy while discharging (even if it's in the pool... could try revamping this later)
@@ -96,11 +97,11 @@ function onEnergySendCheck()
   end
 end
 
-function onEnergyReceived(amount, visited)
+function onEnergyReceived(amount)
   checkBatteries()
   local acceptedEnergy = chargeBatteries(amount)
 
-  return {acceptedEnergy, visited}
+  return acceptedEnergy
 end
 
 function chargeBatteries(amount)

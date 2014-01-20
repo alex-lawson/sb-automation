@@ -61,8 +61,9 @@ function updateAnimationState()
 end
 
 --never accept energy from elsewhere
-function onEnergyNeedsCheck()
-  return 0
+function onEnergyNeedsCheck(energyNeeds)
+  energyNeeds[tostring(entity.id())] = 0
+  return energyNeeds
 end
 
 --only send energy while generating (even if it's in the pool... could try revamping this later)
