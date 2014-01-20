@@ -1,9 +1,12 @@
 function init(args)
   pipes.init({liquidPipe, itemPipe})
+  energy.init()
   
   if entity.direction() < 0 then
     pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
   end
+  
+  entity.setInteractive(true)
   
   self.conversions = {}
   --Water
@@ -32,6 +35,12 @@ function init(args)
   if storage.placedBlock == nil then storage.placedBlock = {} end
   if storage.state == nil then storage.state = false end
 end
+
+function die()
+  energy.die()
+  ejectOre() --Temporary
+end
+
 
 function onInboundNodeChange(args)
   storage.state = args.level
@@ -92,6 +101,7 @@ end
 
 function main(args)
   pipes.update(entity.dt())
+  energy.update()
   
   if storage.state then
     --Pull item if we don't have any
@@ -111,17 +121,19 @@ function main(args)
       if storage.placedBlock[1] == nil then
         placeBlock()
       else
-        local blockConversion = self.conversions[storage.placedBlock[1]]
-        local liquidOut = {blockConversion.liquid, storage.placedBlock[3]}
-        
-        if canOutputLiquid(liquidOut) then
-          if checkBlock() then
-            local placePosition = blockPosition()
-            world.damageTiles({placePosition}, "foreground", placePosition, "crushing", self.damageAmount)
-          else
-            outputLiquid(liquidOut)
-            storage.block[2] = storage.block[2] - storage.placedBlock[2]
-            storage.placedBlock = {}
+        if energy.consumeEnergy() then
+          local blockConversion = self.conversions[storage.placedBlock[1]]
+          local liquidOut = {blockConversion.liquid, storage.placedBlock[3]}
+          
+          if canOutputLiquid(liquidOut) then
+            if checkBlock() then
+              local placePosition = blockPosition()
+              world.damageTiles({placePosition}, "foreground", placePosition, "crushing", self.damageAmount)
+            else
+              outputLiquid(liquidOut)
+              storage.block[2] = storage.block[2] - storage.placedBlock[2]
+              storage.placedBlock = {}
+            end
           end
         end
       end

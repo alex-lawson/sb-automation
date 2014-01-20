@@ -25,6 +25,7 @@
     "/objects/wired/pipe/extractor/liquidextractor.lua",
     "/scripts/pipes/liquidpipes.lua",
     "/scripts/pipes/itempipes.lua",
+    "/scripts/energy.lua",
     "/scripts/pipesapi.lua",
     "/scripts/energy.lua",
     "/scripts/util.lua",
@@ -43,6 +44,10 @@
   "itemNodes" : [ {"offset": [1, 2], "dir": [0, 1]} ],
   "liquidNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
   "flippedLiquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
+  
+  
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 50,
   
   "damageRate" : 0.25,
   "damageAmount" : 5,
