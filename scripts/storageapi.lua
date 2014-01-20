@@ -30,9 +30,9 @@ storageApi = {}
 -------------------------------------------------
 
 --- Initializes the storage
--- @param mode should other entities access this storage: 0 not, 1 store, 2 take, 3 both
--- @param space capacity of item stacks, max 999
--- @param join should the storage merge stacks if possible?
+-- @param mode Should other entities access this storage: 0 not, 1 store, 2 take, 3 both
+-- @param space Maximum amount of item stacks, up to 999
+-- @param join Should the storage merge stacks if possible?
 function storageApi.init(mode, space, join)
   if storage.sApi == nil then storage.sApi = {} end
   storageApi.isin = mode % 2 == 1
@@ -92,12 +92,64 @@ function storageApi.getIterator()
 end
 
 --- Take an item from storage
-function storageApi.returnItem(index)
-  if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index) then return nil end
+-- @param count (Optional) Amount of the item to take from the stack
+function storageApi.returnItem(index, count)
+  if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index, count) then return nil end
   local ret = storage.sApi[index]
-  storage.sApi[index] = nil
+  if (count == nil) or (ret[2] >= count) then
+    storage.sApi[index] = nil
+  else
+    storage.sApi[index][2] = ret[2] - count
+    ret[2] = count
+  end
   if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret[1], ret[2], ret[3]) end
   return ret
+end
+
+--- Get maximum stack size for an item type
+function storageApi.getMaxStackSize(itemname)
+  local t = world.itemType(itemname)
+  if (t == "generic") or (t == "material") or (t == "coin") or (t == "consumable") or (t == "thrownitem") then return 1000
+  else return 1 end
+end
+
+--- Checks if the item can be fit inside storage
+function storageApi.canFitItem(itemname, count, properties)
+  local max = storageApi.getMaxStackSize(itemname)
+  local spacecnt = (storageApi.getCapacity() - storageApi.getCount()) * max
+  if spacecnt >= count then return true
+  elseif max > 1 then return false end
+  for i,v in pairs() do
+    if (itemname == v[1]) and compareTables(properties, v[3]) then
+      spacecnt = spacecnt + max - v[2]
+    end
+    if spacecnt >= count then return true end
+  end
+  return false
+end
+
+--- Take a specific type of item from storage
+-- @param itemname The name of item to get
+-- @param count The amount of item to get
+-- @param properties (Optional) The properties table of the item
+function storageApi.returnItemByName(itemname, count, properties)
+  if properties == nil then
+    for i,v in pairs(storage.sApi) do
+      if v[1] == itemname then
+        properties = v[3]
+        break
+      end
+    end
+  end
+  if properties == nil then return { itemname, 0, { } } end
+  local retcnt = 0
+  for i,v in pairs(storage.sApi) do
+    if retcnt >= count then break end
+    if (v[1] == itemname) and compareTables(properties, v[3]) then
+      retcnt = retcnt + storageApi.returnItem(i, count - retcnt)[2]
+    end
+  end
+  return { itemname, retcnt, properties }
 end
 
 --- Take all items from storage
@@ -118,16 +170,17 @@ end
 
 --- Put an item in storage, returns true if successfully
 function storageApi.storeItem(itemname, count, properties)
-  if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return end
-  if storageApi.isFull() then return false end
+  if not storageApi.canFitItem(itemname, count, properties) then return false end
+  if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return false end
   if storageApi.isMerging() then
+    local max = storageApi.getMaxStackSize(itemname)
     for i,stack in pairs(storage.sApi) do
-      if (stack[1] == itemname) and (stack[2] < 1000) and compareTables(properties, stack[3]) then
-        if (stack[2] + count > 1000) then
+      if (stack[1] == itemname) and (stack[2] < max) and compareTables(properties, stack[3]) then
+        if (stack[2] + count > max) then
           local i = storageApi.getFirstEmptyIndex()
-          storage.sApi[i] = { itemname, stack[2] + count - 1000, properties }
+          storage.sApi[i] = { itemname, stack[2] + count - max, properties }
           if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
-          count = 1000 - stack[2] - count
+          count = max - stack[2] - count
         end
         storage.sApi[i][2] = stack[2] + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
@@ -147,8 +200,9 @@ end
 
 -- Called when an item is about to be taken from storage
 -- index - the requested item index
+-- count - amount of the item to take
 -- If this returns true, the item is not taken and the returned item is null
------ function storageApi.beforeItemTaken(index) end
+----- function storageApi.beforeItemTaken(index, count) end
 
 -- Called when an item has been taken from storage
 -- itemname, count, parameters - item data that was taken
