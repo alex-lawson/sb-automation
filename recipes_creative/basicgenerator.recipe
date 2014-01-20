@@ -4,5 +4,5 @@
     "item" : "basicgenerator",
     "count" : 1
   },
-  "groups" : [ "wiringstation", "all", "mod" ]
+  "groups" : [ "mod" ]
 }

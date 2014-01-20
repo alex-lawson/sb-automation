@@ -4,5 +4,5 @@
     "item" : "and",
     "count" : 1
   },
-  "groups" : [ "wiringstation", "all", "mod" ]
+  "groups" : [ "mod" ]
 }
