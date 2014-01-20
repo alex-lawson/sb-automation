@@ -87,10 +87,16 @@ end
 --TODO: Change this to only accept the ore it needs
 function onItemPut(item, nodeId) 
   if item and nodeId == 1 and storage.ore[1] == nil then
-    for ore,_ in pairs(self.conversions) do
+    for ore,conversion in pairs(self.conversions) do
       if ore == item[1] then
-        storage.ore = item
-        return true
+        if item[2] <= conversion[1] then
+          storage.ore = item
+          return true --used whole stack
+        else
+          item[2] = conversion[1]
+          storage.ore = item
+          return conversion[1] --return amount used
+        end
       end
     end
   end

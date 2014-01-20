@@ -76,7 +76,9 @@ function main(args)
   if entity.getInboundNodeLevel(0) then
     if self.pushTimer > self.pushRate then
       for i,item in storageApi.getIterator() do
-        pushItem(2, storageApi.returnItem(i))
+        local result = pushItem(2, item)
+        if result == true then storageApi.returnItem(i) end --Whole stack was accepted
+        if result and result ~= true then item[2] = item[2] - result end --Only part of the stack was accepted
         break
       end
       self.pushTimer = 0
@@ -94,7 +96,7 @@ end
 
 function beforeItemPut(item, nodeId)
   if item then
-    return not storageApi.isFull()
+    return not storageApi.isFull() --TODO: Make this use the future function for fitting in a stack of items
   end
   return false
 end

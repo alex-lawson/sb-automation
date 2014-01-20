@@ -52,9 +52,8 @@ function beforeItemPut(item, nodeId)
     local acceptItem = false
     local pullFilter = {}
     for matitem,_ in pairs(self.conversions) do
-      if item[1] == matitem then acceptItem = true end
+      if item[1] == matitem then return true end
     end
-    if acceptItem then return true end
   end
   return false
 end
@@ -63,12 +62,17 @@ function onItemPut(item, nodeId)
   if storage.block[1] == nil or storage.block[2] <= 0 then
     local acceptItem = false
     local pullFilter = {}
-    for matitem,_ in pairs(self.conversions) do
-      if item[1] == matitem then acceptItem = true end
-    end
-    if acceptItem then
-      storage.block = item
-      return true
+    for matitem,conversion in pairs(self.conversions) do
+      if item[1] == matitem then
+        if item[2] <= conversion.input then
+          storage.block = item
+          return true --used whole stack
+        else
+          item[2] = conversion.input
+          storage.block = item
+          return conversion.input --return amount used
+        end
+      end
     end
   end
   return false
