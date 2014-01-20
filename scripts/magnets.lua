@@ -75,30 +75,30 @@ end
 ------------------------------------------------------------------
 function magnets.shouldAffect(entID)
   -- Make sure the entity has been magnetized
-  return magnets.isValidTarget(entID) and magnets.isMagnetized(entID)
+  return magnets.isValidTarget(entID) and (magnets.isMagnetized(entID) ~= nil)
 end
 
-------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
 -- Checks whether or not the entity should be affected by magnets
 -- @param entID The ID of the entity
--- @return Whether or not the entity has been magnetized
-------------------------------------------------------------------
+-- @return The entityID of the Magnetizer managing the entity if it is magnetized, nil if it is not, or -1 if there is no manager.
+-----------------------------------------------------------------------------------------------------------------------------------
 function magnets.isMagnetized(entID)
-  if world.callScriptedEntity(entID, "isMagnetized", false) == true then
-    return true
+  if world.callScriptedEntity(entID, "isMagnetized") == true then
+    return -1
   end
   if math.magnetizers ~= nil then
     for key,value in pairs(math.magnetizers) do
       if world.entityExists(key) then
         if world.callScriptedEntity(key, "isMagnetized", entID) then
-          return true
+          return key
         end
       else
         math.magnetizers[key] = nil
       end
     end
   end
-  return false
+  return nil
 end
 
 ------------------------------------------------------------------

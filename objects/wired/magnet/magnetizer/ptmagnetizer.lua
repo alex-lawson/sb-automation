@@ -79,8 +79,19 @@ function main()
     local pos = entity.position()
     local ents = world.entityQuery(pos, radius, { withoutEntityId = storage.dataID, notAnObject = true })
     for key,value in pairs(ents) do
-      if magnets.isValidTarget(value) and (not magnets.isMagnetized(value)) and energy.consumeEnergy(storage.energyPerMonster) then
-        storage.magnetized[value] = storage.magnetizeDuration
+      if magnets.isValidTarget(value) then
+        local magnetized = magnets.isMagnetized(value)
+        if magnetized ~= nil and magnetized ~= -1 then
+          local durationLeft = world.callScriptedEntity(magnetized, "getMagnetizedDuration", value)
+          local energyToConsume = storage.energyPerMonster * (1 - (durationLeft / storage.magnetizeDuration))
+          if energy.consumeEnergy(energyToConsume) then
+            world.callScriptedEntity(magnetized, "refreshMagnetize", value, storage.magnetizeDuration)
+          end
+        else
+          if energy.consumeEnergy(storage.energyPerMonster) then
+            storage.magnetized[value] = storage.magnetizeDuration
+          end
+        end
       end
     end
   end
@@ -92,4 +103,12 @@ end
 
 function isMagnetized(entID)
   return storage.magnetized[entID] ~= nil
+end
+
+function refreshMagnetize(entID, duration)
+  storage.magnetized[entID] = duration
+end
+
+function getMagnetizedDuration(entID)
+  return storage.magnetized[entID]
 end
