@@ -82,7 +82,7 @@ end
 --- How many item stacks are stored?
 function storageApi.getCount()
   local ret = 0
-  for _ in pairs(storage.sApi) do ret = ret + 1 end
+  for _ in storageApi.getIterator() do ret = ret + 1 end
   return ret
 end
 
@@ -139,7 +139,7 @@ end
 -- @param properties (Optional) The properties table of the item
 function storageApi.returnItemByName(itemname, count, properties)
   if properties == nil then
-    for i,v in pairs(storage.sApi) do
+    for i,v in storageApi.getIterator() do
       if v[1] == itemname then
         properties = v[3]
         break
@@ -148,7 +148,7 @@ function storageApi.returnItemByName(itemname, count, properties)
   end
   if properties == nil then return { itemname, 0, { } } end
   local retcnt = 0
-  for i,v in pairs(storage.sApi) do
+  for i,v in storageApi.getIterator() do
     if retcnt >= count then break end
     if (v[1] == itemname) and compareTables(properties, v[3]) then
       retcnt = retcnt + storageApi.returnItem(i, count - retcnt)[2]
@@ -179,7 +179,7 @@ function storageApi.storeItem(itemname, count, properties)
   if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return false end
   if storageApi.isMerging() then
     local max = storageApi.getMaxStackSize(itemname)
-    for i,stack in pairs(storage.sApi) do
+    for i,stack in storageApi.getIterator() do
       if (stack[1] == itemname) and (stack[2] < max) and compareTables(properties, stack[3]) then
         if (stack[2] + count > max) then
           local i = storageApi.getFirstEmptyIndex()
@@ -209,7 +209,7 @@ function storageApi.storeItemFit(itemname, count, properties)
     ret = ret + max
     count = count - max
   end
-  for i,v in pairs(storage.sApi) do
+  for i,v in storageApi.getIterator() do
     if count < 1 then break end
     if (v[1] == itemname) and (v[2] < max) and compareTables(properties, v[3]) then
       local amo = math.min(max, v[2] + count)
