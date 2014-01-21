@@ -113,8 +113,10 @@ end
 
 --- Get maximum stack size for an item type
 function storageApi.getMaxStackSize(itemname)
+  if itemname == "climbingrope" then return 1000
+  elseif itemname == "money" then return 25000 end
   local t = world.itemType(itemname)
-  if (t == "generic") or (t == "material") or (t == "coin") or (t == "consumable") or (t == "thrownitem") or (t == "object") then return 1000
+  if (t == "generic") or (t == "coin") or (t == "material") or (t == "consumable") or (t == "thrownitem") or (t == "object") then return 1000
   else return 1 end
 end
 
