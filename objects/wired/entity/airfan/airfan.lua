@@ -2,6 +2,14 @@ function init(v)
   energy.init()
 
   if storage.active == nil then storage.active = false end
+
+  self.flipStr = ""
+  if entity.direction() == -1 then
+    self.flipStr = "flip"
+  end
+  entity.setParticleEmitterActive("fanwind", false)
+  entity.setParticleEmitterActive("fanwindflip", false)
+
   setActive(storage.active)
   self.affectWidth = entity.configParameter("affectWidth")
   self.blowSound = entity.configParameter("blowSound")
@@ -35,7 +43,7 @@ function onInteraction(args)
 end
 
 function setActive(isActive)
-  entity.setParticleEmitterActive("fanwind", isActive)
+  entity.setParticleEmitterActive("fanwind"..self.flipStr, isActive)
   if isActive then
     entity.setAnimationState("fanState", "work")
   elseif storage.active then
