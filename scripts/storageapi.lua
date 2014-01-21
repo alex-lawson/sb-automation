@@ -114,7 +114,7 @@ end
 --- Get maximum stack size for an item type
 function storageApi.getMaxStackSize(itemname)
   local t = world.itemType(itemname)
-  if (t == "generic") or (t == "material") or (t == "coin") or (t == "consumable") or (t == "thrownitem") then return 1000
+  if (t == "generic") or (t == "material") or (t == "coin") or (t == "consumable") or (t == "thrownitem") or (t == "object") then return 1000
   else return 1 end
 end
 
@@ -124,7 +124,7 @@ function storageApi.canFitItem(itemname, count, properties)
   local spacecnt = (storageApi.getCapacity() - storageApi.getCount()) * max
   if spacecnt >= count then return true
   elseif max > 1 then return false end
-  for i,v in pairs() do
+  for i,v in storageApi.getIterator() do
     if (itemname == v[1]) and compareTables(properties, v[3]) then
       spacecnt = spacecnt + max - v[2]
     end
