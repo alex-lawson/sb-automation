@@ -41,6 +41,11 @@ function storageApi.init(mode, space, join)
   storageApi.isjoin = join
 end
 
+--- Should the storage be initialized?
+function storageApi.isInit()
+  return storageApi.capacity == nil
+end
+
 --- Sets storage contents and returns previous contents
 -- @param itemArray an array of item structures (name, count, params)
 function storageApi.setContents(itemArray)
@@ -192,6 +197,27 @@ function storageApi.storeItem(itemname, count, properties)
   storage.sApi[i] = { itemname, count, properties }
   if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
   return true
+end
+
+--- Put as much items as possible in storage, handles oversized stacks
+-- @return The amount of item that was stored
+function storageApi.storeItemFit(itemname, count, properties)
+  local ret = 0
+  local max = storageApi.getMaxStackSize(itemname)
+  while (count > max) and not storageApi.isFull() do
+    storageApi.storeItem(itemname, max, properties)
+    ret = ret + max
+    count = count - max
+  end
+  for i,v in pairs(storage.sApi) do
+    if count < 1 then break end
+    if (v[1] == itemname) and (v[2] < max) and compareTables(properties, v[3]) then
+      local amo = math.min(max, v[2] + count)
+      storage.sApi[i][2] = amo
+      count = count + v[2] - amo
+    end
+  end
+  return ret
 end
 
 -------------------------------------------------

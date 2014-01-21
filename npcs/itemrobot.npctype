@@ -28,7 +28,7 @@
     },
     
     "collect" : {
-      "scanRadius" : 20
+      "scanRadius" : 25
     },
     
     "transport" : {
