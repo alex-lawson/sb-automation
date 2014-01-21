@@ -17,15 +17,39 @@
   "inventoryIcon" : "pipeend.png",
   "orientations" : [
     {
-      "dualImage" : "pipeend.png",
-
+      "image" : "pipeend.png",
       "imagePosition" : [0, 0],
-      "frames" : 1,
-      "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
+    },
+    {
+      "image" : "pipeend.png",
+      "imagePosition" : [0, 0],
 
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "pipeend.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "pipeend.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "pipeend.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
     }
   ],
   
