@@ -108,5 +108,5 @@ end
 ------------------------------------------------------------------
 function magnets.isValidTarget(entID)
   local entType = world.entityType(entID)
-  return (entType == "monster" or entType == "npc") and (not world.callScriptedEntity(entID, "entity.configParameter", "isMagnetData", false)) 
+  return (entType == "monster" or entType == "npc") and (not world.callScriptedEntity(entID, "entity.configParameter", "isStatic", false)) 
 end
