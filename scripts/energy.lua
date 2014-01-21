@@ -236,7 +236,7 @@ function energy.makeConnectionConfig(entityId)
   local srcPos = energy.getProjectileSourcePosition()
   local tarPos = world.entityPosition(entityId)
   tarPos = {tarPos[1] + 0.5, tarPos[2] + 0.5}
-  config.aimVector = {tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
+  config.aimVector = world.distance(tarPos, srcPos) --{tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
   config.srcPos = srcPos
   config.tarPos = tarPos
   local distToTarget = world.magnitude(srcPos, tarPos)
