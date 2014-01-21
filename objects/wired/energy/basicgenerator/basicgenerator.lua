@@ -31,7 +31,7 @@ function init(virtual)
     --used to track items we spit back out
     self.ignoreDropIds = {}
 
-    entity.setInteractive(true)
+    entity.setInteractive(not entity.isInboundNodeConnected(0))
     updateAnimationState()
   end
 end
@@ -40,14 +40,24 @@ function die()
   energy.die()
 end
 
-function onInteraction(args)
-  if storage.state then
-    storage.state = false
-  elseif storage.fuel > 0 then
-    storage.state = true
-  end
+function onNodeConnectionChange()
+  checkNodes()
+end
 
-  updateAnimationState()
+function onInboundNodeChange(args)
+  checkNodes()
+end
+
+function onInteraction(args)
+  if not entity.isInboundNodeConnected(0) then
+    if storage.state then
+      storage.state = false
+    elseif storage.fuel > 0 then
+      storage.state = true
+    end
+
+    updateAnimationState()
+  end
 end
 
 function updateAnimationState()
@@ -58,6 +68,15 @@ function updateAnimationState()
   end
 
   entity.scaleGroup("fuelbar", {math.min(1, storage.fuel / self.fuelMax), 1})
+end
+
+function checkNodes()
+  local isWired = entity.isInboundNodeConnected(0)
+  if isWired then
+    storage.state = entity.getInboundNodeLevel(0)
+    updateAnimationState()
+  end
+  entity.setInteractive(not isWired)
 end
 
 --never accept energy from elsewhere
