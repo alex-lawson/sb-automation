@@ -63,22 +63,18 @@ function main()
   end
   
   if storage.ore[1] and storage.state and  energy.consumeEnergy() then
+    local oreConversion = self.conversions[storage.ore[1]]
+    local bar = {oreConversion[3], oreConversion[2], {}}
+    
+    if peekPushItem(2, bar) then 
+      entity.setAnimationState("smelting", "smelt") 
+    else
+      entity.setAnimationState("smelting", "error")
+    end
+    
     if self.smeltTimer > self.smeltRate then
-      local oreConversion = self.conversions[storage.ore[1]]
-      if oreConversion and oreConversion[1] <= storage.ore[2] then
-        local bar = {oreConversion[3], oreConversion[2], {}}
-        if peekPushItem(2, bar) then
-          entity.setAnimationState("smelting", "smelt")
-          if pushItem(2, bar) then
-            storage.ore[2] = storage.ore[2] - oreConversion[1]
-          end
-        else
-          entity.setAnimationState("smelting", "error")
-        end
-      end
-      --This won't be needed when the smelter only accepts the ore it needs to smelt a bar
-      if oreConversion[1] > storage.ore[2] then
-        ejectOre() 
+      if oreConversion and oreConversion[1] <= storage.ore[2] and pushItem(2, bar) then
+        storage.ore = {}
       end
       self.smeltTimer = 0
     end
@@ -134,7 +130,7 @@ end
 --Temporary function until itempipes api is changed to allow amount filters and returns
 function ejectOre()
   local position = entity.position()
-  if next(storage.ore[3]) == nil then
+  if storage.ore[1] and next(storage.ore[3]) == nil then
     world.spawnItem(storage.ore[1], {position[1] + 1.5, position[2] + 1}, storage.ore[2])
   else
     world.spawnItem(storage.ore[1], {position[1] + 1.5, position[2] + 1}, storage.ore[2], storage.ore[3])
