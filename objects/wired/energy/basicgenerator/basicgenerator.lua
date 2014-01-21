@@ -79,18 +79,23 @@ function getFuelItems()
   local dropIds = world.itemDropQuery(self.itemPickupArea[1], self.itemPickupArea[2])
   for i, entityId in ipairs(dropIds) do
     if not self.ignoreDropIds[entityId] then
-      local item = world.takeItemDrop(entityId, entity.id())
-      if item then
-        if self.fuelValues[item[1]] then
-          while item[2] > 0 and storage.fuel < self.fuelMax do
-            storage.fuel = storage.fuel + self.fuelValues[item[1]]
-            item[2] = item[2] - 1
+      local itemName = world.entityName(entityId)
+      if self.fuelValues[itemName] then
+        local item = world.takeItemDrop(entityId, entity.id())
+        if item then
+          if self.fuelValues[item[1]] then
+            while item[2] > 0 and storage.fuel < self.fuelMax do
+              storage.fuel = storage.fuel + self.fuelValues[item[1]]
+              item[2] = item[2] - 1
+            end
+          end
+
+          if item[2] > 0 then
+            ejectItem(item)
           end
         end
-
-        if item[2] > 0 then
-          ejectItem(item)
-        end
+      else
+        self.ignoreDropIds[entityId] = true
       end
     end
   end
