@@ -84,7 +84,7 @@
             "position" : [5, 2.3],
             "initialVelocity" : [10, 0],
             "finalVelocity" : [3.0, 0],
-            "color" : [200, 200, 255, 170],
+            "color" : [200, 200, 255, 150],
             "fade" : 0.9,
             "timeToLive" : 1,
             "layer" : "middle",
