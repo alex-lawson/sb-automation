@@ -17,17 +17,22 @@
   "inventoryIcon" : "hopper.png",
   "orientations" : [
     {
-      "dualImage" : "hopper.png",
-
+      "image" : "hopper.png",
       "imagePosition" : [0, 0],
-      "frames" : 1,
-      "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ],
 
       "collision" : "solid"
+    },
+    {
+      "image" : "hopper.png",
+      "imagePosition" : [0, 0],
 
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+
+      "collision" : "solid"
     }
   ],
   

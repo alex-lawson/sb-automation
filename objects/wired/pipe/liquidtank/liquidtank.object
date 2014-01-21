@@ -9,7 +9,7 @@
   
   "breakDropOptions": [],
 
-  "inventoryIcon" : "liquidtank.png",
+  "inventoryIcon" : "liquidtankicon.png",
   "orientations" : [
     {
       "dualImage" : "liquidtank.png",

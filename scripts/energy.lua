@@ -1,17 +1,30 @@
--- HOOKS
+-- RED LIGHT DISTRICT
+-- (for hooks... get it?)
 
--- called when energy needs are queried, should return the quantity of energy this object requests
--- function onEnergyNeedsCheck() end
+--- hook to request a custom amount of energy (defaults to current unused capacity)
+-- should return energyNeeds, with energyNeeds[tostring(entity.id())] equal to the requested energy
+-- if energy requested > 0, then energyNeeds["total"] should be incremented appropriately
+-- onEnergyNeedsCheck(energyNeeds)
 
--- called when energy is sent to the object, should return 
---    { totalEnergyAccepted, visited }
--- (no need to manually add entity.id() to visited)
--- function onEnergyReceived(amount, visited) end
+--- return the amount of energy available to send (defaults to current energy)
+-- onEnergySendCheck()
+
+--- called when energy amount changes
+-- onEnergyChange(newAmount)
+
+--- called when energy is sent to the object
+-- should return amount of energy accepted
+-- onEnergyReceived(amount)
+
+-------------------------------------------------------------------------------------
 
 energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
 function energy.init()
+  --energy per unit of fuel for automated conversions
+  energy.fuelEnergyConversion = 100
+
   --can be used to disallow direct connection (e.g. for batteries)
   energy.allowConnection = entity.configParameter("energyAllowConnection")
   if energy.allowConnection == nil then
@@ -30,18 +43,10 @@ function energy.init()
     energy.generationRate = 0
   end
 
-  if storage.energyGenerationState == nil then
-    storage.energyGenerationState = false
-  end
-
   --amount of energy consumed per second when active
   energy.consumptionRate = entity.configParameter("energyConsumptionRate")
   if energy.consumptionRate == nil then
     energy.consumptionRate = 0
-  end
-
-  if storage.energyConsumptionState == nil then
-    storage.energyConsumptionState = false
   end
 
   --current energy storage
@@ -75,10 +80,10 @@ function energy.init()
   energy.relayMax = entity.configParameter("energyRelayMax")
 
   --frequency (in seconds) to perform LoS checks on connected entities
-  --energy.connectCheckFreq = 1
+  energy.connectCheckFreq = 0.5
 
   --timer variable that tracks cooldown until next connection LoS check
-  --energy.connectCheckTimer = energy.connectCheckFreq
+  energy.connectCheckTimer = energy.connectCheckFreq
 
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
@@ -102,25 +107,20 @@ function energy.update()
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
       if energy.sendTimer <= 0 then
-        if energy.getEnergy() >= 1 then --no nickels or dimes please
-          local pulseEnergy = math.min(energy.getEnergy(), energy.sendRate * energy.sendFreq)
-          --world.logInfo("initiating pulse with %f energy", pulseEnergy)
-          local visited = {}
-          visited[entity.id()] = true
-          local result = energy.sendEnergy(pulseEnergy, visited)
-          energy.removeEnergy(result[1])
+        local energyToSend = math.min(energy.getAvailableEnergy(), energy.sendRate * energy.sendFreq)
+        if energyToSend > 0 then
+          energy.sendEnergy(energyToSend)
         end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
     end
 
     --periodic connection checks
-    -- DOING THESE ON EVERY PULSE FOR NOW
-    -- energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
-    -- if energy.connectCheckTimer <= 0 then
-    --   energy.checkConnections()
-    --   energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
-    -- end
+    energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
+    if energy.connectCheckTimer <= 0 then
+      energy.checkConnections()
+      energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
+    end
   else
     if energy.allowConnection then
       energy.findConnections()
@@ -141,13 +141,19 @@ end
 function energy.setEnergy(amount)
   if amount ~= energy.getEnergy() then
     storage.curEnergy = amount
-    onEnergyChange(amount)
+    if onEnergyChange then
+      onEnergyChange(amount)
+    end
   end
 end
 
--- object hook called when energy amount is changed
-if not onEnergyChange then
-  function onEnergyChange(newAmount) end
+-- gets the available energy to send
+function energy.getAvailableEnergy()
+  if onEnergySendCheck then
+    return onEnergySendCheck()
+  else
+    return energy.getEnergy()
+  end
 end
 
 -- returns the total amount of space in the object's energy storage
@@ -179,18 +185,6 @@ function energy.addEnergy(amount)
     local addedEnergy = energy.getUnusedCapacity()
     energy.setEnergy(energy.getCapacity())
     return addedEnergy
-  end
-end
-
--- callback for receiving incoming energy pulses
-function energy.receiveEnergy(amount, visited)
-  --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
-  visited[entity.id()] = true
-  if onEnergyReceived == nil then
-    local acceptedEnergy = energy.addEnergy(amount)
-    return {acceptedEnergy, visited}
-  else
-    return onEnergyReceived(amount, visited)
   end
 end
 
@@ -310,69 +304,98 @@ function energy.checkConnections()
 end
 
 -- returns the empty capacity (for consumers) or a Very Large Number TM for relays
-function energy.getEnergyNeeds()
+function energy.getEnergyNeeds(energyNeeds)
   if onEnergyNeedsCheck then
-    return onEnergyNeedsCheck()
-  elseif energy.relayMax then
-    return energy.relayMax
+    return onEnergyNeedsCheck(energyNeeds)
   else
-    return energy.getUnusedCapacity()
+    energyNeeds["total"] = energyNeeds["total"] + energy.getUnusedCapacity()
+    energyNeeds[tostring(entity.id())] = energy.getUnusedCapacity()
+    return energyNeeds
   end
 end
 
 -- comparator function for table sorting
 function energy.compareNeeds(a, b)
-  return a[2] < b[2]
+  if a == -1 then
+    return false -- used to move relays to the end of the list
+  else
+    return a[2] < b[2]
+  end
 end
 
--- pushes energy to connected entities. amount is divided between # of valid receivers
-function energy.sendEnergy(amount, visited)
+-- traverse the tree and build a list of receivers requesting energy
+function energy.energyNeedsQuery(energyNeeds)
+  -- check energy needs for all connected entities
+  for entityId, config in pairs(energy.connections) do
+    if not energyNeeds[tostring(entityId)] and not config.blocked then
+      local prevTotal = energyNeeds["total"]
+      energyNeeds = world.callScriptedEntity(entityId, "energy.getEnergyNeeds", energyNeeds)
+      if energyNeeds[tostring(entityId)] == nil then
+        world.logInfo("%s %d failed to add itself to energyNeeds table", world.callScriptedEntity(entityId, "entity.configParameter", "objectName"), entityId)
+      end
+      if energyNeeds["total"] > prevTotal then
+        energy.showTransferEffect(entityId)
+      end
+    end
+  end
+
+  return energyNeeds
+end
+
+-- callback for receiving incoming energy pulses
+function energy.receiveEnergy(amount)
+  --world.logInfo("%s %d receiving %d energy...", entity.configParameter("objectName"), entity.id(), amount)
+  if onEnergyReceived then
+    return onEnergyReceived(amount)
+  else
+    return energy.addEnergy(amount)
+  end
+end
+
+-- pushes energy to connected entities. amount is divided "fairly" between the valid receivers
+function energy.sendEnergy(amount)
   --if entity.configParameter("objectName") ~= "relay" then
     --world.logInfo("%s %d sending %f energy...", entity.configParameter("objectName"), entity.id(), amount)
   --end
 
-  energy.checkConnections()
+  -- get the network's energy needs
+  local energyNeeds = {total=0}
+  energyNeeds[tostring(entity.id())] = 0
+  energyNeeds = energy.energyNeedsQuery(energyNeeds)
+  energyNeeds["total"] = nil
 
-  local energyNeeds = {}
-  -- check energy needs for all connected entities
-  for entityId, config in pairs(energy.connections) do
-    if not visited[tostring(entityId)] and not config.blocked then 
-      local thisEnergyNeed = world.callScriptedEntity(entityId, "energy.getEnergyNeeds")
-      if thisEnergyNeed and thisEnergyNeed > 0 then
-        energyNeeds[#energyNeeds + 1] = {entityId, thisEnergyNeed}
-      end
-    end
+  -- world.logInfo("initial energyNeeds")
+  -- world.logInfo(energyNeeds)
+
+  -- build and sort a table from least to most energy requested
+  local sortedEnergyNeeds = {}
+  for entityId, thisNeed in pairs(energyNeeds) do
+    sortedEnergyNeeds[#sortedEnergyNeeds + 1] = {entityId, thisNeed}
   end
+  table.sort(sortedEnergyNeeds, energy.compareNeeds)
 
-  -- sort table of energy needs
-  table.sort(energyNeeds, energy.compareNeeds)
-  --world.logInfo(energyNeeds)
+  -- world.logInfo("sorted energyNeeds")
+  -- world.logInfo(sortedEnergyNeeds)
 
   -- process list and distribute remainder evenly at each step
   local totalEnergyToSend = amount
   local remainingEnergyToSend = totalEnergyToSend
-  while #energyNeeds > 0 do
-    if energyNeeds[1][2] > 0 then
-      local sendAmt = remainingEnergyToSend / #energyNeeds
-      local energyReturn = world.callScriptedEntity(energyNeeds[1][1], "energy.receiveEnergy", sendAmt, visited)
-      if energyReturn then
-        visited = energyReturn[2]
-        remainingEnergyToSend = remainingEnergyToSend - energyReturn[1]
-        if energyReturn[1] > 0 then
-          energy.showTransferEffect(energyNeeds[1][1])
-        end
-      else
-        --world.logInfo("%s %d failed to get energy return from %d", entity.configParameter("objectName"), entity.id(), entityId)
+  while #sortedEnergyNeeds > 0 do
+    if sortedEnergyNeeds[1][2] > 0 then
+      local sendAmt = remainingEnergyToSend / #sortedEnergyNeeds
+      local acceptedEnergy = world.callScriptedEntity(sortedEnergyNeeds[1][1], "energy.receiveEnergy", sendAmt)
+      if acceptedEnergy > 0 then
+        remainingEnergyToSend = remainingEnergyToSend - acceptedEnergy
       end
     end
-    table.remove(energyNeeds, 1)
+    table.remove(sortedEnergyNeeds, 1)
   end
 
   --remove the total amount of energy sent
   local totalSent = totalEnergyToSend - remainingEnergyToSend
-  --world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
+  energy.removeEnergy(totalSent)
 
-  return {totalSent, visited}
+  -- world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 end
 
 -- display a visual indicator of the energy transfer

@@ -8,11 +8,11 @@
   "objectType" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "powersmeltericon.png",
+  "inventoryIcon" : "powersmelter.png:idle",
   "orientations" : [
     {
-      "image" : "powersmelter.png",
-      "imagePosition" : [-8, -8],
+      "image" : "powersmelter.png:idle",
+      "imagePosition" : [-16, -16],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -25,7 +25,6 @@
     "powersmelter.lua",
     "/scripts/pipes/itempipes.lua",
     "/scripts/pipesapi.lua",
-    "/scripts/storageapi.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
@@ -35,11 +34,14 @@
   "animationParts" : {
     "smelter" : "powersmelter.png"
   },
-  "animationPosition" : [-8, -8],
+  "animationPosition" : [-16, -16],
 
-  "itemNodes" : [ {"offset": [-1, 0], "dir": [0, 1]}, {"offset": [1, 0], "dir": [0, 1]} ],
+  "inboundNodes" : [ [0, 0] ],
 
-  "energySendRate" : 50,
-  "energyGenerationRate" : 20,
-  "energyCapacity" : 50
+  "itemNodes" : [ {"offset": [-2, -2], "dir": [-1, 0]}, {"offset": [1, -2], "dir": [1, 0]} ],
+  
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 50,
+  
+  "smeltRate" : 0.5
 }

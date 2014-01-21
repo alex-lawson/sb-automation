@@ -8,9 +8,9 @@ function die()
   energy.die()
 end
 
-function onEnergyReceived(amount, visited)
-  --world.logInfo("Relaying energy: %s Visited: %s", amount, visited)
-  return energy.sendEnergy(amount, visited)
+function onEnergyNeedsCheck(energyNeeds)
+  energyNeeds[tostring(entity.id())] = -1 -- -1 is just a hack to mark relays for ordering
+  return energy.energyNeedsQuery(energyNeeds)
 end
 
 function main()

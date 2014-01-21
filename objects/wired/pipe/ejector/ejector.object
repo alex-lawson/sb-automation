@@ -22,7 +22,13 @@
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
+    },
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
 
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
     }
   ],
   

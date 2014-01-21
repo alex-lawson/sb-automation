@@ -46,7 +46,13 @@ end
 function outputItem(item)
   -- try to push to both nodes (in a dangerous and confusing way!)
   local result = pushItem(1, item) or pushItem(2, item)
-
+  
+  -- pushed only some of the item
+  if result and result ~= true then
+    item[2] = item[2] - result
+    ejectItem(item)
+  end
+  
   -- failed to push item
   if not result then
     ejectItem(item)

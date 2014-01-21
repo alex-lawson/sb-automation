@@ -1,0 +1,55 @@
+{
+  "objectName" : "liquidextractor",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Extracts liquid from blocks.",
+  "shortdescription" : "Extractor",
+  "race" : "generic",
+  "category" : "wire",
+
+  "inventoryIcon" : "liquidextractor.png:default.0",
+  "orientations" : [
+    {
+      "dualImage" : "liquidextractor.png:default.0",
+
+      "imagePosition" : [0, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/extractor/liquidextractor.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/energy.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/energy.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/extractor/liquidextractor.animation",
+  "animationParts" : {
+    "extractor" : "liquidextractor.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [[1, 1]],
+  
+  "itemNodes" : [ {"offset": [1, 2], "dir": [0, 1]} ],
+  "liquidNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
+  "flippedLiquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
+  
+  
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 50,
+  
+  "damageRate" : 0.25,
+  "damageAmount" : 5,
+  "blockOffset" : [1, 1]
+}

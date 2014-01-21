@@ -34,7 +34,8 @@
     "/scripts/pipes/itempipes.lua",
     "/scripts/pipesapi.lua",
     "/scripts/util.lua",
-    "/scripts/vec2.lua"
+    "/scripts/vec2.lua",
+    "/scripts/energy.lua"
   ],
   "scriptDelta" : 5,
   
@@ -47,5 +48,10 @@
   "inboundNodes" : [[0, 1]],
   "outboundNodes" : [[1, 1]],
   
-  "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [1, 0], "dir": [1, 0]} ]
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [1, 0], "dir": [1, 0]} ],
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5,
+
+  "pumpRate" : 0.5
 }

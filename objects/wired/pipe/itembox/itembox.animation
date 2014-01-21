@@ -55,7 +55,7 @@
       },
       "invbar" : {
         "properties" : {
-          "offset" : [1, 0.5],
+          "offset" : [1.125, 0.5],
           "centered" : false,
           "zLevel" : 2,
           "scalingGroup" : "invbar"

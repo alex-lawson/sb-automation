@@ -46,7 +46,6 @@
       },
       "liquid" : {
         "properties" : {
-          "image" : "<partImage>:water",
           "offset" : [2.625, 1.5],
           "centered" : false,
           "zLevel" : 2,
@@ -55,22 +54,34 @@
         "partStates" : {
           "liquid" : {
             "water" : {
-              "image" : "<partImage>:water"
+              "properties" : {
+                "image" : "<partImage>:water"
+              }
             },
             "tar" : {
-              "image" : "<partImage>:tar"
+              "properties" : {
+                "image" : "<partImage>:tar"
+              }
             },
             "poison" : {
-              "image" : "<partImage>:poison"
+              "properties" : {
+                "image" : "<partImage>:poison"
+              }
             },
             "juice" : {
-              "image" : "<partImage>:juice"
+              "properties" : {
+                "image" : "<partImage>:juice"
+              }
             },
             "lava" : {
-              "image" : "<partImage>:lava"
+              "properties" : {
+                "image" : "<partImage>:lava"
+              }
             },
             "other" : {
-              "image" : "<partImage>:other"
+              "properties" : {
+                "image" : "<partImage>:other"
+              }
             }
           }
         }

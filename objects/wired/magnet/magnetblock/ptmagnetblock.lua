@@ -1,5 +1,9 @@
 function init(args)
   if not args then
+    if datawire then
+      datawire.init()
+    end
+    
     storage.usesEnergy = entity.configParameter("energyAllowConnection", false)
     if storage.usesEnergy then
       energy.init()

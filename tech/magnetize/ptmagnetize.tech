@@ -1,12 +1,12 @@
 {
   "script" : "ptmagnetize.lua",
-  "actions" : [ "magnetizeActivate", "magnetizeDeactivate" ],
+  "actions" : [ "magnetizeActivate", "magnetizeDeactivate", "magnetizeReverse" ],
   "animator" : "ptmagnetize.animation",
 
   "ballCustomMovementParameters" : {
     "standingPoly" : [ [-0.75, -0.75], [0.75, -0.75], [0.75, 0.75], [-0.75, 0.75] ],
     "crouchingPoly" : [ [-0.75, -0.75], [0.75, -0.75], [0.75, 0.75], [-0.75, 0.75] ],
-    "fallStatusSpeedMin" : -200.0,
+    "fallStatusSpeedMin" : -1000.0,
 	
     "frictionEnabled" : false
   },

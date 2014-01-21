@@ -1,5 +1,5 @@
 {
   "input" : [ ],
   "output" : { "item" : "testspawner", "count" : 1 },
-  "groups" : [ "wiringstation", "all", "mod" ]
+  "groups" : [ "mod" ]
 }

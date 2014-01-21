@@ -1,8 +1,9 @@
 
 magnets = {
-  constant = 20,
+  constant = 40,
   radius = 50,
-  limit = 100
+  limit = 100,
+  minDist = 1
 }
 
 ------------------------------------------------------------------------------------------
@@ -53,12 +54,18 @@ function magnets.vecSum(u, v)
 end
 
 -----------------------------------------------
--- Gets the square length of a vector.
+-- Gets the square length of a vector, with a capped minimun distance.
 -- @param vec The vector to get the length of.
 -- @return The square length of the vector.
 -----------------------------------------------
 function magnets.lengthSquared(vec)
-  return (vec[1] * vec[1]) + (vec[2] * vec[2])
+  local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
+  if out > 0 and out < magnets.minDist then
+    out = 2 * magnets.minDist - out
+  elseif out < 0 and out > -magnets.minDist then
+    out = 2 * -magnets.minDist + out
+  end
+  return out
 end
 
 ------------------------------------------------------------------
@@ -68,27 +75,30 @@ end
 ------------------------------------------------------------------
 function magnets.shouldAffect(entID)
   -- Make sure the entity has been magnetized
-  return magnets.isValidTarget(entID) and magnets.isMagnetized(entID)
+  return magnets.isValidTarget(entID) and (magnets.isMagnetized(entID) ~= nil)
 end
 
-------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
 -- Checks whether or not the entity should be affected by magnets
 -- @param entID The ID of the entity
--- @return Whether or not the entity has been magnetized
-------------------------------------------------------------------
+-- @return The entityID of the Magnetizer managing the entity if it is magnetized, nil if it is not, or -1 if there is no manager.
+-----------------------------------------------------------------------------------------------------------------------------------
 function magnets.isMagnetized(entID)
+  if world.callScriptedEntity(entID, "isMagnetized") == true then
+    return -1
+  end
   if math.magnetizers ~= nil then
     for key,value in pairs(math.magnetizers) do
       if world.entityExists(key) then
         if world.callScriptedEntity(key, "isMagnetized", entID) then
-          return true
+          return key
         end
       else
         math.magnetizers[key] = nil
       end
     end
   end
-  return false
+  return nil
 end
 
 ------------------------------------------------------------------

@@ -10,8 +10,9 @@ function die()
 end
 
 --never accept energy from elsewhere
-function onEnergyNeedsCheck()
-  return 0
+function onEnergyNeedsCheck(energyNeeds)
+  energyNeeds[tostring(entity.id())] = 0
+  return energyNeeds
 end
 
 function main()

@@ -2,6 +2,14 @@ function init(v)
   energy.init()
 
   if storage.active == nil then storage.active = false end
+
+  self.flipStr = ""
+  if entity.direction() == -1 then
+    self.flipStr = "flip"
+  end
+  entity.setParticleEmitterActive("fanwind", false)
+  entity.setParticleEmitterActive("fanwindflip", false)
+
   setActive(storage.active)
   self.affectWidth = entity.configParameter("affectWidth")
   self.blowSound = entity.configParameter("blowSound")
@@ -35,7 +43,7 @@ function onInteraction(args)
 end
 
 function setActive(isActive)
-  entity.setParticleEmitterActive("fanwind", isActive)
+  entity.setParticleEmitterActive("fanwind"..self.flipStr, isActive)
   if isActive then
     entity.setAnimationState("fanState", "work")
   elseif storage.active then
@@ -94,16 +102,23 @@ function main()
 
     self.aet = {}
     self.st = self.st + 1
-    if self.st > 6 then self.st = 0
-    elseif self.st == 3 then entity.playImmediateSound(self.blowSound) end
+    if self.st > 6 then 
+      self.st = 0
+    elseif self.st == 3 then 
+      entity.playImmediateSound(self.blowSound)
+    end
     for x=1,self.affectWidth do
       for y=-2,1 do
         process(x, y)
       end
     end
   elseif self.timer > 0 then
-    if self.timer % 12 == 4 then entity.playImmediateSound(self.blowSound) end
+    if self.timer % 12 == 4 then 
+      entity.playImmediateSound(self.blowSound) 
+    end
     self.timer = self.timer - 1
-    if self.timer == 1 then entity.setAnimationState("fanState", "idle") end
+    if self.timer == 1 then 
+      entity.setAnimationState("fanState", "idle") 
+    end
   end
 end

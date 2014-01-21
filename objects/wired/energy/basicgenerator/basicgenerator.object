@@ -8,7 +8,7 @@
   "objectType" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "basicgeneratoricon.png",
+  "inventoryIcon" : "basicgenerator.png:off",
   "orientations" : [
     {
       "image" : "basicgenerator.png:off",
@@ -20,13 +20,16 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "basicgenerator.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "basicgenerator.animation",
   "animationParts" : {
-    "generator" : "basicgenerator.png"
+    "generator" : "basicgenerator.png",
+    "fuelbar" : "fuelbar.png"
   },
   "animationPosition" : [0, -8],
+
+  "inboundNodes" : [ [3, 0] ],
 
   "energySendRate" : 50,
   "energyGenerationRate" : 20,

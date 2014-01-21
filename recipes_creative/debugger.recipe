@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "debugger",
-    "count" : 1
-  },
-  "groups" : [ "wiringstation", "all", "mod" ]
-}

@@ -26,7 +26,8 @@
       "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "collision" : "platform"
     }
   ],
   
@@ -49,7 +50,7 @@
   
   "inboundNodes" : [[1, 1]],
   
-  "itemNodes" : [ {"offset": [0, 1], "dir": [0, 1]}, {"offset": [2, 1], "dir": [0, 1]} ],
+  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [2, 0], "dir": [1, 0]} ],
   
   "itemPushRate" : 0.5
 }

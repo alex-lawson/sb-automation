@@ -83,15 +83,27 @@ function updateAnimationState()
   end
 end
 
-function onEnergyNeedsCheck()
-  return math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+function onEnergyNeedsCheck(energyNeeds)
+  local thisNeed = math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+  energyNeeds["total"] = energyNeeds["total"] + thisNeed
+  energyNeeds[tostring(entity.id())] = thisNeed
+  return energyNeeds
 end
 
-function onEnergyReceived(amount, visited)
+--only send energy while discharging (even if it's in the pool... could try revamping this later)
+function onEnergySendCheck()
+  if storage.discharging then
+    return energy.getEnergy()
+  else
+    return 0
+  end
+end
+
+function onEnergyReceived(amount)
   checkBatteries()
   local acceptedEnergy = chargeBatteries(amount)
 
-  return {acceptedEnergy, visited}
+  return acceptedEnergy
 end
 
 function chargeBatteries(amount)
@@ -100,9 +112,7 @@ function chargeBatteries(amount)
     local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
       if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", true)
-      else
-        world.callScriptedEntity(bStatus.id, "entity.setParticleEmitterActive", "charging", false)
+        world.callScriptedEntity(bStatus.id, "entity.burstParticleEmitter", "charging")
       end
       amountRemaining = amountRemaining - amountAccepted
     end
