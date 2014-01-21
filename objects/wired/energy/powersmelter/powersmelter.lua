@@ -80,7 +80,11 @@ function main()
     end
     self.smeltTimer = self.smeltTimer + entity.dt()
   else
-    entity.setAnimationState("smelting", "idle")
+    if storage.state then
+      entity.setAnimationState("smelting", "error")
+    else
+      entity.setAnimationState("smelting", "idle")
+    end
   end
   
 end
