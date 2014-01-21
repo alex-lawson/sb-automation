@@ -2,7 +2,7 @@
   "objectName" : "ejector",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Spits items out of pipes.",
+  "description" : "This is a pipe output, for ejecting items.",
   "shortdescription" : "Ejector",
   "race" : "generic",
   "category" : "wire",

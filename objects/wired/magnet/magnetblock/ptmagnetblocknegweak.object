@@ -2,7 +2,7 @@
   "objectName" : "ptmagnetblocknegweak",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "It's a weak magnet! (It's actually a point charge) Toggles between positive and neutral.",
+  "description" : "A weak magnet, the charge of which can be toggled between positive and neutral.",
   "shortdescription" : "Permanent Negative Magnet",
   "race" : "generic",
 

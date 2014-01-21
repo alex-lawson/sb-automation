@@ -2,7 +2,7 @@
   "objectName" : "quickwallbutton",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Just a quick tap couldn't hurt anyone, could it?",
+  "description" : "A simple pushbutton that can be toggled on or off.",
   "shortdescription" : "Quick Wall Button",
   "race" : "generic",
 

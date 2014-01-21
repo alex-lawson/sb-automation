@@ -1,7 +1,7 @@
 {
   "objectName" : "generator",
   "rarity" : "Common",
-  "description" : "Who the hell made this trash??",
+  "description" : "An experimental generator; use with caution.",
   "shortdescription" : "Test Generator",
   "race" : "generic",
   "price" : "200",

@@ -2,7 +2,7 @@
   "objectName" : "battery",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "It keeps on going, and going... and then needs recharging.",
+  "description" : "A battery that requires recharging after use.",
   "shortdescription" : "Battery",
   "race" : "generic",
   "category" : "wire",
