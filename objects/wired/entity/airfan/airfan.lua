@@ -59,7 +59,7 @@ function filterEntities(eids)
   local valid = { "monster", "npc" }
   local ret = { }
   for i, id in pairs(eids) do
-    if self.aet[id] == nil then
+    if self.aet[id] == nil and (not world.callScriptedEntity(id, "entity.configParameter", "isStatic", false)) then
       local et = world.entityType(id)
       for j, vt in pairs(valid) do
         if et == vt then
