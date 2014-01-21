@@ -12,7 +12,7 @@
   "orientations" : [
     {
       "image" : "powersmelter.png:idle",
-      "imagePosition" : [0, 0],
+      "imagePosition" : [-16, -16],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
@@ -34,9 +34,11 @@
   "animationParts" : {
     "smelter" : "powersmelter.png"
   },
-  "animationPosition" : [0, 0],
+  "animationPosition" : [-16, -16],
 
-  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [3, 0], "dir": [1, 0]} ],
+  "inboundNodes" : [ [0, 0] ],
+
+  "itemNodes" : [ {"offset": [-2, -2], "dir": [-1, 0]}, {"offset": [1, -2], "dir": [1, 0]} ],
   
   "energyConsumptionRate" : 10,
   "energyCapacity" : 50,

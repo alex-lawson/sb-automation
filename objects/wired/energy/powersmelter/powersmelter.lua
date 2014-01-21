@@ -22,7 +22,7 @@ function init(virtual)
     self.smeltRate = entity.configParameter("smeltRate")
     self.smeltTimer = 0
     
-    entity.setInteractive(true)
+    entity.setInteractive(not entity.isInboundNodeConnected(0))
   end
 end
 
@@ -31,20 +31,28 @@ function die()
   ejectOre() --Temporary
 end
 
-function onInboundNodeChange(args)
-  storage.state = args.level
+function onNodeConnectionChange()
+  checkNodes()
 end
 
-function onNodeConnectionChange()
-  storage.state = entity.getInboundNodeLevel(0)
+function onInboundNodeChange(args)
+  checkNodes()
+end
+
+function checkNodes()
+  local isWired = entity.isInboundNodeConnected(0)
+  if isWired then
+    storage.state = entity.getInboundNodeLevel(0)
+  end
+  entity.setInteractive(not isWired)
 end
 
 function onInteraction(args)
-  --pump liquid
   if entity.isInboundNodeConnected(0) == false then
     storage.state = not storage.state
   end
 end
+
 function main()
   energy.update()
   datawire.update()
