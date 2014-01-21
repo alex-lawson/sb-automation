@@ -2,7 +2,7 @@
   "objectName" : "tinywallswitch",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "A compact switch for intricate mechanisms.",
+  "description" : "A compact switch that can be flipped on or off.",
   "shortdescription" : "Tiny Wall Switch",
   "race" : "generic",
 

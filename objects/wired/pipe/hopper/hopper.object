@@ -2,7 +2,7 @@
   "objectName" : "hopper",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Sucks up nearby items into pipes.",
+  "description" : "This device vacuums up loose items.",
   "shortdescription" : "Hopper",
   "race" : "generic",
   "category" : "wire",

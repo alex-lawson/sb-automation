@@ -2,7 +2,7 @@
   "objectName" : "relay",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Let the force flow through you.",
+  "description" : "A simple energy relay.",
   "shortdescription" : "Energy Relay",
   "race" : "generic",
   "category" : "wire",

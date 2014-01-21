@@ -1,7 +1,7 @@
 {
   "objectName" : "batterycharger",
   "rarity" : "Common",
-  "description" : "Connects up to three batteries to the energy network.",
+  "description" : "Connects up to three batteries to the energy network for recharging.",
   "shortdescription" : "Battery Holder",
   "race" : "generic",
   "price" : "200",

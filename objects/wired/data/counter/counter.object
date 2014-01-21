@@ -2,7 +2,7 @@
   "objectName" : "counter",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Increment, decrement, and reset like a boss.",
+  "description" : "A counter with options to Increment, Decrement, and Reset.",
   "shortdescription" : "Counter",
   "race" : "generic",
 

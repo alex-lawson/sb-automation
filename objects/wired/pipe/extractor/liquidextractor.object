@@ -2,7 +2,7 @@
   "objectName" : "liquidextractor",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Extracts liquid from blocks.",
+  "description" : "This device extracts liquid from blocks.",
   "shortdescription" : "Extractor",
   "race" : "generic",
   "category" : "wire",

@@ -2,7 +2,7 @@
   "objectName" : "linkdisplay",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Numbers With Friends",
+  "description" : "A modular numeric display.",
   "shortdescription" : "Linked Display",
   "race" : "generic",
   "category" : "wire",
