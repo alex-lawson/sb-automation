@@ -1,0 +1,12 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "energycrystal", "count" : 1 },
+    { "item" : "steelbar", "count" : 2}
+  ],
+  "output" : {
+    "item" : "liquidpump",
+    "count" : 1
+  },
+  "groups" : [ "wiringstation", "all" ]
+}

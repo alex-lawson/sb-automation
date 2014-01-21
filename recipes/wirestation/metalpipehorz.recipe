@@ -1,0 +1,10 @@
+{
+  "input" : [
+    { "item" : "steelbar", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "metalpipehorz",
+    "count" : 5
+  },
+  "groups" : [ "wiringstation", "all" ]
+}
