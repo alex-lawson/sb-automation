@@ -102,10 +102,8 @@ function beforeItemPut(item, nodeId)
 end
 
 function onItemGet(filter, nodeId)
-  --world.logInfo("filter: %s", filter)
   if filter then
     for i,item in storageApi.getIterator() do
-      world.logInfo("Filter : %s Item: %s", filter, item)
       for filterString,amount  in pairs(filter) do
         if item[1] == filterString and item[2] >= amount[1] then
           if item[2] <= amount[2] then
@@ -119,7 +117,6 @@ function onItemGet(filter, nodeId)
     end
   else
     for i,item in storageApi.getIterator() do
-      --world.logInfo(i)
       return storageApi.returnItem(i)
     end
   end
