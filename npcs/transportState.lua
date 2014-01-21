@@ -1,7 +1,9 @@
 transportState = {}
 
 function transportState.enter()
-  storageApi.init(entity.configParameter("storageapi.mode"), entity.configParameter("storageapi.capacity"), entity.configParameter("storageapi.merge"))
+  if storageApi.isInit() then
+    storageApi.init(entity.configParameter("storageapi.mode"), entity.configParameter("storageapi.capacity"), entity.configParameter("storageapi.merge"))
+  end
   if not storageApi.isFull() then return nil end
   local objs = world.objectQuery(entity.position(), entity.configParameter("transport.scanRadius"), { order = "nearest" })
   local oid = nil
@@ -22,10 +24,9 @@ function transportState.update(dt, stateData)
     local ids = storageApi.getStorageIndices()
     for i,ix in pairs(ids) do
       local item = storageApi.returnItem(ix)
-      if ix ~= nil then 
-        if not world.callScriptedEntity(stateData.objId, "storageApi.storeItem", item[1], item[2], item[3]) then
-          storageApi.storeItem(item[1], item[2], item[3])
-        end
+      local r = world.callScriptedEntity(stateData.objId, "storageApi.storeItemFit", item[1], item[2], item[3])
+      if r < item[2] then
+        storageApi.storeItem(item[1], item[2] - r, item[3])
       end
     end
   end
