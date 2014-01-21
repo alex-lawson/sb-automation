@@ -8,7 +8,7 @@
   "objectType" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "basicgeneratoricon.png",
+  "inventoryIcon" : "basicgenerator.png:off",
   "orientations" : [
     {
       "image" : "basicgenerator.png:off",

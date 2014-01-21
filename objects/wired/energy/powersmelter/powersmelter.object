@@ -8,7 +8,7 @@
   "objectType" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "powersmeltericon.png",
+  "inventoryIcon" : "powersmelter.png:idle",
   "orientations" : [
     {
       "image" : "powersmelter.png:idle",
