@@ -14,7 +14,7 @@
     {
       "dualImage" : "conveyorbelt.png:idle",
       "imagePosition" : [-16, 0],
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }
