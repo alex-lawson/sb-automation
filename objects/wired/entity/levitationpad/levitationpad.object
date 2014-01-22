@@ -35,5 +35,7 @@
   "workSound" : "/sfx/tech/tech_hoverloop.wav",
 
   "energyConsumptionRate" : 5,
-  "energyCapacity" : 5
+  "energyCapacity" : 5,
+  
+  "energyCollisionBlocks" : [ [-1, 0], [0, 0] ]
 }
