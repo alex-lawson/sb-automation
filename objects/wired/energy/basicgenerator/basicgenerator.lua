@@ -52,7 +52,7 @@ function onInteraction(args)
   if not entity.isInboundNodeConnected(0) then
     if storage.state then
       storage.state = false
-    elseif storage.fuel > 0 then
+    else
       storage.state = true
     end
 
@@ -61,8 +61,10 @@ function onInteraction(args)
 end
 
 function updateAnimationState()
-  if storage.state then
+  if storage.state and storage.fuel > 0 then
     entity.setAnimationState("generatorState", "on")
+  elseif storage.state then
+    entity.setAnimationState("generatorState", "error")
   else
     entity.setAnimationState("generatorState", "off")
   end
@@ -137,8 +139,12 @@ function generate()
     storage.fuel = storage.fuel - tickFuel
     energy.addEnergy(tickFuel * energy.fuelEnergyConversion)
     return true
+  elseif storage.fuel > 0 then
+    energy.addEnergy(storage.fuel * energy.fuelEnergyConversion)
+    storage.fuel = 0
+    return true
   else
-    storage.state = false
+    --storage.state = false
     return false
   end
 end 
