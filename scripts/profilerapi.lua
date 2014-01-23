@@ -1,6 +1,6 @@
 profilerApi = {}
 
---- Initializes the Profiler
+--- Initializes the Profiler and hooks all functions
 function profilerApi.init()
   if profilerApi.isInit then return end
   profilerApi.hooks = {}
@@ -29,7 +29,7 @@ function profilerApi.init()
   profilerApi.isInit = true
 end
 
---- Prints all collected data into the log
+--- Prints all collected data into the log ordered by total time descending
 function profilerApi.logData()
   local arr = {}
   for k in pairs(t) do table.insert(arr, t) end
@@ -47,6 +47,7 @@ function profilerApi.sortHelp(e1, e2)
 end
 
 function profilerApi.hookAll(tn, to)
+  if (tn == "entity.") or (tn == "world.") or (tn == "tech.") then return end
   if tn == "profilerApi." then return end
   for k,v in pairs(to) do
     if type(v) == "function" then
