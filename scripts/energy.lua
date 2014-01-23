@@ -69,9 +69,10 @@ function energy.init()
   --timer variable that tracks the cooldown until next transmission pulse
   energy.sendTimer = energy.sendFreq
 
-  --cooldown to prevent projectile spam with multiple generators
-  energy.projectileMinInterval = 0.1
-  energy.projectileCooldown = 0
+  --prevent projectile spam with multiple generators
+  energy.transferInterval = 0.2
+  energy.transferCooldown = energy.transferInterval
+  energy.transferShown = {}
 
   --maximum range (in blocks) that this device will search for entities to connect to
   --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
@@ -122,8 +123,13 @@ function energy.update()
       end
     end
 
-    if energy.projectileCooldown > 0 then
-      energy.projectileCooldown = energy.projectileCooldown - entity.dt()
+    --periodically reset projectile anti-spam list
+    if energy.transferCooldown > 0 then
+      energy.transferCooldown = energy.transferCooldown - entity.dt()
+      if energy.transferCooldown <= 0 then
+        energy.transferShown = {}
+        energy.transferCooldown = energy.transferCooldown + energy.transferInterval
+      end
     end
 
     --periodic connection checks
@@ -473,9 +479,9 @@ end
 
 -- display a visual indicator of the energy transfer
 function energy.showTransferEffect(entityId)
-  if energy.projectileCooldown <= 0 then
+  if not energy.transferShown[entityId] then
     local config = energy.connections[entityId]
     world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
-    entity.projectileCooldown = energy.projectileMinInterval
+    energy.transferShown[entityId] = true
   end
 end
