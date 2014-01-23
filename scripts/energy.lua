@@ -95,6 +95,7 @@ function energy.init()
   energy.connections = {}
   
   -- Get collision blocks of entity
+  --[[
   local blocks = entity.configParameter("energyCollisionBlocks", nil)
   if blocks ~= nil then
     local pos = entity.position()
@@ -107,6 +108,7 @@ function energy.init()
     end
   end
   energy.collisionBlocks = blocks
+  --]]
 
   --helper table for energy.connections that sorts the id's in order of proximity/precedence
   energy.sortedConnections = {}
@@ -273,8 +275,9 @@ function energy.makeConnectionConfig(entityId)
   
   config.distance = world.magnitude(srcPos, tarPos)
   config.speed = (config.distance / 1.2) -- denominator must == projectile's timeToLive
+  -- Just leaving the code for solid collision checking there, not not using it for now
   --config.blocked = energy.checkLoS(srcPos, tarPos, entityId)
-  config.blocked = world.lineCollision(srcPos, tarPos)
+  config.blocked = world.lineCollision(srcPos, tarPos) -- world.lineCollision is marginally faster
   config.isRelay = world.callScriptedEntity(entityId, "energy.isRelay")
   -- if config.isRelay then
   --   world.logInfo("%s %d thinks %d is a relay", entity.configParameter("objectName"), entity.id(), entityId)
