@@ -69,6 +69,10 @@ function energy.init()
   --timer variable that tracks the cooldown until next transmission pulse
   energy.sendTimer = energy.sendFreq
 
+  --cooldown to prevent projectile spam with multiple generators
+  energy.projectileMinInterval = 0.1
+  energy.projectileCooldown = 0
+
   --maximum range (in blocks) that this device will search for entities to connect to
   --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
   energy.linkRange = entity.configParameter("energyLinkRange")
@@ -88,6 +92,9 @@ function energy.init()
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
+
+  --helper table for energy.connections that sorts the id's in order of proximity/precedence
+  energy.sortedConnections = {}
 
   --flag used to run more initialization the first time main() is called (in energy.update())
   self.energyInitialized = false
@@ -113,6 +120,10 @@ function energy.update()
         end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
+    end
+
+    if energy.projectileCooldown > 0 then
+      energy.projectileCooldown = energy.projectileCooldown - entity.dt()
     end
 
     --periodic connection checks
@@ -231,6 +242,7 @@ function energy.canReceiveEnergy()
 end
 
 -- compute all the configuration stuff for the connection and projectile effect
+-- TODO: divide rather than duplicate this work between connecting objects
 function energy.makeConnectionConfig(entityId)
   local config = {}
   local srcPos = energy.getProjectileSourcePosition()
@@ -239,9 +251,15 @@ function energy.makeConnectionConfig(entityId)
   config.aimVector = world.distance(tarPos, srcPos) --{tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
   config.srcPos = srcPos
   config.tarPos = tarPos
-  local distToTarget = world.magnitude(srcPos, tarPos)
-  config.speed = (distToTarget / 1.2) -- denominator must == projectile's timeToLive
+  config.distance = world.magnitude(srcPos, tarPos)
+  config.speed = (config.distance / 1.2) -- denominator must == projectile's timeToLive
   config.blocked = world.lineCollision(srcPos, tarPos)
+  config.isRelay = world.callScriptedEntity(entityId, "energy.isRelay")
+  -- if config.isRelay then
+  --   world.logInfo("%s %d thinks %d is a relay", entity.configParameter("objectName"), entity.id(), entityId)
+  -- else
+  --   world.logInfo("%s %d thinks %d is NOT a relay", entity.configParameter("objectName"), entity.id(), entityId)
+  -- end
   return config
 end
 
@@ -250,26 +268,78 @@ function energy.getProjectileSourcePosition()
   return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
 end
 
+--adds appropriate entries into energy.connections and energy.sortedConnections
+function energy.addToConnectionTable(entityId)
+  if energy.connections[entityId] == nil then
+    local cConfig = energy.makeConnectionConfig(entityId)
+    energy.connections[entityId] = cConfig
+
+    --insert into the proper place in sortedConnections (ordered by distance, with receivers before relays)
+    local insertIndex = false
+    for i, cId in ipairs(energy.sortedConnections) do
+      local cConfig2 = energy.connections[cId]
+      if cConfig.isRelay == cConfig2.isRelay then
+        -- world.logInfo("comparing distance %f to %f", cConfig.distance, cConfig2.distance)
+        if cConfig.distance < cConfig2.distance then
+          -- if cConfig.isRelay then
+          --   world.logInfo("inserting relays in order of distance")
+          -- else
+          --   world.logInfo("inserting non-relays in order of distance")
+          -- end
+          insertIndex = i
+          break
+        end
+      elseif cConfig2.isRelay and not cConfig.isRelay then
+        -- world.logInfo("inserting after relay")
+        insertIndex = i
+        break
+      end
+    end
+    if not insertIndex then
+      -- world.logInfo("inserting at end")
+      insertIndex = #energy.sortedConnections + 1
+    end
+    table.insert(energy.sortedConnections, tonumber(insertIndex), entityId)
+  end
+end
+
 -- connects to the specified entity id
 function energy.connect(entityId)
-  energy.connections[entityId] = energy.makeConnectionConfig(entityId)
+  energy.addToConnectionTable(entityId)
   world.callScriptedEntity(entityId, "energy.onConnect", entity.id())
 end
 
 -- callback for energy.connect
 function energy.onConnect(entityId)
-  energy.connections[entityId] = energy.makeConnectionConfig(entityId)
+  -- if self.energyInitialized then
+    energy.addToConnectionTable(entityId)
+  -- else
+  --   world.logInfo("%s %d wasn't initialized at connection time! hopefully we'll connect later...", entity.configParameter("objectName"), entity.id())
+  -- end
+end
+
+-- removes the appropriate entries from energy.connections and energy.sortedConnections
+function energy.removeFromConnectionTable(entityId)
+  energy.connections[entityId] = nil
+  for i, cId in ipairs(energy.sortedConnections) do
+    if cId == entityId then
+      table.remove(energy.sortedConnections, i)
+      break
+    end
+  end
+  -- world.logInfo("%s %d disconnected from %d:", entity.configParameter("objectName"), entity.id(), entityId)
+  -- world.logInfo(energy.sortedConnections)
 end
 
 -- disconnects from the specified entity id
 function energy.disconnect(entityId)
   world.callScriptedEntity(entityId, "energy.onDisconnect", entity.id())
-  energy.connections[entityId] = nil
+  energy.removeFromConnectionTable(entityId)
 end
 
 -- callback for energy.disconnect
 function energy.onDisconnect(entityId)
-  energy.connections[entityId] = nil
+  energy.removeFromConnectionTable(entityId)
 end
 
 -- Returns a list of connected entity id's
@@ -280,20 +350,23 @@ end
 -- finds and connects to entities within <energy.linkRange> blocks
 function energy.findConnections()
   energy.connections = {}
+  energy.sortedConnections = {}
 
   --find nearby energy devices within LoS
   local entityIds = world.objectQuery(entity.position(), energy.linkRange, { 
       withoutEntityId = entity.id(),
-      callScript = "energy.canConnect"
+      callScript = "energy.canConnect",
+      order = "nearest"
     })
-
-  --world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
-  --world.logInfo(entityIds)
 
   --connect
   for i, entityId in ipairs(entityIds) do
     energy.connect(entityId)
   end
+
+  -- world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
+  -- world.logInfo(entityIds)
+  -- world.logInfo(energy.sortedConnections)
 end
 
 -- performs periodic LoS checks on connected entities
@@ -326,8 +399,8 @@ end
 -- traverse the tree and build a list of receivers requesting energy
 function energy.energyNeedsQuery(energyNeeds)
   -- check energy needs for all connected entities
-  for entityId, config in pairs(energy.connections) do
-    if not energyNeeds[tostring(entityId)] and not config.blocked then
+  for i, entityId in ipairs(energy.sortedConnections) do
+    if not energyNeeds[tostring(entityId)] and not energy.connections[entityId].blocked then
       local prevTotal = energyNeeds["total"]
       energyNeeds = world.callScriptedEntity(entityId, "energy.getEnergyNeeds", energyNeeds)
       if energyNeeds[tostring(entityId)] == nil then
@@ -400,6 +473,9 @@ end
 
 -- display a visual indicator of the energy transfer
 function energy.showTransferEffect(entityId)
-  local config = energy.connections[entityId]
-  world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
+  if energy.projectileCooldown <= 0 then
+    local config = energy.connections[entityId]
+    world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
+    entity.projectileCooldown = energy.projectileMinInterval
+  end
 end
