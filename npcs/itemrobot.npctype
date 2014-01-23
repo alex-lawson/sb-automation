@@ -37,7 +37,7 @@
     
     "storageapi" : {
       "merge" : true,
-      "capacity" : 20,
+      "capacity" : 4,
       "mode" : 1
     }
   }

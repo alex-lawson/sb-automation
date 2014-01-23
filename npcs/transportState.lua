@@ -4,12 +4,15 @@ function transportState.enter()
   if storageApi.isInit() then
     storageApi.init(entity.configParameter("storageapi.mode"), entity.configParameter("storageapi.capacity"), entity.configParameter("storageapi.merge"))
   end
-  if not storageApi.isFull() then return nil end
+  if storageApi.getCount() < 1 then return nil end
   local objs = world.objectQuery(entity.position(), entity.configParameter("transport.scanRadius"), { order = "nearest" })
   local oid = nil
   for i,id in pairs(objs) do
     local l = world.callScriptedEntity(id, "storageApi.isInput")
-    if l then oid = id end
+    if l then
+      oid = id
+      break
+    end
   end
   if oid == nil then return nil end
   return { objId = oid }

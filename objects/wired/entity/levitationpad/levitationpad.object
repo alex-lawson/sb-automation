@@ -14,7 +14,7 @@
     {
       "dualImage" : "levitationpad.png:idle",
       "imagePosition" : [ -8, 0],
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }
@@ -35,7 +35,5 @@
   "workSound" : "/sfx/tech/tech_hoverloop.wav",
 
   "energyConsumptionRate" : 5,
-  "energyCapacity" : 5,
-  
-  "energyCollisionBlocks" : [ [-1, 0], [0, 0] ]
+  "energyCapacity" : 5
 }
