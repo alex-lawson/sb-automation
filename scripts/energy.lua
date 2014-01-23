@@ -69,6 +69,10 @@ function energy.init()
   --timer variable that tracks the cooldown until next transmission pulse
   energy.sendTimer = energy.sendFreq
 
+  --cooldown to prevent projectile spam with multiple generators
+  energy.projectileMinInterval = 0.1
+  energy.projectileCooldown = 0
+
   --maximum range (in blocks) that this device will search for entities to connect to
   --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
   energy.linkRange = entity.configParameter("energyLinkRange")
@@ -116,6 +120,10 @@ function energy.update()
         end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
       end
+    end
+
+    if energy.projectileCooldown > 0 then
+      energy.projectileCooldown = energy.projectileCooldown - entity.dt()
     end
 
     --periodic connection checks
@@ -319,8 +327,8 @@ function energy.removeFromConnectionTable(entityId)
       break
     end
   end
-  world.logInfo("%s %d disconnected from %d:", entity.configParameter("objectName"), entity.id(), entityId)
-  world.logInfo(energy.sortedConnections)
+  -- world.logInfo("%s %d disconnected from %d:", entity.configParameter("objectName"), entity.id(), entityId)
+  -- world.logInfo(energy.sortedConnections)
 end
 
 -- disconnects from the specified entity id
@@ -356,9 +364,9 @@ function energy.findConnections()
     energy.connect(entityId)
   end
 
-  world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
-  world.logInfo(entityIds)
-  world.logInfo(energy.sortedConnections)
+  -- world.logInfo("%s %d found %d entities within range:", entity.configParameter("objectName"), entity.id(), #entityIds)
+  -- world.logInfo(entityIds)
+  -- world.logInfo(energy.sortedConnections)
 end
 
 -- performs periodic LoS checks on connected entities
@@ -465,6 +473,9 @@ end
 
 -- display a visual indicator of the energy transfer
 function energy.showTransferEffect(entityId)
-  local config = energy.connections[entityId]
-  world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
+  if energy.projectileCooldown <= 0 then
+    local config = energy.connections[entityId]
+    world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
+    entity.projectileCooldown = energy.projectileMinInterval
+  end
 end
