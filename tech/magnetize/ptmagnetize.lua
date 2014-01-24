@@ -134,10 +134,8 @@ end
 
 function magnetUtil.lengthSquared(vec)
   local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
-  if out > 0 and out < magnetUtil.minDist then
+  if out < magnetUtil.minDist then
     out = 2 * magnetUtil.minDist - out
-  elseif out < 0 and out > -magnetUtil.minDist then
-    out = 2 * -magnetUtil.minDist + out
   end
   return out
 end
