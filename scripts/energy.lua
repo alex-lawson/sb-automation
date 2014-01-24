@@ -478,7 +478,7 @@ end
 -- performs periodic LoS checks on connected entities
 function energy.checkConnections()
   for entityId, pConfig in pairs(energy.connections) do
-    energy.connections[entityId].blocked = world.lineCollision(srcPos, tarPos)
+    energy.connections[entityId].blocked = world.lineCollision(pConfig.srcPos, pConfig.tarPos)
   end
 end
 
