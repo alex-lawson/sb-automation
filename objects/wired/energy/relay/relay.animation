@@ -2,17 +2,9 @@
   "animatedParts" : {
     "stateTypes" : {
       "relayState" : {
-        "default" : "min",
+        "default" : "off",
         "states" : {
-          "min" : {
-            "frames" : 1
-          },
-          "med" : {
-            "frames" : 1
-          },
-          "max" : {
-            "frames" : 1
-          }
+          "off" : {}
         }
       }
     },
@@ -25,19 +17,9 @@
 
         "partStates" : {
           "relayState" : {
-            "min" : {
+            "off" : {
               "properties" : {
-                "image" : "<partImage>:<color>.min"
-              }
-            },
-            "med" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.med"
-              }
-            },
-            "max" : {
-              "properties" : {
-                "image" : "<partImage>:<color>.max"
+                "image" : "<partImage>:off"
               }
             }
           }
