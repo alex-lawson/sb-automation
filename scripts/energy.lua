@@ -289,7 +289,6 @@ end
 
 -- Check line of sight from one position to another
 function energy.checkLoS(srcPos, tarPos, entityId)
-  if world.lineCollision(srcPos, tarPos
   local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
   if #collisionBlocks <= 0 then
     return false
