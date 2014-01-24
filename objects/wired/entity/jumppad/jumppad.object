@@ -5,7 +5,7 @@
 
   "category" : "wire",
   "price" : "350",
-  "description" : "Newton's 2nd Law applies with a boost!",
+  "description" : "A pad that imparts upward kinetic energy to beings that touch it.",
   "shortdescription" : "Jump Pad",
   "race" : "generic",
 
@@ -14,7 +14,7 @@
     {
       "dualImage" : "jumppad.png:idle",
       "imagePosition" : [ -8, 0],
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }

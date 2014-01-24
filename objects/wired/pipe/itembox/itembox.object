@@ -2,7 +2,7 @@
   "objectName" : "itembox",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Item Storage Box",
+  "description" : "Item storage and retrieval.",
   "shortdescription" : "Item Storage Box",
   "race" : "generic",
   "category" : "wire",

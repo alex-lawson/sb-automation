@@ -2,7 +2,7 @@
   "objectName" : "basicgenerator",
   "rarity" : "Common",
   "description" : "A simple generator fueled by heat from combustion.",
-  "shortdescription" : "Basic Generator",
+  "shortdescription" : "Combustion Generator",
   "race" : "generic",
   "price" : "200",
   "objectType" : "wire",
@@ -31,7 +31,7 @@
 
   "inboundNodes" : [ [3, 0] ],
 
-  "energySendRate" : 50,
+  "energySendRate" : 20,
   "energyGenerationRate" : 20,
-  "energyCapacity" : 50
+  "energyCapacity" : 20
 }

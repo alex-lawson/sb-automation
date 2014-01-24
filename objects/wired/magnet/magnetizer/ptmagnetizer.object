@@ -2,7 +2,7 @@
   "objectName" : "ptmagnetizer",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "It magnetizes monsters",
+  "description" : "This devices causes simple creatures to become magnetic.",
   "shortdescription" : "Magnetizer",
   "race" : "generic",
 

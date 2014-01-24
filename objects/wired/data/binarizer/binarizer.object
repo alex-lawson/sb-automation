@@ -2,7 +2,7 @@
   "objectName" : "binarizer",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Strips all numerical data and relays only binary signals.",
+  "description" : "The Binarizer strips numerical data and only relays binary signals.",
   "shortdescription" : "Binarizer",
   "race" : "generic",
 

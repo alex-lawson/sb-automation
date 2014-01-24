@@ -2,7 +2,7 @@
   "objectName" : "memory",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Lock in the freshness.",
+  "description" : "A memory storage cell.",
   "shortdescription" : "Memory Cell",
   "race" : "generic",
 

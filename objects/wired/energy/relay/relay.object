@@ -2,7 +2,7 @@
   "objectName" : "relay",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Let the force flow through you.",
+  "description" : "A simple energy relay.",
   "shortdescription" : "Energy Relay",
   "race" : "generic",
   "category" : "wire",
@@ -14,11 +14,12 @@
 
   "orientations" : [
     {
-      "image" : "relay.png:default.min",
+      "image" : "relay.png:off",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ ]
+      "anchors" : [ ],
+      "direction" : "right"
     }
   ],
 

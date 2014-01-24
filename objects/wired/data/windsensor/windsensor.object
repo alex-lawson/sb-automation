@@ -2,7 +2,7 @@
   "objectName" : "windsensor",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Activates the bottom node in low wind and the top node in high wind.",
+  "description" : "Activates the bottom node in low winds and the top node in high winds.",
   "shortdescription" : "Wind Sensor",
   "race" : "generic",
   "category" : "wire",

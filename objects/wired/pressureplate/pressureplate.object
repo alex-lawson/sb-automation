@@ -2,7 +2,7 @@
   "objectName" : "pressureplate",
   "rarity" : "Common",
   "objectType" : "wire",  
-  "description" : "Watch your step, or anyone else's!",
+  "description" : "This device detects when weight is placed on it.",
   "shortdescription" : "Pressure Plate",
   "race" : "generic",
   "category" : "wire",

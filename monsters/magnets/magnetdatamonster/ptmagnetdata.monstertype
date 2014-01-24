@@ -69,6 +69,6 @@
     "mouthOffset" : [0, 0],
     "feetOffset" : [0, 0],
 	
-    "isMagnetData" : true
+    "isStatic" : true
   }
 }

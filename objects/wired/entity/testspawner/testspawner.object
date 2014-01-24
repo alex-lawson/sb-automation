@@ -2,7 +2,7 @@
   "objectName" : "testspawner",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Helps you get rid of bugs... somehow.",
+  "description" : "A spawning chamber that should be used with caution.",
   "shortdescription" : "Debug Spawner Object",
   "race" : "generic",
 

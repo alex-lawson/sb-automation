@@ -60,10 +60,8 @@ end
 -----------------------------------------------
 function magnets.lengthSquared(vec)
   local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
-  if out > 0 and out < magnets.minDist then
+  if out < magnets.minDist then
     out = 2 * magnets.minDist - out
-  elseif out < 0 and out > -magnets.minDist then
-    out = 2 * -magnets.minDist + out
   end
   return out
 end
@@ -108,5 +106,5 @@ end
 ------------------------------------------------------------------
 function magnets.isValidTarget(entID)
   local entType = world.entityType(entID)
-  return (entType == "monster" or entType == "npc") and (not world.callScriptedEntity(entID, "entity.configParameter", "isMagnetData", false)) 
+  return (entType == "monster" or entType == "npc") and (not world.callScriptedEntity(entID, "entity.configParameter", "isStatic", false)) 
 end

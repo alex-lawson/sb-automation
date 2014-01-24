@@ -41,6 +41,11 @@ function storageApi.init(mode, space, join)
   storageApi.isjoin = join
 end
 
+--- Should the storage be initialized?
+function storageApi.isInit()
+  return storageApi.capacity == nil
+end
+
 --- Sets storage contents and returns previous contents
 -- @param itemArray an array of item structures (name, count, params)
 function storageApi.setContents(itemArray)
@@ -77,7 +82,7 @@ end
 --- How many item stacks are stored?
 function storageApi.getCount()
   local ret = 0
-  for _ in pairs(storage.sApi) do ret = ret + 1 end
+  for _ in storageApi.getIterator() do ret = ret + 1 end
   return ret
 end
 
@@ -108,8 +113,10 @@ end
 
 --- Get maximum stack size for an item type
 function storageApi.getMaxStackSize(itemname)
+  if itemname == "climbingrope" then return 1000
+  elseif itemname == "money" then return 25000 end
   local t = world.itemType(itemname)
-  if (t == "generic") or (t == "material") or (t == "coin") or (t == "consumable") or (t == "thrownitem") then return 1000
+  if (t == "generic") or (t == "coin") or (t == "material") or (t == "consumable") or (t == "thrownitem") or (t == "object") then return 1000
   else return 1 end
 end
 
@@ -119,7 +126,7 @@ function storageApi.canFitItem(itemname, count, properties)
   local spacecnt = (storageApi.getCapacity() - storageApi.getCount()) * max
   if spacecnt >= count then return true
   elseif max > 1 then return false end
-  for i,v in pairs() do
+  for i,v in storageApi.getIterator() do
     if (itemname == v[1]) and compareTables(properties, v[3]) then
       spacecnt = spacecnt + max - v[2]
     end
@@ -134,7 +141,7 @@ end
 -- @param properties (Optional) The properties table of the item
 function storageApi.returnItemByName(itemname, count, properties)
   if properties == nil then
-    for i,v in pairs(storage.sApi) do
+    for i,v in storageApi.getIterator() do
       if v[1] == itemname then
         properties = v[3]
         break
@@ -143,7 +150,7 @@ function storageApi.returnItemByName(itemname, count, properties)
   end
   if properties == nil then return { itemname, 0, { } } end
   local retcnt = 0
-  for i,v in pairs(storage.sApi) do
+  for i,v in storageApi.getIterator() do
     if retcnt >= count then break end
     if (v[1] == itemname) and compareTables(properties, v[3]) then
       retcnt = retcnt + storageApi.returnItem(i, count - retcnt)[2]
@@ -174,7 +181,7 @@ function storageApi.storeItem(itemname, count, properties)
   if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return false end
   if storageApi.isMerging() then
     local max = storageApi.getMaxStackSize(itemname)
-    for i,stack in pairs(storage.sApi) do
+    for i,stack in storageApi.getIterator() do
       if (stack[1] == itemname) and (stack[2] < max) and compareTables(properties, stack[3]) then
         if (stack[2] + count > max) then
           local i = storageApi.getFirstEmptyIndex()
@@ -192,6 +199,27 @@ function storageApi.storeItem(itemname, count, properties)
   storage.sApi[i] = { itemname, count, properties }
   if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
   return true
+end
+
+--- Put as much items as possible in storage, handles oversized stacks
+-- @return The amount of item that was stored
+function storageApi.storeItemFit(itemname, count, properties)
+  local ret = 0
+  local max = storageApi.getMaxStackSize(itemname)
+  while (count > max) and not storageApi.isFull() do
+    storageApi.storeItem(itemname, max, properties)
+    ret = ret + max
+    count = count - max
+  end
+  for i,v in storageApi.getIterator() do
+    if count < 1 then break end
+    if (v[1] == itemname) and (v[2] < max) and compareTables(properties, v[3]) then
+      local amo = math.min(max, v[2] + count)
+      storage.sApi[i][2] = amo
+      count = count + v[2] - amo
+    end
+  end
+  return ret
 end
 
 -------------------------------------------------
