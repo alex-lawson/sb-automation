@@ -4,28 +4,42 @@ profilerApi = {}
 function profilerApi.init()
   if profilerApi.isInit then return end
   profilerApi.hooks = {}
+  profilerApi.start = profilerApi.getTime()
   profilerApi.hookAll("", _ENV)
   profilerApi.isInit = true
 end
 
 --- Prints all collected data into the log ordered by total time descending
 function profilerApi.logData()
+  local time = profilerApi.getTime() - profilerApi.start
   local arr = {}
-  local len, cnt = 0, 0
-  for k in pairs(profilerApi.hooks) do
-    table.insert(arr, k)
-    local l = string.len(k)
-    if l > len then len = l end
-    l = profilerApi.hooks[k].c
-    if l > cnt then cnt = l end
-  end
-  table.sort(arr, profilerApi.sortHelp)
-  for i,k in ipairs(arr) do
-    local hook = profilerApi.hooks[k]
-    if hook.t > 0 then
-      world.logInfo(string.format("%" .. len .. "s: total %.15f, cnt %" .. cnt .. "i, avg %.15f, last %.15f", k, hook.t, hook.c, hook.a, hook.e))
+  local len = 8
+  local cnt = 5
+  for k,v in pairs(profilerApi.hooks) do
+    if v.t > 0 then
+      table.insert(arr, k)
+      local l = string.len(k)
+      if l > len then len = l end
+      l = profilerApi.get10pow(profilerApi.hooks[k].c)
+      if l > cnt then cnt = l end
     end
   end
+  table.sort(arr, profilerApi.sortHelp)
+  world.logInfo("Profiler log for EntityID " .. entity.id() .. " (total profiling time: " .. string.format("%.2f", time) .. ")")
+  world.logInfo(string.format("%" .. len .. "s |        total time | %" .. cnt .. "s |      average time |         last time", "function", "count"))
+  for i,k in ipairs(arr) do
+    local hook = profilerApi.hooks[k]
+    world.logInfo(string.format("%" .. len .. "s | %.15f | %" .. cnt .. "i | %.15f | %.15f", k, hook.t, hook.c, hook.a, hook.e))
+  end
+end
+
+function profilerApi.get10pow(n)
+  local ret = 1
+  while n >= 10 do
+    ret = ret + 1
+    n = n / 10
+  end
+  return ret
 end
 
 function profilerApi.sortHelp(e1, e2)
