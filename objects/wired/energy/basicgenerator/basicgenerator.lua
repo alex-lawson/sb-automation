@@ -50,6 +50,10 @@ function onInboundNodeChange(args)
 end
 
 function onInteraction(args)
+  if world.entityHandItem(args.sourceId, "primary") == "profilertool" then
+    profilerApi.logData()
+    return
+  end
   if not entity.isInboundNodeConnected(0) then
     if storage.state then
       storage.state = false
@@ -59,7 +63,6 @@ function onInteraction(args)
 
     updateAnimationState()
   end
-  profilerApi.logData()
 end
 
 function updateAnimationState()

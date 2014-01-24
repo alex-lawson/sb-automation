@@ -11,12 +11,19 @@ end
 --- Prints all collected data into the log ordered by total time descending
 function profilerApi.logData()
   local arr = {}
-  for k in pairs(profilerApi.hooks) do table.insert(arr, k) end
+  local len, cnt = 0, 0
+  for k in pairs(profilerApi.hooks) do
+    table.insert(arr, k)
+    local l = string.len(k)
+    if l > len then len = l end
+    l = profilerApi.hooks[k].c
+    if l > cnt then cnt = l end
+  end
   table.sort(arr, profilerApi.sortHelp)
   for i,k in ipairs(arr) do
     local hook = profilerApi.hooks[k]
     if hook.t > 0 then
-      world.logInfo(string.format("%30s: total %.15f, cnt %5i, avg %.15f, last %.15f", k, hook.t, hook.c, hook.a, hook.e))
+      world.logInfo(string.format("%" .. len .. "s: total %.15f, cnt %" .. cnt .. "i, avg %.15f, last %.15f", k, hook.t, hook.c, hook.a, hook.e))
     end
   end
 end
@@ -54,7 +61,6 @@ function profilerApi.hook(to, tn, fo, fn)
   local full = tn .. fn
   profilerApi.hooks[full] = { s = -1, f = fo, e = -1, t = 0, a = 0, c = 0 }
   to[fn] = function(...) return profilerApi.hooked(full, ...) end
-  world.logInfo("Hooked " .. full)
 end
 
 function profilerApi.hooked(n, ...)
