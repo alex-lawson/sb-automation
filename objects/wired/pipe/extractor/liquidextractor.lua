@@ -1,44 +1,60 @@
 function init(args)
-  pipes.init({liquidPipe, itemPipe})
-  energy.init()
-  
-  if entity.direction() < 0 then
-    pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
+  if args == false then
+    pipes.init({liquidPipe, itemPipe})
+    energy.init()
+    
+    if entity.direction() < 0 then
+      pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
+    end
+    
+    entity.setInteractive(true)
+    
+    self.conversions = {}
+    --Water
+    self.conversions["snow"] = {liquid = 1, material = "snow", input = 20, output = 200}
+    self.conversions["slush"] = {liquid = 1, material = "slush", input = 20, output = 200}
+    self.conversions["ice"] = {liquid = 1, material = "ice", input = 20, output = 200}
+    self.conversions["mud"] = {liquid = 1, material = "mud", input = 20, output = 200}
+    self.conversions["wetdirt"] = {liquid = 1, material = "wetdirt", input = 20, output = 200}
+    --Lava
+    self.conversions["magmarock"] = {liquid = 3, material = "magmarock", input = 20, output = 800}
+    self.conversions["obsidian"] = {liquid = 3, material = "obsidian", input = 20, output = 800}
+    --Poison
+    self.conversions["sewage"] = {liquid = 4, material = "sewage", input = 20, output = 400}
+    self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 400}
+    --Tar
+    self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 400}
+    
+    
+    self.damageRate = entity.configParameter("damageRate")
+    self.damageAmount = entity.configParameter("damageAmount")
+    self.blockOffset = entity.configParameter("blockOffset")
+    
+    self.damageTimer = 0
+    
+    if storage.block == nil then storage.block = {} end
+    if storage.placedBlock == nil then storage.placedBlock = {} end
+    if storage.state == nil then storage.state = false end
   end
-  
-  entity.setInteractive(true)
-  
-  self.conversions = {}
-  --Water
-  self.conversions["snow"] = {liquid = 1, material = "snow", input = 20, output = 200}
-  self.conversions["slush"] = {liquid = 1, material = "slush", input = 20, output = 200}
-  self.conversions["ice"] = {liquid = 1, material = "ice", input = 20, output = 200}
-  self.conversions["mud"] = {liquid = 1, material = "mud", input = 20, output = 200}
-  self.conversions["wetdirt"] = {liquid = 1, material = "wetdirt", input = 20, output = 200}
-  --Lava
-  self.conversions["magmarock"] = {liquid = 3, material = "magmarock", input = 20, output = 800}
-  self.conversions["obsidian"] = {liquid = 3, material = "obsidian", input = 20, output = 800}
-  --Poison
-  self.conversions["sewage"] = {liquid = 4, material = "sewage", input = 20, output = 400}
-  self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 400}
-  --Tar
-  self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 400}
-  
-  
-  self.damageRate = entity.configParameter("damageRate")
-  self.damageAmount = entity.configParameter("damageAmount")
-  self.blockOffset = entity.configParameter("blockOffset")
-  
-  self.damageTimer = 0
-  
-  if storage.block == nil then storage.block = {} end
-  if storage.placedBlock == nil then storage.placedBlock = {} end
-  if storage.state == nil then storage.state = false end
 end
 
 function die()
   energy.die()
-  ejectOre() --Temporary
+  
+  local placePosition = blockPosition()
+  local extractorBlock = world.objectQuery(placePosition, 1, {name = "extractorblock"})
+  if extractorBlock then
+    world.callScriptedEntity(extractorBlock[1], "damageBlock", 999999) --Really Big Number
+  end
+  
+  if storage.block[1] then
+    local position = entity.position()
+    if next(storage.block[3]) == nil then
+      world.spawnItem(storage.block[1], {position[1] + 1.5, position[2] + 1.5}, storage.block[2])
+    else
+      world.spawnItem(storage.block[1], {position[1] + 1.5, position[2] + 1.5}, storage.block[2], storage.block[3])
+    end
+  end
 end
 
 
@@ -54,17 +70,6 @@ function onInteraction(args)
   --pump liquid
   if entity.isInboundNodeConnected(0) == false then
     storage.state = not storage.state
-  end
-end
-
-function die()
-  if storage.block[1] then
-    local position = entity.position()
-    if next(storage.block[3]) == nil then
-      world.spawnItem(storage.block[1], {position[1] + 1.5, position[2] + 1.5}, storage.block[2])
-    else
-      world.spawnItem(storage.block[1], {position[1] + 1.5, position[2] + 1.5}, storage.block[2], storage.block[3])
-    end
   end
 end
 
@@ -128,7 +133,7 @@ function main(args)
           if canOutputLiquid(liquidOut) then
             if checkBlock() then
               local placePosition = blockPosition()
-              world.damageTiles({placePosition}, "foreground", placePosition, "crushing", self.damageAmount)
+              world.callScriptedEntity(storage.blockId, "damageBlock", self.damageAmount)
             else
               outputLiquid(liquidOut)
               storage.block[2] = storage.block[2] - storage.placedBlock[2]
@@ -162,7 +167,8 @@ function placeBlock()
     local blockConversion = self.conversions[storage.block[1]]
     if blockConversion then
       local placePosition = blockPosition()
-      if world.placeMaterial(placePosition, "foreground", blockConversion.material) then
+      local placedObject = world.placeObject("extractorblock", placePosition, 1, {initState = storage.block[1]})
+      if placedObject then
         local placedBlock = {}
         placedBlock[1] = storage.block[1]
         placedBlock[2] = blockConversion.input
@@ -172,6 +178,8 @@ function placeBlock()
           placedBlock[2] = storage.block[2]
         end
         storage.placedBlock = placedBlock
+        
+        storage.blockId = placedObject
         return true
       end
     end
@@ -181,10 +189,13 @@ end
 
 function checkBlock()
   if storage.placedBlock[1] then
-    local blockConversion = self.conversions[storage.placedBlock[1]]
     local placePosition = blockPosition()
-    local material = world.material(placePosition, "foreground")
-    if material and material == blockConversion.material then return true end
+    local extractorBlock = world.objectQuery(placePosition, 1, {name = "extractorblock"})
+    if extractorBlock and #extractorBlock == 1 then
+      storage.blockId = extractorBlock[1]
+      return storage.blockId
+    end
   end
+  storage.blockId = nil
   return false
 end

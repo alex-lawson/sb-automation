@@ -47,9 +47,9 @@
   
   
   "energyConsumptionRate" : 5,
-  "energyCapacity" : 50,
+  "energyCapacity" : 10,
   
   "damageRate" : 0.25,
-  "damageAmount" : 5,
+  "damageAmount" : 201,
   "blockOffset" : [1, 1]
 }
