@@ -4,7 +4,7 @@
   "description" : "Smelts ores faster than normal at the cost of some energy.",
   "shortdescription" : "Power Smelter",
   "race" : "generic",
-  "price" : "200",
+  "price" : 200,
   "objectType" : "wire",
   "printable" : false,
 
