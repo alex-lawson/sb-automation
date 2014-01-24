@@ -15,7 +15,8 @@
       "imagePosition" : [0, -8],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "collision" : "solid"
     }
   ],
 
@@ -33,5 +34,6 @@
 
   "energySendRate" : 20,
   "energyGenerationRate" : 20,
-  "energyCapacity" : 20
+  "energyCapacity" : 20,
+  "energyCollisionBlocks" : [ [0, -1], [1, -1], [2, -1], [3, -1], [4, -1], [0, 0], [1, 0], [2, 0], [3, 0], [4, 0] ]
 }

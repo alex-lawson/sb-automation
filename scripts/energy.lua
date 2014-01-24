@@ -94,21 +94,7 @@ function energy.init()
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
   
-  -- Get collision blocks of entity
-  ---[[
-  local blocks = entity.configParameter("energyCollisionBlocks", nil)
-  if blocks ~= nil then
-    local pos = entity.position()
-    if not energy.vectorEqual({0, 0}, pos) then
-      for i = 1, #blocks, 1 do
-        local block = blocks[i]
-        blocks[i][1] = block[1] + pos[1]
-        blocks[i][2] = block[2] + pos[2]
-      end
-    end
-  end
-  energy.collisionBlocks = blocks
-  --]]
+
 
   --helper table for energy.connections that sorts the id's in order of proximity/precedence
   energy.sortedConnections = {}
@@ -155,6 +141,17 @@ function energy.update()
       energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
     end
   else
+    -- Get collision blocks of entity
+    local collisionBlocks = entity.configParameter("energyCollisionBlocks", nil)
+    if collisionBlocks then
+      energy.collisionBlocks = {}
+      local pos = entity.position()
+      for i, block in ipairs(collisionBlocks) do
+        local blockHash = energy.blockHash({block[1] + pos[1], block[2] + pos[2]})
+        energy.collisionBlocks[blockHash] = true
+      end
+    end
+
     if energy.allowConnection then
       energy.findConnections()
       energy.checkConnections()
@@ -291,11 +288,8 @@ end
 function energy.checkLoS(srcPos, tarPos, entityId)
   local ignoreBlocksSrc = energy.getCollisionBlocks()
   local ignoreBlocksTar = world.callScriptedEntity(entityId, "energy.getCollisionBlocks")
-  if ignoreBlocksSrc ~= nil or ignoreBlocksTar ~= nil then
+  if ignoreBlocksSrc or ignoreBlocksTar then
     local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
-    if #collisionBlocks <= 0 then
-      return false
-    end
     return energy.collisionFilter(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
   else
     return world.lineCollision(srcPos, tarPos)
@@ -304,65 +298,26 @@ end
 
 -- Check collision with collision blocks filtered out
 function energy.collisionFilter(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
-  if ignoreBlocksSrc ~= nil and ignoreBlocksTar ~= nil then
-    local srcDone = false
-    for i = 1, #collisionBlocks, 1 do
-      local found = false
-      for key,value in (srcDone and pairs(ignoreBlocksTar) or pairs(ignoreBlocksSrc)) do
-        if energy.vectorEqual(collisionBlocks[i], value) then
-          found = true
-          break
-        end
-      end
-      if not found then
-        if srcDone then
-          return true
-        else
-          srcDone = true
-          i = i - 1
-        end
-      end
-    end
-  elseif ignoreBlocksSrc ~= nil then
-    return energy.collisionFilterHelper(collisionBlocks, ignoreBlocksSrc, true)
-  else
-    return energy.collisionFilterHelper(collisionBlocks, ignoreBlocksTar, false)
-  end
-end
-
--- Helper function for checking collision when only one entity has collision
-function energy.collisionFilterHelper(collisionBlocks, ignoreBlocks, checkFront)
-  local initial, final, increment
-  if checkFront then
-    initial = 1
-    final = #collisionBlocks
-    increment = 1
-  else
-    initial = #collisionBlocks
-    final = 1
-    increment = -1
-  end
-  -- world.logInfo("Collision Filter Helper: " .. (checkFront and "front" or "back"))
-  -- world.logInfo(collisionBlocks)
-  -- world.logInfo(ignoreBlocks)
-  for i = initial, final, increment do
-    local found = false
-    for key,value in pairs(ignoreBlocks) do
-      if energy.vectorEqual(collisionBlocks[i], value) then
-        found = true
-        break
-      end
-    end
-    if not found then
+  for i, colBlock in ipairs(collisionBlocks) do
+    local colBlockHash = energy.blockHash(colBlock)
+    if not ((ignoreBlocksSrc and ignoreBlocksSrc[colBlockHash]) or (ignoreBlocksTar and ignoreBlocksTar[colBlockHash])) then
+      --this block is not ignored by either side
       return true
     end
   end
+
+  --default to false if all blocks are ignored
   return false
 end
 
 -- Get collision blocks of this entity
 function energy.getCollisionBlocks()
   return energy.collisionBlocks
+end
+
+-- Get a stringified representation of a block
+function energy.blockHash(blockPos)
+  return string.format("%d,%d", blockPos[1], blockPos[2])
 end
 
 -- Checks if two vectors are equal
