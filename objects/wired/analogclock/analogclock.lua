@@ -1,6 +1,6 @@
 function init(args)
   if not args then
-    storage.zeroAngle = 0
+    storage.zeroAngle = math.pi / 2
   end
 end
 
