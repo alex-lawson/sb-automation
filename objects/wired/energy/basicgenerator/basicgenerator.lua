@@ -1,7 +1,6 @@
 function init(virtual)
   if not virtual then
     energy.init()
-    datawire.init()
 
     self.fuelValues = {
       coalore=2,
@@ -33,6 +32,8 @@ function init(virtual)
 
     entity.setInteractive(not entity.isInboundNodeConnected(0))
     updateAnimationState()
+
+    profilerApi.init()
   end
 end
 
@@ -58,6 +59,7 @@ function onInteraction(args)
 
     updateAnimationState()
   end
+  profilerApi.logData()
 end
 
 function updateAnimationState()
@@ -160,5 +162,4 @@ function main()
   end
 
   energy.update()
-  datawire.update()
 end
