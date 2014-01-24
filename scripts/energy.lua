@@ -93,6 +93,8 @@ function energy.init()
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
+  
+
 
   --helper table for energy.connections that sorts the id's in order of proximity/precedence
   energy.sortedConnections = {}
@@ -139,6 +141,17 @@ function energy.update()
       energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
     end
   else
+    -- create table of locations this object occupies, which will be ignored in LoS checks
+    local collisionBlocks = entity.configParameter("energyCollisionBlocks", nil)
+    if collisionBlocks then
+      energy.collisionBlocks = {}
+      local pos = entity.position()
+      for i, block in ipairs(collisionBlocks) do
+        local blockHash = energy.blockHash({block[1] + pos[1], block[2] + pos[2]})
+        energy.collisionBlocks[blockHash] = true
+      end
+    end
+
     if energy.allowConnection then
       energy.findConnections()
       energy.checkConnections()
@@ -252,14 +265,16 @@ end
 function energy.makeConnectionConfig(entityId)
   local config = {}
   local srcPos = energy.getProjectileSourcePosition()
-  local tarPos = world.entityPosition(entityId)
-  tarPos = {tarPos[1] + 0.5, tarPos[2] + 0.5}
+  local tarPos = world.callScriptedEntity(entityId, "energy.getProjectileSourcePosition")
   config.aimVector = world.distance(tarPos, srcPos) --{tarPos[1] - srcPos[1], tarPos[2] - srcPos[2]}
   config.srcPos = srcPos
   config.tarPos = tarPos
+  
   config.distance = world.magnitude(srcPos, tarPos)
   config.speed = (config.distance / 1.2) -- denominator must == projectile's timeToLive
-  config.blocked = world.lineCollision(srcPos, tarPos)
+  -- Just leaving the code for solid collision checking there, not not using it for now
+  config.blocked = energy.checkLoS(srcPos, tarPos, entityId)
+  --config.blocked = world.lineCollision(srcPos, tarPos) -- world.lineCollision is marginally faster
   config.isRelay = world.callScriptedEntity(entityId, "energy.isRelay")
   -- if config.isRelay then
   --   world.logInfo("%s %d thinks %d is a relay", entity.configParameter("objectName"), entity.id(), entityId)
@@ -269,7 +284,43 @@ function energy.makeConnectionConfig(entityId)
   return config
 end
 
--- get the source position for the visual effect (replace with something better)
+-- Check line of sight from one position to another
+function energy.checkLoS(srcPos, tarPos, entityId)
+  local ignoreBlocksSrc = energy.getCollisionBlocks()
+  local ignoreBlocksTar = world.callScriptedEntity(entityId, "energy.getCollisionBlocks")
+  if ignoreBlocksSrc or ignoreBlocksTar then
+    local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
+    return energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
+  else
+    return world.lineCollision(srcPos, tarPos)
+  end
+end
+
+-- Check collision with collision blocks filtered out
+function energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
+  for i, colBlock in ipairs(collisionBlocks) do
+    local colBlockHash = energy.blockHash(colBlock)
+    if not ((ignoreBlocksSrc and ignoreBlocksSrc[colBlockHash]) or (ignoreBlocksTar and ignoreBlocksTar[colBlockHash])) then
+      --this block is not ignored by either side
+      return true
+    end
+  end
+
+  --default to false if all blocks are ignored
+  return false
+end
+
+-- Get collision blocks of this entity
+function energy.getCollisionBlocks()
+  return energy.collisionBlocks
+end
+
+-- Get a stringified representation of a block
+function energy.blockHash(blockPos)
+  return string.format("%d,%d", blockPos[1], blockPos[2])
+end
+
+-- get the source position for the visual effect (TODO: replace with something better)
 function energy.getProjectileSourcePosition()
   return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
 end
@@ -378,7 +429,7 @@ end
 -- performs periodic LoS checks on connected entities
 function energy.checkConnections()
   for entityId, pConfig in pairs(energy.connections) do
-    energy.connections[entityId].blocked = world.lineCollision(pConfig.srcPos, pConfig.tarPos)
+    energy.connections[entityId].blocked = energy.checkLoS(pConfig.srcPos, pConfig.tarPos, entityId)
   end
 end
 
