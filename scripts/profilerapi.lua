@@ -83,8 +83,7 @@ function profilerApi.hooked(n, ...)
   local ret = hook.f(...)
   hook.e = profilerApi.getTime() - hook.s
   hook.t = hook.t + hook.e
-  hook.a = hook.a * hook.c + hook.e
   hook.c = hook.c + 1
-  hook.a = hook.a / hook.c
+  hook.a = hook.t / hook.c
   return ret
 end
