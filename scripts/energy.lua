@@ -141,7 +141,7 @@ function energy.update()
       energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
     end
   else
-    -- Get collision blocks of entity
+    -- create table of locations this object occupies, which will be ignored in LoS checks
     local collisionBlocks = entity.configParameter("energyCollisionBlocks", nil)
     if collisionBlocks then
       energy.collisionBlocks = {}
@@ -290,14 +290,14 @@ function energy.checkLoS(srcPos, tarPos, entityId)
   local ignoreBlocksTar = world.callScriptedEntity(entityId, "energy.getCollisionBlocks")
   if ignoreBlocksSrc or ignoreBlocksTar then
     local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
-    return energy.collisionFilter(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
+    return energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
   else
     return world.lineCollision(srcPos, tarPos)
   end
 end
 
 -- Check collision with collision blocks filtered out
-function energy.collisionFilter(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
+function energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
   for i, colBlock in ipairs(collisionBlocks) do
     local colBlockHash = energy.blockHash(colBlock)
     if not ((ignoreBlocksSrc and ignoreBlocksSrc[colBlockHash]) or (ignoreBlocksTar and ignoreBlocksTar[colBlockHash])) then
@@ -320,12 +320,7 @@ function energy.blockHash(blockPos)
   return string.format("%d,%d", blockPos[1], blockPos[2])
 end
 
--- Checks if two vectors are equal
-function energy.vectorEqual(u, v)
-  return u[1] == v[1] and u[2] == v[2]
-end
-
--- get the source position for the visual effect (replace with something better)
+-- get the source position for the visual effect (TODO: replace with something better)
 function energy.getProjectileSourcePosition()
   return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
 end
