@@ -17,12 +17,14 @@ function main(args)
   if self.timer > self.pickupCooldown and (isItemNodeConnected(1) or isItemNodeConnected(2)) then
     local itemDropList = findItemDrops()
     if #itemDropList > 0 then
-      --world.logInfo(itemDropList)
+      for key, item in pairs(itemDropList) do
+        world.logInfo("%s : %s", key, item)
+      end
       
       for i, itemId in ipairs(itemDropList) do
         if not self.ignoreIds[itemId] then
-          local item = world.takeItemDrop(itemId)
-
+          local item = world.takeItemDrop(itemId, entity.id())
+          world.logInfo(item)
           if item then
             outputItem(item)
           end
