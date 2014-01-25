@@ -1,5 +1,5 @@
-function init(args)
-  if not args then
+function init(virtual)
+  if not virtual then
     energy.init()
     entity.setInteractive(true)
     
@@ -16,6 +16,9 @@ function init(args)
     else
       output(storage.state)
     end
+
+    local pos = entity.position()
+    self.aoe = {pos, {pos[1] + 1, pos[2] + 5}}
   end
 end
 
@@ -29,8 +32,6 @@ end
 
 function onInteraction(args)
   output(not storage.state)
-
-  entity.playSound("onSounds");
 end
 
 function onInboundNodeChange(args)
@@ -75,9 +76,7 @@ function main()
 
   if storage.state then
     -- Magnetize entities
-    local radius = 10
-    local pos = entity.position()
-    local ents = world.entityQuery(pos, radius, { withoutEntityId = storage.dataID, notAnObject = true })
+    local ents = world.entityQuery(self.aoe[1], self.aoe[2], { withoutEntityId = storage.dataID, notAnObject = true })
     for key,value in pairs(ents) do
       if magnets.isValidTarget(value) then
         local magnetized = magnets.isMagnetized(value)
@@ -85,10 +84,12 @@ function main()
           local durationLeft = world.callScriptedEntity(magnetized, "getMagnetizedDuration", value)
           local energyToConsume = storage.energyPerMonster * (1 - (durationLeft / storage.magnetizeDuration))
           if energy.consumeEnergy(energyToConsume) then
+            entity.setAnimationState("magnetizerState", "activate")
             world.callScriptedEntity(magnetized, "refreshMagnetize", value, storage.magnetizeDuration)
           end
         else
           if energy.consumeEnergy(storage.energyPerMonster) then
+            entity.setAnimationState("magnetizerState", "activate")
             storage.magnetized[value] = storage.magnetizeDuration
           end
         end
