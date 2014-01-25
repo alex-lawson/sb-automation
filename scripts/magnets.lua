@@ -40,7 +40,11 @@ end
 -- @return The number with which to scale the force by
 ----------------------------------------------------------------
 function magnets.distanceScale(distance)
-  return 1/magnets.lengthSquared(distance)
+  local lengthSquared = magnets.lengthSquared(distance)
+  if lengthSquared < magnets.minDist then
+    lengthSquared = 2 * magnets.minDist - lengthSquared
+  end
+  return 1/lengthSquared
 end
 
 -------------------------------------------------------------------------
@@ -59,11 +63,7 @@ end
 -- @return The square length of the vector.
 -----------------------------------------------
 function magnets.lengthSquared(vec)
-  local out = (vec[1] * vec[1]) + (vec[2] * vec[2])
-  if out < magnets.minDist then
-    out = 2 * magnets.minDist - out
-  end
-  return out
+  return (vec[1] * vec[1]) + (vec[2] * vec[2])
 end
 
 ------------------------------------------------------------------
