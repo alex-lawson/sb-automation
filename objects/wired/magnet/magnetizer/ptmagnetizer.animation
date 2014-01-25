@@ -4,11 +4,17 @@
       "magnetizerState" : {
         "default" : "off",
         "states" : {
-          "off" : {
-            "frames" : 1
-          },
+          "off" : {},
           "on" : {
-            "frames" : 1
+            "frames" : 2,
+            "cycle" : 0.4,
+            "mode" : "loop"
+          },
+          "activate" : {
+            "frames" : 3,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
           }
         }
       }
@@ -26,10 +32,14 @@
                 "image" : "<partImage>:off"
               }
             },
-
             "on" : {
               "properties" : {
-                "image" : "<partImage>:on"
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "activate" : {
+              "properties" : {
+                "image" : "<partImage>:activate.<frame>"
               }
             }
           }
