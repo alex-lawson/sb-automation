@@ -33,7 +33,7 @@ function init(virtual)
     entity.setInteractive(not entity.isInboundNodeConnected(0))
     updateAnimationState()
 
-    profilerApi.init()
+    -- profilerApi.init()
   end
 end
 
@@ -50,10 +50,10 @@ function onInboundNodeChange(args)
 end
 
 function onInteraction(args)
-  if world.entityHandItem(args.sourceId, "primary") == "profilertool" then
-    profilerApi.logData()
-    return
-  end
+  -- if world.entityHandItem(args.sourceId, "primary") == "profilertool" then
+  --   profilerApi.logData()
+  --   return
+  -- end
   if not entity.isInboundNodeConnected(0) then
     if storage.state then
       storage.state = false

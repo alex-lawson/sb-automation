@@ -19,7 +19,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/energy.lua", "basicgenerator.lua", "/scripts/profilerapi.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "basicgenerator.lua" ],
   "scriptDelta" : 10,
 
   "animation" : "basicgenerator.animation",
