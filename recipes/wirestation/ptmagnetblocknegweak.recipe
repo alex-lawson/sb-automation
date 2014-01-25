@@ -4,5 +4,5 @@
     { "item" : "laserdiode", "count" : 1 }
   ],
   "output" : { "item" : "ptmagnetblocknegweak", "count" : 1 },
-  "groups" : [ "wiringstation", "all", "mod" ]
+  "groups" : [ "wiringstation", "all" ]
 }
