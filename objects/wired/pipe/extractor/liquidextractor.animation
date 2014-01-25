@@ -1,12 +1,42 @@
 {
   "animatedParts" : {
+    "stateTypes" : {
+      "extractState" : {
+        "default" : "on",
+        "states" : {
+          "on" : {},
+          "work" : {
+            "frames" : 2,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "error" : {}
+        }
+      }
+    },
     "parts" : {
       "extractor" : {
         "properties" : {
-          "image" : "<partImage>:default.0",
-          "offset" : [0, 0],
-          "centered" : false,
-          "zLevel" : 3
+          "centered" : false
+        },
+        "partStates" : {
+          "extractState" : {
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:open.on"
+              }
+            },
+            "work" : {
+              "properties" : {
+                "image" : "<partImage>:open.work.<frame>"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:open.error"
+              }
+            }
+          }
         }
       }
     }
