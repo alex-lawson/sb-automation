@@ -1,9 +1,9 @@
 {
   "frameGrid" : {
     "size" : [24, 24],
-    "dimensions" : [1, 1],
+    "dimensions" : [6, 1],
     "names" : [
-      [ "default.0" ]
+      [ "shut.on", "shut.error", "open.on", "open.error", "open.work.1", "open.work.2" ]
     ]
   }
 }

@@ -43,7 +43,7 @@
   "liquidNodes" : [ {"offset": [1, 4], "dir": [0, 1]}, {"offset": [3, 0], "dir": [1, 0]} ],
   "flippedLiquidNodes" : [ {"offset": [2, 4], "dir": [0, 1]}, {"offset": [0, 0], "dir": [-1, 0]} ],
   
-  "liquidCapacity" : 20000,
+  "liquidCapacity" : 150000,
   "liquidPushAmount" : 1400,
   "liquidPushRate" : 1
 }

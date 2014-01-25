@@ -1,15 +1,7 @@
-function init(virtual)
-  entity.setInteractive(true)
-  
+function init(virtual) 
   pipes.init({liquidPipe})
   
   self.usedNode = 0
-end
-
---------------------------------------------------------------------------------
-
-function onInteraction(args)
-
 end
 
 --------------------------------------------------------------------------------

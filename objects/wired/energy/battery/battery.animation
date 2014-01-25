@@ -1,13 +1,13 @@
 {
-  "stateTypes" : {
-    "nullState" : {
-      "default" : "off",
-      "states" : {
-        "off" : {}
-      }
-    }
-  },
   "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
     "parts" : {
       "battery" : {
         "properties" : {

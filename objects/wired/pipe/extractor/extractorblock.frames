@@ -1,0 +1,18 @@
+{
+  "frameGrid" : {
+    "size" : [12, 12],
+    "dimensions" : [1, 10],
+    "names" : [
+      [ "snow" ],
+      [ "slush" ],
+      [ "ice" ],
+      [ "mud" ],
+      [ "wetdirt" ],
+      [ "magmarock" ],
+      [ "obsidian" ],
+      [ "sewage" ],
+      [ "slime" ],
+      [ "tar" ]
+    ]
+  }
+}

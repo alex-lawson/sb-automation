@@ -8,10 +8,18 @@ function init(args)
     if storage.usesEnergy then
       energy.init()
     end
-    storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positive" or "negative"
-    storage.magnetOffAnim = "neutral"
+    
+    if storage.magnetOnAnim == nil then
+      storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positive" or "negative"
+    end
+    
+    if storage.magnetOffAnim == nil then
+      storage.magnetOffAnim = "neutral"
+    end
   
-    storage.charge = clamp(entity.configParameter("chargeStrength"), -magnets.limit, magnets.limit)
+    if storage.charge == nil then
+      storage.charge = clamp(entity.configParameter("chargeStrength"), -magnets.limit, magnets.limit)
+    end
     
     killData()
 	

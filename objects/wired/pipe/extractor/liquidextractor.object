@@ -7,10 +7,10 @@
   "race" : "generic",
   "category" : "wire",
 
-  "inventoryIcon" : "liquidextractor.png:default.0",
+  "inventoryIcon" : "liquidextractor.png:open.on",
   "orientations" : [
     {
-      "dualImage" : "liquidextractor.png:default.0",
+      "dualImage" : "liquidextractor.png:open.on",
 
       "imagePosition" : [0, 0],
       "frames" : 1,
@@ -41,15 +41,15 @@
   
   "inboundNodes" : [[1, 1]],
   
-  "itemNodes" : [ {"offset": [1, 2], "dir": [0, 1]} ],
+  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
   "liquidNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
   "flippedLiquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
   
   
   "energyConsumptionRate" : 5,
-  "energyCapacity" : 50,
+  "energyCapacity" : 10,
   
   "damageRate" : 0.25,
-  "damageAmount" : 5,
+  "damageAmount" : 201,
   "blockOffset" : [1, 1]
 }

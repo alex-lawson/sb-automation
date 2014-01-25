@@ -1,0 +1,7 @@
+{
+  "itemName" : "profilertool",
+  "rarity" : "Common",
+  "inventoryIcon" : "profilertool.png",
+  "description" : "A developer could do something useful with this, probably.",
+  "shortdescription" : "Profiler Tool"
+}
