@@ -16,7 +16,7 @@ function init(virtual)
 
     --flag to allow/disallow energy output
     if storage.discharging == nil then
-      storage.discharging = false
+      storage.discharging = true
     end
 
     --frequency (in seconds) to check for batteries present
@@ -76,10 +76,14 @@ function checkBatteries()
 end
 
 function updateAnimationState()
-  if storage.discharging then
+  if not self.batteries then
     entity.setAnimationState("chargeState", "error")
-  else
+  elseif #self.batteries == 0 then
+    entity.setAnimationState("chargeState", "off")
+  elseif storage.discharging then
     entity.setAnimationState("chargeState", "on")
+  else
+    entity.setAnimationState("chargeState", "charge")
   end
 end
 

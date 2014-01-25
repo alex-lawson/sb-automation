@@ -10,6 +10,11 @@
             "cycle" : 0.5,
             "mode" : "loop"
           },
+          "charge" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
           "error" : {}
         }
       }
@@ -29,6 +34,11 @@
             "on" : {
               "properties" : {
                 "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "charge" : {
+              "properties" : {
+                "image" : "<partImage>:charge.<frame>"
               }
             },
             "error" : {
