@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "waterbomb",
-    "count" : 1
-  },
-  "groups" : [ "mod" ]
-}
