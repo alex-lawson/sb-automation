@@ -12,7 +12,7 @@
   "inventoryIcon" : "/objects/wired/magnet/magnetblock/ptmagnetblockposstrongicon.png",
   "orientations" : [
     {
-      "image" : "/objects/wired/magnet/magnetblock/ptmagnetblock.png:neutral",
+      "image" : "magnetblockadvanced.png:positiveOff",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -26,14 +26,15 @@
   "animation" : "/objects/wired/magnet/magnetblock/ptmagnetblock.animation",
 
   "animationParts" : {
-    "magnet" : "/objects/wired/magnet/magnetblock/ptmagnetblock.png",
-    "sign" : "/objects/wired/magnet/magnetblock/ptmagnetsigns.png"
+    "magnet" : "magnetblockadvanced.png",
+    "sign" : "dummysigns.png"
   },
   "animationPosition" : [0, 0],
   
   "inboundNodes" : [ [0, 0] ],
   
-  "chargeStrength" : 1,
+  "chargeStrength" : 100,
+  "magnetCenter" : [1, 1],
 
   "energyAllowConnection" : true,
   "energyCapacity" : 5
