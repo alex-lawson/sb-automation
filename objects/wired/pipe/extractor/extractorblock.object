@@ -14,7 +14,7 @@
     {
       "dualImage" : "extractorblock.png:snow",
 
-      "imagePosition" : [-2, -2],
+      "imagePosition" : [-4, -2],
       "frames" : 1,
       "animationCycle" : 1.0,
 
@@ -28,7 +28,7 @@
     "block" : "extractorblock.png",
     "damage" : "blockdamage.png"
   },
-  "animationPosition" : [-2, -2],
+  "animationPosition" : [-4, -2],
   
   "scripts" : [
     "/objects/wired/pipe/extractor/extractorblock.lua",
