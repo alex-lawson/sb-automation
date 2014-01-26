@@ -513,7 +513,7 @@ function energy.sendEnergy(amount)
   while #sortedEnergyNeeds > 0 do
     if sortedEnergyNeeds[1][2] > 0 then
       local sendAmt = remainingEnergyToSend / #sortedEnergyNeeds
-      local acceptedEnergy = world.callScriptedEntity(sortedEnergyNeeds[1][1], "energy.receiveEnergy", sendAmt)
+      local acceptedEnergy = world.callScriptedEntity(tonumber(sortedEnergyNeeds[1][1]), "energy.receiveEnergy", sendAmt)
       if acceptedEnergy > 0 then
         remainingEnergyToSend = remainingEnergyToSend - acceptedEnergy
       end
