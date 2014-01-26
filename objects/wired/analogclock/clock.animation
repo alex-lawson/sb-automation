@@ -1,0 +1,52 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "default" : {
+        "states" : {
+          "default" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "hand" : {
+        "properties" : {
+          "offset" : [ 0, 0 ],
+          "rotationGroup" : "hand"
+        },
+        "partStates" : {
+          "default" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:default"
+              }
+            }
+          }
+        }
+      },
+      "clock" : {
+        "properties" : {
+          "centered" : true
+        },
+        "partStates" : {
+          "default" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:default"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "rotationGroups" : {
+    "hand" : {
+      "rotationCenter" : [ 0, 0 ],
+      "angularVelocity" : 10
+    }
+  }
+}

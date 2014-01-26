@@ -19,7 +19,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "basicgenerator.lua" ],
+  "scripts" : [ "/scripts/energy.lua", "basicgenerator.lua" ],
   "scriptDelta" : 10,
 
   "animation" : "basicgenerator.animation",

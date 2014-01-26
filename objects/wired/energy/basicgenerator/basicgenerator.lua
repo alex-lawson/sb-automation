@@ -1,7 +1,6 @@
 function init(virtual)
   if not virtual then
     energy.init()
-    datawire.init()
 
     self.fuelValues = {
       coalore=2,
@@ -33,6 +32,8 @@ function init(virtual)
 
     entity.setInteractive(not entity.isInboundNodeConnected(0))
     updateAnimationState()
+
+    -- profilerApi.init()
   end
 end
 
@@ -49,6 +50,10 @@ function onInboundNodeChange(args)
 end
 
 function onInteraction(args)
+  -- if world.entityHandItem(args.sourceId, "primary") == "profilertool" then
+  --   profilerApi.logData()
+  --   return
+  -- end
   if not entity.isInboundNodeConnected(0) then
     if storage.state then
       storage.state = false
@@ -160,5 +165,4 @@ function main()
   end
 
   energy.update()
-  datawire.update()
 end

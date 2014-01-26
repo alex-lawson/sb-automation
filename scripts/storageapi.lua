@@ -140,6 +140,7 @@ end
 -- @param count The amount of item to get
 -- @param properties (Optional) The properties table of the item
 function storageApi.returnItemByName(itemname, count, properties)
+  if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
   if properties == nil then
     for i,v in storageApi.getIterator() do
       if v[1] == itemname then
@@ -225,6 +226,11 @@ end
 -------------------------------------------------
 -- Event functions
 -------------------------------------------------
+
+-- Called before the API searches for the item to return in storage
+-- itemname, count, parameters - the requested item data
+-- If this returns true, item is returned instantly without searching through the storage
+----- function storageApi.beforeReturnByName(itemname, count, properties)
 
 -- Called when an item is about to be taken from storage
 -- index - the requested item index

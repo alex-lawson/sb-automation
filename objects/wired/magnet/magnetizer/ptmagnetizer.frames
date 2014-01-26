@@ -1,9 +1,10 @@
 {
   "frameGrid" : {
-    "size" : [8, 8],
-    "dimensions" : [2, 1],
+    "size" : [16, 44],
+    "dimensions" : [3, 2],
     "names" : [
-      [ "on", "off" ]
+      [ "off", "on.1", "on.2" ],
+      [ "activate.1", "activate.2", "activate.3" ]
     ]
   }
 }
