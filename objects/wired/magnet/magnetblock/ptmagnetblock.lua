@@ -122,7 +122,7 @@ function updateMagnetData()
     storage.dataID = nil
   end
   
-  entity.setGlobalTag("charge", roundCharge(storage.charge))
+  entity.setGlobalTag("charge", tostring(roundCharge(storage.charge)))
 end
 
 function roundCharge(charge)
