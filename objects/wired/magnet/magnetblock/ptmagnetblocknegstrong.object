@@ -12,7 +12,7 @@
   "inventoryIcon" : "ptmagnetblocknegstrongicon.png",
   "orientations" : [
     {
-      "image" : "ptmagnetblock.png:negative",
+      "image" : "ptmagnetblock.png:negativeOff",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
