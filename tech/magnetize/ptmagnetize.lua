@@ -98,7 +98,7 @@ function update(args)
         if world.entityName(value) == "ptmagnetblockadvanced" then
           magnetPos = {magnetPos[1] + 0.5, magnetPos[2] + 0.5}
         end
-        world.logInfo(magnetCharge)
+        
         local posDif = world.distance(playerCenter(), magnetPos)
         local qQ = magnetCharge * data.magnetConstant * (data.positive and 1 or -1)
         local forceMag = qQ / magnetUtil.lengthSquared(posDif)
