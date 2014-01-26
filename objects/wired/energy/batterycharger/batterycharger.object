@@ -4,7 +4,7 @@
   "description" : "Connects batteries to the energy network for charging or discharging.",
   "shortdescription" : "Battery Rack",
   "race" : "generic",
-  "price" : "200",
+  "price" : 200,
   "objectType" : "wire",
   "printable" : false,
 

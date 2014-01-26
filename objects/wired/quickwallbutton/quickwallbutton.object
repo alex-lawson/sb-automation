@@ -10,7 +10,7 @@
   "glitchDescription" : "Temptation. A button, begging to be pressed.",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "quickwallbuttonicon.png",
   "orientations" : [

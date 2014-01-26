@@ -4,7 +4,7 @@
   "printable" : false,
   "rarity" : "Common",
   "category" : "light",
-  "price" : "300",
+  "price" : 300,
 
   "description" : "A green-colored lamp that can be turned on or off.",
   "shortdescription" : "Green Wired Lamp",

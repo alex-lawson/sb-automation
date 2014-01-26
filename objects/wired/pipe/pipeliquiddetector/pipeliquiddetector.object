@@ -7,7 +7,7 @@
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "pipeliquiddetectoricon.png",
   "orientations" : [

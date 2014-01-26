@@ -7,7 +7,7 @@
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "666",
+  "price" : 666,
 
   "inventoryIcon" : "testspawnericon.png",
   "orientations" : [

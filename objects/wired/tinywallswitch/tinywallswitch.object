@@ -10,7 +10,7 @@
   "glitchDescription" : "Statement. A small switch.",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "tinywallswitchicon.png",
   "orientations" : [

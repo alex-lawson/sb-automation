@@ -6,7 +6,7 @@
   "shortdescription" : "Entity Scanner",
   "race" : "generic",
   "category" : "wire",
-  "price" : "500",
+  "price" : 500,
   "scannable" : false,
   "printable" : false,
 
