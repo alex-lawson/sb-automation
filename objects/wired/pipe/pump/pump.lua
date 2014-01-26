@@ -53,8 +53,7 @@ function main(args)
       local canGetLiquid = peekPullLiquid(srcNode)
       local canPutLiquid = peekPushLiquid(tarNode, canGetLiquid)
 
-      --if canGetLiquid and canPutLiquid and energy.consumeEnergy() then
-      if canGetLiquid and canPutLiquid then
+      if canGetLiquid and canPutLiquid and energy.consumeEnergy() then
         entity.setAnimationState("pumping", "pump")
         entity.setAllOutboundNodes(true)
         
