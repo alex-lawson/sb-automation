@@ -26,7 +26,7 @@
   "scripts" : [ "/objects/wired/toggleswitch.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "tinywallswitch.png"
