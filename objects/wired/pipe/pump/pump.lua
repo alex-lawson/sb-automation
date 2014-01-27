@@ -58,7 +58,6 @@ function main(args)
         entity.setAllOutboundNodes(true)
         
         local liquid = pullLiquid(srcNode)
-        liquid[2] = 1400 --Set amount to 1400 because reasons
         pushLiquid(tarNode, liquid)
       else
         entity.setAllOutboundNodes(false)
