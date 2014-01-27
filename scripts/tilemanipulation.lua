@@ -133,7 +133,7 @@ function getMatItemName(matName)
   if not success then
     success = pcall(function () world.itemType(matName.."material") end)
     if not success then
-      world.logInfo(string.format("unable to get item name for %s", matName))
+      world.logInfo("unable to get item name for %s", matName)
       return false
     else
       return matName.."material"

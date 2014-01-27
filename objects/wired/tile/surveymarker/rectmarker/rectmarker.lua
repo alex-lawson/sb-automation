@@ -36,10 +36,7 @@ function doScan()
   if #entityIds > 0 then
     local corner1 = floorPos(entity.position())
     local corner2 = floorPos(world.entityPosition(entityIds[1]))
-    world.logInfo(corner1)
-    world.logInfo(corner2)
     local tileArea = getTileAreaFromRect(corner1, corner2)
-    world.logInfo(tileArea)
     local success = datawire.sendData(tileArea, "area", "all")
     if success then
       world.spawnItem(entity.configParameter("objectName"), corner1, 2)
@@ -69,9 +66,6 @@ function getTileAreaFromRect(corner1, corner2)
     corner1[2] = corner2[2]
     corner2[2] = tempy
   end
-
-  world.logInfo(corner1)
-  world.logInfo(corner2)
 
   local x = corner1[1]
   local locations = {}
