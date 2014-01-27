@@ -17,13 +17,13 @@ function datawire.init()
   datawire.inboundConnections = {}
   datawire.outboundConnections = {}
 
-  self.dataWireInitialized = false
+  datawire.initialized = false
 end
 
 --- this will be called internally, to build connection tables once the world has fully loaded
 function datawire.initAfterLoading()
   datawire.createConnectionTable()
-  self.dataWireInitialized = true
+  datawire.initialized = true
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -31,24 +31,29 @@ function datawire.createConnectionTable()
   datawire.outboundConnections = {}
   local i = 0
   while i < entity.outboundNodeCount() do
-    datawire.outboundConnections[i] = entity.getOutboundNodeIds(i)
+    local connInfo = entity.getOutboundNodeIds(i)
+    local entityIds = {}
+    for k, v in pairs(connInfo) do
+      entityIds[#entityIds + 1] = v[1]
+    end
+    datawire.outboundConnections[i] = entityIds
     i = i + 1
   end
 
   datawire.inboundConnections = {}
-  local entityIds
+  local connInfos
   i = 0
   while i < entity.inboundNodeCount() do
-    entityIds = entity.getInboundNodeIds(i)
-    for j, entityId in ipairs(entityIds) do
-      datawire.inboundConnections[entityId] = i
+    connInfos = entity.getInboundNodeIds(i)
+    for j, connInfo in ipairs(connInfos) do
+      datawire.inboundConnections[connInfo[1]] = i
     end
     i = i + 1
   end
 
   --world.logInfo(string.format("%s (id %d) created connection tables for %d outbound and %d inbound nodes", entity.configParameter("objectName"), entity.id(), entity.outboundNodeCount(), entity.inboundNodeCount()))
-  --world.logInfo(datawire.outboundConnections)
-  --world.logInfo(datawire.inboundConnections)
+  --world.logInfo("outbound: %s", datawire.outboundConnections)
+  --world.logInfo("inbound: %s", datawire.inboundConnections)
 end
 
 --- determine whether there is a valid recipient on the specified outbound node
@@ -65,7 +70,7 @@ end
 -- @returns true if at least one object successfully received the data
 function datawire.sendData(data, dataType, nodeId)
   -- don't transmit if connection tables haven't been built
-  if not self.dataWireInitialized then
+  if not datawire.initialized then
     return false
   end
 
@@ -108,20 +113,20 @@ function datawire.receiveData(args)
   local nodeId = datawire.inboundConnections[sourceEntityId]
 
   if nodeId == nil then
-    world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
-    world.logInfo(datawire.inboundConnections)
+    if datawire.initialized then
+      world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
+      world.logInfo("%s", datawire.inboundConnections)
+    end
 
     return false
   elseif validateData(data, dataType, nodeId) then
     onValidDataReceived(data, dataType, nodeId)
 
     --world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
-    --world.logInfo(data)
 
     return true
   else
-    world.logInfo("DataWire: %s received INVALID data of type %s from entity %d", entity.configParameter("objectName"), dataType, sourceEntityId)
-    world.logInfo(data)
+    world.logInfo("DataWire: %s received INVALID data of type %s from entity %d: %s", entity.configParameter("objectName"), dataType, sourceEntityId, data)
     
     return false
   end
@@ -144,7 +149,7 @@ function onValidDataReceived(data, dataType, nodeId) end
 
 --- any datawire operations that need to be run when main() is first called
 function datawire.update()
-  if self.dataWireInitialized then
+  if datawire.initialized then
     -- nothing for now
   else
     datawire.initAfterLoading()
