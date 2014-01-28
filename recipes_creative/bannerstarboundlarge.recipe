@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "bannerstarfoundrylarge",
-    "count" : 1
-  },
-  "groups" : [ "mod" ]
-}
