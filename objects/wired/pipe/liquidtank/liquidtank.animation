@@ -32,7 +32,7 @@
         "properties" : {
           "image" : "<partImage>:foreground",
           "offset" : [0, 0],
-          "centered" : false,
+          "centered" : true,
           "zLevel" : 3
         }
       },
@@ -40,14 +40,14 @@
         "properties" : {
           "image" : "<partImage>:background",
           "offset" : [0, 0],
-          "centered" : false,
+          "centered" : true,
           "zLevel" : 1
         }
       },
       "liquid" : {
         "properties" : {
-          "offset" : [2.625, 1.5],
-          "centered" : false,
+          "offset" : [0, -0.8125],
+          "centered" : true,
           "zLevel" : 2,
           "scalingGroup" : "liquid"
         },
