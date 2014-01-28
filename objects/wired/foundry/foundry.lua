@@ -2,7 +2,7 @@
 function init(virtual)
 if virtual then return nil end
 entity.setInteractive(true)
-world.logInfo("foundry.lua:init(): ultimate box has done its init")
+-- world.logInfo("foundry.lua:init(): ultimate box has done its init")
 
 fullLabel = nil
 fullTxt = nil
@@ -11,7 +11,7 @@ entity.setAnimationState("tabulaState","animate")
 end
 
 function onInteraction(args)
-  world.logInfo("foundry.lua:onInteraction(): Got interacted with!")
+  -- world.logInfo("foundry.lua:onInteraction(): Got interacted with!")
   buttons = generateButtons()
   return { "OpenCraftingInterface", {config={
   ["requiresBlueprint"] = false,
@@ -273,7 +273,7 @@ local buttonArrayVSpacing = 20
 
 local buttons = entity.configParameter("filterButtons")
 
-world.logInfo("'buttons' is set to %s",buttons)
+-- world.logInfo("'buttons' is set to %s",buttons)
 
 local b = {
         
@@ -281,8 +281,8 @@ local b = {
 
   local num = 1
   for _,bt in ipairs(buttons) do
-    world.logInfo("iteration %d, bt is %s",num,bt)
-    for k,v in pairs(bt) do world.logInfo("key %s is val %s",k,v) end
+    -- world.logInfo("iteration %d, bt is %s",num,bt)
+    -- for k,v in pairs(bt) do world.logInfo("key %s is val %s",k,v) end
     if num > buttonArrayMaxWidth*buttonArrayMaxHeight then 
       fullLabel = {
         ["type"] = "image",
@@ -317,7 +317,7 @@ local b = {
       }
       num = num + 1
     else
-      world.logInfo("Warning: Tabula Rasa is skipping a button with no filter set, 'bt' is %s",bt)
+      -- world.logInfo("Warning: Tabula Rasa is skipping a button with no filter set, 'bt' is %s",bt)
     end
     table.insert(b,bnew)
 end
