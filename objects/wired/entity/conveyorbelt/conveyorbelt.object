@@ -4,8 +4,8 @@
   "objectType" : "wire",
 
   "category" : "wire",
-  "price" : "350",
-  "description" : "A factory couldn't exist without those.",
+  "price" : 350,
+  "description" : "Moves beings smoothly from one point to the next.",
   "shortdescription" : "Conveyor Belt",
   "race" : "generic",
 
@@ -14,7 +14,7 @@
     {
       "dualImage" : "conveyorbelt.png:idle",
       "imagePosition" : [-16, 0],
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }

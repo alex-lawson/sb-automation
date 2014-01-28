@@ -6,7 +6,7 @@
   "shortdescription" : "Rectangular Marker",
   "race" : "generic",
   "category" : "wire",
-  "price" : "100",
+  "price" : 100,
 
   "inventoryIcon" : "rectmarkericon.png",
 

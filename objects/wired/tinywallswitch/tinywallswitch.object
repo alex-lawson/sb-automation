@@ -2,7 +2,7 @@
   "objectName" : "tinywallswitch",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "A compact switch for intricate mechanisms.",
+  "description" : "A compact switch that can be flipped on or off.",
   "shortdescription" : "Tiny Wall Switch",
   "race" : "generic",
 
@@ -10,7 +10,7 @@
   "glitchDescription" : "Statement. A small switch.",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "tinywallswitchicon.png",
   "orientations" : [
@@ -26,7 +26,7 @@
   "scripts" : [ "/objects/wired/toggleswitch.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "tinywallswitch.png"

@@ -75,8 +75,11 @@ function main(args)
   if self.pushTimer > self.pushRate and storage.liquid[2] ~= nil then
     local pushedLiquid = {storage.liquid[1], storage.liquid[2]}
     if storage.liquid[2] > self.pushAmount then pushedLiquid[2] = self.pushAmount end
-    if pushLiquid(2, pushedLiquid) then
-      storage.liquid[2] = storage.liquid[2] - pushedLiquid[2]
+    for i=1,2 do
+      if pushLiquid(i, pushedLiquid) then
+        storage.liquid[2] = storage.liquid[2] - pushedLiquid[2]
+        break;
+      end
     end
     self.pushTimer = 0
   end
@@ -92,44 +95,39 @@ function clearLiquid()
 end
 
 function onLiquidPut(liquid, nodeId)
-  if nodeId == 1 then
-    if storage.liquid[1] == nil then
-      storage.liquid = liquid
-      return true
-    elseif liquid[1] == storage.liquid[1] then
-      local excess = 0
-      local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
-      
-      if newLiquid[2] > self.capacity then 
-        excess = newLiquid[2] - self.capacity
-        world.logInfo("Trying to push liquid %s", {newLiquid[1], excess})
-        newLiquid[2] = self.capacity
-      end
-      storage.liquid = newLiquid
-      
-      --Try to push excess liquid
-      if excess > 0 then return pushLiquid(2, {newLiquid[1], excess}) end
-      return true
+  if storage.liquid[1] == nil then
+    storage.liquid = liquid
+    return true
+  elseif liquid[1] == storage.liquid[1] then
+    local excess = 0
+    local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
+    
+    if newLiquid[2] > self.capacity then 
+      excess = newLiquid[2] - self.capacity
+      newLiquid[2] = self.capacity
     end
+    storage.liquid = newLiquid
+    
+    --Try to push excess liquid
+    if excess > 0 then return pushLiquid(2, {newLiquid[1], excess}) end
+    return true
   end
   return false
 end
 
 function beforeLiquidPut(liquid, nodeId)
-  if nodeId == 1 then
-    if storage.liquid[1] == nil then
-      return true
-    elseif liquid[1] == storage.liquid[1] then
-      local excess = 0
-      local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
-      
-      if newLiquid[2] > self.capacity then 
-        excess = newLiquid[2] - self.capacity
-      end
-      
-      if excess == liquid[2] then return peekPushLiquid(2, {newLiquid[1], excess}) end
-      return true
+  if storage.liquid[1] == nil then
+    return true
+  elseif liquid[1] == storage.liquid[1] then
+    local excess = 0
+    local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
+    
+    if newLiquid[2] > self.capacity then 
+      excess = newLiquid[2] - self.capacity
     end
+    
+    if excess == liquid[2] then return peekPushLiquid(2, {newLiquid[1], excess}) end
+    return true
   end
   return false
 end
@@ -140,7 +138,6 @@ function onLiquidGet(liquid, nodeId)
     if returnLiquid[2] > storage.liquid[2] then returnLiquid[2] = storage.liquid[2] end
     if liquid ~= nil and returnLiquid[2] > liquid[2] then returnLiquid[2] = liquid[2] end
     
-    world.logInfo("Returning %s", returnLiquid)
     storage.liquid[2] = storage.liquid[2] - returnLiquid[2]
     return returnLiquid
   end

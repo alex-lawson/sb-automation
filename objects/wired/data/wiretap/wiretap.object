@@ -3,8 +3,8 @@
   "rarity" : "Common",
   "objectType" : "wire",
   "category" : "wire",
-  "price" : "500",
-  "description" : "When activated, writes data passed through to starbound.log",
+  "price" : 500,
+  "description" : "When activated, data being passed through will also be written to starbound.log",
   "shortdescription" : "Wiretap",
   "race" : "generic",
 

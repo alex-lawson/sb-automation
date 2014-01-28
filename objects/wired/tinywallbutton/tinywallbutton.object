@@ -2,7 +2,7 @@
   "objectName" : "tinywallbutton",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "A compact button for intricate mechanisms.",
+  "description" : "A compact button that can be toggled on or off.",
   "shortdescription" : "Tiny Wall Button",
   "race" : "generic",
 
@@ -10,7 +10,7 @@
   "glitchDescription" : "Temptation. A button, begging to be pressed.",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "tinywallbuttonicon.png",
   "orientations" : [
@@ -26,7 +26,7 @@
   "scripts" : [ "/objects/wired/momentaryswitch.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "tinywallbutton.png"

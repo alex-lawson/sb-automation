@@ -6,7 +6,7 @@
   "shortdescription" : "Freeform Marker",
   "race" : "generic",
   "category" : "wire",
-  "price" : "100",
+  "price" : 100,
 
   "inventoryIcon" : "freeformmarkericon.png",
 

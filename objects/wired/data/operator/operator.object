@@ -2,12 +2,12 @@
   "objectName" : "operator",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Smoothly add, subtract, multiply or divide two numbers.",
+  "description" : "Add, subtract, multiply, or divide two numbers.",
   "shortdescription" : "Operator",
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "1000",
+  "price" : 1000,
 
   "inventoryIcon" : "operatoricon.png",
   "orientations" : [

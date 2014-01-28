@@ -1,15 +1,7 @@
-function init(virtual)
-  entity.setInteractive(true)
-  
+function init(virtual) 
   pipes.init({liquidPipe})
   
   self.usedNode = 0
-end
-
---------------------------------------------------------------------------------
-
-function onInteraction(args)
-
 end
 
 --------------------------------------------------------------------------------
@@ -60,7 +52,7 @@ function onLiquidGet(liquid, nodeId)
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
   local getLiquid = canGetLiquid(liquid, nodeId)
   if getLiquid then
-    world.spawnProjectile("destroyliquid", liquidPos, entity.id(), {0, -1}, false, {speed = 100})
+    getLiquid = world.destroyLiquid(liquidPos)
     return getLiquid
   end
   return false
@@ -70,7 +62,9 @@ function onLiquidPut(liquid, nodeId)
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
   if canPutLiquid(liquid, nodeId) then
-    world.spawnProjectile("createliquid", liquidPos, entity.id(), {0, -1}, false, {speed = 100, actionOnReap = { {action = "liquid", quantity = liquid[2], liquidId = liquid[1]}}})
+    local curLiquid = world.liquidAt(liquidPos)
+    if curLiquid then liquid[2] = liquid[2] + curLiquid[2] end
+    world.spawnLiquid(liquidPos, liquid[1], liquid[2])
     return true
   else
     return false

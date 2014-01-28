@@ -2,11 +2,11 @@
   "objectName" : "tempsensor",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Activates the bottom node in moderate temperature and the top node in warm temperature.",
+  "description" : "Activates the bottom node in moderate temperatures and the top node in warm temperatures.",
   "shortdescription" : "Thermometer",
   "race" : "generic",
   "category" : "wire",
-  "price" : "1000",
+  "price" : 1000,
 
   "inventoryIcon" : "tempsensoricon.png",
 

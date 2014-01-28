@@ -1,7 +1,6 @@
 function init(virtual)
   if not virtual then
     energy.init()
-    datawire.init()
 
     self.fuelValues = {
       coalore=2,
@@ -33,6 +32,8 @@ function init(virtual)
 
     entity.setInteractive(not entity.isInboundNodeConnected(0))
     updateAnimationState()
+
+    -- profilerApi.init()
   end
 end
 
@@ -49,10 +50,14 @@ function onInboundNodeChange(args)
 end
 
 function onInteraction(args)
+  -- if world.entityHandItem(args.sourceId, "primary") == "profilertool" then
+  --   profilerApi.logData()
+  --   return
+  -- end
   if not entity.isInboundNodeConnected(0) then
     if storage.state then
       storage.state = false
-    elseif storage.fuel > 0 then
+    else
       storage.state = true
     end
 
@@ -61,8 +66,10 @@ function onInteraction(args)
 end
 
 function updateAnimationState()
-  if storage.state then
+  if storage.state and storage.fuel > 0 then
     entity.setAnimationState("generatorState", "on")
+  elseif storage.state then
+    entity.setAnimationState("generatorState", "error")
   else
     entity.setAnimationState("generatorState", "off")
   end
@@ -102,14 +109,14 @@ function getFuelItems()
       if self.fuelValues[itemName] then
         local item = world.takeItemDrop(entityId, entity.id())
         if item then
-          if self.fuelValues[item[1]] then
-            while item[2] > 0 and storage.fuel < self.fuelMax do
-              storage.fuel = storage.fuel + self.fuelValues[item[1]]
-              item[2] = item[2] - 1
+          if self.fuelValues[item.name] then
+            while item.count > 0 and storage.fuel < self.fuelMax do
+              storage.fuel = storage.fuel + self.fuelValues[item.name]
+              item.count = item.count - 1
             end
           end
 
-          if item[2] > 0 then
+          if item.count > 0 then
             ejectItem(item)
           end
         end
@@ -123,10 +130,10 @@ end
 
 function ejectItem(item)
   local itemDropId
-  if next(item[3]) == nil then
-    itemDropId = world.spawnItem(item[1], self.dropPoint, item[2])
+  if next(item.data) == nil then
+    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count)
   else
-    itemDropId = world.spawnItem(item[1], self.dropPoint, item[2], item[3])
+    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count, item.data)
   end
   self.ignoreDropIds[itemDropId] = true
 end
@@ -137,8 +144,12 @@ function generate()
     storage.fuel = storage.fuel - tickFuel
     energy.addEnergy(tickFuel * energy.fuelEnergyConversion)
     return true
+  elseif storage.fuel > 0 then
+    energy.addEnergy(storage.fuel * energy.fuelEnergyConversion)
+    storage.fuel = 0
+    return true
   else
-    storage.state = false
+    --storage.state = false
     return false
   end
 end 
@@ -154,5 +165,4 @@ function main()
   end
 
   energy.update()
-  datawire.update()
 end

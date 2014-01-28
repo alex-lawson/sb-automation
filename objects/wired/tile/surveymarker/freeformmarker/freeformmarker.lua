@@ -70,7 +70,6 @@ function receiveSurveyTrigger(markerType, originId)
     onTrigger()
     sendSurveyResult(originId)
     local entityIds = triggerConnectedMarkers("receiveSurveyTrigger", { self.markerType, originId })
-    --world.logInfo(entityIds)
 
     return true
   end
@@ -87,8 +86,7 @@ function receiveSurveyResult(pos)
 end
 
 function finalizeSurvey()
-  world.logInfo(string.format("received positions from %d markers", #storage.scanTable))
-  world.logInfo(storage.scanTable)
+  --world.logInfo("received positions from %d markers: %s", #storage.scanTable, storage.scanTable)
   
   local transmitSuccess = datawire.sendData(storage.scanTable, "area", "all")
   if transmitSuccess then

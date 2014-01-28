@@ -81,7 +81,7 @@ function placeLayer(tileArea, targetLayer, tileData, conserveMaterial)
   for i, pos in ipairs(tileArea) do
     nextTileData[i] = false
     if tileData[i] then
-      local success = world.placeMaterial(pos, targetLayer, tileData[i])
+      local success = world.placeMaterial(pos, targetLayer, tileData[i], nil, true)
       if success then
         --world.logInfo(string.format("successfully placed %s in %s", tileData[i], targetLayer))
       else
@@ -96,7 +96,7 @@ function placeLayer(tileArea, targetLayer, tileData, conserveMaterial)
         end
       end
     elseif targetLayer == "background" then
-      local success = world.placeMaterial(pos, targetLayer, "invisitile")
+      local success = world.placeMaterial(pos, targetLayer, "invisitile", nil, true)
       if not success then
         --world.logInfo("failed to place invisible tile in "..targetLayer)
       end
@@ -133,7 +133,7 @@ function getMatItemName(matName)
   if not success then
     success = pcall(function () world.itemType(matName.."material") end)
     if not success then
-      world.logInfo(string.format("unable to get item name for %s", matName))
+      world.logInfo("unable to get item name for %s", matName)
       return false
     else
       return matName.."material"

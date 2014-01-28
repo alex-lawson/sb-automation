@@ -17,12 +17,9 @@ function main(args)
   if self.timer > self.pickupCooldown and (isItemNodeConnected(1) or isItemNodeConnected(2)) then
     local itemDropList = findItemDrops()
     if #itemDropList > 0 then
-      --world.logInfo(itemDropList)
-      
       for i, itemId in ipairs(itemDropList) do
         if not self.ignoreIds[itemId] then
-          local item = world.takeItemDrop(itemId)
-
+          local item = world.takeItemDrop(itemId, entity.id())
           if item then
             outputItem(item)
           end
@@ -49,7 +46,7 @@ function outputItem(item)
   
   -- pushed only some of the item
   if result and result ~= true then
-    item[2] = item[2] - result
+    item.count = item.count - result
     ejectItem(item)
   end
   
@@ -61,10 +58,10 @@ end
 
 function ejectItem(item)
   local itemDropId
-  if next(item[3]) == nil then
-    itemDropId = world.spawnItem(item[1], self.dropPoint, item[2])
+  if next(item.data) == nil then
+    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count)
   else
-    itemDropId = world.spawnItem(item[1], self.dropPoint, item[2], item[3])
+    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count, item.data)
   end
   self.ignoreIds[itemDropId] = true
 

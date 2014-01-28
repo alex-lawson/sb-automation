@@ -4,9 +4,9 @@
   "printable" : false,
   "rarity" : "Common",
   "category" : "light",
-  "price" : "300",
+  "price" : 300,
 
-  "description" : "Brought to you through the magic of SCIENCE!",
+  "description" : "A blue-colored lamp that can be turned on or off.",
   "shortdescription" : "Blue Wired Lamp",
   "race" : "generic",
 

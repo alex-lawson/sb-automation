@@ -2,12 +2,12 @@
   "objectName" : "comparator",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Who's the greatest of all?",
+  "description" : "Given two inputs, the Comparator displays symbols: <, >, or =.",
   "shortdescription" : "Comparator",
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "500",
+  "price" : 500,
 
   "inventoryIcon" : "comparatoricon.png",
   "orientations" : [

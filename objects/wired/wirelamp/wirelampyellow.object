@@ -4,9 +4,9 @@
   "printable" : false,
   "rarity" : "Common",
   "category" : "light",
-  "price" : "300",
+  "price" : 300,
 
-  "description" : "Brought to you through the magic of SCIENCE!",
+  "description" : "A yellow-colored lamp that can be turned on or off.",
   "shortdescription" : "Yellow Wired Lamp",
   "race" : "generic",
 

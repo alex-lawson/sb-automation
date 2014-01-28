@@ -4,8 +4,8 @@
   "objectType" : "wire",
 
   "category" : "wire",
-  "price" : "350",
-  "description" : "The shit is about to hit the fan!",
+  "price" : 350,
+  "description" : "This fan is powerful enough to move beings around.",
   "shortdescription" : "Air Fan",
   "race" : "generic",
 

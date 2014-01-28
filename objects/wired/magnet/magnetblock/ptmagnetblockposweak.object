@@ -2,17 +2,17 @@
   "objectName" : "ptmagnetblockposweak",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "It's a weak magnet! (It's actually a point charge) Toggles between positive and neutral.",
+  "description" : "A weak magnet, the charge of which is positive.",
   "shortdescription" : "Permanent Positive Magnet",
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "1",
+  "price" : 1,
 
-  "inventoryIcon" : "ptmagnetblockposweakicon.png",
+  "inventoryIcon" : "ptmagnetblockperm.png:positiveOn",
   "orientations" : [
     {
-      "image" : "ptmagnetblock.png:positive",
+      "image" : "ptmagnetblockperm.png:positiveOn",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -26,12 +26,9 @@
   "animation" : "ptmagnetblock.animation",
 
   "animationParts" : {
-    "magnet" : "ptmagnetblock.png",
-    "sign" : "ptmagnetsigns.png"
+    "magnet" : "ptmagnetblockperm.png"
   },
   "animationPosition" : [0, 0],
-  
-  "inboundNodes" : [ [0, 0] ],
   
   "chargeStrength" : 20,
 

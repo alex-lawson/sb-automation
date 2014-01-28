@@ -1,0 +1,33 @@
+{
+  "objectName" : "analogclock",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "It's a clock!",
+  "shortdescription" : "Analog Clock",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 1,
+
+  "inventoryIcon" : "analogclockicon.png",
+  "orientations" : [
+    {
+      "image" : "clock.png:default",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "analogclock.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "clock.animation",
+
+  "animationParts" : {
+    "clock" : "clock.png",
+    "hand" : "hand.png"
+  },
+  "animationPosition" : [8, 8]
+}

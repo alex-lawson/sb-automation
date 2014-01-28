@@ -2,11 +2,11 @@
   "objectName" : "linkdisplaysmall",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Numbers With Friends: Junior Edition",
+  "description" : "A micro-sized modular numeric display.",
   "shortdescription" : "Small Linked Display",
   "race" : "generic",
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
   "inventoryIcon" : "linkdisplaysmallicon.png",
 
   "orientations" : [

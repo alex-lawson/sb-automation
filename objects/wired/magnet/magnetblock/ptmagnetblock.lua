@@ -8,14 +8,26 @@ function init(args)
     if storage.usesEnergy then
       energy.init()
     end
-    storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positive" or "negative"
-    storage.magnetOffAnim = "neutral"
+    
+    if storage.magnetOnAnim == nil then
+      storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positiveOn" or "negativeOn"
+    end
+    
+    if storage.magnetOffAnim == nil then
+      storage.magnetOffAnim = entity.configParameter("chargeStrength") > 0 and "positiveOff" or "negativeOff"
+    end
   
-    storage.charge = clamp(entity.configParameter("chargeStrength"), -magnets.limit, magnets.limit)
+    if storage.charge == nil then
+      storage.charge = clamp(entity.configParameter("chargeStrength"), -magnets.limit, magnets.limit)
+    end
+    
+    if storage.magnetCenter == nil then
+      storage.magnetCenter = entity.configParameter("magnetCenter", {0.5, 0.5})
+    end
     
     killData()
 	
-    entity.setInteractive(true)
+    entity.setInteractive(storage.usesEnergy)
     entity.setColliding(false)
     if storage.state == nil then
       output(not storage.usesEnergy)
@@ -86,7 +98,7 @@ function main()
     for key,value in pairs(ents) do
       if magnets.shouldAffect(value) then
         local ent = entityProxy.create(value)
-        magnets.applyForce(ent, magnets.vecSum(pos, { 0.5, 0.5 }), charge)
+        magnets.applyForce(ent, magnets.vecSum(pos, storage.magnetCenter), charge)
       end
     end
   end
@@ -109,18 +121,6 @@ function updateMagnetData()
   else
     storage.dataID = nil
   end
-  
-  entity.setGlobalTag("charge", roundCharge(storage.charge))
-end
-
-function roundCharge(charge)
-  charge = charge / 10
-  if charge >= 0 then
-    charge = math.ceil(charge)
-  else
-    charge = math.floor(charge)
-  end
-  return charge * 10
 end
 
 function clamp(num, minimum, maximum)

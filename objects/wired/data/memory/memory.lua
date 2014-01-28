@@ -1,9 +1,5 @@
 function init(virtual)
   if not virtual then
-    if not storage.data then
-      storage.data = 0
-    end
-
     if not storage.dataType then
       storage.dataType = "empty"
     end
@@ -64,7 +60,7 @@ function onValidDataReceived(data, dataType, nodeId)
 end
 
 function output()
-  if not storage.lockOutbound then
+  if not storage.lockOutbound and storage.data then
     datawire.sendData(storage.data, storage.dataType, 0)
   end
 end

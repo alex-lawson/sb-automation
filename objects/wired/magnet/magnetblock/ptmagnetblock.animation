@@ -2,15 +2,18 @@
   "animatedParts" : {
     "stateTypes" : {
       "magnetState" : {
-        "default" : "neutral",
+        "default" : "positiveOff",
         "states" : {
-          "negative" : {
+          "negativeOn" : {
             "frames" : 1
           },
-          "positive" : {
+          "positiveOn" : {
             "frames" : 1
           },
-          "neutral" : {
+          "negativeOff" : {
+            "frames" : 1
+          },
+          "positiveOff" : {
             "frames" : 1
           }
         }
@@ -18,32 +21,6 @@
     },
 
     "parts" : {
-      "sign" : {
-        "properties" : {
-          "centered" : false
-        },
-        "partStates" : {
-          "magnetState" : {
-            "negative" : {
-              "properties" : {
-                "image" : "<partImage>:<charge>"
-              }
-            },
-
-            "positive" : {
-              "properties" : {
-                "image" : "<partImage>:<charge>"
-              }
-            },
-
-            "neutral" : {
-              "properties" : {
-                "image" : "<partImage>:0"
-              }
-            }
-          }
-        }
-      },
       "magnet" : {
         "properties" : {
           "centered" : false,
@@ -51,21 +28,27 @@
         },
         "partStates" : {
           "magnetState" : {
-            "negative" : {
+            "negativeOn" : {
               "properties" : {
-                "image" : "<partImage>:negative"
+                "image" : "<partImage>:negativeOn"
               }
             },
 
-            "positive" : {
+            "positiveOn" : {
               "properties" : {
-                "image" : "<partImage>:positive"
+                "image" : "<partImage>:positiveOn"
+              }
+            },
+            
+            "negativeOff" : {
+              "properties" : {
+                "image" : "<partImage>:negativeOff"
               }
             },
 
-            "neutral" : {
+            "positiveOff" : {
               "properties" : {
-                "image" : "<partImage>:neutral"
+                "image" : "<partImage>:positiveOff"
               }
             }
           }

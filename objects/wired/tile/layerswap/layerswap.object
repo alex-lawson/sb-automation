@@ -6,7 +6,7 @@
   "shortdescription" : "Layer Swapper",
   "race" : "generic",
   "category" : "wire",
-  "price" : "1000",
+  "price" : 1000,
 
   "inventoryIcon" : "layerswapicon.png",
 

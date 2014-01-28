@@ -2,11 +2,11 @@
   "objectName" : "liquidsensor",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Get the word on that wetness.",
+  "description" : "Don't use your finger! This trusty sensor indicates the presence of liquids.",
   "shortdescription" : "Liquid Sensor",
   "race" : "generic",
   "category" : "wire",
-  "price" : "1000",
+  "price" : 1000,
 
   "inventoryIcon" : "liquidsensoricon.png",
 

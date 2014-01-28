@@ -4,8 +4,8 @@
   "objectType" : "wire",
 
   "category" : "wire",
-  "price" : "350",
-  "description" : "I believe I can flyyy...",
+  "price" : 350,
+  "description" : "A pad that levitates beings a fixed amount.",
   "shortdescription" : "Levitation Pad",
   "race" : "generic",
 
@@ -14,7 +14,7 @@
     {
       "dualImage" : "levitationpad.png:idle",
       "imagePosition" : [ -8, 0],
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     }

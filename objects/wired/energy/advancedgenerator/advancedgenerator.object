@@ -1,10 +1,10 @@
 {
   "objectName" : "advancedgenerator",
   "rarity" : "Common",
-  "description" : "Totally sweet generator requiring pipe input",
+  "description" : "A generator that is powered by an input pipe.",
   "shortdescription" : "Advanced Generator",
   "race" : "generic",
-  "price" : "200",
+  "price" : 200,
   "objectType" : "wire",
   "printable" : false,
 

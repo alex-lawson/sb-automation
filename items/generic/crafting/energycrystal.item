@@ -1,0 +1,7 @@
+{
+  "itemName" : "energycrystal",
+  "rarity" : "Common",
+  "inventoryIcon" : "energycrystal.png",
+  "description" : "A crystal component which stores energy.",
+  "shortdescription" : "Energy Crystal"
+}
