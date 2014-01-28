@@ -9,7 +9,7 @@
   "category" : "wire",
   "price" : 1,
 
-  "inventoryIcon" : "/objects/wired/magnet/magnetblock/ptmagnetblockposstrongicon.png",
+  "inventoryIcon" : "magnetblockadvanced.png:positiveOff",
   "orientations" : [
     {
       "image" : "magnetblockadvanced.png:positiveOff",

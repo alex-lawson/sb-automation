@@ -9,7 +9,7 @@
   "category" : "wire",
   "price" : 1,
 
-  "inventoryIcon" : "ptmagnetblockposstrongicon.png",
+  "inventoryIcon" : "ptmagnetblockpowered.png:positiveOff",
   "orientations" : [
     {
       "image" : "ptmagnetblockpowered.png:positiveOff",
