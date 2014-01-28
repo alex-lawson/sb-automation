@@ -1,0 +1,14 @@
+{
+  "input" : [ 
+    { "item" : "steelbar", "count" : 4 },
+    { "item" : "stonefurnace", "count" : 1 },
+    { "item" : "glassmaterial", "count" : 10 },
+    { "item" : "energycrystal", "count" : 1 },
+    { "item" : "laserdiode", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "powersmelter",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "energy", "pipes" ]
+}

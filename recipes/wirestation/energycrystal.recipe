@@ -7,5 +7,5 @@
     "item" : "energycrystal",
     "count" : 5
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

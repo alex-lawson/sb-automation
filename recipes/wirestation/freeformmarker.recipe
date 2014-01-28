@@ -9,5 +9,5 @@
     "item" : "freeformmarker",
     "count" : 10
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

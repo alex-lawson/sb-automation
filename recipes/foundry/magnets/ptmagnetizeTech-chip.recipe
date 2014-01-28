@@ -1,0 +1,9 @@
+{
+  "input" : [
+    { "item" : "magnetcore", "count" : 4 },
+    { "item" : "titaniumbar", "count" : 10 },
+    { "item" : "money", "count" : 1000 }
+  ],
+  "output" : { "item" : "ptmagnetizeTech-chip", "count" : 1 },
+  "groups" : [ "foundry", "all", "magnets" ]
+}

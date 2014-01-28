@@ -6,5 +6,5 @@
     { "item" : "circuitboard", "count" : 1 }
   ],
   "output" : { "item" : "ptmagnetblockadvanced", "count" : 1 },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

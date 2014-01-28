@@ -1,0 +1,8 @@
+{
+  "input" : [
+    { "item" : "magnetcore", "count" : 1 },
+    { "item" : "laserdiode", "count" : 1 }
+  ],
+  "output" : { "item" : "ptmagnetblockposweak", "count" : 1 },
+  "groups" : [ "foundry", "all", "magnets" ]
+}

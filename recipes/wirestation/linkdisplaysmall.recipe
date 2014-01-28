@@ -9,5 +9,5 @@
     "item" : "linkdisplaysmall",
     "count" : 8
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }
