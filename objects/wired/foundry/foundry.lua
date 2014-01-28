@@ -1,13 +1,11 @@
 -- OmnipotentEntity compiled in support for doing config="{...JSON...}" so this approach is how we'll proceed
 function init(virtual)
-if virtual then return nil end
-entity.setInteractive(true)
--- world.logInfo("foundry.lua:init(): ultimate box has done its init")
+  if virtual then return nil end
+  entity.setInteractive(true)
+  -- world.logInfo("foundry.lua:init(): ultimate box has done its init")
 
-fullLabel = nil
-fullTxt = nil
-
-entity.setAnimationState("tabulaState","animate")
+  fullLabel = nil
+  fullTxt = nil
 end
 
 function onInteraction(args)

@@ -1,10 +1,10 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "tabulaState" : {
-        "default" : "animate",
+      "nullState" : {
+        "default" : "default",
         "states" : {
-          "animate" : {
+          "default" : {
             "frames" : 4,
             "cycle" : 1.0,
             "mode" : "loop"
@@ -20,10 +20,10 @@
         },
 
         "partStates" : {
-          "tabulaState" : {
-            "animate" : {
+          "nullState" : {
+            "default" : {
               "properties" : {
-                "image" : "<partImage>:default.<frame>"
+                "image" : "<partImage>"
               }
             }
           }

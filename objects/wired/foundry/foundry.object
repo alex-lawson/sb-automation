@@ -47,16 +47,17 @@
   "humanDescription" : "For testing!",
   "hylotlDescription" : "For testing!",
 
-  "inventoryIcon" : "foundryicon.png",
+  "inventoryIcon" : "foundry.png",
   "orientations" : [
     {
-      "dualImage" : "foundry.png:<color>.<frame>",
+      "image" : "foundry.png",
       "imagePosition" : [0, 0],
       "frames" : 5,
       "animationCycle" : 3.5,
       
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
     }
   ],
   
