@@ -113,10 +113,10 @@ function datawire.receiveData(args)
   local nodeId = datawire.inboundConnections[sourceEntityId]
 
   if nodeId == nil then
-    if datawire.initialized then
-      world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
-      world.logInfo("%s", datawire.inboundConnections)
-    end
+    -- if datawire.initialized then
+    --   world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
+    --   world.logInfo("%s", datawire.inboundConnections)
+    -- end
 
     return false
   elseif validateData(data, dataType, nodeId) then
@@ -126,7 +126,7 @@ function datawire.receiveData(args)
 
     return true
   else
-    world.logInfo("DataWire: %s received INVALID data of type %s from entity %d: %s", entity.configParameter("objectName"), dataType, sourceEntityId, data)
+    -- world.logInfo("DataWire: %s received INVALID data of type %s from entity %d: %s", entity.configParameter("objectName"), dataType, sourceEntityId, data)
     
     return false
   end
