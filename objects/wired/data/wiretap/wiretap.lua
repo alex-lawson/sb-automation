@@ -5,8 +5,7 @@ function init(virtual)
       storage.fingerprint = entity.position()[1] .. "." ..entity.position()[2]
       storage.name = storage.fingerprint
       storage.logStack = {}
-      storage.state = false
-      entity.setAnimationState("tapState", "off")
+      entity.setAnimationState("tapState", "on")
     else
       -- Re-Initialization
     end
@@ -21,14 +20,7 @@ function main(args)
 end
 
 function onInteraction(args)
-  if storage.state then
-    storage.state = false
-    entity.setAnimationState("tapState", "off")
-    showPopup()
-  else
-    storage.logStack = {}
-    storage.state = true
-    entity.setAnimationState("tapState", "on")
+  showPopup()
 end
 
 function validateData(data, dataType, nodeId)
@@ -37,9 +29,7 @@ function validateData(data, dataType, nodeId)
 end
 
 function onValidDataReceived(data, dataType, nodeId)
-  if storage.state then
-    logInfo(dataType .. " : " .. data)
-  end
+  logInfo(dataType .. " : " .. data)
   datawire.sendData(data, dataType, 0)
 end
 
