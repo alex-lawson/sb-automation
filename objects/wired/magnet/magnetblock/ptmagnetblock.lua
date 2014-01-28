@@ -27,7 +27,7 @@ function init(args)
     
     killData()
 	
-    entity.setInteractive(true)
+    entity.setInteractive(storage.usesEnergy)
     entity.setColliding(false)
     if storage.state == nil then
       output(not storage.usesEnergy)
@@ -121,18 +121,6 @@ function updateMagnetData()
   else
     storage.dataID = nil
   end
-  
-  entity.setGlobalTag("charge", tostring(roundCharge(storage.charge)))
-end
-
-function roundCharge(charge)
-  charge = charge / 10
-  if charge >= 0 then
-    charge = math.ceil(charge)
-  else
-    charge = math.floor(charge)
-  end
-  return charge * 10
 end
 
 function clamp(num, minimum, maximum)

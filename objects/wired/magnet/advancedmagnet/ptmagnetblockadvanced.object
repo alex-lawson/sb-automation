@@ -9,7 +9,7 @@
   "category" : "wire",
   "price" : 1,
 
-  "inventoryIcon" : "/objects/wired/magnet/magnetblock/ptmagnetblockposstrongicon.png",
+  "inventoryIcon" : "magnetblockadvanced.png:positiveOff",
   "orientations" : [
     {
       "image" : "magnetblockadvanced.png:positiveOff",
@@ -26,8 +26,7 @@
   "animation" : "/objects/wired/magnet/magnetblock/ptmagnetblock.animation",
 
   "animationParts" : {
-    "magnet" : "magnetblockadvanced.png",
-    "sign" : "dummysigns.png"
+    "magnet" : "magnetblockadvanced.png"
   },
   "animationPosition" : [0, 0],
   
