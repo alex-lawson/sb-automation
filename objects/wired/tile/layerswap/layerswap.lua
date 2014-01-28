@@ -103,7 +103,7 @@ function main()
     if storage.transitionState == 1 then
       --place stored blocks
       placeLayer(storage.tileArea, "background", storage.fgData, true)
-      placeLayer(storage.tileArea, "foreground", storage.bgData, true)
+      placeLayer(storage.tileArea, "foreground", storage.bgData, false)
 
       --sweep out those pesky (but handy!) invisitiles
       cleanupTransition(storage.tileArea)
