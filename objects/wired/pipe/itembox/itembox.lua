@@ -47,7 +47,7 @@ function onInteraction(args)
   local itemList = ""
   
   for _,item in storageApi.getIterator() do
-    itemList = itemList .. "^green;" .. item[1] .. "^white; x " .. item[2] .. ", "
+    itemList = itemList .. "^green;" .. item.name .. "^white; x " .. item.count .. ", "
   end
   
   return { "ShowPopup", { message = "^white;Holding ^green;" .. count ..
@@ -78,7 +78,7 @@ function main(args)
       for i,item in storageApi.getIterator() do
         local result = pushItem(2, item)
         if result == true then storageApi.returnItem(i) end --Whole stack was accepted
-        if result and result ~= true then item[2] = item[2] - result end --Only part of the stack was accepted
+        if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
         break
       end
       self.pushTimer = 0
@@ -89,7 +89,7 @@ end
 
 function onItemPut(item, nodeId)
   if item then
-    return storageApi.storeItem(item[1], item[2], item[3])
+    return storageApi.storeItem(item.name, item.count, item.data)
   end
   return false
 end
@@ -105,12 +105,12 @@ function onItemGet(filter, nodeId)
   if filter then
     for i,item in storageApi.getIterator() do
       for filterString,amount  in pairs(filter) do
-        if item[1] == filterString and item[2] >= amount[1] then
-          if item[2] <= amount[2] then
+        if item.name == filterString and item.count >= amount[1] then
+          if item.count <= amount[2] then
             return storageApi.returnItem(i)
           else
-            item[2] = item[2] - amount[2]
-            return {item[1], amount[2], item[3]}
+            item.count = item.count - amount[2]
+            return {name = item.name, count = amount[2], data = item.data}
           end
         end
       end
@@ -127,7 +127,7 @@ function beforeItemGet(filter, nodeId)
   if filter then
     for i,item in storageApi.getIterator() do
       for filterString,amount  in ipairs(filter) do
-        if item[1] == filterString and item[2] >= amount[1] then
+        if item.name == filterString and item.count >= amount[1] then
           return true 
         end
       end

@@ -10,7 +10,7 @@
   "glitchDescription" : "Statement. A small switch.",
 
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
 
   "inventoryIcon" : "tinywallswitchicon.png",
   "orientations" : [
@@ -26,7 +26,7 @@
   "scripts" : [ "/objects/wired/toggleswitch.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "tinywallswitch.png"

@@ -21,10 +21,10 @@ function onItemPut(item, nodeId)
   if item then
     local position = entity.position()
     --world.logInfo("Putting item %s", item[1])
-    if next(item[3]) == nil then 
-      world.spawnItem(item[1], self.dropPoint, item[2])
+    if next(item.data) == nil then 
+      world.spawnItem(item.name, self.dropPoint, item.count)
     else
-      world.spawnItem(item[1], self.dropPoint, item[2], item[3])
+      world.spawnItem(item.name, self.dropPoint, item.count, item.data)
     end
     return true
   end

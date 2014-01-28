@@ -10,15 +10,19 @@ function init(args)
     end
     
     if storage.magnetOnAnim == nil then
-      storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positive" or "negative"
+      storage.magnetOnAnim = entity.configParameter("chargeStrength") > 0 and "positiveOn" or "negativeOn"
     end
     
     if storage.magnetOffAnim == nil then
-      storage.magnetOffAnim = "neutral"
+      storage.magnetOffAnim = entity.configParameter("chargeStrength") > 0 and "positiveOff" or "negativeOff"
     end
   
     if storage.charge == nil then
       storage.charge = clamp(entity.configParameter("chargeStrength"), -magnets.limit, magnets.limit)
+    end
+    
+    if storage.magnetCenter == nil then
+      storage.magnetCenter = entity.configParameter("magnetCenter", {0.5, 0.5})
     end
     
     killData()
@@ -94,7 +98,7 @@ function main()
     for key,value in pairs(ents) do
       if magnets.shouldAffect(value) then
         local ent = entityProxy.create(value)
-        magnets.applyForce(ent, magnets.vecSum(pos, { 0.5, 0.5 }), charge)
+        magnets.applyForce(ent, magnets.vecSum(pos, storage.magnetCenter), charge)
       end
     end
   end
@@ -118,7 +122,7 @@ function updateMagnetData()
     storage.dataID = nil
   end
   
-  entity.setGlobalTag("charge", roundCharge(storage.charge))
+  entity.setGlobalTag("charge", tostring(roundCharge(storage.charge)))
 end
 
 function roundCharge(charge)

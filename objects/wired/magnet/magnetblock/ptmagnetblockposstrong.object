@@ -7,12 +7,12 @@
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "1",
+  "price" : 1,
 
   "inventoryIcon" : "ptmagnetblockposstrongicon.png",
   "orientations" : [
     {
-      "image" : "ptmagnetblock.png:positive",
+      "image" : "ptmagnetblock.png:positiveOff",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,

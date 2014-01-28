@@ -6,7 +6,7 @@
   "shortdescription" : "Small Linked Display",
   "race" : "generic",
   "category" : "wire",
-  "price" : "300",
+  "price" : 300,
   "inventoryIcon" : "linkdisplaysmallicon.png",
 
   "orientations" : [

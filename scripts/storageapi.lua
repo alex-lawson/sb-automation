@@ -101,13 +101,13 @@ end
 function storageApi.returnItem(index, count)
   if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index, count) then return nil end
   local ret = storage.sApi[index]
-  if (count == nil) or (ret[2] >= count) then
+  if (count == nil) or (ret.count >= count) then
     storage.sApi[index] = nil
   else
-    storage.sApi[index][2] = ret[2] - count
-    ret[2] = count
+    storage.sApi[index].count = ret.count - count
+    ret.count = count
   end
-  if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret[1], ret[2], ret[3]) end
+  if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret.name, ret.count, ret.data) end
   return ret
 end
 
@@ -127,8 +127,8 @@ function storageApi.canFitItem(itemname, count, properties)
   if spacecnt >= count then return true
   elseif max > 1 then return false end
   for i,v in storageApi.getIterator() do
-    if (itemname == v[1]) and compareTables(properties, v[3]) then
-      spacecnt = spacecnt + max - v[2]
+    if (itemname == v.name) and compareTables(properties, v.data) then
+      spacecnt = spacecnt + max - v.count
     end
     if spacecnt >= count then return true end
   end
@@ -143,8 +143,8 @@ function storageApi.returnItemByName(itemname, count, properties)
   if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
   if properties == nil then
     for i,v in storageApi.getIterator() do
-      if v[1] == itemname then
-        properties = v[3]
+      if v.name == itemname then
+        properties = v.data
         break
       end
     end
@@ -153,8 +153,8 @@ function storageApi.returnItemByName(itemname, count, properties)
   local retcnt = 0
   for i,v in storageApi.getIterator() do
     if retcnt >= count then break end
-    if (v[1] == itemname) and compareTables(properties, v[3]) then
-      retcnt = retcnt + storageApi.returnItem(i, count - retcnt)[2]
+    if (v.name == itemname) and compareTables(properties, v.data) then
+      retcnt = retcnt + storageApi.returnItem(i, count - retcnt).count
     end
   end
   return { itemname, retcnt, properties }
@@ -183,21 +183,21 @@ function storageApi.storeItem(itemname, count, properties)
   if storageApi.isMerging() then
     local max = storageApi.getMaxStackSize(itemname)
     for i,stack in storageApi.getIterator() do
-      if (stack[1] == itemname) and (stack[2] < max) and compareTables(properties, stack[3]) then
-        if (stack[2] + count > max) then
+      if (stack.name == itemname) and (stack.count < max) and compareTables(properties, stack.data) then
+        if (stack.count + count > max) then
           local i = storageApi.getFirstEmptyIndex()
-          storage.sApi[i] = { itemname, stack[2] + count - max, properties }
+          storage.sApi[i] = { itemname, stack.count + count - max, properties }
           if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
-          count = max - stack[2] - count
+          count = max - stack.count - count
         end
-        storage.sApi[i][2] = stack[2] + count
+        storage.sApi[i].count = stack.count + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
         return true
       end
     end
   end
   local i = storageApi.getFirstEmptyIndex()
-  storage.sApi[i] = { itemname, count, properties }
+  storage.sApi[i] = { name = itemname, count = count, data = properties }
   if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
   return true
 end
@@ -214,10 +214,10 @@ function storageApi.storeItemFit(itemname, count, properties)
   end
   for i,v in storageApi.getIterator() do
     if count < 1 then break end
-    if (v[1] == itemname) and (v[2] < max) and compareTables(properties, v[3]) then
-      local amo = math.min(max, v[2] + count)
-      storage.sApi[i][2] = amo
-      count = count + v[2] - amo
+    if (v.name == itemname) and (v.count < max) and compareTables(properties, v.data) then
+      local amo = math.min(max, v.count + count)
+      storage.sApi[i].count = amo
+      count = count + v.count - amo
     end
   end
   return ret

@@ -121,7 +121,7 @@ end
 
 function takeOneAndPassToYourLeft(args)
   --abort if not initialized
-  if not self.dataWireInitialized then return end
+  if not datawire.initialized then return end
 
   storage.data = args.data
 

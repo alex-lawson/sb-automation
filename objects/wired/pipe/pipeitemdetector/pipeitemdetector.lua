@@ -59,8 +59,8 @@ function deactivate()
 end
 
 function output(item)
-  if item[2] then
-    datawire.sendData(item[2], "number", "all")
+  if item.count then
+    datawire.sendData(item.count, "number", "all")
   end
 end
 

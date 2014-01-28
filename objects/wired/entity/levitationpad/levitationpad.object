@@ -4,7 +4,7 @@
   "objectType" : "wire",
 
   "category" : "wire",
-  "price" : "350",
+  "price" : 350,
   "description" : "A pad that levitates beings a fixed amount.",
   "shortdescription" : "Levitation Pad",
   "race" : "generic",

@@ -6,7 +6,7 @@
   "shortdescription" : "Wind Sensor",
   "race" : "generic",
   "category" : "wire",
-  "price" : "1000",
+  "price" : 1000,
   "scannable" : false,
   "printable" : false,
 

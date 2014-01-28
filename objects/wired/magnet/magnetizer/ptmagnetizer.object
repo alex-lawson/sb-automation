@@ -2,21 +2,21 @@
   "objectName" : "ptmagnetizer",
   "rarity" : "Rare",
   "objectType" : "wire",
-  "description" : "This devices causes simple creatures to become magnetic.",
+  "description" : "Magnetizes monsters, causing them to be affected by magnets.",
   "shortdescription" : "Magnetizer",
   "race" : "generic",
 
   "category" : "wire",
-  "price" : "1",
+  "price" : 1,
 
-  "inventoryIcon" : "ptmagnetizericon.png",
+  "inventoryIcon" : "ptmagnetizer.png:activate.1",
   "orientations" : [
     {
       "image" : "ptmagnetizer.png:off",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "anchors" : [ "bottom" ]
     }
   ],
 

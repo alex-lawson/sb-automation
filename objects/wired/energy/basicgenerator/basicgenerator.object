@@ -4,7 +4,7 @@
   "description" : "A simple generator fueled by heat from combustion.",
   "shortdescription" : "Combustion Generator",
   "race" : "generic",
-  "price" : "200",
+  "price" : 200,
   "objectType" : "wire",
   "printable" : false,
 
