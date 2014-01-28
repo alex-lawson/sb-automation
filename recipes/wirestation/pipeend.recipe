@@ -6,5 +6,5 @@
     "item" : "pipeend",
     "count" : 2
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

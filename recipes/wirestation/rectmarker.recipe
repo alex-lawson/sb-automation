@@ -8,5 +8,5 @@
     "item" : "rectmarker",
     "count" : 2
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

@@ -1,0 +1,10 @@
+{
+  "input" : [
+    { "item" : "steelbar", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "pipeend",
+    "count" : 2
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}

@@ -5,5 +5,5 @@
     { "item" : "money", "count" : 1000 }
   ],
   "output" : { "item" : "ptmagnetizeTech-chip", "count" : 1 },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

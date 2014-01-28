@@ -1,0 +1,10 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 2 }
+  ],
+  "output" : {
+    "item" : "binarizer",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}

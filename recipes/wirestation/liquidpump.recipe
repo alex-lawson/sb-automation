@@ -9,5 +9,5 @@
     "item" : "liquidpump",
     "count" : 1
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all" ]
 }

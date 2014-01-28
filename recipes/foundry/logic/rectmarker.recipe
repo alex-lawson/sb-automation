@@ -1,0 +1,12 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 },
+    { "item" : "bluedye", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "rectmarker",
+    "count" : 2
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}
