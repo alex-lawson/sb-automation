@@ -33,11 +33,17 @@ end
 
 function onInboundNodeChange(args)
   if args.level then
-    for i,item in storageApi.getIterator() do
-      pushItem(2, storageApi.returnItem(i))
-      break
+    for node=0,1 do
+      if entity.getInboundNodeLevel(node) then
+        for i,item in storageApi.getIterator() do
+          world.logInfo("%s", args.node)
+          local result = pushItem(node+1, item)
+          if result == true then storageApi.returnItem(i) end --Whole stack was accepted
+          if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
+          if result then break end
+        end
+      end
     end
-    self.pushTimer = 0
   end
 end
 
@@ -73,18 +79,20 @@ function main(args)
   end
   
   --Push out items if switched on
-  if entity.getInboundNodeLevel(0) then
-    if self.pushTimer > self.pushRate then
-      for i,item in storageApi.getIterator() do
-        local result = pushItem(2, item)
-        if result == true then storageApi.returnItem(i) end --Whole stack was accepted
-        if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
-        break
+  if self.pushTimer > self.pushRate then
+    for node=0,1 do
+      if entity.getInboundNodeLevel(node) then
+        for i,item in storageApi.getIterator() do
+          local result = pushItem(node+1, item)
+          if result == true then storageApi.returnItem(i) end --Whole stack was accepted
+          if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
+          if result then break end
+        end
       end
-      self.pushTimer = 0
     end
-    self.pushTimer = self.pushTimer + entity.dt()
+    self.pushTimer = 0
   end
+  self.pushTimer = self.pushTimer + entity.dt()
 end
 
 function onItemPut(item, nodeId)
