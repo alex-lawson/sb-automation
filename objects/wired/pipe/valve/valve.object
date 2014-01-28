@@ -58,7 +58,7 @@
   ],
   "scriptDelta" : 100,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "valve.png"
