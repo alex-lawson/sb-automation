@@ -2,9 +2,11 @@
   "animatedParts" : {
     "stateTypes" : {
       "extractState" : {
-        "default" : "on",
+        "default" : "off",
         "states" : {
           "on" : {},
+          "open" : {},
+          "off" : {},
           "work" : {
             "frames" : 2,
             "cycle" : 0.5,
@@ -23,7 +25,17 @@
           "extractState" : {
             "on" : {
               "properties" : {
+                "image" : "<partImage>:shut.on"
+              }
+            },
+            "open" : {
+              "properties" : {
                 "image" : "<partImage>:open.on"
+              }
+            },
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:shut.error"
               }
             },
             "work" : {

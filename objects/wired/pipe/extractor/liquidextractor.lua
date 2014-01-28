@@ -123,29 +123,45 @@ function main(args)
       end
     end
     
+    if storage.block.name == nil then turnOff() end
+    
+    
     if self.damageTimer > self.damageRate then
       if storage.placedBlock[1] == nil then
-        placeBlock()
+        if placeBlock() then
+          entity.setAnimationState("extractState", "open")
+        end
       else
-        if energy.consumeEnergy() then
-          local blockConversion = self.conversions[storage.placedBlock[1]]
-          local liquidOut = {blockConversion.liquid, storage.placedBlock[3]}
-          
-          if canOutputLiquid(liquidOut) then
-            if checkBlock() then
-              local placePosition = blockPosition()
-              world.callScriptedEntity(storage.blockId, "damageBlock", self.damageAmount)
-            else
-              outputLiquid(liquidOut)
-              storage.block.count = storage.block.count - storage.placedBlock[2]
-              storage.placedBlock = {}
-            end
+        local blockConversion = self.conversions[storage.placedBlock[1]]
+        local liquidOut = {blockConversion.liquid, storage.placedBlock[3]}
+        
+        if canOutputLiquid(liquidOut) and energy.consumeEnergy() then
+          entity.setAnimationState("extractState", "work")
+          if checkBlock() then
+            local placePosition = blockPosition()
+            world.callScriptedEntity(storage.blockId, "damageBlock", self.damageAmount)
+          else
+            outputLiquid(liquidOut)
+            storage.block.count = storage.block.count - storage.placedBlock[2]
+            storage.placedBlock = {}
           end
+        else
+          turnOff()
         end
       end
       self.damageTimer = 0
     end
     self.damageTimer = self.damageTimer + entity.dt()
+  else
+    turnOff()
+  end
+end
+
+function turnOff()
+  if checkBlock() then
+    entity.setAnimationState("extractState", "error")
+  else
+    entity.setAnimationState("extractState", "off")
   end
 end
 
