@@ -30,6 +30,8 @@ function init(args)
     self.damageAmount = entity.configParameter("damageAmount")
     self.blockOffset = entity.configParameter("blockOffset")
     
+    self.energyRate = entity.configParameter("energyConsumptionRate")
+    
     self.damageTimer = 0
     
     if storage.block == nil then storage.block = {} end
@@ -135,7 +137,7 @@ function main(args)
         local blockConversion = self.conversions[storage.placedBlock[1]]
         local liquidOut = {blockConversion.liquid, storage.placedBlock[3]}
         
-        if canOutputLiquid(liquidOut) and energy.consumeEnergy() then
+        if canOutputLiquid(liquidOut) and energy.consumeEnergy(self.energyRate * self.damageRate) then
           entity.setAnimationState("extractState", "work")
           if checkBlock() then
             local placePosition = blockPosition()
