@@ -56,7 +56,7 @@
         {
           "particle" : {
             "type" : "ember",
-            "size" : "1.0",
+            "size" : 1.0,
             "position" : [1, 2.3],
             "initialVelocity" : [10, 0],
             "finalVelocity" : [3.0, 0],
@@ -80,7 +80,7 @@
         {
           "particle" : {
             "type" : "ember",
-            "size" : "1.0",
+            "size" : 1.0,
             "position" : [5, 2.3],
             "initialVelocity" : [10, 0],
             "finalVelocity" : [3.0, 0],
