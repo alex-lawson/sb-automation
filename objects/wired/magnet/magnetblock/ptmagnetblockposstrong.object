@@ -12,7 +12,7 @@
   "inventoryIcon" : "ptmagnetblockposstrongicon.png",
   "orientations" : [
     {
-      "image" : "ptmagnetblock.png:positiveOff",
+      "image" : "ptmagnetblockpowered.png:positiveOff",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -26,8 +26,7 @@
   "animation" : "ptmagnetblock.animation",
 
   "animationParts" : {
-    "magnet" : "ptmagnetblock.png",
-    "sign" : "ptmagnetsigns.png"
+    "magnet" : "ptmagnetblockpowered.png"
   },
   "animationPosition" : [0, 0],
   

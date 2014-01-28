@@ -21,38 +21,6 @@
     },
 
     "parts" : {
-      "sign" : {
-        "properties" : {
-          "centered" : false
-        },
-        "partStates" : {
-          "magnetState" : {
-            "negativeOn" : {
-              "properties" : {
-                "image" : "<partImage>:<charge>"
-              }
-            },
-
-            "positiveOn" : {
-              "properties" : {
-                "image" : "<partImage>:<charge>"
-              }
-            },
-            
-            "negativeOff" : {
-              "properties" : {
-                "image" : "<partImage>:0"
-              }
-            },
-
-            "positiveOff" : {
-              "properties" : {
-                "image" : "<partImage>:0"
-              }
-            }
-          }
-        }
-      },
       "magnet" : {
         "properties" : {
           "centered" : false,

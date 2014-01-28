@@ -26,8 +26,7 @@
   "animation" : "/objects/wired/magnet/magnetblock/ptmagnetblock.animation",
 
   "animationParts" : {
-    "magnet" : "magnetblockadvanced.png",
-    "sign" : "dummysigns.png"
+    "magnet" : "magnetblockadvanced.png"
   },
   "animationPosition" : [0, 0],
   
