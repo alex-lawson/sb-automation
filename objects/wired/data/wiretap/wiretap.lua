@@ -65,19 +65,6 @@ function showPopup()
   return { "ShowPopup", { message = popupString }
 end
 
-function output(state)
-  if state ~= storage.state then
-    storage.state = state
-    if state then
-      entity.setAnimationState("tapState", "on")
-      world.logInfo("Wiretap " .. storage.name .. "--- Enabling Logging ---")
-    else
-      entity.setAnimationState("tapState", "off")
-      world.logInfo("Wiretap " .. storage.name .. "--- Disabling Logging ---")
-    end
-  end
-end
-
 function name(newName)
   storage.name = newName
 end
