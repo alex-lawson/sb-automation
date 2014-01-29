@@ -4,7 +4,7 @@
   "objectType" : "wire",
   "category" : "wire",
   "price" : 500,
-  "description" : "When activated, data being passed through will also be written to starbound.log",
+  "description" : "Keeps a running log of data received, interact to show the log",
   "shortdescription" : "Wiretap",
   "race" : "generic",
 
