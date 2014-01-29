@@ -185,10 +185,10 @@ function storageApi.storeItem(itemname, count, properties)
     for i,stack in storageApi.getIterator() do
       if (stack.name == itemname) and (stack.count < max) and compareTables(properties, stack.data) then
         if (stack.count + count > max) then
-          local i = storageApi.getFirstEmptyIndex()
-          storage.sApi[i] = { itemname, stack.count + count - max, properties }
-          if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
-          count = max - stack.count - count
+          local newIndex = storageApi.getFirstEmptyIndex()
+          storage.sApi[newIndex] = { name = itemname, count = (stack.count + count) - max, data = properties }
+          if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(newIndex, false) end
+          count = max - stack.count
         end
         storage.sApi[i].count = stack.count + count
         if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
