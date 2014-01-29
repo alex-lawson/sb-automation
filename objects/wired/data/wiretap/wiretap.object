@@ -3,12 +3,10 @@
   "rarity" : "Common",
   "objectType" : "wire",
   "category" : "wire",
-  "description" : "When activated, data being passed through will also be written to starbound.log",
+  "price" : 500,
+  "description" : "Keeps a running log of data received, interact to show the log",
   "shortdescription" : "Wiretap",
   "race" : "generic",
-
-  "price" : 500,
-  "printable" : false,
 
   "inventoryIcon" : "wiretapicon.png",
   "orientations" : [
@@ -17,8 +15,7 @@
       "imagePosition" : [-8, -8],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ],
-      "direction" : "right"
+      "anchors" : [ "background" ]
     }
   ],
 
