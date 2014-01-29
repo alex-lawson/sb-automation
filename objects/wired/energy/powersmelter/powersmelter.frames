@@ -1,0 +1,9 @@
+{
+  "frameGrid" : {
+    "size" : [32, 24],
+    "dimensions" : [6, 1],
+    "names" : [
+      [ "idle", "error", "smelt.1", "smelt.2", "smelt.3", "smelt.4"]
+    ]
+  }
+}

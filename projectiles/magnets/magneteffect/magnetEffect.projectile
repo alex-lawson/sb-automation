@@ -1,0 +1,16 @@
+{
+  "projectileName" : "magnetEffect",
+  "frames" : "magnetEffect.png",
+  "animationCycle" : 0.55,
+  "level" : 1,
+  "frameNumber" : 5,
+  "power" : 0,
+  "timeToLive" : 0.55,
+  "piercing" : true,
+  "speed" : 0,
+
+  "lightColor" : [0, 0, 255],
+  "damageKind" : "default",
+  
+  "damagePoly" : [ ]
+}

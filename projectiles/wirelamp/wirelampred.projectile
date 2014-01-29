@@ -1,0 +1,16 @@
+{
+  "projectileName" : "wirelampred",
+  "level" : 1,
+  "frames" : "invisibleprojectile.png",
+ 
+  "speed" : 0.0,
+  "fallSpeed" : 0,
+ 
+  "pointLight" : true,
+  "lightColor" : [255, 0, 0],
+  "timeToLive" : 0.15,
+  "piercing" : true,
+
+  "damageKind" : "default",
+  "power" : 0
+}

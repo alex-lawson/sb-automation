@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "metalpipevert",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}

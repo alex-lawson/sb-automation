@@ -1,0 +1,9 @@
+{
+  "name" : "body",
+  "category" : "ptmagnetdata",
+  "type" : "body",
+
+  "frames" : {
+    "body" : "ptmagnetdata.png"
+  }
+}

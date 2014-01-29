@@ -1,0 +1,18 @@
+{
+  "projectileName" : "energytransfer",
+  "physics" : "nocollision",
+  //"bounces" : 0,
+  "level" : 3,
+  "damageKindImage" : "icon.png",
+  "frames" : "energytransfer.png",
+  "animationCycle" : 0.5,
+  "frameNumber" : 1,
+  "power" : 0,
+  "timeToLive" : 1.1,
+  "piercing" : true,
+  "damageKind" : "default"
+  //"supportsProcessing" : true,
+  //"actionOnReap" : [],
+  //"lightColor" : [0, 0, 73],
+  //
+}

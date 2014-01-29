@@ -1,0 +1,77 @@
+{
+  "objectName" : "ejector",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "This is a pipe output, for ejecting items.",
+  "shortdescription" : "Ejector",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Ejector",
+  "avianDescription" : "Ejector",
+  "floranDescription" : "Ejector",
+  "glitchDescription" : "Ejector",
+  "humanDescription" : "Ejector",
+  "hylotlDescription" : "Ejector",
+
+  "inventoryIcon" : "ejector.png",
+  "orientations" : [
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "ejector.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ],
+      "direction" : "right"
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/ejector/ejector.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 100,
+  
+  "animation" : "/objects/wired/pipe/ejector/ejector.animation",
+  "animationParts" : {
+    "ejector" : "ejector.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [0, 0], "dir": [0, -1]}, {"offset": [0, 0], "dir": [1, 0]}, {"offset": [0, 0], "dir": [0, 1]} ]
+}

@@ -1,0 +1,55 @@
+{
+  "objectName" : "hopper",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "This device vacuums up loose items.",
+  "shortdescription" : "Hopper",
+  "race" : "generic",
+  "category" : "wire",
+
+  "apexDescription" : "Hopper",
+  "avianDescription" : "Hopper",
+  "floranDescription" : "Hopper",
+  "glitchDescription" : "Hopper",
+  "humanDescription" : "Hopper",
+  "hylotlDescription" : "Hopper",
+
+  "inventoryIcon" : "hopper.png",
+  "orientations" : [
+    {
+      "image" : "hopper.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+
+      "collision" : "solid"
+    },
+    {
+      "image" : "hopper.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+
+      "collision" : "solid"
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/hopper/hopper.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 10,
+  
+  "animation" : "/objects/wired/pipe/hopper/hopper.animation",
+  "animationParts" : {
+    "hopper" : "hopper.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "itemNodes" : [ {"offset": [0, 0], "dir": [0, -1]}, {"offset": [1, 0], "dir": [0, -1]} ]
+}

@@ -1,0 +1,37 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "lampState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "lamp" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "lampState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>.off"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>.on"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

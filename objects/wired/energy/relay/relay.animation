@@ -1,0 +1,30 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "relayState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "relay" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "relayState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

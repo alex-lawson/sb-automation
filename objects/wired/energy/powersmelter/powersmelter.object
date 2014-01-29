@@ -1,0 +1,47 @@
+{
+  "objectName" : "powersmelter",
+  "rarity" : "Common",
+  "description" : "Smelts ores faster than normal at the cost of some energy.",
+  "shortdescription" : "Power Smelter",
+  "race" : "generic",
+  "price" : 200,
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "powersmelter.png:idle",
+  "orientations" : [
+    {
+      "image" : "powersmelter.png:idle",
+      "imagePosition" : [-16, -16],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "scripts" : [ 
+    "/scripts/datawire.lua",
+    "/scripts/energy.lua",
+    "powersmelter.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+
+  "animation" : "powersmelter.animation",
+  "animationParts" : {
+    "smelter" : "powersmelter.png"
+  },
+  "animationPosition" : [-16, -16],
+
+  "inboundNodes" : [ [0, 0] ],
+
+  "itemNodes" : [ {"offset": [-2, -2], "dir": [-1, 0]}, {"offset": [1, -2], "dir": [1, 0]} ],
+  
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 50,
+  
+  "smeltRate" : 0.5
+}

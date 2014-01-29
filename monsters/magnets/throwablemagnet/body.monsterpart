@@ -1,0 +1,9 @@
+{
+  "name" : "body",
+  "category" : "throwablemagnet",
+  "type" : "body",
+
+  "frames" : {
+    "body" : "throwablemagnet.png"
+  }
+}

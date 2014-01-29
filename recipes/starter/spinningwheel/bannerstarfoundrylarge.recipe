@@ -1,0 +1,7 @@
+{
+  "input" : [
+    { "item" : "fabric", "count" : 20 }
+  ],
+  "output" : { "item" : "bannerstarfoundrylarge", "count" : 1 },
+  "groups" : [ "spinningwheel", "material" ]
+}

@@ -1,0 +1,10 @@
+{
+  "itemName" : "metalpipevert",
+  "rarity" : "Common",
+  "inventoryIcon" : "metalpipevert.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "Metal pipe for transporting stuff.",
+  "shortdescription" : "Vertical Metal Pipe",
+
+  "materialId" : 5725
+}

@@ -1,0 +1,10 @@
+{
+  "frameGrid" : {
+    "size" : [16, 16],
+    "dimensions" : [4, 2],
+    "names" : [
+      [ "default.none", "default.in", "default.out", "default.both" ],
+      [ "default.flipped.both", "default.flipped.out", "default.flipped.in", "default.flipped.none"]
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "magnetizerState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 2,
+            "cycle" : 0.4,
+            "mode" : "loop"
+          },
+          "activate" : {
+            "frames" : 3,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "magnetizer" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "magnetizerState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "activate" : {
+              "properties" : {
+                "image" : "<partImage>:activate.<frame>"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

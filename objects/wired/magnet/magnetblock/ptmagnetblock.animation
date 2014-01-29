@@ -1,0 +1,59 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "magnetState" : {
+        "default" : "positiveOff",
+        "states" : {
+          "negativeOn" : {
+            "frames" : 1
+          },
+          "positiveOn" : {
+            "frames" : 1
+          },
+          "negativeOff" : {
+            "frames" : 1
+          },
+          "positiveOff" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "magnet" : {
+        "properties" : {
+          "centered" : false,
+          "back" : true
+        },
+        "partStates" : {
+          "magnetState" : {
+            "negativeOn" : {
+              "properties" : {
+                "image" : "<partImage>:negativeOn"
+              }
+            },
+
+            "positiveOn" : {
+              "properties" : {
+                "image" : "<partImage>:positiveOn"
+              }
+            },
+            
+            "negativeOff" : {
+              "properties" : {
+                "image" : "<partImage>:negativeOff"
+              }
+            },
+
+            "positiveOff" : {
+              "properties" : {
+                "image" : "<partImage>:positiveOff"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

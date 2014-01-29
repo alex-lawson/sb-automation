@@ -1,0 +1,36 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "flipState" : {
+        "default" : "default",
+        "states" : {
+          "default" : {},
+          "flipped" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "binarizer" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "flipState" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:default"
+              }
+            },
+            "flipped" : {
+              "properties" : {
+                "image" : "<partImage>:flipped"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

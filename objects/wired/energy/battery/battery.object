@@ -1,0 +1,40 @@
+{
+  "objectName" : "battery",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "A battery that requires recharging after use.",
+  "shortdescription" : "Battery",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 1000,
+  "scannable" : false,
+  "printable" : false,
+
+  "inventoryIcon" : "batteryicon.png",
+
+  "breakDropOptions": [],
+
+  "orientations" : [
+    {
+      "image" : "battery.png",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "battery.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "battery.animation",
+  "animationParts" : {
+    "battery" : "battery.png",
+    "chargebar" : "chargebar.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "energyCapacity" : 500,
+  "energyAllowConnection" : false
+}

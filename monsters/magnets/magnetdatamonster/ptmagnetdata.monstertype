@@ -1,0 +1,74 @@
+{
+  "type" : "ptmagnetdata",
+
+  "categories" : [ "ptmagnetdata" ],
+  "parts" : [ "body" ],
+
+  "animation" : "ptmagnetdata.animation",
+  "projectiles" : "/monsters/projectiles.config",
+  "colors" : "/monsters/colors.config",
+
+  "dropPools" : [ ],
+
+  "baseParameters" : {
+    "scripts" : [
+      "/monsters/magnets/magnetdatamonster/behavior.lua"
+    ],
+
+    "scriptDelta" : -1,
+    "damageTeam" : 0,
+
+    "metaBoundBox" : [-0.25, -0.25, 0.25, 0.25],
+    "scale" : 0,
+
+    "movementSettings" : {
+      "collisionPoly" : [ ],
+
+      "mass" : 0.0,
+      "walkSpeed" : 0,
+      "runSpeed" : 0,
+      "jumpSpeed" : 0,
+      "flySpeed" : 0,
+      "airFriction" : 0,
+      "airForce" : 0,
+      "gravityEnabled" : false,
+      "collisionEnabled" : false,
+      "frictionEnabled" : false
+    },
+
+    "bodyMaterialKind" : "organic",
+
+    "knockoutTime" : 1,
+    "knockoutEffect" : "blink",
+    "deathParticles" : "deathPoof",
+    "deathNoise" : [ ],
+    "turnHostileNoise" : [ ],
+
+    "touchDamage" : {
+      "poly" : [ [-2.0, -2.5], [2.0, -2.5], [0.5, 1.0], [-0.5, 1.0] ],
+      "damage" : 15,
+
+      "teamType" : "enemy",
+      "damageSourceKind" : "testpoison",
+      "statusEffects" : [ ]
+    },
+
+    "statusParameters" : {
+      "baseMaxHealth" : 0,
+      "bodyMaterialKind" : "organic",
+      "damageConfig" : "/damage/damageresponse/allergen.config"
+    },
+
+    "inateStatusEffects" : [
+      {
+        "kind" : "Protection",
+        "amount" : 1.0
+      }
+    ],
+	
+    "mouthOffset" : [0, 0],
+    "feetOffset" : [0, 0],
+	
+    "isStatic" : true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "objectName" : "wirelampcyan",
+  "objectType" : "wire",
+  "printable" : false,
+  "rarity" : "Common",
+  "category" : "light",
+  "price" : 300,
+
+  "description" : "A cyan-colored lamp that can be turned on or off.",
+  "shortdescription" : "Cyan Wired Lamp",
+  "race" : "generic",
+
+  "apexDescription" : "A well-made light source.",
+  "avianDescription" : "This useful lantern will light up even the darkest room.",
+  "floranDescription" : "Lantern sssafe for Floran.",
+  "glitchDescription" : "Statement. A robust lantern.",
+  "humanDescription" : "A neat, sturdy lantern.",
+  "hylotlDescription" : "A useful light source.",
+
+  "inventoryIcon" : "wirelampcyanicon.png",
+  "orientations" : [
+
+    {
+      "image" : "wirelamp.png:cyan.off",
+      "imagePosition" : [0, 0],
+
+      "spaces" : [ [0, 0], [0, 1] ],
+      "fgAnchors" : [ [0, -1] ]
+    }
+  ],
+
+  "scripts" : [ "/objects/wired/wirelamp/wirelamp.lua" ],
+  "scriptDelta" : 6,
+
+  "animation" : "/objects/wired/wirelamp/wirelamp.animation",
+
+  "animationParts" : {
+    "lamp" : "wirelamp.png:cyan"
+  },
+  "animationPosition" : [0, 0],
+
+  "inboundNodes" : [ [0, 0] ],
+
+  "lampColor" : "cyan"
+}

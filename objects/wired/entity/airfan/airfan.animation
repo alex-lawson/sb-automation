@@ -1,0 +1,101 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "fanState" : {
+        "default" : "idle",
+        "states" : {
+          "idle" : {
+            "frames" : 1
+          },
+          "work" : {
+            "frames" : 3,
+            "mode" : "loop",
+            "cycle" : 0.1
+          },
+          "slow" : {
+            "frames" : 3,
+            "mode" : "loop",
+            "cycle" : 0.4
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "base" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "fanState" : {
+            "idle" : {
+              "properties" : {
+                "image" : "<partImage>:idle"
+              }
+            },
+            "work" : {
+              "properties" : {
+                "image" : "<partImage>:work.<frame>"
+              }
+            },
+            "slow" : {
+              "properties" : {
+                "image" : "<partImage>:work.<frame>"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "particleEmitters" : {
+    "fanwind" : {
+      "emissionRate" : 15.0,
+      "particles" : [
+        {
+          "particle" : {
+            "type" : "ember",
+            "size" : 1.0,
+            "position" : [1, 2.3],
+            "initialVelocity" : [10, 0],
+            "finalVelocity" : [3.0, 0],
+            "color" : [200, 200, 255, 170],
+            "fade" : 0.9,
+            "timeToLive" : 1,
+            "layer" : "middle",
+            "variance" : {
+              "initialVelocity" : [1.0, 0],
+              "finalVelocity" : [1.0, 0],
+              "position" : [0.5, 1.2]
+            }
+          }
+        }
+      ]
+    },
+    //need to use different offsets because BUGS
+    "fanwindflip" : {
+      "emissionRate" : 15.0,
+      "particles" : [
+        {
+          "particle" : {
+            "type" : "ember",
+            "size" : 1.0,
+            "position" : [5, 2.3],
+            "initialVelocity" : [10, 0],
+            "finalVelocity" : [3.0, 0],
+            "color" : [200, 200, 255, 150],
+            "fade" : 0.9,
+            "timeToLive" : 1,
+            "layer" : "middle",
+            "variance" : {
+              "initialVelocity" : [1.0, 0],
+              "finalVelocity" : [1.0, 0],
+              "position" : [0.5, 1.2]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

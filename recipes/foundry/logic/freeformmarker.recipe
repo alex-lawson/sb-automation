@@ -1,0 +1,13 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 },
+    { "item" : "bluedye", "count" : 1 },
+    { "item" : "yellowdye", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "freeformmarker",
+    "count" : 10
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}

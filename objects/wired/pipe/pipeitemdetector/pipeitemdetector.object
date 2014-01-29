@@ -1,0 +1,85 @@
+{
+  "objectName" : "pipeitemdetector",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Detects when items pass through, and outputs the item count.",
+  "shortdescription" : "Item Detector Pipe",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 300,
+
+  "inventoryIcon" : "pipeitemdetectoricon.png",
+  "orientations" : [
+    {
+      "image" : "pipeitemdetector.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    },
+    {
+      "image" : "pipeitemdetector.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "pipeitemdetector.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "pipeitemdetector.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "pipeitemdetector.png:<color>.off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
+    }
+  ],
+
+  "scripts" : [
+    "/scripts/datawire.lua",
+    "/objects/wired/pipe/pipeitemdetector/pipeitemdetector.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+
+  "animation" : "/objects/wired/pipe/pipeitemdetector/pipeitemdetector.animation",
+
+  "animationParts" : {
+    "detector" : "pipeitemdetector.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "outboundNodes" : [ [0, 0] ],
+
+  "detectCooldown" : 0.35,
+
+  "liquidNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ],
+  "itemNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ]
+}
