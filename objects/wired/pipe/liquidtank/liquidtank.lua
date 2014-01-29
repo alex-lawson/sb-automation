@@ -76,7 +76,7 @@ function main(args)
     local pushedLiquid = {storage.liquid[1], storage.liquid[2]}
     if storage.liquid[2] > self.pushAmount then pushedLiquid[2] = self.pushAmount end
     for i=1,2 do
-      if pushLiquid(i, pushedLiquid) then
+      if entity.getInboundNodeLevel(i-1) and pushLiquid(i, pushedLiquid) then
         storage.liquid[2] = storage.liquid[2] - pushedLiquid[2]
         break;
       end
