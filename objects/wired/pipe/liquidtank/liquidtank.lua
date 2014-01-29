@@ -2,9 +2,6 @@ function init(args)
   entity.setInteractive(true)
   if args == false then
     pipes.init({liquidPipe})
-    if entity.direction() < 0 then
-      pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
-    end
     local initInv = entity.configParameter("initialInventory")
     if initInv and storage.liquid == nil then
       storage.liquid = initInv
