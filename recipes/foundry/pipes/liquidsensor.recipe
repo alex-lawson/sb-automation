@@ -1,0 +1,12 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 },
+    { "item" : "glassmaterial", "count" : 2 }
+  ],
+  "output" : {
+    "item" : "liquidsensor",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}

@@ -1,0 +1,10 @@
+{
+  "itemName" : "ptmagnetizeTech",
+  "rarity" : "Legendary",
+  "inventoryIcon" : "/tech/gravityball.png",
+  "description" : "PHYSAX",
+  "shortdescription" : "Magnetize",
+  "inspectionKind" : "tech",
+
+  "techModule" : "ptmagnetize.tech"
+}

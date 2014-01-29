@@ -1,0 +1,5 @@
+{
+  "input" : [ ],
+  "output" : { "item" : "ptmagnetizer", "count" : 1 },
+  "groups" : [ "mod" ]
+}

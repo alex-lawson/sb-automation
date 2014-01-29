@@ -1,0 +1,59 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "generatorState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 6,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "error" : {}
+        }
+      }
+    },
+    "parts" : {
+      "generator" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "generatorState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            }
+          }
+        }
+      },
+      "fuelbar" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false,
+          "scalingGroup" : "fuelbar",
+          "offset" : [1.5, 1.25],
+          "zLevel" : 2
+        }
+      }
+    }
+  },
+
+  "scalingGroups" : {
+    "fuelbar" : {
+      "pivot" : [1.5, 1.25]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "conveyorbelt",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}

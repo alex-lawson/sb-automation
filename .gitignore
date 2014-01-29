@@ -1,0 +1,15 @@
+=======
+# Developer Scripts #
+#####################
+*.cmd
+*.vbs
+
+# Project Files, etc. #
+#######################
+*.project
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files #
+######################
+thumbs.db

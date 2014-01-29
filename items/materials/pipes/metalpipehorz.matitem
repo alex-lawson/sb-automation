@@ -1,0 +1,10 @@
+{
+  "itemName" : "metalpipehorz",
+  "rarity" : "Common",
+  "inventoryIcon" : "metalpipehorz.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "Metal pipe for transporting stuff.",
+  "shortdescription" : "Horizontal Metal Pipe",
+
+  "materialId" : 5724
+}

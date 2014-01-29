@@ -1,0 +1,10 @@
+{
+  "itemName" : "metalpipeb2",
+  "rarity" : "Common",
+  "inventoryIcon" : "metalpipeb2.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "Metal pipe for transporting stuff.",
+  "shortdescription" : "Bent Metal Pipe",
+
+  "materialId" : 5727
+}

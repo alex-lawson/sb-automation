@@ -1,0 +1,11 @@
+{
+  "materialId" : 5724,
+  "materialName" : "metalpipehorz",
+  "frames" : "metalpipehorz.png",
+  "particleColor" : [0, 0, 0, 0],
+  "variants" : 1,
+  "shortdescription" : "Pipe",
+  "itemDrop" : "metalpipehorz",
+  "description" : "It's cold to the touch",
+  "health" : 1
+}

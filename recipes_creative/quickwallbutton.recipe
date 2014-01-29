@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "quickwallbutton",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}

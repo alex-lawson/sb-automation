@@ -1,0 +1,90 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "invbar" : {
+        "priority" : 1,
+        "default" : "low",
+
+        "states" : {
+          "low" : {
+            "frames" : 1
+          },
+          "medium" : {
+            "frames" : 1
+          },
+          "full" : {
+            "frames" : 1
+          }
+        }
+      },
+      "flipped" : {
+        "priority" : 1,
+        "default" : "right",
+
+        "states" : {
+          "right" : {
+            "frames" : 1
+          },
+          "left" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+    "parts" : {
+      "box" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 1
+        },
+        "partStates" : {
+          "flipped" : {
+            "right" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            },
+            "left" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            }
+          }
+        }
+      },
+      "invbar" : {
+        "properties" : {
+          "offset" : [1.125, 0.5],
+          "centered" : false,
+          "zLevel" : 2,
+          "scalingGroup" : "invbar"
+        },
+        "partStates" : {
+          "invbar" : {
+            "low" : {
+              "properties" : {
+                "image" : "<partImage>:low"
+              }
+            },
+            "medium" : {
+              "properties" : {
+                "image" : "<partImage>:medium"
+              }
+            },
+            "full" : {
+              "properties" : {
+                "image" : "<partImage>:high"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "invbar" : {
+      "pivot" : [0, 0]
+    }
+  }
+}

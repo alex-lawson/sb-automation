@@ -1,0 +1,41 @@
+{
+  "objectName" : "batterycharger",
+  "rarity" : "Common",
+  "description" : "Connects batteries to the energy network for charging or discharging.",
+  "shortdescription" : "Battery Rack",
+  "race" : "generic",
+  "price" : 200,
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "batterychargericon.png",
+  "orientations" : [
+    {
+      "image" : "batterycharger.png:off",
+      "imagePosition" : [-8, -24],
+
+      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
+      "anchors" : [ "bottom" ],
+      "collision" : "platform"
+    },
+    {
+      "image" : "batterycharger.png:off",
+      "imagePosition" : [-8, -16],
+
+      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "batterycharger.animation",
+  "animationParts" : {
+    "charger" : "batterycharger.png"
+  },
+  "animationPosition" : [-8, -24],
+
+  "energySendRate" : 40,
+  "energyCapacity" : 20
+}

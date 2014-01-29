@@ -1,0 +1,27 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
+    "parts" : {
+      "ejector" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false,
+          "rotationGroup" : "ejector"
+        }
+      }
+    }
+  },
+  "rotationGroups" : {
+    "ejector" : {
+      "rotationCenter" : [0.5, 0.5],
+      "angularVelocity" : 1000
+    }
+  }
+}

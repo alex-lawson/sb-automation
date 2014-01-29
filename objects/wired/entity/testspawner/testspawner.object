@@ -1,0 +1,34 @@
+{
+  "objectName" : "testspawner",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "A spawning chamber that should be used with caution.",
+  "shortdescription" : "Debug Spawner Object",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 666,
+
+  "inventoryIcon" : "testspawnericon.png",
+  "orientations" : [
+    {
+      "image" : "testspawner.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "testspawner.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "/objects/wired/switchtoggle.animation",
+
+  "animationParts" : {
+    "switch" : "testspawner.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "interval" : 1
+}

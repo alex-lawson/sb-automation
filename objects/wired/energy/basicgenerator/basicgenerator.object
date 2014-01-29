@@ -1,0 +1,38 @@
+{
+  "objectName" : "basicgenerator",
+  "rarity" : "Common",
+  "description" : "A simple generator fueled by heat from combustion.",
+  "shortdescription" : "Combustion Generator",
+  "race" : "generic",
+  "price" : 200,
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "basicgenerator.png:off",
+  "orientations" : [
+    {
+      "image" : "basicgenerator.png:off",
+      "imagePosition" : [0, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "basicgenerator.lua" ],
+  "scriptDelta" : 10,
+
+  "animation" : "basicgenerator.animation",
+  "animationParts" : {
+    "generator" : "basicgenerator.png",
+    "fuelbar" : "fuelbar.png"
+  },
+  "animationPosition" : [0, -8],
+
+  "inboundNodes" : [ [3, 0] ],
+
+  "energySendRate" : 20,
+  "energyGenerationRate" : 20,
+  "energyCapacity" : 20
+}

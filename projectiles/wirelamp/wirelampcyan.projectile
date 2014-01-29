@@ -1,0 +1,16 @@
+{
+  "projectileName" : "wirelampcyan",
+  "level" : 1,
+  "frames" : "invisibleprojectile.png",
+ 
+  "speed" : 0.0,
+  "fallSpeed" : 0,
+ 
+  "pointLight" : true,
+  "lightColor" : [0, 220, 220],
+  "timeToLive" : 0.15,
+  "piercing" : true,
+
+  "damageKind" : "default",
+  "power" : 0
+}

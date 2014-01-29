@@ -1,0 +1,22 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
+    "parts" : {
+      "hopper" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 3
+        }
+      }
+    }
+  }
+}

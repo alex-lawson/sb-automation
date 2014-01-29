@@ -1,0 +1,11 @@
+{
+  "materialId" : 5725,
+  "materialName" : "metalpipevert",
+  "frames" : "metalpipevert.png",
+  "particleColor" : [0, 0, 0, 0],
+  "variants" : 1,
+  "shortdescription" : "Pipe",
+  "itemDrop" : "metalpipevert",
+  "description" : "It's cold to the touch",
+  "health" : 1
+}

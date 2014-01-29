@@ -1,0 +1,40 @@
+{
+  "objectName" : "ptmagnetblocknegstrong",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "A strong magnet, the charge of which can be toggled between negative and neutral.",
+  "shortdescription" : "Powered Negative Magnet",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 1,
+
+  "inventoryIcon" : "ptmagnetblockpowered.png:negativeOff",
+  "orientations" : [
+    {
+      "image" : "ptmagnetblockpowered.png:negativeOff",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetblock.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "ptmagnetblock.animation",
+
+  "animationParts" : {
+    "magnet" : "ptmagnetblockpowered.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [ [0, 0] ],
+  
+  "chargeStrength" : -100,
+
+  "energyAllowConnection" : true,
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 5
+}

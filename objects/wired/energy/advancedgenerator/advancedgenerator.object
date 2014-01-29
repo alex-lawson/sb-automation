@@ -1,0 +1,46 @@
+{
+  "objectName" : "advancedgenerator",
+  "rarity" : "Common",
+  "description" : "A generator that is powered by an input pipe.",
+  "shortdescription" : "Advanced Generator",
+  "race" : "generic",
+  "price" : 200,
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "advancedgeneratoricon.png",
+  "orientations" : [
+    {
+      "image" : "advancedgenerator.png",
+      "imagePosition" : [-16, -16],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "scripts" : [
+    "/scripts/datawire.lua",
+    "/scripts/energy.lua",
+    "advancedgenerator.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/storageapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+
+  "animation" : "advancedgenerator.animation",
+  "animationParts" : {
+    "generator" : "advancedgenerator.png",
+    "turbine" : "turbine.png"
+  },
+  "animationPosition" : [-16, -16],
+
+  //"itemNodes" : [ {"offset": [-2, 1], "dir": [0, 1]}} ], //TODO: put this in the right place
+
+  "energySendRate" : 100,
+  "energyGenerationRate" : 100,
+  "energyCapacity" : 100
+}

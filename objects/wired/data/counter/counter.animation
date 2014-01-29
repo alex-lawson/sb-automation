@@ -1,0 +1,36 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "counterState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "flipped.off" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "counter" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "counterState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            },
+            "flipped.off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.off"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

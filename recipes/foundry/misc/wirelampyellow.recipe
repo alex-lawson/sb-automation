@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "titaniumbar", "count" : 1 }
+   ],
+  "output" : {
+    "item" : "wirelampyellow",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "misc" ]
+}

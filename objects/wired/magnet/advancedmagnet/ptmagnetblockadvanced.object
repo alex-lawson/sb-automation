@@ -1,0 +1,40 @@
+{
+  "objectName" : "ptmagnetblockadvanced",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "An advanced magnet, the charge of which changes based on input.", // Point charge confuse Grom. Grom smash.
+  "shortdescription" : "Advanced Magnet",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 1,
+
+  "inventoryIcon" : "magnetblockadvanced.png:positiveOff",
+  "orientations" : [
+    {
+      "image" : "magnetblockadvanced.png:positiveOff",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/datawire.lua", "/scripts/magnets.lua", "/objects/wired/magnet/magnetblock/ptmagnetblock.lua", "ptmagnetblockadvanced.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "/objects/wired/magnet/magnetblock/ptmagnetblock.animation",
+
+  "animationParts" : {
+    "magnet" : "magnetblockadvanced.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [ [0, 0] ],
+  
+  "chargeStrength" : 100,
+  "magnetCenter" : [1, 1],
+
+  "energyAllowConnection" : true,
+  "energyCapacity" : 5
+}

@@ -1,0 +1,35 @@
+{
+  "objectName" : "counter",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "A counter with options to Increment, Decrement, and Reset.",
+  "shortdescription" : "Counter",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 500,
+
+  "inventoryIcon" : "countericon.png",
+  "orientations" : [
+    {
+      "image" : "counter.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/datawire.lua", "counter.lua" ],
+  "scriptDelta" : 10,
+
+  "animation" : "counter.animation",
+
+  "animationParts" : {
+    "counter" : "counter.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [-1, 0], [-1, -1], [0, 0] ],
+  "outboundNodes" : [ [0, -1] ]
+}

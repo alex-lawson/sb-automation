@@ -1,0 +1,11 @@
+{
+  "input" : [ 
+    { "item" : "energycrystal", "count" : 2 },
+    { "item" : "glassmaterial", "count" : 2 }
+  ],
+  "output" : {
+    "item" : "battery",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "energy" ]
+}

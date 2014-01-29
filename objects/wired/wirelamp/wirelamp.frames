@@ -1,0 +1,21 @@
+{
+
+  "frameGrid" : {
+    "size" : [8, 16],
+    "dimensions" : [2, 7],
+    "names" : [
+      [ "white.on", "white.off" ],
+      [ "red.on", "red.off" ],
+      [ "green.on", "green.off" ],
+      [ "blue.on", "blue.off" ],
+      [ "yellow.on", "yellow.off" ],
+      [ "cyan.on", "cyan.off" ],
+      [ "magenta.on", "magenta.off" ]
+    ]
+  },
+
+  "aliases" : {
+    "default.default" : "white.off",
+    "default.off" : "white.off"
+  }
+}

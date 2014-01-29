@@ -1,0 +1,54 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "chargeState" : {
+        "default" : "on",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "charge" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          },
+          "error" : {}
+        }
+      }
+    },
+    "parts" : {
+      "charger" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "chargeState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "charge" : {
+              "properties" : {
+                "image" : "<partImage>:charge.<frame>"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

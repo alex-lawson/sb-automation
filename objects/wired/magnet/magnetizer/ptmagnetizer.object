@@ -1,0 +1,38 @@
+{
+  "objectName" : "ptmagnetizer",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "Magnetizes monsters, causing them to be affected by magnets.",
+  "shortdescription" : "Magnetizer",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 1,
+
+  "inventoryIcon" : "ptmagnetizer.png:activate.1",
+  "orientations" : [
+    {
+      "image" : "ptmagnetizer.png:off",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetizer.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "ptmagnetizer.animation",
+
+  "animationParts" : {
+    "magnetizer" : "ptmagnetizer.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [ [0, 0] ],
+  
+  "magnetizeDuration" : 5,
+  "energyPerMonster" : 10,
+  "energyCapacity" : 30
+}

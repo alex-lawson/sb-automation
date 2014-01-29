@@ -1,0 +1,12 @@
+{
+  "materialId" : 5729,
+  "materialName" : "metalpipeb4",
+  "frames" : "metalpipeb4.png",
+  "particleColor" : [0, 0, 0, 0],
+  "variants" : 1,
+  "transparent" : true,
+  "shortdescription" : "Pipe",
+  "itemDrop" : "metalpipeb4",
+  "description" : "It's cold to the touch",
+  "health" : 1
+}

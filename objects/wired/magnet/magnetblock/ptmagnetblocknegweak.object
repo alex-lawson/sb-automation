@@ -1,0 +1,36 @@
+{
+  "objectName" : "ptmagnetblocknegweak",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "A weak magnet, the charge of which is positive.",
+  "shortdescription" : "Permanent Negative Magnet",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 1,
+
+  "inventoryIcon" : "ptmagnetblockperm.png:negativeOn",
+  "orientations" : [
+    {
+      "image" : "ptmagnetblockperm.png:negativeOn",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/magnets.lua", "ptmagnetblock.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "ptmagnetblock.animation",
+
+  "animationParts" : {
+    "magnet" : "ptmagnetblockperm.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "chargeStrength" : -20,
+
+  "energyAllowConnection" : false
+}

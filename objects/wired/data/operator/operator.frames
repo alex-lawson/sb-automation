@@ -1,0 +1,14 @@
+{
+  "frameGrid" : {
+    "size" : [24, 16],
+    "dimensions" : [4, 2],
+    "names" : [
+      [ "default.add", "default.subtract", "default.multiply", "default.divide" ],
+      [ "default.flipped.add", "default.flipped.subtract", "default.flipped.multiply", "default.flipped.divide" ]
+    ]
+  },
+
+  "aliases" : {
+    "default.default" : "default.add"
+  }
+}

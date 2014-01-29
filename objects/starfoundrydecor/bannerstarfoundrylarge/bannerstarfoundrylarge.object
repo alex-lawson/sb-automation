@@ -1,0 +1,32 @@
+{
+  "objectName" : "bannerstarfoundrylarge",
+  "rarity" : "Common",
+  "description" : "A beautifully woven banner.",
+  "shortdescription" : "Large Starfoundry Banner",
+  "race" : "generic",
+  "category" : "decorative",
+  "price" : 750,
+
+  "apexDescription" : "An expertly woven banner.",
+  "avianDescription" : "A clever advertisement perhaps?",
+  "floranDescription" : "Starfoundersss make pretty banner.",
+  "glitchDescription" : "Educate. Branding is an important part of any business venture.",
+  "humanDescription" : "A grand Starfoundry banner.",
+  "hylotlDescription" : "This symbol is recognizable across the galaxy as that of Starfoundry.",
+
+  "inventoryIcon" : "bannerstarfoundrylargeicon.png",
+  "orientations" : [
+    {
+      "image" : "bannerstarfoundrylarge.png:<color>",
+
+      "imagePosition" : [-8, -32],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0], [1, 0] ],
+
+      "direction" : "right"
+    }
+  ]
+}

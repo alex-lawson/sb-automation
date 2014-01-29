@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "steelbar", "count" : 5 },
+    { "item" : "glassmaterial", "count" : 10 }
+  ],
+  "output" : {
+    "item" : "liquidtank",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}

@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "memory",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}

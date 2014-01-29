@@ -1,0 +1,5 @@
+{
+  "input" : [ ],
+  "output" : { "item" : "ptmagnetizeTech-chip", "count" : 1 },
+  "groups" : [ "mod" ]
+}
