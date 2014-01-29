@@ -14,7 +14,10 @@ function init(virtual)
 
     self.fuelMax = 50
 
-    if storage.fuel == nil then
+    local initialFuel = entity.configParameter("initialFuel")
+    if initialFuel then
+      storage.fuel = initialFuel
+    elseif storage.fuel == nil then
       storage.fuel = 0
     end
 
@@ -38,6 +41,13 @@ function init(virtual)
 end
 
 function die()
+  local position = entity.position()
+  if storage.fuel == 0 then
+    world.spawnItem("basicgenerator", {position[1] + 2, position[2] + 1}, 1)
+  else
+    world.spawnItem("basicgenerator", {position[1] + 2, position[2] + 1}, 1, {initialFuel=storage.fuel})
+  end
+
   energy.die()
 end
 

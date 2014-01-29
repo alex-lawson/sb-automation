@@ -1,9 +1,0 @@
-{
-  "input" : [
-    { "item" : "magnetcore", "count" : 3 },
-    { "item" : "energycrystal", "count" : 1 },
-    { "item" : "steelbar", "count" : 5 }
-  ],
-  "output" : { "item" : "ptmagnetizer", "count" : 1 },
-  "groups" : [ "foundry", "all" ]
-}

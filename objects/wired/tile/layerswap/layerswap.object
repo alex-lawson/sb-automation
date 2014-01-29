@@ -7,6 +7,7 @@
   "race" : "generic",
   "category" : "wire",
   "price" : 1000,
+  "printable" : false,
 
   "inventoryIcon" : "layerswapicon.png",
 
@@ -21,7 +22,7 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/tilemanipulation.lua", "layerswap.lua" ],
-  "scriptDelta" : 1,
+  "scriptDelta" : 2,
 
   "animation" : "layerswap.animation",
   "animationParts" : {

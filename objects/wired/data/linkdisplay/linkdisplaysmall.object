@@ -7,6 +7,8 @@
   "race" : "generic",
   "category" : "wire",
   "price" : 300,
+  "printable" : false,
+  
   "inventoryIcon" : "linkdisplaysmallicon.png",
 
   "orientations" : [

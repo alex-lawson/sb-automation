@@ -3,8 +3,8 @@
     { "item" : "steelbar", "count" : 2 }
   ],
   "output" : {
-    "item" : "metalpipeb2",
+    "item" : "metalpipeplus",
     "count" : 5
   },
-  "groups" : [ "foundry", "all" ]
+  "groups" : [ "foundry", "all", "pipes" ]
 }

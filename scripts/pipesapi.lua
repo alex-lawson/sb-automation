@@ -26,6 +26,7 @@ pipes.directions["b1"] = {{1,0}, {0,1}}
 pipes.directions["b2"] = {{1, 0}, {0, -1}}
 pipes.directions["b3"] = {{-1,0}, {0, -1}}
 pipes.directions["b4"] = {{-1, 0}, {0, 1}}
+pipes.directions["plus"] = {{1,0}, {-1, 0}, {0, -1}, {0, 1}}
 
 function pipes.init(pipeTypes)
 
