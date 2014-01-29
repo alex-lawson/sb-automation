@@ -2,11 +2,13 @@
   "objectName" : "wiretap",
   "rarity" : "Common",
   "objectType" : "wire",
-  "category" : "wire",
-  "price" : 500,
   "description" : "Keeps a running log of data received, interact to show the log",
   "shortdescription" : "Wiretap",
   "race" : "generic",
+  
+  "category" : "wire",
+  "price" : 500,
+  "printable" : false,
 
   "inventoryIcon" : "wiretapicon.png",
   "orientations" : [
