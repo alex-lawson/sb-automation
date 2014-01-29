@@ -6,6 +6,7 @@
   "shortdescription" : "Item Storage Box",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Storage Box",
   "avianDescription" : "Storage Box",

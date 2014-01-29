@@ -1,0 +1,13 @@
+{
+  "input" : [
+    { "item" : "glassmaterial", "count" : 10 },
+    { "item" : "bluedye", "count" : 1 },
+    { "item" : "laserdiode", "count" : 2 },
+    { "item" : "circuitboard", "count" : 2 }
+  ],
+  "output" : {
+    "item" : "linkdisplaysmall",
+    "count" : 8
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}

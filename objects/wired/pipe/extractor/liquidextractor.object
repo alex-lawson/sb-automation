@@ -6,18 +6,20 @@
   "shortdescription" : "Liquid Extractor",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "inventoryIcon" : "liquidextractor.png:open.on",
   "orientations" : [
     {
-      "dualImage" : "liquidextractor.png:open.on",
+      "image" : "liquidextractor.png:open.on",
 
       "imagePosition" : [0, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
       "spaces" : [[0,0],[1,0],[2,0],[0,1],[2,1],[0,2],[1,2],[2,2]],
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
     }
   ],
   

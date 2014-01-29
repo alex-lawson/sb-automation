@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "circuitboard", "count" : 2 }
+  ],
+  "output" : {
+    "item" : "wiretap",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}

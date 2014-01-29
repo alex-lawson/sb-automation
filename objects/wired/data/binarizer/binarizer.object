@@ -8,6 +8,7 @@
 
   "category" : "wire",
   "price" : 500,
+  "printable" : false,
 
   "inventoryIcon" : "binarizericon.png",
   "orientations" : [

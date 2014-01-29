@@ -6,6 +6,7 @@
   "shortdescription" : "Ejector",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Ejector",
   "avianDescription" : "Ejector",

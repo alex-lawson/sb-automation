@@ -8,6 +8,7 @@
 
   "category" : "wire",
   "price" : 666,
+  "printable" : false,
 
   "inventoryIcon" : "testspawnericon.png",
   "orientations" : [

@@ -8,6 +8,8 @@
   "objectType" : "wire",
   "printable" : false,
 
+  "breakDropOptions": [],
+
   "inventoryIcon" : "basicgenerator.png:off",
   "orientations" : [
     {
@@ -15,7 +17,8 @@
       "imagePosition" : [0, -8],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
     }
   ],
 

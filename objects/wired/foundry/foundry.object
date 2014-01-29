@@ -1,0 +1,69 @@
+{
+  "objectName" : "foundry",
+  "rarity" : "Legendary",
+  "objectType" : "wire",
+  "scripts" : [ "/objects/wired/foundry/foundry.lua" ],
+  "scriptDelta" : 5,
+ 
+  "printable" : false,  
+
+  "filterButtons" : [ 
+    {
+    "baseImage" : "/objects/wired/foundry/icons/misc.png",
+    "baseImageChecked" : "/objects/wired/foundry/icons/miscpressed.png",
+    "filter" : "misc"
+	},
+    {
+    "baseImage" : "/objects/wired/foundry/icons/logic.png",
+    "baseImageChecked" : "/objects/wired/foundry/icons/logicpressed.png",
+    "filter" : "logic"
+	},
+    {
+    "baseImage" : "/objects/wired/foundry/icons/pipes.png",
+    "baseImageChecked" : "/objects/wired/foundry/icons/pipespressed.png",
+    "filter" : "pipes"
+	},
+    {
+    "baseImage" : "/objects/wired/foundry/icons/energy.png",
+    "baseImageChecked" : "/objects/wired/foundry/icons/energypressed.png",
+    "filter" : "energy"
+	},
+    {
+    "baseImage" : "/objects/wired/foundry/icons/magnets.png",
+    "baseImageChecked" : "/objects/wired/foundry/icons/magnetspressed.png",
+    "filter" : "magnets"
+	}
+  ],
+  
+  "description" : "Automation ahead!",
+  "shortdescription" : "Foundry",
+  "race" : "generic",
+  "category" : "crafting",
+
+  "apexDescription" : "For testing!",
+  "avianDescription" : "For testing!",
+  "floranDescription" : "For testing!",
+  "glitchDescription" : "For testing!",
+  "humanDescription" : "For testing!",
+  "hylotlDescription" : "For testing!",
+
+  "inventoryIcon" : "foundry.png",
+  "orientations" : [
+    {
+      "image" : "foundry.png",
+      "imagePosition" : [0, 0],
+      "frames" : 5,
+      "animationCycle" : 3.5,
+      
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    }
+  ],
+  
+  "animation" : "/objects/wired/foundry/foundry.animation",
+  "animationParts" : {
+    "tabula" : "foundry.png"
+  },
+  "animationPosition" : [0, 0]
+}

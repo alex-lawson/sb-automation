@@ -1,0 +1,12 @@
+{
+  "input" : [ 
+    { "item" : "steelbar", "count" : 3 },
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "itembox",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}
