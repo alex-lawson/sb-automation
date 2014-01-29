@@ -11,19 +11,19 @@ function init(args)
     
     self.conversions = {}
     --Water
-    self.conversions["snow"] = {liquid = 1, material = "snow", input = 20, output = 200}
-    self.conversions["slush"] = {liquid = 1, material = "slush", input = 20, output = 200}
-    self.conversions["ice"] = {liquid = 1, material = "ice", input = 20, output = 200}
-    self.conversions["mud"] = {liquid = 1, material = "mud", input = 20, output = 200}
-    self.conversions["wetdirt"] = {liquid = 1, material = "wetdirt", input = 20, output = 200}
+    self.conversions["snow"] = {liquid = 1, material = "snow", input = 20, output = 1400}
+    self.conversions["slush"] = {liquid = 1, material = "slush", input = 20, output = 1400}
+    self.conversions["ice"] = {liquid = 1, material = "ice", input = 20, output = 1400}
+    self.conversions["mud"] = {liquid = 1, material = "mud", input = 20, output = 1400}
+    self.conversions["wetdirt"] = {liquid = 1, material = "wetdirt", input = 20, output = 1400}
     --Lava
-    self.conversions["magmarock"] = {liquid = 3, material = "magmarock", input = 20, output = 800}
-    self.conversions["obsidian"] = {liquid = 3, material = "obsidian", input = 20, output = 800}
+    self.conversions["magmarock"] = {liquid = 3, material = "magmarock", input = 20, output = 1400}
+    self.conversions["obsidian"] = {liquid = 3, material = "obsidian", input = 20, output = 1400}
     --Poison
-    self.conversions["sewage"] = {liquid = 4, material = "sewage", input = 20, output = 400}
-    self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 400}
+    self.conversions["sewage"] = {liquid = 4, material = "sewage", input = 20, output = 1400}
+    self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 1400}
     --Tar
-    self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 400}
+    self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 1400}
     
     
     self.damageRate = entity.configParameter("damageRate")
