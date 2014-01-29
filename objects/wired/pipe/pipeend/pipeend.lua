@@ -25,7 +25,17 @@ function main(args)
     end
   end
   
-  
+  self.convertLiquid = entity.configParameter("liquidConversions")
+end
+
+function convertEndlessLiquid(liquid)
+  for _,liquidTo in ipairs(self.convertLiquid) do
+    if liquid[1] == liquidTo[1] then
+      liquid[1] = liquidTo[2]
+      break
+    end
+  end
+  return liquid
 end
 
 function canGetLiquid(liquid, nodeId)
@@ -53,6 +63,7 @@ function onLiquidGet(liquid, nodeId)
   local getLiquid = canGetLiquid(liquid, nodeId)
   if getLiquid then
     getLiquid = world.destroyLiquid(liquidPos)
+    getLiquid = convertEndlessLiquid(getLiquid)
     return getLiquid
   end
   return false
