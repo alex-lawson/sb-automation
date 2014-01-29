@@ -6,5 +6,5 @@
     "item" : "metalpipeplus",
     "count" : 5
   },
-  "groups" : [ "wiringstation", "all" ]
+  "groups" : [ "foundry", "all", "pipes" ]
 }
