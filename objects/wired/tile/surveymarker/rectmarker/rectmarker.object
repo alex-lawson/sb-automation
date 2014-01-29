@@ -7,6 +7,7 @@
   "race" : "generic",
   "category" : "wire",
   "price" : 100,
+  "printable" : false,
 
   "inventoryIcon" : "rectmarkericon.png",
 

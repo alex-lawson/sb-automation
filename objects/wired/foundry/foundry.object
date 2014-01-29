@@ -5,7 +5,7 @@
   "scripts" : [ "/objects/wired/foundry/foundry.lua" ],
   "scriptDelta" : 5,
  
-  
+  "printable" : false,  
 
   "filterButtons" : [ 
     {

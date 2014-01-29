@@ -6,6 +6,7 @@
   "shortdescription" : "Liquid Tank",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
   
   "breakDropOptions": [],
 

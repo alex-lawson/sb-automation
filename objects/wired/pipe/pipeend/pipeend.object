@@ -6,6 +6,7 @@
   "shortdescription" : "Pipe Spout",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Pipe spout",
   "avianDescription" : "Pipe spout",

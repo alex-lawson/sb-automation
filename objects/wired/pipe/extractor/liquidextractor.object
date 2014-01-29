@@ -6,6 +6,7 @@
   "shortdescription" : "Liquid Extractor",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "inventoryIcon" : "liquidextractor.png:open.on",
   "orientations" : [
