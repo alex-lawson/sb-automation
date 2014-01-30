@@ -19,7 +19,7 @@ function datawire.update()
     -- nothing for now
   else
     datawire.initAfterLoading()
-    initAfterLoading()
+    if initAfterLoading then initAfterLoading() end
   end
 end
 

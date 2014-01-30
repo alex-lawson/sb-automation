@@ -1,70 +1,40 @@
--- RED LIGHT DISTRICT
--- (for hooks... get it?)
-
---- hook to request a custom amount of energy (defaults to current unused capacity)
--- should return energyNeeds, with energyNeeds[tostring(entity.id())] equal to the requested energy
--- if energy requested > 0, then energyNeeds["total"] should be incremented appropriately
--- onEnergyNeedsCheck(energyNeeds)
-
---- return the amount of energy available to send (defaults to current energy)
--- onEnergySendCheck()
-
---- called when energy amount changes
--- onEnergyChange(newAmount)
-
---- called when energy is sent to the object
--- should return amount of energy accepted
--- onEnergyReceived(amount)
-
--------------------------------------------------------------------------------------
-
 energy = {}
 
 -- Initializes the energy module (MUST BE CALLED IN OBJECT init() FUNCTION)
-function energy.init()
+function energy.init(args)
+  if not args then
+    args = {}
+  end
+
   --energy per unit of fuel for automated conversions
   energy.fuelEnergyConversion = 100
 
   --can be used to disallow direct connection (e.g. for batteries)
-  energy.allowConnection = entity.configParameter("energyAllowConnection")
+  energy.allowConnection = args["energyAllowConnection"]
   if energy.allowConnection == nil then
-    energy.allowConnection = true
+    energy.allowConnection = entity.configParameter("energyAllowConnection")
+    if energy.allowConnection == nil then
+      energy.allowConnection = true
+    end
   end
 
   --capacity of internal energy storage
-  energy.capacity = entity.configParameter("energyCapacity")
-  if energy.capacity == nil then
-    energy.capacity = 0
-  end
+  energy.capacity = args["energyCapacity"] or entity.configParameter("energyCapacity") or 0
 
   --amount of energy generated per second when active
-  energy.generationRate = entity.configParameter("energyGenerationRate")
-  if energy.generationRate == nil then
-    energy.generationRate = 0
-  end
+  energy.generationRate = args["energyGenerationRate"] or entity.configParameter("energyGenerationRate") or 0
 
   --amount of energy consumed per second when active
-  energy.consumptionRate = entity.configParameter("energyConsumptionRate")
-  if energy.consumptionRate == nil then
-    energy.consumptionRate = 0
-  end
+  energy.consumptionRate = args["energyConsumptionRate"] or entity.configParameter("energyConsumptionRate") or 0
 
   --current energy storage
-  if storage.curEnergy == nil then
-    storage.curEnergy = 0
-  end
+  storage.curEnergy = storage.curEnergy or entity.configParameter("savedEnergy") or  0
 
   --maximum amount of energy transmitted per second
-  energy.sendRate = entity.configParameter("energySendRate")
-  if energy.sendRate == nil then
-    energy.sendRate = 0
-  end
+  energy.sendRate = entity.configParameter("energySendRate") or 0
 
   --frequency (in seconds) to push energy (maybe make this hard coded)
-  energy.sendFreq = entity.configParameter("energySendFreq")
-  if energy.sendFreq == nil then
-    energy.sendFreq = 0.5
-  end
+  energy.sendFreq = args["energySendFreq"] or entity.configParameter("energySendFreq") or 0.5
 
   --timer variable that tracks the cooldown until next transmission pulse
   energy.sendTimer = energy.sendFreq
@@ -76,13 +46,7 @@ function energy.init()
 
   --maximum range (in blocks) that this device will search for entities to connect to
   --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
-  energy.linkRange = entity.configParameter("energyLinkRange")
-  if energy.linkRange == nil then
-    energy.linkRange = 10
-  end
-
-  --determines how much power the device can transfer (without storing)
-  energy.relayMax = entity.configParameter("energyRelayMax")
+  energy.linkRange = args["energyLinkRange"] or entity.configParameter("energyLinkRange") or 10
 
   --frequency (in seconds) to perform LoS checks on connected entities
   energy.connectCheckFreq = 0.5
@@ -93,21 +57,12 @@ function energy.init()
   --table to hold id's of connected entities (no point storing this since id's change on reload)
   --  keys are entity id's, values are tables of connection parameters
   energy.connections = {}
-  
-
 
   --helper table for energy.connections that sorts the id's in order of proximity/precedence
   energy.sortedConnections = {}
 
   --flag used to run more initialization the first time main() is called (in energy.update())
   self.energyInitialized = false
-end
-
--- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
-function energy.die()
-  for entityId, v in pairs(energy.connections) do
-    energy.disconnect(entityId)
-  end
 end
 
 -- Performs per-tick updates for energy module (MUST BE CALLED IN OBJECT main() FUNCTION)
@@ -157,6 +112,13 @@ function energy.update()
       energy.checkConnections()
     end
     self.energyInitialized = true
+  end
+end
+
+-- performs any unloading necessary when the object is removed (MUST BE CALLED IN OBJECT die() FUNCTION)
+function energy.die()
+  for entityId, v in pairs(energy.connections) do
+    energy.disconnect(entityId)
   end
 end
 
@@ -500,8 +462,7 @@ function energy.sendEnergy(amount)
   energyNeeds = energy.energyNeedsQuery(energyNeeds)
   energyNeeds["total"] = nil
 
-  -- world.logInfo("initial energyNeeds")
-  -- world.logInfo(energyNeeds)
+  -- world.logInfo("initial energyNeeds: %s", energyNeeds)
 
   -- build and sort a table from least to most energy requested
   local sortedEnergyNeeds = {}
@@ -510,8 +471,7 @@ function energy.sendEnergy(amount)
   end
   table.sort(sortedEnergyNeeds, energy.compareNeeds)
 
-  -- world.logInfo("sorted energyNeeds")
-  -- world.logInfo(sortedEnergyNeeds)
+  -- world.logInfo("sorted energyNeeds: %s", sortedEnergyNeeds)
 
   -- process list and distribute remainder evenly at each step
   local totalEnergyToSend = amount
