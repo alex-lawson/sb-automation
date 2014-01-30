@@ -131,7 +131,7 @@ function prepareState.findMarker()
                 for i = 2, math.abs(pos[1]-quarryPos[1]), 1 do
                     local pos = toAbsolutePosition(quarryPos, {dir*i,h+0.5})
                     if not world.pointCollision(pos) then
-                        world.spawnProjectile("ele_beam", pos, entity.id(), {0,0}, false, {})
+                        world.spawnProjectile("beam", pos, entity.id(), {0,0}, false, {})
                     end
                 end
             end

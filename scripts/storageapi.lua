@@ -120,7 +120,7 @@ end
 -- @param count (Optional) Amount of the item to take from the stack
 -- @returns (table) of item descriptor or nil
 function storageApi.returnItem(index, count)
-    if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index, count) then return nil end
+    if (beforeiTemTaken ~= nil) and beforeiTemTaken(index, count) then return nil end
     local ret = storage.sApi[index]
     if (count == nil) or (ret.count >= count) then
         storage.sApi[index] = nil
@@ -128,7 +128,7 @@ function storageApi.returnItem(index, count)
         storage.sApi[index].count = ret.count - count
         ret.count = count
     end
-    if (storageApi.afterItemTaken ~= nil) then storageApi.afterItemTaken(ret.name, ret.count, ret.data) end
+    if (afteritEmtaken ~= nil) then afteritEmtaken(ret.name, ret.count, ret.data) end
     return ret
 end
 
@@ -167,34 +167,34 @@ end
 -- @param count (int) The amount of item to get
 -- @param properties (optional) The properties table of the item
 -- @returns (table) descriptor of the item taken
-function storageApi.returnItemByName(itemname, count, properties)
-    if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
-    --TODO: Change it so hook defines return?
-    if properties == nil then
-        for i,v in storageApi.getIterator() do
-            if v.name == itemname then
-                properties = v.data
-                break
-            end
-        end
-    end
-    if properties == nil then return { itemname, 0, { } } end
-    local retcnt = 0
-    for i,v in storageApi.getIterator() do
-        if retcnt >= count then break end
-        if (v.name == itemname) and compareTables(properties, v.data) then
-            retcnt = retcnt + storageApi.returnItem(i, count - retcnt).count
-        end
-    end
-    return { itemname, retcnt, properties }
-end
+-- function storageApi.returnItemByName(itemname, count, properties)
+--     if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
+--     --TODO: Change it so hook defines return?
+--     if properties == nil then
+--         for i,v in storageApi.getIterator() do
+--             if v.name == itemname then
+--                 properties = v.data
+--                 break
+--             end
+--         end
+--     end
+--     if properties == nil then return { itemname, 0, { } } end
+--     local retcnt = 0
+--     for i,v in storageApi.getIterator() do
+--         if retcnt >= count then break end
+--         if (v.name == itemname) and compareTables(properties, v.data) then
+--             retcnt = retcnt + storageApi.returnItem(i, count - retcnt).count
+--         end
+--     end
+--     return { itemname, retcnt, properties }
+-- end
 
 --- Take all items from storage
 -- @return (table) of taken iems
 function storageApi.returnContents()
     local ret = storage.sApi
     storage.sApi = {}
-    if (storageApi.afterAllItemsTaken ~= nil) then storageApi.afterAllItemsTaken() end
+    if (afterAllItemsTaken ~= nil) then afterAllItemsTaken() end
     return ret
 end
 
@@ -214,7 +214,7 @@ end
 -- @return True if item could be stored
 function storageApi.storeItem(itemname, count, properties)
     if not storageApi.canFitItem(itemname, count, properties) then return false end
-    if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return false end
+    if (beforeItemStored ~= nil) and beforeItemStored(itemname, count, properties) then return false end
     --TODO: Change it so hook defines return?
     if storageApi.isMerging() then
         local max = storageApi.getMaxStackSize(itemname)
@@ -223,18 +223,18 @@ function storageApi.storeItem(itemname, count, properties)
                 if (stack.count + count > max) then
                     local newIndex = storageApi.getFirstEmptyIndex()
                     storage.sApi[newIndex] = { name = itemname, count = (stack.count + count) - max, data = properties }
-                    if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(newIndex, false) end
+                    if (afterItemStored ~= nil) then afterItemStored(newIndex, false) end
                     count = max - stack.count
                 end
                 storage.sApi[i].count = stack.count + count
-                if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, true) end
+                if afterItemStored then afterItemStored(i, true) end
                 return true
             end
         end
     end
     local i = storageApi.getFirstEmptyIndex()
     storage.sApi[i] = { name = itemname, count = count, data = properties }
-    if (storageApi.afterItemStored ~= nil) then storageApi.afterItemStored(i, false) end
+    if afterItemStored then afterItemStored(i, false) end
     return true
 end
 
@@ -353,34 +353,3 @@ function storageApi.die()
     end
 end
 
--------------------------------------------------
--- Event functions
--------------------------------------------------
-
--- Called before the API searches for the item to return in storage
--- itemname, count, parameters - the requested item data
--- If this returns true, item is returned instantly without searching through the storage
------ function storageApi.beforeReturnByName(itemname, count, properties)
-
--- Called when an item is about to be taken from storage
--- index - the requested item index
--- count - amount of the item to take
--- If this returns true, the item is not taken and the returned item is null
------ function storageApi.beforeItemTaken(index, count) end
-
--- Called when an item has been taken from storage
--- itemname, count, parameters - item data that was taken
------ function storageApi.afterItemTaken(itemname, count, properties) end
-
--- Called when an item is about to be stored in storage
--- itemname, count, parameters - item data requested to be stored
--- If this returns true, the item is not stored and the parent method returns false
------ function storageApi.beforeItemStored(itemname, count, properties) end
-
--- Called when an item has been stored in storage
--- index - the index assigned to the item
--- merged - tells whenever the item stack was merged into another, or not
------ function storageApi.afterItemStored(index, merged) end
-
--- Called when all items have been taken from storage
------ function storageApi.afterAllItemsTaken() end

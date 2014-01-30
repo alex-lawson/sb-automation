@@ -1,0 +1,50 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "detectorState" : {
+        "default" : "default",
+        "states" : {
+          "default" : {
+            "frames" : 1
+          },
+          "off" : {
+            "frames" : 1
+          },
+          "on" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "detector" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "detectorState" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:all.1"
+              }
+            },
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<modePart>.off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:<modePart>.<frame>"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
