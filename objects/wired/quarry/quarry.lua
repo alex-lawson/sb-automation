@@ -298,7 +298,6 @@ returnState = {}
 function returnState.enterWith(args)
     if not args.returnPosition then return nil end
     storage.quarry = args
-    world.logInfo("enter returnstate with %s", storage.quarry)
     updateAnimationState()
     self.done, self.stuck, self.changeDirection = false, 0, false
     return args
@@ -399,7 +398,6 @@ end
 function sendItem()
     if next(pipes.nodeEntities) ~= nil and storageApi.getCount() > 0 then
         for i,item in storageApi.getIterator() do
-            world.logInfo("pushItem")
             local result = pushItem(1, item)
             if result == true then storageApi.returnItem(i) end --Whole stack was accepted
             if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
