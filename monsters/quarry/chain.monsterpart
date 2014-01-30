@@ -1,0 +1,9 @@
+{
+  "name" : "chain",
+  "category" : "quarry",
+  "type" : "chain",
+
+  "frames" : {
+    "chain" : "chain.png"
+  }
+}

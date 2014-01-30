@@ -2,7 +2,7 @@ collectState = {}
 
 function collectState.enter()
   if storageApi.isInit() then
-    storageApi.init(entity.configParameter("storageapi.mode"), entity.configParameter("storageapi.capacity"), entity.configParameter("storageapi.merge"))
+    storageApi.init()
   end
   if storageApi.isFull() then return nil end
   local drops = world.itemDropQuery(entity.position(), entity.configParameter("collect.scanRadius"), { order = "nearest" })
