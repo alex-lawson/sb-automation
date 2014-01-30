@@ -1,0 +1,45 @@
+{
+  "objectName" : "submersiontank",
+  "rarity" : "Common",
+  "description" : "Change Me",
+  "shortdescription" : "Submersion Tank",
+  "race" : "generic",
+
+  "category" : "furniture",
+  "price" : 1500,
+  "printable" : false,
+
+  "apexDescription" : "Change Me.",
+  "avianDescription" : "Change Me.",
+  "floranDescription" : "Change Me.",
+  "glitchDescription" : "Change Me.",
+  "humanDescription" : "Change Me.",
+  "hylotlDescription" : "Change Me.",
+
+  "inventoryIcon" : "submersiontankicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "submersiontank.png:<color>",
+
+      "imagePosition" : [-24, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+
+    }
+  ],
+
+  "objectType" : "interactable",
+  "interactAction" : "sitdown",
+  "sitFlipDirection" : true,
+  "sitPosition" : [-10, 14],
+  "sitAngle" : 90,
+  "sitCoverImage" : "submersiontankcover.png",
+  "sitEmote" : "sleep",
+  "sitStatusEffects" : [
+    { "kind" : "Nude" }
+  ],
+  "sitEffectEmitters" : [ "sleepbubbles" ]
+}
