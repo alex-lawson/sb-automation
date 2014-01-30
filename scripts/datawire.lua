@@ -1,15 +1,3 @@
---- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
-function init(virtual)
-  if not virtual then
-    datawire.init()
-  end
-end
-
---- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
-function onNodeConnectionChange()
-  datawire.createConnectionTable()
-end
-
 datawire = {}
 
 --- this should be called by the implementing object in its own init()
@@ -19,6 +7,23 @@ function datawire.init()
 
   datawire.initialized = false
 end
+
+--- this should be called by the implementing object in its own onNodeConnectionChange()
+function datawire.onNodeConnectionChange()
+  datawire.createConnectionTable()
+end
+
+--- any datawire operations that need to be run when main() is first called
+function datawire.update()
+  if datawire.initialized then
+    -- nothing for now
+  else
+    datawire.initAfterLoading()
+    initAfterLoading()
+  end
+end
+
+-------------------------------------------
 
 --- this will be called internally, to build connection tables once the world has fully loaded
 function datawire.initAfterLoading()
@@ -113,54 +118,23 @@ function datawire.receiveData(args)
   local nodeId = datawire.inboundConnections[sourceEntityId]
 
   if nodeId == nil then
-    if datawire.initialized then
-      world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
-      world.logInfo("%s", datawire.inboundConnections)
-    end
+    -- if datawire.initialized then
+    --   world.logInfo("DataWire: %s received data of type %s from UNRECOGNIZED %s %d, not in table:", entity.configParameter("objectName"), dataType, world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId)
+    --   world.logInfo("%s", datawire.inboundConnections)
+    -- end
 
     return false
-  elseif validateData(data, dataType, nodeId) then
-    onValidDataReceived(data, dataType, nodeId)
+  elseif validateData and validateData(data, dataType, nodeId) then
+    if onValidDataReceived then
+      onValidDataReceived(data, dataType, nodeId)
+    end
 
-    --world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
+    -- world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
 
     return true
   else
-    world.logInfo("DataWire: %s received INVALID data of type %s from entity %d: %s", entity.configParameter("objectName"), dataType, sourceEntityId, data)
+    -- world.logInfo("DataWire: %s received INVALID data of type %s from entity %d: %s", entity.configParameter("objectName"), dataType, sourceEntityId, data)
     
     return false
   end
-end
-
---- Validates data received from another datawire object
--- @param data the data to be validated
--- @param dataType the data type to be validated ("boolean", "number", "string", "area", etc.)
--- @param nodeId the inbound node id on which data was received
--- @returns true if the data is valid
-function validateData(data, dataType, nodeId)
-  return true
-end
-
---- Hook for datawire objects to use received data
--- @param data the data
--- @param dataType the data type ("boolean", "number", "string", "area", etc.)
--- @param nodeId the inbound node id on which data was received
-function onValidDataReceived(data, dataType, nodeId) end
-
---- any datawire operations that need to be run when main() is first called
-function datawire.update()
-  if datawire.initialized then
-    -- nothing for now
-  else
-    datawire.initAfterLoading()
-    initAfterLoading()
-  end
-end
-
---- hook for implementing scripts to add their own initialization code when main() is first called
-function initAfterLoading() end
-
---- WHEN YOU OVERWRITE THIS FUNCTION IN A LATER SCRIPT, INCLUDE THIS CODE!
-function main()
-  datawire.update()
 end
