@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "quarry_marker",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}
