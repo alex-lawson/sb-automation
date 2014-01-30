@@ -56,6 +56,7 @@ function storageApi.init(args)
 end
 
 --- Should the storage be initialized?
+-- @returns True if storage should be initialized
 function storageApi.isInit()
     return storageApi.capacity == nil
 end
@@ -84,6 +85,7 @@ function storageApi.isMerging()
 end
 
 --- Is this storage full?
+-- @returns True if storage is full
 function storageApi.isFull()
     return storageApi.getCount() >= storageApi.getCapacity()
 end
@@ -101,17 +103,22 @@ function storageApi.getCount()
 end
 
 --- Analyze an item from storage
+-- @param index (int) index of item
+-- @returns (table) of item descriptor
 function storageApi.peekItem(index)
     return storage.sApi[index]
 end
 
---- Returns an iterator for the whole storage 
+--- Returns an iterator for the whole storage
+-- @returns (table) of item descriptors
 function storageApi.getIterator()
     return pairs(storage.sApi)
 end
 
 --- Take an item from storage
+-- @param index (int) index of item
 -- @param count (Optional) Amount of the item to take from the stack
+-- @returns (table) of item descriptor or nil
 function storageApi.returnItem(index, count)
     if (storageApi.beforeItemTaken ~= nil) and storageApi.beforeItemTaken(index, count) then return nil end
     local ret = storage.sApi[index]
@@ -126,6 +133,8 @@ function storageApi.returnItem(index, count)
 end
 
 --- Get maximum stack size for an item type
+-- @param itemname (string) The name of item to get
+-- @returns (int) max stack size
 function storageApi.getMaxStackSize(itemname)
     if itemname == "climbingrope" then return 1000
     elseif itemname == "money" then return 25000 end
@@ -135,6 +144,10 @@ function storageApi.getMaxStackSize(itemname)
 end
 
 --- Checks if the item can be fit inside storage
+-- @param itemname (string) The name of item to get
+-- @param count (int) The amount of item to get
+-- @param properties (optional) The properties table of the item
+-- @returns True if item fits in storage or false
 function storageApi.canFitItem(itemname, count, properties)
     local max = storageApi.getMaxStackSize(itemname)
     local spacecnt = (storageApi.getCapacity() - storageApi.getCount()) * max
@@ -150,11 +163,13 @@ function storageApi.canFitItem(itemname, count, properties)
 end
 
 --- Take a specific type of item from storage
--- @param itemname The name of item to get
--- @param count The amount of item to get
--- @param properties (Optional) The properties table of the item
+-- @param itemname (string) The name of item to get
+-- @param count (int) The amount of item to get
+-- @param properties (optional) The properties table of the item
+-- @returns (table) descriptor of the item taken
 function storageApi.returnItemByName(itemname, count, properties)
     if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
+    --TODO: Change it so hook defines return?
     if properties == nil then
         for i,v in storageApi.getIterator() do
             if v.name == itemname then
@@ -175,6 +190,7 @@ function storageApi.returnItemByName(itemname, count, properties)
 end
 
 --- Take all items from storage
+-- @return (table) of taken iems
 function storageApi.returnContents()
     local ret = storage.sApi
     storage.sApi = {}
@@ -183,6 +199,7 @@ function storageApi.returnContents()
 end
 
 --- Get first empty key in storage table
+-- @return (int) first empty key
 function storageApi.getFirstEmptyIndex()
     for i=1,999 do
         if storage.sApi[i] == nil then return i end
@@ -191,9 +208,14 @@ function storageApi.getFirstEmptyIndex()
 end
 
 --- Put an item in storage, returns true if successfully
+-- @param itemname (string) The name of item to get
+-- @param count (int) The amount of item to get
+-- @param properties (optional) The properties table of the item
+-- @return True if item could be stored
 function storageApi.storeItem(itemname, count, properties)
     if not storageApi.canFitItem(itemname, count, properties) then return false end
     if (storageApi.beforeItemStored ~= nil) and storageApi.beforeItemStored(itemname, count, properties) then return false end
+    --TODO: Change it so hook defines return?
     if storageApi.isMerging() then
         local max = storageApi.getMaxStackSize(itemname)
         for i,stack in storageApi.getIterator() do
@@ -217,7 +239,10 @@ function storageApi.storeItem(itemname, count, properties)
 end
 
 --- Put as much items as possible in storage, handles oversized stacks
--- @return The amount of item that was stored
+-- @param itemname (string) The name of item to get
+-- @param count (int) The amount of item to get
+-- @param properties (optional) The properties table of the item
+-- @return The amount of item that got stored
 function storageApi.storeItemFit(itemname, count, properties)
     local ret = 0
     local max = storageApi.getMaxStackSize(itemname)
@@ -238,7 +263,7 @@ function storageApi.storeItemFit(itemname, count, properties)
 end
 
 --- Drops one item
--- @param index (array) index of item
+-- @param index (int) index of item
 -- @param amount (optional) If provided will only drop certain amount of item
 -- @param pos (optional) { x, y } position to drop item
 -- @returns Id of dropped item entity or false
@@ -285,15 +310,15 @@ end
 -- @param entityId (int) id of dropped item entity
 -- @param cooldown (optional) how long to let the item stay
 -- @param time (optional) current os.time time
--- @returns True if it could drop all
-function storageApi.justDropped(entityId, cooldown, time)
+-- @returns True if item was not just dropped
+function storageApi.notJustDropped(entityId, cooldown, time)
     cooldown = cooldown or 20
     time = time or os.time()
     if storageApi.ignoreDropIds[entityId] == nil or storageApi.ignoreDropIds[entityId]+cooldown < time then
         storageApi.ignoreDropIds[entityId] = nil
-        return false
+        return true
     end
-    return true
+    return false
 end
 
 --- Try to take item drop
@@ -306,7 +331,7 @@ function storageApi.take(pos, radius, takenBy)
     radius = radius or 1
     local itemIds, time, ret = world.itemDropQuery(pos, radius), os.time(), false
     for _, itemId in ipairs(itemIds) do
-        if not storageApi.justDropped(itemId, time) then
+        if storageApi.notJustDropped(itemId, 10, time) then
             local item = world.takeItemDrop(itemId, takenBy)
             if item then
                 ret = (ret or 0) + 1
@@ -319,6 +344,7 @@ function storageApi.take(pos, radius, takenBy)
     return ret
 end
 
+--- Call this in entities die() function if you use the "ondeath" arg in init
 function storageApi.die()
     if storageApi.ondeath == 1 then
         storageApi.dropAll()
