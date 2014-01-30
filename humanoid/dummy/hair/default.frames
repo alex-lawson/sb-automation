@@ -1,0 +1,11 @@
+{
+	/* This file defines where the individual frames are located in the PNG files.
+	 * Originally, there was a "climb" frame in here too, but I removed it because
+	 * the game never uses those.
+	 * You don't actually need to bother with this file.
+	 */
+
+	"frameList" : {
+		"normal" : [0, 0, 43, 43]
+	}
+}
