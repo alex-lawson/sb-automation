@@ -6,6 +6,7 @@
   "shortdescription" : "Pump",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Pump",
   "avianDescription" : "Pump",

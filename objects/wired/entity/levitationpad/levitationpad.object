@@ -5,6 +5,7 @@
 
   "category" : "wire",
   "price" : 350,
+  "printable" : false,
   "description" : "A pad that levitates beings a fixed amount.",
   "shortdescription" : "Levitation Pad",
   "race" : "generic",

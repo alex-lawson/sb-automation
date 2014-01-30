@@ -8,6 +8,8 @@
   "objectType" : "wire",
   "printable" : false,
 
+  "breakDropOptions": [],
+
   "inventoryIcon" : "basicgenerator.png:off",
   "orientations" : [
     {

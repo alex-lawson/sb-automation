@@ -1,0 +1,29 @@
+{
+  "objectName" : "quarry_holder",
+  "rarity" : "Common",
+  "category" : "decorative",
+  "price" : 5,
+  "breakDropOptions" : [[]],
+
+  "description" : "Just for the looks.",
+  "shortdescription" : "Quarry holder",
+  "race" : "generic",
+
+  "apexDescription" : "A vent.",
+  "avianDescription" : "Ventilation.",
+  "floranDescription" : "Vent.",
+  "glitchDescription" : "Observation. A vent.",
+  "humanDescription" : "Looks like a vent.",
+  "hylotlDescription" : "Some ventilation.",
+
+  "orientations" : [
+    {
+      "image" : "quarry_holder.png",
+      "imagePosition" : [0, 0],
+      "zLevel" : 2,
+
+      "spaceScan" : 0.1,
+      "anchors" : []
+    }
+  ]
+}

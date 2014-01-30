@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "copperbar", "count" : 1 },
+    { "item" : "energycrystal", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "relay",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "energy" ]
+}
