@@ -20,7 +20,7 @@
   "inventoryIcon" : "itembox.png",
   "orientations" : [
     {
-      "image" : "itembox.png",
+      "dualImage" : "itembox.png",
 
       "imagePosition" : [0, 0],
       "frames" : 1,
@@ -28,10 +28,16 @@
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ],
-      "collision" : "platform",
-      "direction" : "right"
+      "collision" : "platform"
     }
   ],
+  
+  "animation" : "/objects/wired/pipe/itembox/itembox.animation",
+  "animationParts" : {
+    "box" : "itembox.png",
+    "invbar" : "invbar.png"
+  },
+  "animationPosition" : [12, 8],
   
   "scripts" : [
     "/objects/wired/pipe/itembox/itembox.lua",
@@ -43,12 +49,6 @@
   ],
   "scriptDelta" : 50,
   
-  "animation" : "/objects/wired/pipe/itembox/itembox.animation",
-  "animationParts" : {
-    "box" : "itembox.png",
-    "invbar" : "invbar.png"
-  },
-  "animationPosition" : [0, 0],
   
   "inboundNodes" : [[0, 1], [2, 1]],
   
