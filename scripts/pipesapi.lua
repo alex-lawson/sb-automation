@@ -177,7 +177,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     if pipeDirections then
       tile.path[#tile.path+1] = tile.pos --Add tile to the path
       visitedTiles[tile.pos[1].."."..tile.pos[2]] = true --Add to global visited
-      world.logInfo("Walking from object %s through tile %s", entity.id(), tile.pos[1].."."..tile.pos[2])
+      --world.logInfo("Walking from object %s through tile %s", entity.id(), tile.pos[1].."."..tile.pos[2])
       for _,dir in ipairs(pipeDirections) do
         local newPos = {tile.pos[1] + dir[1], tile.pos[2] + dir[2]}
         if not pipes.pipesConnect(dir, {tile.dir}) and visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from
@@ -187,12 +187,12 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
       end
     --If not a tile, check for objects that might connect
     elseif not pipeDirections then
-      world.logInfo("No tile at %s, checking for objects.", tile.pos[1].."."..tile.pos[2])
+      --world.logInfo("No tile at %s, checking for objects.", tile.pos[1].."."..tile.pos[2])
       local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 1)
       if connectedObjects then
-        world.logInfo("Found %s objects", #connectedObjects) 
+        ----world.logInfo("Found %s objects", #connectedObjects) 
         for key,objectId in ipairs(connectedObjects) do
-          world.logInfo("Found object %s", objectId)
+          --world.logInfo("Found object %s", objectId)
           local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
           if objectId ~= entity.id() and entNode and isValueInArray(objectId, validEntities) == false then
             validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = tile.path}
@@ -203,6 +203,6 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     table.remove(tilesToVisit, 1)
   end
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
-  world.logInfo("%s", validEntities)
+  --world.logInfo("%s", validEntities)
   return validEntities
 end
