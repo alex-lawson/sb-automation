@@ -211,14 +211,6 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     table.remove(tilesToVisit, 1)
   end
   
-  world.logInfo("Before sorting:")
-  for i,ent in ipairs(validEntities) do
-    world.logInfo("ID: %s, path nodes: %s", ent.id, #ent.path)
-  end
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
-  world.logInfo("After sorting:")
-  for i,ent in ipairs(validEntities) do
-    world.logInfo("ID: %s, path nodes: %s", ent.id, #ent.path)
-  end
   return validEntities
 end
