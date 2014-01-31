@@ -1,0 +1,64 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "liquid" : {
+        "priority" : 1,
+        "default" : "water",
+
+        "states" : {
+          "water" : {
+            "frames" : 1
+          },
+          "poison" : {
+            "frames" : 1
+          },
+          "lava" : {
+            "frames" : 1
+          },
+          "other" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+    "parts" : {
+      "liquid" : {
+        "properties" : {
+          "offset" : [-0.125, -1],
+          "centered" : false,
+          "zLevel" : 2,
+          "scalingGroup" : "liquid"
+        },
+        "partStates" : {
+          "liquid" : {
+            "water" : {
+              "properties" : {
+                "image" : "<partImage>:water"
+              }
+            },
+            "poison" : {
+              "properties" : {
+                "image" : "<partImage>:poison"
+              }
+            },
+            "lava" : {
+              "properties" : {
+                "image" : "<partImage>:lava"
+              }
+            },
+            "other" : {
+              "properties" : {
+                "image" : "<partImage>:other"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "liquid" : {
+      "pivot" : [0, 0]
+    }
+  }
+}
