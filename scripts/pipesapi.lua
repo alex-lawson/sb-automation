@@ -15,11 +15,19 @@ function acceptPipeRequestAt(pipeName, position, pipeDirection)
   return false
 end
 
-function isValueInArray(value, table)
+function table.contains(table, value)
   for _,val in ipairs(table) do
     if value == val then return true end
   end
   return false
+end
+
+function table.copy(table)
+  local newTable = {}
+  for i,v in pairs(table) do
+    newTable[i] = v
+  end
+  return newTable
 end
 
 --Pipes object with internal functions
@@ -181,7 +189,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
       for _,dir in ipairs(pipeDirections) do
         local newPos = {tile.pos[1] + dir[1], tile.pos[2] + dir[2]}
         if not pipes.pipesConnect(dir, {tile.dir}) and visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from
-          local newTile = {pos = newPos, layer = layerMode, dir = dir, path = tile.path}
+          local newTile = {pos = newPos, layer = layerMode, dir = dir, path = table.copy(tile.path)}
           table.insert(tilesToVisit, 2, newTile)
         end
       end
@@ -194,15 +202,23 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
         for key,objectId in ipairs(connectedObjects) do
           --world.logInfo("Found object %s", objectId)
           local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
-          if objectId ~= entity.id() and entNode and isValueInArray(objectId, validEntities) == false then
-            validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = tile.path}
+          if objectId ~= entity.id() and entNode and table.contains(validEntities, objectId) == false then
+            validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = table.copy(tile.path)}
           end
         end
       end
     end
     table.remove(tilesToVisit, 1)
   end
+  
+  world.logInfo("Before sorting:")
+  for i,ent in ipairs(validEntities) do
+    world.logInfo("ID: %s, path nodes: %s", ent.id, #ent.path)
+  end
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
-  --world.logInfo("%s", validEntities)
+  world.logInfo("After sorting:")
+  for i,ent in ipairs(validEntities) do
+    world.logInfo("ID: %s, path nodes: %s", ent.id, #ent.path)
+  end
   return validEntities
 end
