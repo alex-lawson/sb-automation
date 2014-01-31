@@ -491,6 +491,9 @@ function energy.sendEnergy(amount)
   local totalSent = totalEnergyToSend - remainingEnergyToSend
   energy.removeEnergy(totalSent)
 
+  --call hook for objects to update animations, etc
+  if onEnergySend then onEnergySend(totalSent) end
+
   -- world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 end
 

@@ -29,6 +29,10 @@ function onEnergySendCheck() end
 --- called when energy amount changes
 function onEnergyChange(newAmount) end
 
+--- called when energy is sent from the object
+-- @param totalSent total amount of energy sent
+function onEnergySend(totalSent) end
+
 --- called when energy is sent to the object
 -- @returns amount of energy accepted
 function onEnergyReceived(amount) end
