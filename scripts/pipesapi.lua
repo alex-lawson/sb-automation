@@ -196,7 +196,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     --If not a tile, check for objects that might connect
     elseif not pipeDirections then
       --world.logInfo("No tile at %s, checking for objects.", tile.pos[1].."."..tile.pos[2])
-      local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 1)
+      local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 2)
       if connectedObjects then
         ----world.logInfo("Found %s objects", #connectedObjects) 
         for key,objectId in ipairs(connectedObjects) do
@@ -210,7 +210,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     end
     table.remove(tilesToVisit, 1)
   end
-  
+  world.logInfo("Valid for %s: %s", world.entityName(entity.id()), validEntities)
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
   return validEntities
 end
