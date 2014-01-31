@@ -194,16 +194,17 @@ function energy.removeEnergy(amount, entityId)
 end
 
 -- attempt to remove the specified amount of energy
--- if no amount is provided, will attempt to consume the periodic amount
+-- @param amount is the amount to consume, or nil to consume the periodic amount
 --     as determined by energyConsumptionRate and scriptDelta
+-- @param testConsume (optional) if true, will not actually consume energy
 -- @returns false if there is insufficient energy stored (and does not remove energy)
-function energy.consumeEnergy(amount)
+function energy.consumeEnergy(amount, testConsume)
   if amount == nil then
     amount = energy.consumptionRate * entity.dt()
   end
   --world.logInfo("consuming %f energy", amount)
   if amount <= energy.getEnergy() then
-    energy.removeEnergy(amount)
+    if not testConsume then energy.removeEnergy(amount) end
     return true
   else
     return false
