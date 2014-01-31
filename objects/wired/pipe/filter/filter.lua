@@ -2,6 +2,8 @@ function init(virtual)
   if not virtual then
     entity.setInteractive(true)
 
+    entity.setAnimationState("switchState", "off")
+
     if storage.block == nil then storage.block = {} end
     if storage.placedBlock == nil then storage.placedBlock = {} end
 

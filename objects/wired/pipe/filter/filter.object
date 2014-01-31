@@ -5,47 +5,50 @@
   "description" : "Let only certain item or liquids pass on certain conditions",
   "shortdescription" : "Filter pipe",
   "race" : "generic",
-
   "category" : "wire",
-  "price" : 300,
   "printable" : false,
 
   "inventoryIcon" : "filtericon.png",
   "orientations" : [
     {
-      "image" : "filter.png:<color>",
+      "image" : "filter.png",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "anchors" : [ "background" ],
+      "collision" : "solid"
     },
     {
-      "image" : "filter.png:<color>",
+      "image" : "filter.png",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "collision" : "solid"
     },
     {
-      "image" : "filter.png:<color>",
+      "image" : "filter.png",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "top" ]
+      "anchors" : [ "top" ],
+      "collision" : "solid"
     },
     {
-      "image" : "filter.png:<color>",
+      "image" : "filter.png",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "left" ]
+      "anchors" : [ "left" ],
+      "collision" : "solid"
     },
     {
-      "image" : "filter.png:<color>",
+      "image" : "filter.png",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "right" ]
+      "anchors" : [ "right" ],
+      "collision" : "solid"
     }
   ],
 
@@ -57,7 +60,13 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 100,
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/filter/filter.animation",
+  "animationParts" : {
+    "pipe" : "filter.png"
+  },
+  "animationPosition" : [0, 0],
 
   "liquidNodes" : [
     {"offset": [0, 0], "dir": [-1, 0]},
