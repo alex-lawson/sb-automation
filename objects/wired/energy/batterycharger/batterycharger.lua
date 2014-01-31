@@ -39,6 +39,10 @@ function initAfterLoading()
   checkBatteries()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function die()
   energy.die()
 end

@@ -31,6 +31,10 @@ function onInteraction(args)
   doScan()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function doScan()
   local entityIds = world.objectQuery(entity.position(), self.triggerDistance, { name = "rectmarker", order = "nearest", withoutEntityId = entity.id() })
   if #entityIds > 0 then
