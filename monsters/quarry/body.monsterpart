@@ -1,0 +1,9 @@
+{
+  "name" : "quarry",
+  "category" : "quarry",
+  "type" : "body",
+
+  "frames" : {
+    "body" : "ele_quarry.png"
+  }
+}

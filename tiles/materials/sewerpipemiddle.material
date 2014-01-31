@@ -1,0 +1,15 @@
+{
+  "materialId" : 24,
+  "materialName" : "sewerpipemiddle",
+  "frames" : "sewerpipemiddle.png",
+  "particleColor" : [84, 127, 73, 255],
+  "variants" : 10,
+  "itemDrop" : "sewerpipemiddle",
+  "shortdescription" : "Sewer Pipe Middle.",
+  "description" : "Sewer Pipe Middle.",
+  "glitchDescription" : "Statement. A middle second of a horizontal pipe.",
+  "floranDescription" : "Lying down pipe.",
+  "multicolored" : true,
+  "footstepSound" : "/sfx/blocks/footstep_lightmetal.wav",
+  "health" : 10
+}

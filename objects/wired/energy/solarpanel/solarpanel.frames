@@ -1,0 +1,14 @@
+{
+  "frameGrid" : {
+    "size" : [40, 32],
+    "dimensions" : [3, 1],
+    "names" : [
+      [ "solar.on", "solar.off", "solar.error" ]
+    ]
+  },
+
+  "aliases" : {
+    "default.default" : "solar.on",
+    "default.1" : "solar.on"
+  }
+}

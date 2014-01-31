@@ -1,0 +1,15 @@
+{
+  "materialId" : 112,
+  "materialName" : "sewerpipeSW",
+  "frames" : "sewerpipeSW.png",
+  "particleColor" : [84, 127, 73, 255],
+  "variants" : 10,
+  "itemDrop" : "sewerpipeSW",
+  "shortdescription" : "Sewer Pipe exiting south and west.",
+  "description" : "South and west exits of a section of a Sewer Pipe.",
+  "glitchDescription" : "South and west exits of a section of a Sewer Pipe.",
+  "floranDescription" : "South and west exits of a section of a Sewer Pipe.",
+  "multicolored" : true,
+  "footstepSound" : "/sfx/blocks/footstep_lightmetal.wav",
+  "health" : 10
+}

@@ -4,7 +4,7 @@
     "path": ".",
     "dependencies": [],
     "metadata": {
-        "author": "Starfoundy Collaborators",
+        "author": "Starfoundry Collaborators",
         "version": "1.0.1",
         "description": "A comprehensive system of Starbound mods to automate the movement, production, and storage of materials, liquids, items, energy and data.",
         "support_url": "https://github.com/alex-lawson/sb-automation/issues"

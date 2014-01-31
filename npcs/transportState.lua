@@ -2,7 +2,7 @@ transportState = {}
 
 function transportState.enter()
   if storageApi.isInit() then
-    storageApi.init(entity.configParameter("storageapi.mode"), entity.configParameter("storageapi.capacity"), entity.configParameter("storageapi.merge"))
+    storageApi.init()
   end
   if storageApi.getCount() < 1 then return nil end
   local objs = world.objectQuery(entity.position(), entity.configParameter("transport.scanRadius"), { order = "nearest" })
