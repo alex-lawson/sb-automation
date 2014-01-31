@@ -1,0 +1,12 @@
+{
+  "itemName" : "sewerpipehorizontal",
+  "rarity" : "Common",
+  "inventoryIcon" : "sewerpipehorizontal.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "shortdescription" : "Horizontal Sewer Pipe",
+  "description" : "A horizontal pipe.",
+  "glitchdescription" : "Statement. A horizontal pipe.",
+  "florandescription" : "Lying down pipe.",
+
+  "materialId" : 137
+}

@@ -8,8 +8,8 @@ function init(args)
     if initInv and storage.sApi == nil then
       storage.sApi = initInv
     end
-    
-    storageApi.init(3, 16, true)
+
+    storageApi.init({ mode = 3, capacity = 16, merge = true })
     
     entity.scaleGroup("invbar", {2, 0})
     

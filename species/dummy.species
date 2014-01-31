@@ -1,0 +1,103 @@
+{
+	"kind" : "dummy",
+	"playerSpecies" : false,
+	"nameGen" : [ "/species/humannamegen.config:names", "/species/humannamegen.config:names" ],
+	"ouchNoises" : [ "/sfx/humanoid/humanhurt_male1.wav", "/sfx/humanoid/humanhurt_female1.wav" ],
+	"charGenTextLabels" : [ "SKIN COLOR", "HAIR STYLE", "SHIRT", "PANTS", "UNDY COLOR", "HAIR COLOR", "SHIRT COLOR", "PANTS COLOR", "DUMMY", "PERSONALITY" ],
+
+	"defaultBlueprints" : {
+		"tier1" : [
+			{ "item" : "humantier1hammer" }
+		],
+		"tier2" : [
+			{ "item" : "humantier2hammer" }
+		],
+		"tier3" : [
+			{ "item" : "humantier3head" }
+		],
+		"tier4" : [
+			{ "item" : "humantier4head" }
+		],
+		"level32" : [
+			{ "item" : "humantier5head" }
+		],
+		"level33" : [
+			{ "item" : "humantier6head" }
+		],
+		"level34" : [
+			{ "item" : "humantier7head" }
+		],
+		"level35" : [
+			{ "item" : "humantier8head" }
+		],
+		"level36" : [
+			{ "item" : "humantier9head" }
+		],
+		"level37" : [
+			{ "item" : "humantier10head" }
+		]
+	},
+	
+	"altOptionAsUndyColor" : true,
+	"headOptionAsHairColor" : true,
+	"genders" : [
+		{
+			"name" : "male",
+			"image" : "/interface/title/male.png",
+            "characterImage" : "/interface/title/humanmale.png",
+			"hair" : [ "dummy" ],
+			"shirt" : [ "workoutchest", "coolchest", "conceptchest", "sweatervestchest" ],
+			"pants" : [ "workoutlegs", "coollegs", "conceptlegs", "sweatervestlegs" ],
+			"facialHairGroup" : "",
+			"facialHair" : [ ],
+			"facialMaskGroup" : "",
+			"facialMask" : [ ]
+		},
+		{
+			"name" : "female",
+			"image" : "/interface/title/female.png",
+            "characterImage" : "/interface/title/humanfemale.png",
+			"hair" : [ "dummy" ],
+			"shirt" : [ "workoutchest", "coolchest", "conceptchest", "sweatervestchest" ],
+			"pants" : [ "workoutlegs", "coollegs", "conceptlegs", "sweatervestlegs" ],
+			"facialHairGroup" : "",
+			"facialHair" : [ ],
+			"facialMaskGroup" : "",
+			"facialMask" : [ ]
+		}
+	],
+
+	"bodyColor" : [
+		{ "FFE2C5" : "FFE9D3", "FFC181" : "FFC181", "D39C6C" : "D39C6C", "C7815B" : "B97551" },
+		{ "FFE2C5" : "FFF6F6", "FFC181" : "F7D5D3", "D39C6C" : "D1AAA1", "C7815B" : "A27F70" },
+		{ "FFE2C5" : "FFF7EC", "FFC181" : "F9D3A9", "D39C6C" : "D3A57C", "C7815B" : "B37C5D" },
+		{ "FFE2C5" : "FBE1D4", "FFC181" : "F6BAA2", "D39C6C" : "CC9582", "C7815B" : "AC7261" },
+		{ "FFE2C5" : "F4E0BA", "FFC181" : "E9B768", "D39C6C" : "C18F54", "C7815B" : "A2683D" },
+		{ "FFE2C5" : "E8CEBC", "FFC181" : "CFA97D", "D39C6C" : "AE774B", "C7815B" : "804E34" },
+		{ "FFE2C5" : "E1B98D", "FFC181" : "C88959", "D39C6C" : "9E6A4D", "C7815B" : "784930" },
+		{ "FFE2C5" : "C9B181", "FFC181" : "AC8348", "D39C6C" : "87633F", "C7815B" : "694C31" },
+		{ "FFE2C5" : "C5AD98", "FFC181" : "A47A59", "D39C6C" : "865D40", "C7815B" : "66412E" },
+		{ "FFE2C5" : "AB8C77", "FFC181" : "86644A", "D39C6C" : "684431", "C7815B" : "40271D" }
+	],
+	"undyColor" : [
+		{ "DC1F00" : "4D76AD", "BE1B00" : "395187", "951500" : "20325B" },
+		{ "DC1F00" : "7C41B8", "BE1B00" : "6C2F90", "951500" : "471962" },
+		{ "DC1F00" : "C63442", "BE1B00" : "9B2724", "951500" : "6A1210" },
+		{ "DC1F00" : "EAA245", "BE1B00" : "B47020", "951500" : "834A0C" },
+		{ "DC1F00" : "E3E13A", "BE1B00" : "A8A614", "951500" : "848008" },
+		{ "DC1F00" : "6AB841", "BE1B00" : "45902F", "951500" : "296219" },
+		{ "DC1F00" : "535353", "BE1B00" : "363636", "951500" : "111111" },
+		{ "DC1F00" : "E6E6E6", "BE1B00" : "979797", "951500" : "6F6F6F" },
+		{ "DC1F00" : "9E9E9E", "BE1B00" : "6E6E6E", "951500" : "434343" },
+		{ "DC1F00" : "F794F8", "BE1B00" : "D355C1", "951500" : "B72C95" }
+	],
+	"hairColor" : [
+		{ "F7E7B2" : "FF00FF", "D9C189" : "525252", "A38D59" : "363636", "735E3A" : "161616" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "50422F", "A38D59" : "36261E", "735E3A" : "170F0D" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "7F5A39", "A38D59" : "5B3523", "735E3A" : "3B1F15" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "A6671D", "A38D59" : "915622", "735E3A" : "743E1D" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "E6E756", "A38D59" : "C7AC3F", "735E3A" : "A9882F" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "F2EBA3", "A38D59" : "DCD28C", "735E3A" : "C2B677" },
+		{ "F7E7B2" : "FF00FF", "D9C189" : "7D3C1C", "A38D59" : "4D240B", "735E3A" : "2D1606" }
+	]
+}

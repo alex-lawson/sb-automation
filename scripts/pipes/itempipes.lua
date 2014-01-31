@@ -9,6 +9,7 @@ itemPipe = {
     peekGet = "beforeItemGet" --Should return true if object will get the item
   }
 }
+
 function pushItem(nodeId, item)
   return pipes.push("item", nodeId, item)
 end
