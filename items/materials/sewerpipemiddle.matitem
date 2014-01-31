@@ -1,0 +1,15 @@
+{
+  "itemName" : "sewerpipemiddle",
+  
+"rarity" : "Common",
+  
+"inventoryIcon" : "sewerpipemiddle.png",
+  
+"dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  
+"description" : "Sewer Pipe Middle",
+  
+"shortdescription" : "Sewer Pipe Middle",
+
+  
+"materialId" : 24}
