@@ -8,6 +8,7 @@
 
   "category" : "wire",
   "price" : 1000,
+  "printable" : false,
 
   "inventoryIcon" : "operatoricon.png",
   "orientations" : [
@@ -16,7 +17,8 @@
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "anchors" : [ "background" ],
+      "direction" : "right"
     }
   ],
 

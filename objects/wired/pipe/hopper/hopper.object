@@ -6,6 +6,7 @@
   "shortdescription" : "Hopper",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Hopper",
   "avianDescription" : "Hopper",

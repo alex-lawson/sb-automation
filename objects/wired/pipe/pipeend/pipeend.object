@@ -6,6 +6,7 @@
   "shortdescription" : "Pipe Spout",
   "race" : "generic",
   "category" : "wire",
+  "printable" : false,
 
   "apexDescription" : "Pipe spout",
   "avianDescription" : "Pipe spout",
@@ -74,5 +75,7 @@
   },
   "animationPosition" : [0, 0],
   
-  "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [0, 0], "dir": [0, -1]}, {"offset": [0, 0], "dir": [1, 0]}, {"offset": [0, 0], "dir": [0, 1]} ]
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [0, 0], "dir": [0, -1]}, {"offset": [0, 0], "dir": [1, 0]}, {"offset": [0, 0], "dir": [0, 1]} ],
+  
+  "liquidConversions": [ [5, 3], [2, 1] ]
 }

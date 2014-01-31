@@ -5,9 +5,9 @@
   "description" : "It's a clock!",
   "shortdescription" : "Analog Clock",
   "race" : "generic",
-
   "category" : "wire",
   "price" : 1,
+  "printable" : false,
 
   "inventoryIcon" : "analogclockicon.png",
   "orientations" : [
@@ -16,7 +16,8 @@
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "anchors" : [ "background" ],
+      "direction" : "right"
     }
   ],
 

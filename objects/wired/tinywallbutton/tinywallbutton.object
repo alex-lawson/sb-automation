@@ -11,6 +11,7 @@
 
   "category" : "wire",
   "price" : 300,
+  "printable" : false,
 
   "inventoryIcon" : "tinywallbuttonicon.png",
   "orientations" : [

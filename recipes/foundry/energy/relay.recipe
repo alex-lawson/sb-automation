@@ -7,5 +7,5 @@
     "item" : "relay",
     "count" : 1
   },
-  "groups" : [ "foundry", "all", "logic" ]
+  "groups" : [ "foundry", "all", "energy" ]
 }

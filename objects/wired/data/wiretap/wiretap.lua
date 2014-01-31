@@ -4,12 +4,11 @@ function init(virtual)
       -- First Initialization
       storage.fingerprint = entity.position()[1] .. "." ..entity.position()[2]
       storage.name = storage.fingerprint
-      output(false)
+      storage.logStack = {}
+      entity.setAnimationState("tapState", "on")
     else
       -- Re-Initialization
-      output(storage.state)
     end
-
     -- Every Initialization
     datawire.init()
     entity.setInteractive(true)
@@ -21,20 +20,8 @@ function main(args)
 end
 
 function onInteraction(args)
-  output(not storage.state)
-end
-
-function output(state)
-  if state ~= storage.state then
-    storage.state = state
-    if state then
-      entity.setAnimationState("tapState", "on")
-      world.logInfo("Wiretap " .. storage.name .. "--- Enabling Logging ---")
-    else
-      entity.setAnimationState("tapState", "off")
-      world.logInfo("Wiretap " .. storage.name .. "--- Disabling Logging ---")
-    end
-  end
+  -- need to make custom interface for this, popup sucks
+  return { "ShowPopup", { message = getPopupString() }}
 end
 
 function validateData(data, dataType, nodeId)
@@ -43,10 +30,50 @@ function validateData(data, dataType, nodeId)
 end
 
 function onValidDataReceived(data, dataType, nodeId)
-  if storage.state then
-    world.logInfo("Wiretap %s: (%s) %s", storage.name, dataType, data)
-  end
+  logInfo(data, dataType)
   datawire.sendData(data, dataType, 0)
+end
+
+function logInfo(data, dataType)
+
+  if dataType == "number" then
+    if storage.prevData == nil or data == storage.prevData then
+      logString = "^white;" .. dataType .. " : " .. data
+    elseif data > storage.prevData then
+      logString = "^white;" .. dataType .. " : ^green;" .. data
+    else
+      logString = "^white;" .. dataType .. " : ^red;" .. data
+    end
+  else
+    logString = "^white;" .. dataType .. " : " .. data
+  end
+  storage.prevData = data
+
+  -- I'm using some dirty 'features' of # here
+  -- while the full, list will have keys 0-10,  # will still return 10
+  -- This is just a poor-man's stack, with a max of 10 entries.
+  if #storage.logStack >= 10 then
+    for i = 1, 10, 1 do
+      storage.logStack[i - 1] = storage.logStack[i]
+    end
+    storage.logStack[10] = logString
+  else
+    storage.logStack[#storage.logStack + 1] = logString
+  end
+end
+
+function getPopupString()
+  popupString = ""
+  for i = 1, #storage.logStack, 1 do
+    popupString = popupString.. "\n^green;" .. i .. ") ^white;" .. storage.logStack[i]
+  end
+  if popupString == "" then
+    return "^red;No Data Collected"
+  else
+    -- Unknown data will be possible with datawire.lua update in future
+    popupString = "^green;Device: ^red;Unknown\n^green;Coords: ^red;Unknown\n" .. popupString
+    return popupString
+  end
 end
 
 function name(newName)

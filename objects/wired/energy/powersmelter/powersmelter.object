@@ -15,7 +15,8 @@
       "imagePosition" : [-16, -16],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
     }
   ],
 
