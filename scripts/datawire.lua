@@ -114,6 +114,8 @@ function datawire.receiveData(args)
   local dataType = args[2]
   local sourceEntityId = args[3]
 
+  -- world.logInfo("%s %d sent me this %s %s", world.callScriptedEntity(sourceEntityId, "entity.configParameter", "objectName"), sourceEntityId, dataType, data)
+
   --convert entityId to nodeId
   local nodeId = datawire.inboundConnections[sourceEntityId]
 
@@ -124,9 +126,9 @@ function datawire.receiveData(args)
     -- end
 
     return false
-  elseif validateData and validateData(data, dataType, nodeId) then
+  elseif validateData and validateData(data, dataType, nodeId, sourceEntityId) then
     if onValidDataReceived then
-      onValidDataReceived(data, dataType, nodeId)
+      onValidDataReceived(data, dataType, nodeId, sourceEntityId)
     end
 
     -- world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))

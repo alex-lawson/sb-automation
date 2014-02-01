@@ -9,7 +9,7 @@
       }
     },
     "parts" : {
-      "battery" : {
+      "background" : {
         "properties" : {
           "image" : "<partImage>",
           "centered" : false,
@@ -21,8 +21,15 @@
           "image" : "<partImage>",
           "centered" : false,
           "scalingGroup" : "chargebar",
-          "offset" : [0, 0.375],
+          "offset" : [0.125, 0.375],
           "zLevel" : 2
+        }
+      },
+      "overlay" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false,
+          "zLevel" : 3
         }
       }
     }
@@ -30,7 +37,7 @@
 
   "scalingGroups" : {
     "chargebar" : {
-      "pivot" : [0, 0.375]
+      "pivot" : [0.125, 0.375]
     }
   },
 

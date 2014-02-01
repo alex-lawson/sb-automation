@@ -42,17 +42,19 @@ function onInteraction(args)
   setActive(not storage.active)
 end
 
-function setActive(isActive)
-  entity.setParticleEmitterActive("fanwind"..self.flipStr, isActive)
-  if isActive then
-    entity.setAnimationState("fanState", "work")
-  elseif storage.active then
-    entity.setAnimationState("fanState", "slow")
-    self.timer = 20
-  else
-    entity.setAnimationState("fanState", "idle")
+function setActive(flag)
+  if not flag or energy.consumeEnergy(nil, true) then
+    entity.setParticleEmitterActive("fanwind" .. self.flipStr, flag)
+    if flag then
+      entity.setAnimationState("fanState", "work")
+    elseif storage.active then
+      entity.setAnimationState("fanState", "slow")
+      self.timer = 20
+    else
+      entity.setAnimationState("fanState", "idle")
+    end
+    storage.active = flag
   end
-  storage.active = isActive
 end
 
 
@@ -69,15 +71,9 @@ function main()
     elseif self.st == 3 then 
       entity.playImmediateSound(self.blowSound)
     end
-    if entity.direction() == 1 then
-      local x1,y1 = unpack(entity.toAbsolutePosition({0, 0}))
-      local x2,y2 = unpack(entity.toAbsolutePosition({self.affectWidth, 4}))
-      entity.setForceRegion({x1,y1,x2,y2},{self.fanPower,0})
-    else
-      local x1,y1 = unpack(entity.toAbsolutePosition({-self.affectWidth, 0}))
-      local x2,y2 = unpack(entity.toAbsolutePosition({0, 4}))
-      entity.setForceRegion({x1,y1,x2,y2},{self.fanPower * -1,0})
-    end
+    local d = entity.direction();
+    local p = entity.position();
+    entity.setForceRegion({ p[1], p[2] - 1, p[1] + d * self.affectWidth, p[2] + 1 }, { self.fanPower * d, 0 })
   elseif self.timer > 0 then
     if self.timer % 12 == 4 then 
       entity.playImmediateSound(self.blowSound) 
