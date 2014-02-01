@@ -251,7 +251,7 @@ end
 function energy.checkLoS(srcPos, tarPos, entityId)
   local ignoreBlocksSrc = energy.getCollisionBlocks()
   local ignoreBlocksTar = world.callScriptedEntity(entityId, "energy.getCollisionBlocks")
-  if ignoreBlocksSrc or ignoreBlocksTar then
+  if ignoreBlocksSrc or ignoreBlocksTar or srcPos[1] < energy.linkRange or tarPos[1] < energy.linkRange then
     local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
     return energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
   else
