@@ -28,28 +28,18 @@ end
 function die()
   local position = entity.position()
   if storage.liquid[1] ~= nil then
-    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
+    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
   else
-    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1)
+    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1)
   end
 end
 
 
 function onInteraction(args)
-  local liquid = self.liquidMap[storage.liquid[1]]
-  local count = storage.liquid[2]
-  local capacity = self.capacity
-  local itemList = ""
-  
-  if liquid == nil then liquid = "other" end
-  if count ~= nil then 
-    return { "ShowPopup", { message = "^white;Holding ^green;" .. count ..
-      "^white; / ^green;" .. capacity ..
-      "^white; units of liquid ^green;" .. liquid
-    }}
-  else
-    return { "ShowPopup", { message = "Tank is empty."}}
-  end
+  return { "SitDown", {config={
+    ["sitFlipDirection"] = false,
+    ["sitPosition"] = {20,20}
+  }}}
 end
 
 function main(args)

@@ -10,6 +10,9 @@
   
   "breakDropOptions": [],
 
+  "sitFlipDirection" : false,
+  "sitPosition" : [20, 20],
+
   "inventoryIcon" : "submersiontankicon.png",
   "orientations" : [
     {
