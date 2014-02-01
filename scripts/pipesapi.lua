@@ -210,7 +210,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     end
     table.remove(tilesToVisit, 1)
   end
-  world.logInfo("Valid for %s: %s", world.entityName(entity.id()), validEntities)
+  --world.logInfo("Valid for %s: %s", world.entityName(entity.id()), validEntities)
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
   return validEntities
 end
