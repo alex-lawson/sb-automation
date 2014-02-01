@@ -2,19 +2,13 @@
   "objectName" : "detector",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Detects various states",
-  "shortdescription" : "Detector",
+  "description" : "Detects a variety of entity types",
+  "shortdescription" : "Entity Detector",
   "race" : "generic",
 
   "category" : "wire",
   "price" : 300,
-
-  "apexDescription" : "todo",
-  "avianDescription" : "todo",
-  "floranDescription" : "todo",
-  "glitchDescription" : "todo",
-  "humanDescription" : "todo",
-  "hylotlDescription" : "todo",
+  "printable" : false,
 
   "inventoryIcon" : "detectoricon.png",
   "orientations" : [
@@ -39,7 +33,7 @@
 
   "outboundNodes" : [ [0, 0] ],
 
-  "modes" : [ "all", "owner", "player", "monster", "item", "npc", "solar" ],
+  "modes" : [ "all", "owner", "player", "monster", "item", "npc" ],
   "detectRadius" : 3,
   "detectTickDuration" : 10,
   "lightLevel" : 0.5

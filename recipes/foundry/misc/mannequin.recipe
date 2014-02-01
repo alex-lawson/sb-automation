@@ -1,0 +1,12 @@
+{
+  "input" : [ 
+    { "item" : "ironbar", "count" : 1 },
+    { "item" : "darkwoodmaterial", "count" : 10 },
+    { "item" : "fabric", "count" : 5 }
+  ],
+  "output" : {
+    "item" : "mannequin",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "misc" ]
+}
