@@ -30,13 +30,15 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "batterycharger.animation",
   "animationParts" : {
     "charger" : "batterycharger.png"
   },
   "animationPosition" : [-8, 0],
+
+  "outboundNodes" : [ [0, 3], [0, 0] ],
 
   "energySendRate" : 40,
   "energyCapacity" : 20
