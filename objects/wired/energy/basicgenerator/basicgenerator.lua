@@ -14,11 +14,12 @@ function init(virtual)
 
     self.fuelMax = 50
 
-    local initialFuel = entity.configParameter("initialFuel")
-    if initialFuel then
-      storage.fuel = initialFuel
-    elseif storage.fuel == nil then
-      storage.fuel = 0
+    if storage.fuel == nil then
+      if entity.configParameter("initialFuel") then
+        storage.fuel = entity.configParameter("initialFuel")
+      else
+        storage.fuel = 0
+      end
     end
 
     self.fuelUseRate = 0.2
