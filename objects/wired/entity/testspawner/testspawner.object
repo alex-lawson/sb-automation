@@ -24,7 +24,7 @@
   "scripts" : [ "testspawner.lua" ],
   "scriptDelta" : 5,
 
-  "animation" : "/objects/wired/switchtoggle.animation",
+  "animation" : "/objects/wired/switch/switchtoggle.animation",
 
   "animationParts" : {
     "switch" : "testspawner.png"

@@ -15,7 +15,7 @@
 
   "orientations" : [
     {
-      "image" : "battery.png:background",
+      "image" : "battery.png:battery",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,

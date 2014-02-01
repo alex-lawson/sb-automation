@@ -1,9 +1,9 @@
 {
   "frameGrid" : {
     "size" : [8, 16],
-    "dimensions" : [2, 1],
+    "dimensions" : [3, 1],
     "names" : [
-        [ "background", "overlay" ]
+        [ "battery", "background", "overlay" ]
     ]
   }
 }
