@@ -1,0 +1,13 @@
+{
+  "input" : [ 
+      { "item" : "energycrystal", "count" : 1 },
+      { "item" : "titaniumbar", "count" : 20 },
+      { "item" : "money", "count" : 500 },
+      { "item" : "diamonddrill", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "quarry",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "misc" ]
+}
