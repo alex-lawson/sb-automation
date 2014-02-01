@@ -1,6 +1,6 @@
-function init(virtual)  
+function init(args)  
   entity.setInteractive(true)
-  if not virtual then
+  if args == false then
     pipes.init({liquidPipe})
     local initInv = entity.configParameter("initialInventory")
     if initInv and storage.liquid == nil then
@@ -12,6 +12,8 @@ function init(virtual)
     self.liquidMap[1] = "water"
     self.liquidMap[3] = "lava"
     self.liquidMap[4] = "poison"
+    self.liquidMap[6] = "juice"
+    self.liquidMap[7] = "tar"
     
     self.capacity = entity.configParameter("liquidCapacity")
     self.pushAmount = entity.configParameter("liquidPushAmount")
@@ -26,13 +28,13 @@ end
 function die()
   local position = entity.position()
   if storage.liquid[1] ~= nil then
-    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
+    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
   else
-    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1)
+    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1)
   end
 end
 
--- Need to replace this with some way to detect 'sitting'
+
 function onInteraction(args)
   local liquid = self.liquidMap[storage.liquid[1]]
   local count = storage.liquid[2]

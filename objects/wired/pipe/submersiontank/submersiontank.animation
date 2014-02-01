@@ -9,7 +9,13 @@
           "water" : {
             "frames" : 1
           },
+          "tar" : {
+            "frames" : 1
+          },
           "poison" : {
+            "frames" : 1
+          },
+          "juice" : {
             "frames" : 1
           },
           "lava" : {
@@ -22,6 +28,22 @@
       }
     },
     "parts" : {
+      "fore" : {
+        "properties" : {
+          "image" : "<partImage>:foreground",
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 3
+        }
+      },
+      "back" : {
+        "properties" : {
+          "image" : "<partImage>:background",
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 1
+        }
+      },
       "liquid" : {
         "properties" : {
           "offset" : [-0.125, -1],
@@ -36,9 +58,19 @@
                 "image" : "<partImage>:water"
               }
             },
+            "tar" : {
+              "properties" : {
+                "image" : "<partImage>:tar"
+              }
+            },
             "poison" : {
               "properties" : {
                 "image" : "<partImage>:poison"
+              }
+            },
+            "juice" : {
+              "properties" : {
+                "image" : "<partImage>:juice"
               }
             },
             "lava" : {

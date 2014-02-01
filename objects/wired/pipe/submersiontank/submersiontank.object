@@ -1,54 +1,43 @@
 {
   "objectName" : "submersiontank",
+  "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "Change Me",
+  "description" : "A tank for submersing yourself.",
   "shortdescription" : "Submersion Tank",
   "race" : "generic",
-
-  "category" : "furniture",
-  "price" : 1500,
+  "category" : "wire",
   "printable" : false,
-
-  "apexDescription" : "Change Me.",
-  "avianDescription" : "Change Me.",
-  "floranDescription" : "Change Me.",
-  "glitchDescription" : "Change Me.",
-  "humanDescription" : "Change Me.",
-  "hylotlDescription" : "Change Me.",
+  
+  "breakDropOptions": [],
 
   "inventoryIcon" : "submersiontankicon.png",
   "orientations" : [
     {
       "dualImage" : "submersiontank.png",
-
-      "imagePosition" : [-24, 0],
+      "imageLayers" : [ { "image" : "submersiontank.png:foreground" }, {"image" : "submersiontank.png:background"}],
+      "imagePosition" : [0, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
-
     }
   ],
-
-  "objectType" : "interactable",
-  "interactAction" : "sitdown",
-  "sitFlipDirection" : true,
-  "sitPosition" : [-10, 14],
-  "sitAngle" : 90,
-  "sitCoverImage" : "submersiontankcover.png",
-  "sitEmote" : "sleep",
-  "sitStatusEffects" : [
-    { "kind" : "Nude" }
-  ],
-  "sitEffectEmitters" : [ "sleepbubbles" ]
-
+  
+  "animation" : "/objects/wired/pipe/submersiontank/submersiontank.animation",
+  "animationParts" : {
+    "fore" : "submersiontank.png",
+    "back" : "submersiontank.png",
+    "liquid" : "submersiontankbar.png"
+  },
+  "animationPosition" : [16, 20],
+  
   "scripts" : [
-  "/objects/wired/pipe/submersiontank/submersiontank.lua",
-  "/scripts/pipes/liquidpipes.lua",
-  "/scripts/pipesapi.lua",
-  "/scripts/util.lua",
-  "/scripts/vec2.lua"
+    "/objects/wired/pipe/submersiontank/submersiontank.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
   ],
   "scriptDelta" : 5,
   

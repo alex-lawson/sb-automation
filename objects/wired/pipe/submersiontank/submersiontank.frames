@@ -1,9 +1,9 @@
 {
   "frameGrid" : {
-    "size" : [48, 24],
-    "dimensions" : [1, 4],
+    "size" : [32, 40],
+    "dimensions" : [2, 1],
     "names" : [
-      [ "other", "water", "lava", "poison" ]
+      [ "foreground", "background" ]
     ]
   }
 }
