@@ -26,7 +26,7 @@ function init(virtual)
     --store this so that we don't have to compute it repeatedly
     local pos = entity.position()
     self.batteryCheckArea = {
-      {pos[1], pos[2] - 1},
+      {pos[1], pos[2] + 1.5},
       1.5
     }
 
@@ -44,6 +44,9 @@ function onNodeConnectionChange()
 end
 
 function die()
+  for i, batteryStatus in ipairs(self.batteries) do
+    world.callScriptedEntity(batteryStatus.id, "entity.smash")
+  end
   energy.die()
 end
 
