@@ -98,6 +98,7 @@ function onLiquidPut(liquid, nodeId)
   elseif liquid and liquid[1] == storage.liquid[1] then
     local excess = 0
     local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
+    local nodeMap = {2, 1}
     
     if newLiquid[2] > self.capacity then 
       excess = newLiquid[2] - self.capacity
@@ -106,8 +107,11 @@ function onLiquidPut(liquid, nodeId)
     storage.liquid = newLiquid
     
     --Try to push excess liquid
-    if excess > 0 then return pushLiquid(2, {newLiquid[1], excess}) end
-    return true
+    if excess > 0 and (entity.isInboundNodeConnected(nodeMap[nodeId]-1) == false or entity.getInboundNodeLevel(nodeMap[nodeId]-1)) then 
+      return pushLiquid(nodeMap[nodeId], {newLiquid[1], excess}) 
+    elseif excess ~= liquid[2] then
+      return true
+    end
   end
   return false
 end
@@ -118,13 +122,17 @@ function beforeLiquidPut(liquid, nodeId)
   elseif liquid and liquid[1] == storage.liquid[1] then
     local excess = 0
     local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
+    local nodeMap = {2, 1}
     
     if newLiquid[2] > self.capacity then 
       excess = newLiquid[2] - self.capacity
     end
     
-    if excess == liquid[2] then return peekPushLiquid(2, {newLiquid[1], excess}) end
-    return true
+    if excess == liquid[2] and (entity.isInboundNodeConnected(nodeMap[nodeId]-1) == false or entity.getInboundNodeLevel(nodeMap[nodeId]-1)) then
+      return peekPushLiquid(nodeMap[nodeId], {newLiquid[1], excess}) 
+    elseif excess < liquid[2] then
+      return true
+    end
   end
   return false
 end
