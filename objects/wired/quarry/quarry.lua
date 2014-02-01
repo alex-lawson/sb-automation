@@ -412,7 +412,11 @@ end
 function sendItem()
     if next(pipes.nodeEntities) ~= nil and storageApi.getCount() > 0 then
         for i,item in storageApi.getIterator() do
-            local result = pushItem(1, item)
+            local tarNode = 1
+            if entity.direction() == -1 then
+                tarNode = 2
+            end
+            local result = pushItem(tarNode, item)
             if result == true then storageApi.returnItem(i) end --Whole stack was accepted
             if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
             if result then
