@@ -28,17 +28,24 @@ end
 function die()
   local position = entity.position()
   if storage.liquid[1] ~= nil then
-    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
+    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
   else
-    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1)
+    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1)
   end
 end
 
-
 function onInteraction(args)
+  world.logInfo("SUBMERSIONTANK: onInteraction")
   return { "SitDown", {config={
     ["sitFlipDirection"] = false,
-    ["sitPosition"] = {20,20}
+    ["sitPosition"] = {20,20},
+    ["sitOrientation"] = "lay",
+    ["sitAngle"] = 0,
+    ["sitCoverImage"] = "/objects/wired/pipe/submersiontank.png",
+    ["sitEmote"] = "sleep",
+    ["sitStatusEffects"] =  {
+      ["kind"] = "Nude",
+    },
   }}}
 end
 
@@ -85,7 +92,7 @@ function onLiquidPut(liquid, nodeId)
   if storage.liquid[1] == nil then
     storage.liquid = liquid
     return true
-  elseif liquid[1] == storage.liquid[1] then
+  elseif liquid and liquid[1] == storage.liquid[1] then
     local excess = 0
     local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
     
@@ -105,7 +112,7 @@ end
 function beforeLiquidPut(liquid, nodeId)
   if storage.liquid[1] == nil then
     return true
-  elseif liquid[1] == storage.liquid[1] then
+  elseif liquid and liquid[1] == storage.liquid[1] then
     local excess = 0
     local newLiquid = {liquid[1], storage.liquid[2] + liquid[2]}
     

@@ -10,9 +10,6 @@
   
   "breakDropOptions": [],
 
-  "sitFlipDirection" : false,
-  "sitPosition" : [20, 20],
-
   "inventoryIcon" : "submersiontankicon.png",
   "orientations" : [
     {
@@ -27,7 +24,7 @@
     }
   ],
   
-  "animation" : "/objects/wired/pipe/submersiontank/submersiontank.animation",
+  "animation" : "submersiontank.animation",
   "animationParts" : {
     "fore" : "submersiontank.png",
     "back" : "submersiontank.png",
@@ -36,7 +33,7 @@
   "animationPosition" : [16, 20],
   
   "scripts" : [
-    "/objects/wired/pipe/submersiontank/submersiontank.lua",
+    "submersiontank.lua",
     "/scripts/pipes/liquidpipes.lua",
     "/scripts/pipesapi.lua",
     "/scripts/util.lua",
