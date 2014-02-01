@@ -1,0 +1,15 @@
+{
+  "materialId" : 137,
+  "materialName" : "sewerpipehorizontal",
+  "frames" : "sewerpipehorizontal.png",
+  "particleColor" : [84, 127, 73, 255],
+  "variants" : 10,
+  "itemDrop" : "sewerpipehorizontal",
+  "shortdescription" : "Horizontal Sewer Pipe",
+  "description" : "A horizontal pipe.",
+  "glitchDescription" : "Statement. A horizontal pipe.",
+  "floranDescription" : "Lying down pipe.",
+  "multicolored" : true,
+  "footstepSound" : "/sfx/blocks/footstep_lightmetal.wav",
+  "health" : 10
+}

@@ -24,12 +24,16 @@ function onInteraction(args)
   return { "ShowPopup", { message = getPopupString() }}
 end
 
-function validateData(data, dataType, nodeId)
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
+function validateData(data, dataType, nodeId, sourceEntityId)
   --only receive data on node 0
   return nodeId == 0
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   logInfo(data, dataType)
   datawire.sendData(data, dataType, 0)
 end

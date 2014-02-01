@@ -1,0 +1,15 @@
+{
+  "materialId" : 116,
+  "materialName" : "sewerpipeNE",
+  "frames" : "sewerpipeNE.png",
+  "particleColor" : [84, 127, 73, 255],
+  "variants" : 10,
+  "itemDrop" : "sewerpipeNE",
+  "shortdescription" : "Sewer Pipe exiting north and east.",
+  "description" : "North and east exits of a section of a Sewer Pipe.",
+  "glitchDescription" : "North and east exits of a section of a Sewer Pipe.",
+  "floranDescription" : "North and east exits of a section of a Sewer Pipe.",
+  "multicolored" : true,
+  "footstepSound" : "/sfx/blocks/footstep_lightmetal.wav",
+  "health" : 10
+}

@@ -8,12 +8,26 @@ function acceptPipeRequestAt(pipeName, position, pipeDirection)
   for i,node in ipairs(pipes.nodes[pipeName]) do
     local absNodePos = entity.toAbsolutePosition(node.offset)
     local distance = world.distance(position, absNodePos)
-    --world.logInfo("Testing positions %s : %s Distance: %s", position, absNodePos, distance)
     if distance[1] == 0 and distance[2] == 0 and pipes.pipesConnect(node.dir, {pipeDirection}) then
       return i
     end
   end
   return false
+end
+
+function table.contains(table, value)
+  for _,val in ipairs(table) do
+    if value == val then return true end
+  end
+  return false
+end
+
+function table.copy(table)
+  local newTable = {}
+  for i,v in pairs(table) do
+    newTable[i] = v
+  end
+  return newTable
 end
 
 --Pipes object with internal functions
@@ -96,8 +110,8 @@ function pipes.pipesConnect(firstDirection, secondDirections)
   return false
 end
 
-function pipes.foregroundTileDirections(pipeName, position)
-  local foregroundTile = world.material(position, "foreground")
+function pipes.tileDirections(pipeName, position, layer)
+  local foregroundTile = world.material(position, layer)
   for orientation,directions in pairs(pipes.directions) do
     if foregroundTile == pipes.types[pipeName].tiles .. orientation then
       return directions
@@ -106,47 +120,19 @@ function pipes.foregroundTileDirections(pipeName, position)
   return false
 end
 
-function pipes.backgroundTileDirections(pipeName, position)
-  local backgroundTile = world.material(position, "background")
-  for orientation,directions in pairs(pipes.directions) do
-    if backgroundTile == pipes.types[pipeName].tiles .. orientation then
-      return directions
-    end
-  end
-  return false
-end
-
 function pipes.getPipeTileData(pipeName, position, layerMode, direction)
-  local firstCheck = nil
-  local secondCheck = nil
-  local oppositeLayer = nil
-  local firstConnects = true
-  local secondConnects = true
+  local layerSwitch = {foreground = "background", background = "foreground"}
   
-  --Find tiles at the position
-  if layerMode == nil or layerMode == "foreground" then
-    firstCheck = pipes.foregroundTileDirections(pipeName, position)
-    secondCheck = pipes.backgroundTileDirections(pipeName, position)
-    oppositeLayer = "background"
-  elseif layerMode == "background" then
-    firstCheck = pipes.backgroundTileDirections(pipeName, position)
-    secondCheck = pipes.foregroundTileDirections(pipeName, position)
-    oppositeLayer = "foreground"
-  end
+  layerMode = layerMode or "foreground"
   
-  --Check if the found tiles connect 
-  if direction and firstCheck then
-    firstConnects = pipes.pipesConnect(direction, firstCheck)
-  end
-  if direction and secondCheck then
-    secondConnects = pipes.pipesConnect(direction, secondCheck)
-  end
+  local firstCheck = pipes.tileDirections(pipeName, position, layerMode)
+  local secondCheck = pipes.tileDirections(pipeName, position, layerSwitch[layerMode])
   
   --Return relevant values
-  if firstCheck and firstConnects then
+  if firstCheck and (direction == nil or pipes.pipesConnect(direction, firstCheck)) then
     return firstCheck, layerMode
-  elseif secondCheck and secondConnects then
-    return secondCheck, oppositeLayer
+  elseif secondCheck and (direction == nil or pipes.pipesConnect(direction, secondCheck)) then
+    return secondCheck, layerSwitch[layerMode]
   end
   return false
 end
@@ -186,65 +172,45 @@ end
 
 function pipes.walkPipes(pipeName, startOffset, startDir)
   local validEntities = {}
-  
   local visitedTiles = {}
-  local tilesToVisit = {{startOffset[1], startOffset[2]}}
-  
+  local tilesToVisit = {{pos = {startOffset[1] + startDir[1], startOffset[2] + startDir[2]}, layer = "foreground", dir = startDir, path = {}}}
   local layerMode = nil
   
-  
   while #tilesToVisit > 0 do
-    local newVisitTiles = {}
-    for i,tile in ipairs(tilesToVisit) do
-      local tileName = pipes.types[pipeName].tiles
-      local pipeDirections = nil
-      
-      if startDir then
-        pipeDirections = {startDir}
-        startDir = false
-      else
-        pipeDirections, layerMode = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile), layerMode)
+    --Get connecting pipes, ignoring previous one
+    local tile = tilesToVisit[1]
+    local pipeDirections, layerMode = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile.pos), tile.layer, tile.dir)
+    
+    --If a tile, add connected spaces to the visit list
+    if pipeDirections then
+      tile.path[#tile.path+1] = tile.pos --Add tile to the path
+      visitedTiles[tile.pos[1].."."..tile.pos[2]] = true --Add to global visited
+      --world.logInfo("Walking from object %s through tile %s", entity.id(), tile.pos[1].."."..tile.pos[2])
+      for _,dir in ipairs(pipeDirections) do
+        local newPos = {tile.pos[1] + dir[1], tile.pos[2] + dir[2]}
+        if not pipes.pipesConnect(dir, {tile.dir}) and visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from
+          local newTile = {pos = newPos, layer = layerMode, dir = dir, path = table.copy(tile.path)}
+          table.insert(tilesToVisit, 2, newTile)
+        end
       end
-      
-      --if world.entityName(entity.id()) == "liquidpump" then world.logInfo("Walking through tile %s", entity.toAbsolutePosition(tile)) end
-      
-      if pipeDirections then
-        if visitedTiles[tile[1]] == nil then visitedTiles[tile[1]] = {} end
-        visitedTiles[tile[1]][tile[2]] = true
-        
-        --Get tiles that the current pipe might connect to
-        for i,direction in ipairs(pipeDirections) do
-          nearTile = {tile[1] + direction[1], tile[2] + direction[2]}
-          nearTilePos = entity.toAbsolutePosition(nearTile)
-          local nearPipeDirections = pipes.getPipeTileData(pipeName, nearTilePos, layerMode, direction)
-          
-          if nearPipeDirections and (visitedTiles[nearTile[1]] == nil or visitedTiles[nearTile[1]][nearTile[2]] == nil) then
-            newVisitTiles[#newVisitTiles+1] = {nearTile[1], nearTile[2]}
-          end
-          
-          --Add valid entities to the entity list
-          local connectedObjects = world.entityLineQuery({nearTilePos[1] + 0.4, nearTilePos[2] + 0.4}, {nearTilePos[1] + 0.6, nearTilePos[2] + 0.6}, {notAnObject = false})
-          if connectedObjects then
-            for key,objectId in ipairs(connectedObjects) do
-              if objectId ~= entity.id() then
-                local notAdded = true
-                
-                --world.logInfo("Object found %s %s", world.entityName(objectId), objectId)
-                for i,id in ipairs(validEntities) do
-                  if objectId == id then notAdded = false end
-                end
-                local validEntity = pipes.validEntity(pipeName, objectId, nearTilePos, direction)
-                if validEntity and notAdded then
-                  --world.logInfo("Object added %s", objectId)
-                  validEntities[#validEntities+1] = {id = objectId, nodeId = validEntity}
-                end
-              end
-            end
+    --If not a tile, check for objects that might connect
+    elseif not pipeDirections then
+      --world.logInfo("No tile at %s, checking for objects.", tile.pos[1].."."..tile.pos[2])
+      local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 2)
+      if connectedObjects then
+        ----world.logInfo("Found %s objects", #connectedObjects) 
+        for key,objectId in ipairs(connectedObjects) do
+          --world.logInfo("Found object %s", objectId)
+          local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
+          if objectId ~= entity.id() and entNode and table.contains(validEntities, objectId) == false then
+            validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = table.copy(tile.path)}
           end
         end
       end
     end
-    tilesToVisit = newVisitTiles
+    table.remove(tilesToVisit, 1)
   end
+  --world.logInfo("Valid for %s: %s", world.entityName(entity.id()), validEntities)
+  table.sort(validEntities, function(a,b) return #a.path < #b.path end)
   return validEntities
 end

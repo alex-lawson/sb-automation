@@ -1,6 +1,13 @@
 --------------------- SAMPLE MINIMAL IMPLEMENTATION --------------------
 
---- TODO: documents args
+--- Supported args for energy.init:
+-- energyAllowConnection boolean can suppress an object's ability to connect (e.g. batteries)
+-- energyCapacity number defines the size of the object's energy storage pool
+-- energyGenerationRate number defines the rate (in energy/sec) for energy.generateEnergy()
+-- energyConsumptionRate number defines the rate (in energy/sec) for energy.consumeEnergy()
+-- energySendRate number defines the maximum energy transmission rate (in energy/sec)
+-- energySendFreq number defines the interval (in sec) between energy transmission pulses
+-- energyLinkRange number defines the maximum distance to connect to other devices/relays
 
 function init(virtual)
   if not virtual then
@@ -28,6 +35,10 @@ function onEnergySendCheck() end
 
 --- called when energy amount changes
 function onEnergyChange(newAmount) end
+
+--- called when energy is sent from the object
+-- @param totalSent total amount of energy sent
+function onEnergySend(totalSent) end
 
 --- called when energy is sent to the object
 -- @returns amount of energy accepted

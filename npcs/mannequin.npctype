@@ -1,0 +1,138 @@
+{
+  "type" : "mannequin",
+
+  "disableWornArmor" : true,
+  "inateStatusEffects" : [
+    {
+      "kind" : "Protection",
+      "amount" : 500.0
+    }
+  ],
+  "levelVariance" : [0, 10],
+  "damageTeam" : 0,
+
+  "scripts" : [
+    "/npcs/mannequinNpc.lua"
+  ],
+  "scriptDelta" : 100,
+  "scriptConfig" : {
+    "doorHitPoly" : [ [2, -1], [2, 1], [0, 1], [0, -1] ],
+    "idleTimeRange" : [2.0, 10.0],
+    "gapSensor" : [ [2.0, -4.5] ],
+    "gapFarSideSensors" : [ [3.0, -4.5], [4.0, -4.5], [5.0, -4.5], [6.0, -4.5], [7.0, -4.5], [8.0, -4.5] ],
+    "gapJumpHoldTime" : 0.4,
+
+    "wander" : {
+      "timeRange" : [2.0, 10.0],
+      "chairSensorRegion" : [ [0, -1], [2, 1] ]
+    },
+
+    "sit" : {
+      "moveTimeLimit" : 10,
+      "sitRadius" : 3,
+      "cooldown" : 60,
+      "timeRange" : [10, 20]
+    },
+
+    "converse" : {
+      "waitTime" : 4.0,
+      "dialog" : {
+        "default" : [ "I have nothing to say to you" ],
+        "apex" : {
+          "human" : [
+            "you damn dirty human",
+            "what do you want human?"
+          ]
+        },
+        "avian" : {
+          "human" : [
+            "heavy human"
+          ]
+        },
+        "floran" : {
+          "human" : [
+            "ssssilly human"
+          ]
+        },
+        "hylotl" : {
+          "human" : [
+            "yummy human"
+          ]
+        },
+        "glitch" : {
+          "human" : [
+            "beep-boop-blip human"
+          ]
+        },
+        "dummy" : {
+          "human" : [
+            "beep-boop-blip human"
+          ]
+        }
+      }
+    }
+  },
+
+  "items" : {
+    "default" : [
+      [0, [ {} ] ]
+    ],
+    "dummy" : [
+      [0, [ {} ] ]
+    ]
+  },
+
+  "movementControllerSettings" : {
+    "standingPoly" : [ [-0.75, -2.0], [-0.35, -2.5], [0.35, -2.5], [0.75, -2.0], [0.75, 0.65], [0.35, 1.22], [-0.35, 1.22], [-0.75, 0.65] ],
+    "crouchingPoly" : [ [-0.75, -2.0], [-0.35, -2.5], [0.35, -2.5], [0.75, -2.0], [0.75, -0.5], [0.35, 0], [-0.35, 0], [-0.75, -0.5] ],
+
+    "mass" : 50,
+    "jumpSpeed" : 24.0
+  },
+
+  "humanoidTiming" : {
+    // Idle, Walk, Run, Jump, Fall, Swim, SwimIdle, Duck, Sit, Lay
+    "stateCycle" : [1.0, 0.75, 0.75, 0.25, 0.25, 0.50, 0.50, 1.0, 1.0, 1.0],
+    "stateFrames" : [1, 8, 8, 4, 4, 7, 2, 1, 1, 1],
+
+    // EmoteIdle, Blabbering, Shouting, Happy, Sad, NEUTRAL, Laugh, Annoyed, Oh, OOOH, Blink, Wink, Eat, Sleep
+    //          , normal    , caps    , :)   , :'(, :|     , :D   ,        , :o, :O  ,      , ;)
+    "emoteCycle" : [1.0, 0.3, 0.3, 0.3, 1.0, 0.3, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 0.3, 1],
+    "emoteFrames" : [1, 2, 2, 2, 5, 2, 2, 2, 2, 3, 3, 5, 2, 2]
+  },
+
+  "statusParameters" : {
+    "baseMaxHealth" : 18,
+    "baseMaxEnergy" : 20,
+    "bodyMaterialKind" : "organic",
+    "damageConfig" : "/damage/damageresponse/npcs.config",
+    "invulnerabilityTime" : 0
+  },
+
+  "persistent" : true,
+
+  "splashConfig" : {
+    "splashSpeedMin" : 10.0,
+    "splashMinWaterLevel" : 0.4,
+    "splashBottomSensor" : [0, -2.0],
+    "splashTopSensor" : [0, 2.0],
+    "numSplashParticles" : 8,
+    "splashYVelocityFactor" : 0.2,
+
+    "splashParticle" : {
+      "type" : "ember",
+      "position" : [0, -1],
+      "finalVelocity" : [0, -20],
+      "approach" : [0, 50],
+      "color" : [60, 150, 224, 100],
+      "size" : 4.0,
+      "timeToLive" : 0.5,
+      "destructionAction" : "shrink",
+      "destructionTime" : 0.2
+    },
+
+    "splashParticleVariance" : {
+      "velocity" : [10, 0]
+    }
+  }
+}
