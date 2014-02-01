@@ -26,8 +26,8 @@ function init(virtual)
 
     local pos = entity.position()
     self.itemPickupArea = {
-      {pos[1] + 1, pos[2] - 1},
-      {pos[1] + 4, pos[2]}
+      {pos[1] - 1, pos[2] - 1},
+      {pos[1] + 1, pos[2]}
     }
     self.dropPoint = {pos[1] + 2, pos[2] + 1}
 
