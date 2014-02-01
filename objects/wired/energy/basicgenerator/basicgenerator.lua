@@ -14,19 +14,20 @@ function init(virtual)
 
     self.fuelMax = 50
 
-    local initialFuel = entity.configParameter("initialFuel")
-    if initialFuel then
-      storage.fuel = initialFuel
-    elseif storage.fuel == nil then
-      storage.fuel = 0
+    if storage.fuel == nil then
+      if entity.configParameter("initialFuel") then
+        storage.fuel = entity.configParameter("initialFuel")
+      else
+        storage.fuel = 0
+      end
     end
 
     self.fuelUseRate = 0.2
 
     local pos = entity.position()
     self.itemPickupArea = {
-      {pos[1] + 1, pos[2] - 1},
-      {pos[1] + 4, pos[2]}
+      {pos[1] - 1, pos[2] - 1},
+      {pos[1] + 1, pos[2]}
     }
     self.dropPoint = {pos[1] + 2, pos[2] + 1}
 

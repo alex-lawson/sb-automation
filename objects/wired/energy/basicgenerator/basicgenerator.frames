@@ -1,6 +1,6 @@
 {
   "frameGrid" : {
-    "size" : [40, 16],
+    "size" : [32, 16],
     "dimensions" : [9, 1],
     "names" : [
         [ "off", "error", "on.1", "on.2", "on.3", "on.4", "on.5", "on.6", "skiz" ]

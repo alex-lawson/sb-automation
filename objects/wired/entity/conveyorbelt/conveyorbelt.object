@@ -32,7 +32,7 @@
   },
   "animationPosition" : [-16, 0],
 
-  "moveSpeed" : 15,
+  "moveSpeed" : 175,
   "workSound" : "/sfx/tech/tech_hoverloop.wav",
 
   "energyConsumptionRate" : 5,

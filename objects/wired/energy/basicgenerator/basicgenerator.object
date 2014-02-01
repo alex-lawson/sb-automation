@@ -14,11 +14,12 @@
   "orientations" : [
     {
       "image" : "basicgenerator.png:off",
-      "imagePosition" : [0, -8],
+      "imagePosition" : [-16, -8],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ],
-      "direction" : "right"
+      "direction" : "right",
+      "collision" : "platform"
     }
   ],
 
@@ -30,9 +31,9 @@
     "generator" : "basicgenerator.png",
     "fuelbar" : "fuelbar.png"
   },
-  "animationPosition" : [0, -8],
+  "animationPosition" : [0, 0],
 
-  "inboundNodes" : [ [3, 0] ],
+  "inboundNodes" : [ [-1, 0] ],
 
   "energySendRate" : 20,
   "energyGenerationRate" : 20,
