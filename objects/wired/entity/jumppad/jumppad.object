@@ -30,7 +30,7 @@
   },
   "animationPosition" : [ -8, 0],
 
-  "boostPower" : 40,
+  "boostPower" : 4000,
   "jumpSound" : "/sfx/tech/tech_doublejump.wav",
 
   "energyPerJump" : 5,

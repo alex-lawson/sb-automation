@@ -1,0 +1,32 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "mannequinState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "mannequin" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "mannequinState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:hide"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "frameGrid" : {
+    "size" : [16, 16],
+    "dimensions" : [5, 7],
+    "names" : [
+      [ "all.1", "all.2", "all.3", "all.4", "all.off" ],
+      [ "monster.1", "monster.2", "monster.3", "monster.4", "monster.off" ],
+      [ "owner.1", "owner.2", "owner.3", "owner.4", "owner.off" ],
+      [ "player.1", "player.2", "player.3", "player.4", "player.off" ],
+      [ "npc.1", "npc.2", "npc.3", "npc.4", "npc.off" ],
+      [ "item.1", "item.2", "item.3", "item.4", "item.off" ],
+      [ "solar.1", "solar.2", "solar.3", "solar.4", "solar.off" ]
+    ]
+  },
+  "aliases" : {
+    "default.off" : "all.off",
+    "default.1" : "all.1",
+    "default.2" : "all.2",
+    "default.3" : "all.3",
+    "default.4" : "all.4"
+  }
+}

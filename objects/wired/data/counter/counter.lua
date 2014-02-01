@@ -16,6 +16,10 @@ function init(virtual)
   end
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function onInboundNodeChange(args)
   checkInboundNodes()
 end
@@ -52,11 +56,11 @@ function reset()
   storage.data = 0
 end
 
-function validateData(data, dataType, nodeId)
+function validateData(data, dataType, nodeId, sourceEntityId)
   return dataType == "number"
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   storage.data = data
 end
 

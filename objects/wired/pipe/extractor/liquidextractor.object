@@ -29,7 +29,6 @@
     "/scripts/pipes/itempipes.lua",
     "/scripts/energy.lua",
     "/scripts/pipesapi.lua",
-    "/scripts/energy.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],

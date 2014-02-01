@@ -47,7 +47,7 @@
   "inboundNodes" : [ [0, -1] ],
 
   "maxWidth" : 25,
-  "maxSpeed" : [2,2],
+  "maxSpeed" : [2,6],
   "push" : [1,1],
 
   "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [-1, 0], "dir": [-1, 0]} ],

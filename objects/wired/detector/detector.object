@@ -1,0 +1,46 @@
+{
+  "objectName" : "detector",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Detects various states",
+  "shortdescription" : "Detector",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 300,
+
+  "apexDescription" : "todo",
+  "avianDescription" : "todo",
+  "floranDescription" : "todo",
+  "glitchDescription" : "todo",
+  "humanDescription" : "todo",
+  "hylotlDescription" : "todo",
+
+  "inventoryIcon" : "detectoricon.png",
+  "orientations" : [
+    {
+      "image" : "detector.png:all.1",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "detector.lua" ],
+  "scriptDelta" : 12,
+
+  "animation" : "detector.animation",
+
+  "animationParts" : {
+    "detector" : "detector.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "outboundNodes" : [ [0, 0] ],
+
+  "modes" : [ "all", "owner", "player", "monster", "item", "npc", "solar" ],
+  "detectRadius" : 3,
+  "detectTickDuration" : 10,
+  "lightLevel" : 0.5
+}

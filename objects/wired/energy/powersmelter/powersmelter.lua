@@ -33,6 +33,7 @@ end
 
 function onNodeConnectionChange()
   checkNodes()
+  datawire.onNodeConnectionChange()
 end
 
 function onInboundNodeChange(args)

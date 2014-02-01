@@ -131,7 +131,7 @@ function prepareState.findMarker()
                 for i = 2, math.abs(pos[1]-quarryPos[1]), 1 do
                     local pos = toAbsolutePosition(quarryPos, {dir*i,h+0.5})
                     if not world.pointCollision(pos) then
-                        world.spawnProjectile("ele_beam", pos, entity.id(), {0,0}, false, {})
+                        world.spawnProjectile("beam", pos, entity.id(), {0,0}, false, {})
                     end
                 end
             end
@@ -235,6 +235,7 @@ function runState.update(dt, data)
                     world.callScriptedEntity(data.id, "dig")
                 end
             end
+            
             if (data.curDir == data.dir and data.curX < data.width) or (data.curX > 0 and data.curDir ~= data.dir) then
                 if data.curDir == data.dir then
                     data.curX = data.curX + 2
@@ -244,8 +245,21 @@ function runState.update(dt, data)
                 data.curX = math.max(math.min(data.curX, data.width), 0)
                 self.justdid = false
             else
-                data.curY, data.curDir = data.curY-2, -data.curDir
+                --See how many rows down we can go
+                local row = 0
+                local collisions1 = {}
+                local collisions2 = {}
+                repeat
+                    row = row - 2
+                    collisions1 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 1.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 1.5}))
+                    collisions2 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 2.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 2.5}))
+                    world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
+                until #collisions1 > 0 or #collisions2 > 0
+
+                data.curY, data.curDir = data.curY + row, -data.curDir
             end
+
+
             return false
         else
             if not self.justspawned then

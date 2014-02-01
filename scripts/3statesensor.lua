@@ -7,6 +7,10 @@ function init(virtual)
   end
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function getSample()
   --to be implemented by sensor
   return false

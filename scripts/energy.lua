@@ -31,7 +31,7 @@ function energy.init(args)
   storage.curEnergy = storage.curEnergy or entity.configParameter("savedEnergy") or  0
 
   --maximum amount of energy transmitted per second
-  energy.sendRate = entity.configParameter("energySendRate") or 0
+  energy.sendRate = args["energySendRate"] or entity.configParameter("energySendRate") or 0
 
   --frequency (in seconds) to push energy (maybe make this hard coded)
   energy.sendFreq = args["energySendFreq"] or entity.configParameter("energySendFreq") or 0.5
@@ -68,10 +68,19 @@ end
 -- Performs per-tick updates for energy module (MUST BE CALLED IN OBJECT main() FUNCTION)
 function energy.update()
   if self.energyInitialized then
+    --periodically reset projectile anti-spam list
+    if energy.transferCooldown > 0 then
+      energy.transferCooldown = energy.transferCooldown - entity.dt()
+      if energy.transferCooldown <= 0 then
+        energy.transferShown = {}
+        energy.transferCooldown = energy.transferInterval
+      end
+    end
+
     --periodic energy transmission pulses
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
-      if energy.sendTimer <= 0 then
+      while energy.sendTimer <= 0 do
         local energyToSend = math.min(energy.getAvailableEnergy(), energy.sendRate * energy.sendFreq)
         if energyToSend > 0 then
           energy.sendEnergy(energyToSend)
@@ -80,20 +89,11 @@ function energy.update()
       end
     end
 
-    --periodically reset projectile anti-spam list
-    if energy.transferCooldown > 0 then
-      energy.transferCooldown = energy.transferCooldown - entity.dt()
-      if energy.transferCooldown <= 0 then
-        energy.transferShown = {}
-        energy.transferCooldown = energy.transferCooldown + energy.transferInterval
-      end
-    end
-
     --periodic connection checks
     energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
     if energy.connectCheckTimer <= 0 then
       energy.checkConnections()
-      energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
+      energy.connectCheckTimer = energy.connectCheckFreq
     end
   else
     -- create table of locations this object occupies, which will be ignored in LoS checks
@@ -194,16 +194,17 @@ function energy.removeEnergy(amount, entityId)
 end
 
 -- attempt to remove the specified amount of energy
--- if no amount is provided, will attempt to consume the periodic amount
+-- @param amount is the amount to consume, or nil to consume the periodic amount
 --     as determined by energyConsumptionRate and scriptDelta
+-- @param testConsume (optional) if true, will not actually consume energy
 -- @returns false if there is insufficient energy stored (and does not remove energy)
-function energy.consumeEnergy(amount)
+function energy.consumeEnergy(amount, testConsume)
   if amount == nil then
     amount = energy.consumptionRate * entity.dt()
   end
   --world.logInfo("consuming %f energy", amount)
   if amount <= energy.getEnergy() then
-    energy.removeEnergy(amount)
+    if not testConsume then energy.removeEnergy(amount) end
     return true
   else
     return false
@@ -250,7 +251,7 @@ end
 function energy.checkLoS(srcPos, tarPos, entityId)
   local ignoreBlocksSrc = energy.getCollisionBlocks()
   local ignoreBlocksTar = world.callScriptedEntity(entityId, "energy.getCollisionBlocks")
-  if ignoreBlocksSrc or ignoreBlocksTar then
+  if ignoreBlocksSrc or ignoreBlocksTar or srcPos[1] < energy.linkRange or tarPos[1] < energy.linkRange then
     local collisionBlocks = world.collisionBlocksAlongLine(srcPos, tarPos)
     return energy.checkCollisionBlocks(collisionBlocks, ignoreBlocksSrc, ignoreBlocksTar)
   else
@@ -490,6 +491,9 @@ function energy.sendEnergy(amount)
   --remove the total amount of energy sent
   local totalSent = totalEnergyToSend - remainingEnergyToSend
   energy.removeEnergy(totalSent)
+
+  --call hook for objects to update animations, etc
+  if onEnergySend then onEnergySend(totalSent) end
 
   -- world.logInfo("%s %d successfully sent %d energy", entity.configParameter("objectName"), entity.id(), totalSent)
 end
