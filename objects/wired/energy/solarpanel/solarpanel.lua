@@ -1,11 +1,11 @@
-function init(args)
-    if not self.initialized and not args then
-        energy.init()
-        self.initialized = true
+function init(virtual)
+    if not virtual then
+        energy.init({energySendFreq = 2})
+
         if storage.state == nil then
            storage.state = true
         end
-        entity.setInteractive(not entity.isInboundNodeConnected(0))
+
         updateAnimationState()
     end
 end
@@ -21,10 +21,9 @@ function main()
    energy.update()
    local lightLevel = world.lightLevel(entity.position())
    if lightLevel >= entity.configParameter("lightLevelThreshold") then
-      local generatedEnergy = lightLevel*entity.configParameter("energyGenerationRate")
-      if energy.addEnergy(generatedEnergy) then
-         updateAnimationState()
-      end
+      local generatedEnergy = lightLevel*entity.configParameter("energyGenerationRate")*entity.dt()
+      energy.addEnergy(generatedEnergy)
+      updateAnimationState()
    end
 end
 

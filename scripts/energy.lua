@@ -68,10 +68,19 @@ end
 -- Performs per-tick updates for energy module (MUST BE CALLED IN OBJECT main() FUNCTION)
 function energy.update()
   if self.energyInitialized then
+    --periodically reset projectile anti-spam list
+    if energy.transferCooldown > 0 then
+      energy.transferCooldown = energy.transferCooldown - entity.dt()
+      if energy.transferCooldown <= 0 then
+        energy.transferShown = {}
+        energy.transferCooldown = energy.transferInterval
+      end
+    end
+
     --periodic energy transmission pulses
     if energy.sendRate > 0 then
       energy.sendTimer = energy.sendTimer - entity.dt()
-      if energy.sendTimer <= 0 then
+      while energy.sendTimer <= 0 do
         local energyToSend = math.min(energy.getAvailableEnergy(), energy.sendRate * energy.sendFreq)
         if energyToSend > 0 then
           energy.sendEnergy(energyToSend)
@@ -80,20 +89,11 @@ function energy.update()
       end
     end
 
-    --periodically reset projectile anti-spam list
-    if energy.transferCooldown > 0 then
-      energy.transferCooldown = energy.transferCooldown - entity.dt()
-      if energy.transferCooldown <= 0 then
-        energy.transferShown = {}
-        energy.transferCooldown = energy.transferCooldown + energy.transferInterval
-      end
-    end
-
     --periodic connection checks
     energy.connectCheckTimer = energy.connectCheckTimer - entity.dt()
     if energy.connectCheckTimer <= 0 then
       energy.checkConnections()
-      energy.connectCheckTimer = energy.connectCheckTimer + energy.connectCheckFreq
+      energy.connectCheckTimer = energy.connectCheckFreq
     end
   else
     -- create table of locations this object occupies, which will be ignored in LoS checks

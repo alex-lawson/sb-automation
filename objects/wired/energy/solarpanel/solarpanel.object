@@ -36,7 +36,7 @@
     "/scripts/energy.lua",
     "solarpanel.lua"
   ],
-  "scriptDelta" : 10,
+  "scriptDelta" : 120,
 
   "lightLevelThreshold" : 0.5,
   "energySendRate" : 1,
