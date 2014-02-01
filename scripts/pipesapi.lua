@@ -264,7 +264,9 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
       end
     --If not a tile, check for objects that might connect
     elseif not pipeDirections then
-      local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 2)
+      --local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 2)
+      local absTilePos = entity.toAbsolutePosition(tile.pos)
+      local connectedObjects = world.entityLineQuery(absTilePos, {absTilePos[1] + 1, absTilePos[2] + 2})
       if connectedObjects then
         for key,objectId in ipairs(connectedObjects) do
           local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
