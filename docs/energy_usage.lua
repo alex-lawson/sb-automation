@@ -1,7 +1,5 @@
 --------------------- SAMPLE MINIMAL IMPLEMENTATION --------------------
 
---- TODO: documents args
-
 function init(virtual)
   if not virtual then
     energy.init(args)
