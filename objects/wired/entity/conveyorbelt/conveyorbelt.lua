@@ -32,9 +32,11 @@ function onInteraction(args)
 end
 
 function setActive(flag)
-  storage.active = flag
-  if flag then entity.setAnimationState("workState", "work")
-  else entity.setAnimationState("workState", "idle") end
+  if not flag or energy.consumeEnergy(nil, true) then
+    storage.active = flag
+    if flag then entity.setAnimationState("workState", "work")
+    else entity.setAnimationState("workState", "idle") end
+  end
 end
 
 function main()
@@ -46,14 +48,12 @@ function main()
     end
 
     self.st = self.st + 1
-    if self.st > 6 then 
+    if self.st > 7 then 
       self.st = 0
     elseif self.st == 3 then
       entity.playImmediateSound(self.workSound)
     end
-    local x1,y1 = unpack(entity.toAbsolutePosition({-2, 1}))
-    local x2,y2 = unpack(entity.toAbsolutePosition({2, 1}))
-    entity.setForceRegion({x1,y1,x2,y2},{self.moveSpeed*entity.direction(),0})
+    local p = entity.toAbsolutePosition({ -1.8, 1 })
+    entity.setForceRegion({ p[1], p[2], p[1] + 3.6, p[2] }, { self.moveSpeed * entity.direction(), 0})
   end
-  
 end
