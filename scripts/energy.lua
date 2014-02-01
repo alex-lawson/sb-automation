@@ -70,8 +70,6 @@ function energy.init()
   energy.sendTimer = energy.sendFreq
 
   --prevent projectile spam with multiple generators
-  energy.transferInterval = 0.2
-  energy.transferCooldown = energy.transferInterval
   energy.transferShown = {}
 
   --maximum range (in blocks) that this device will search for entities to connect to
@@ -122,15 +120,6 @@ function energy.update()
           energy.sendEnergy(energyToSend)
         end
         energy.sendTimer = energy.sendTimer + energy.sendFreq
-      end
-    end
-
-    --periodically reset projectile anti-spam list
-    if energy.transferCooldown > 0 then
-      energy.transferCooldown = energy.transferCooldown - entity.dt()
-      if energy.transferCooldown <= 0 then
-        energy.transferShown = {}
-        energy.transferCooldown = energy.transferCooldown + energy.transferInterval
       end
     end
 
@@ -330,6 +319,7 @@ function energy.addToConnectionTable(entityId)
   if energy.connections[entityId] == nil then
     local cConfig = energy.makeConnectionConfig(entityId)
     energy.connections[entityId] = cConfig
+    energy.transferShown[entityId] = -1
 
     --insert into the proper place in sortedConnections (ordered by distance, with receivers before relays)
     local insertIndex = false
@@ -530,9 +520,8 @@ end
 
 -- display a visual indicator of the energy transfer
 function energy.showTransferEffect(entityId)
-  if not energy.transferShown[entityId] then
+  if not world.entityExists(energy.transferShown[entityId]) then
     local config = energy.connections[entityId]
-    world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
-    energy.transferShown[entityId] = true
+    energy.transferShown[entityId] = world.spawnProjectile("energytransfer", config.srcPos, entity.id(), config.aimVector, false, { speed=config.speed })
   end
 end
