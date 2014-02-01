@@ -31,7 +31,7 @@ function energy.init(args)
   storage.curEnergy = storage.curEnergy or entity.configParameter("savedEnergy") or  0
 
   --maximum amount of energy transmitted per second
-  energy.sendRate = entity.configParameter("energySendRate") or 0
+  energy.sendRate = args["energySendRate"] or entity.configParameter("energySendRate") or 0
 
   --frequency (in seconds) to push energy (maybe make this hard coded)
   energy.sendFreq = args["energySendFreq"] or entity.configParameter("energySendFreq") or 0.5
