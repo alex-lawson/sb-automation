@@ -1,6 +1,6 @@
 {
-  "name" : "chain",
-  "category" : "quarry",
+  "name" : "schain",
+  "category" : "squarry",
   "type" : "chain",
 
   "frames" : {
