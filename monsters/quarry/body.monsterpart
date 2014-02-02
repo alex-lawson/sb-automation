@@ -1,9 +1,9 @@
 {
-  "name" : "quarry",
-  "category" : "quarry",
+  "name" : "squarry",
+  "category" : "squarry",
   "type" : "body",
 
   "frames" : {
-    "body" : "ele_quarry.png"
+    "body" : "quarry.png"
   }
 }

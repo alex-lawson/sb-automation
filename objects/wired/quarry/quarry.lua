@@ -363,7 +363,7 @@ end
 function spawnQuarry(pos)
     pos = pos or storage.quarry.pos
     if pos then
-        local quarryId = world.spawnMonster("quarry", pos)
+        local quarryId = world.spawnMonster("squarry", pos)
         if quarryId then
             storage.quarry.id = quarryId
         end
