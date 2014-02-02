@@ -16,8 +16,8 @@
     "/scripts/storageapi.lua",
 
     "/npcs/fleeState.lua",
-    "/npcs/collectState.lua",
-    "/npcs/transportState.lua",
+    "/scripts/states/collectState.lua",
+    "/scripts/states/transportState.lua",
     "/npcs/guard/returnToPostState.lua"
   ],
 

@@ -56,7 +56,7 @@ function storageApi.init(args)
 end
 
 --- Should the storage be initialized?
--- @returns True if storage should be initialized
+-- @return True if storage should be initialized
 function storageApi.isInit()
     return storageApi.capacity == nil
 end
@@ -146,15 +146,15 @@ end
 --- Checks if the item can be fit inside storage
 -- @param itemname (string) The name of item to get
 -- @param count (int) The amount of item to get
--- @param properties (optional) The properties table of the item
+-- @param data (optional) The properties table of the item
 -- @returns True if item fits in storage or false
-function storageApi.canFitItem(itemname, count, properties)
+function storageApi.canFitItem(itemname, count, data)
     local max = storageApi.getMaxStackSize(itemname)
     local spacecnt = (storageApi.getCapacity() - storageApi.getCount()) * max
     if spacecnt >= count then return true
     elseif max > 1 then return false end
     for i,v in storageApi.getIterator() do
-        if (itemname == v.name) and compareTables(properties, v.data) then
+        if (itemname == v.name) and compareTables(data, v.data) then
             spacecnt = spacecnt + max - v.count
         end
         if spacecnt >= count then return true end
@@ -165,29 +165,28 @@ end
 --- Take a specific type of item from storage
 -- @param itemname (string) The name of item to get
 -- @param count (int) The amount of item to get
--- @param properties (optional) The properties table of the item
+-- @param data (optional) The properties table of the item
 -- @returns (table) descriptor of the item taken
--- function storageApi.returnItemByName(itemname, count, properties)
---     if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, properties) then return { itemname, count, properties } end
---     --TODO: Change it so hook defines return?
---     if properties == nil then
---         for i,v in storageApi.getIterator() do
---             if v.name == itemname then
---                 properties = v.data
---                 break
---             end
---         end
---     end
---     if properties == nil then return { itemname, 0, { } } end
---     local retcnt = 0
---     for i,v in storageApi.getIterator() do
---         if retcnt >= count then break end
---         if (v.name == itemname) and compareTables(properties, v.data) then
---             retcnt = retcnt + storageApi.returnItem(i, count - retcnt).count
---         end
---     end
---     return { itemname, retcnt, properties }
--- end
+function storageApi.returnItemByName(itemname, count, data)
+    if (storageApi.beforeReturnByName ~= nil) and storageApi.beforeReturnByName(itemname, count, data) then return { name = itemname, count = count, data = data } end
+    if data == nil then
+        for i,v in storageApi.getIterator() do
+            if v.name == itemname then
+                data = v.data
+                break
+            end
+        end
+    end
+    if data == nil then return { name = itemname, count = 0, data = { } } end
+    local retcnt = 0
+    for i,v in storageApi.getIterator() do
+        if retcnt >= count then break end
+        if (v.name == itemname) and compareTables(properties, v.data) then
+            retcnt = retcnt + storageApi.returnItem(i, count - retcnt).count
+        end
+    end
+    return { name = itemname, count = retcnt, data = data }
+end
 
 --- Take all items from storage
 -- @return (table) of taken iems
@@ -212,17 +211,16 @@ end
 -- @param count (int) The amount of item to get
 -- @param properties (optional) The properties table of the item
 -- @return True if item could be stored
-function storageApi.storeItem(itemname, count, properties)
-    if not storageApi.canFitItem(itemname, count, properties) then return false end
-    if (beforeItemStored ~= nil) and beforeItemStored(itemname, count, properties) then return false end
-    --TODO: Change it so hook defines return?
+function storageApi.storeItem(itemname, count, data)
+    if not storageApi.canFitItem(itemname, count, data) then return false end
+    if (beforeItemStored ~= nil) and beforeItemStored(itemname, count, data) then return false end
     if storageApi.isMerging() then
         local max = storageApi.getMaxStackSize(itemname)
         for i,stack in storageApi.getIterator() do
-            if (stack.name == itemname) and (stack.count < max) and compareTables(properties, stack.data) then
+            if (stack.name == itemname) and (stack.count < max) and compareTables(data, stack.data) then
                 if (stack.count + count > max) then
                     local newIndex = storageApi.getFirstEmptyIndex()
-                    storage.sApi[newIndex] = { name = itemname, count = (stack.count + count) - max, data = properties }
+                    storage.sApi[newIndex] = { name = itemname, count = (stack.count + count) - max, data = data }
                     if (afterItemStored ~= nil) then afterItemStored(newIndex, false) end
                     count = max - stack.count
                 end
@@ -233,7 +231,7 @@ function storageApi.storeItem(itemname, count, properties)
         end
     end
     local i = storageApi.getFirstEmptyIndex()
-    storage.sApi[i] = { name = itemname, count = count, data = properties }
+    storage.sApi[i] = { name = itemname, count = count, data = data }
     if afterItemStored then afterItemStored(i, false) end
     return true
 end
@@ -243,17 +241,17 @@ end
 -- @param count (int) The amount of item to get
 -- @param properties (optional) The properties table of the item
 -- @return The amount of item that got stored
-function storageApi.storeItemFit(itemname, count, properties)
+function storageApi.storeItemFit(itemname, count, data)
     local ret = 0
     local max = storageApi.getMaxStackSize(itemname)
     while (count > max) and not storageApi.isFull() do
-        storageApi.storeItem(itemname, max, properties)
+        storageApi.storeItem(itemname, max, data)
         ret = ret + max
         count = count - max
     end
     for i,v in storageApi.getIterator() do
         if count < 1 then break end
-        if (v.name == itemname) and (v.count < max) and compareTables(properties, v.data) then
+        if (v.name == itemname) and (v.count < max) and compareTables(data, v.data) then
             local amo = math.min(max, v.count + count)
             storage.sApi[i].count = amo
             count = count + v.count - amo
@@ -271,8 +269,6 @@ function storageApi.drop(index, amount, pos)
     pos = pos or storageApi.dropPosition
     local item, drop = storage.sApi[index], false
     if item then
-        world.logInfo("Drop item %s", item)
-
         if not amount then amount = item.count or 0 end
         if amount > 0 then
             if not item.data or next(item.data) == nil then
@@ -292,8 +288,8 @@ function storageApi.drop(index, amount, pos)
     return drop
 end
 
---- Drops all item
--- @param pos (optional) { x, y } position to drop item
+--- Drops the storage contents
+-- @param pos (optional) { x, y } position to drop items
 -- @returns True if it could drop all items
 function storageApi.dropAll(pos)
     pos = pos or storageApi.dropPosition
@@ -306,7 +302,7 @@ function storageApi.dropAll(pos)
     return false
 end
 
---- Checks if item was recently dropped by
+--- Checks if a specified item was recently dropped 
 -- @param entityId (int) id of dropped item entity
 -- @param cooldown (optional) how long to let the item stay
 -- @param time (optional) current os.time time
@@ -348,7 +344,7 @@ end
 function storageApi.die()
     if storageApi.ondeath == 1 then
         storageApi.dropAll()
-    elseif storageApi.ondeath == 2 then
+    elseif (storageApi.ondeath == 2) and (world.entityType(entity.id()) == "object") then
         world.spawnItem(entity.configParameter("objectName"), storageApi.dropPosition, 1, { content = storage.sApi()} )
     end
 end

@@ -1,0 +1,9 @@
+{
+  "name" : "drone",
+  "category" : "itemdrone",
+  "type" : "drone",
+
+  "frames" : {
+    "drone" : "drone.png"
+  }
+}
