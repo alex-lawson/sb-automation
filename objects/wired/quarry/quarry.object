@@ -45,7 +45,7 @@
   "maxSpeed" : [2,6],
   "push" : [1,1],
 
-  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [-1, 0], "dir": [-1, 0]} ],
+  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [1, -1], "dir": [1, 0]} ],
   "energyConsumptionRate" : 10,
   "energyCapacity" : 50
 
