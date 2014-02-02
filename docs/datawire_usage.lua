@@ -24,7 +24,8 @@ function initAfterLoading() end
 -- @param dataType the data type to be validated ("boolean", "number", "string", "area", etc.)
 -- @param nodeId the inbound node id on which data was received
 -- @returns true if the data is valid
-function validateData(data, dataType, nodeId)
+-- @param sourceEntityId the entity id of the source object
+function validateData(data, dataType, nodeId, sourceEntityId)
   return true
 end
 
@@ -32,4 +33,5 @@ end
 -- @param data the data
 -- @param dataType the data type ("boolean", "number", "string", "area", etc.)
 -- @param nodeId the inbound node id on which data was received
-function onValidDataReceived(data, dataType, nodeId) end
+-- @param sourceEntityId the entity id of the source object
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId) end

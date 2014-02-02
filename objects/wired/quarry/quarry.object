@@ -2,19 +2,14 @@
   "objectName" : "quarry",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Mines out blocks for you.",
+  "description" : "Uses energy to automatically mine an area of blocks.",
   "shortdescription" : "Quarry",
   "race" : "generic",
 
   "category" : "wire",
   "price" : 750,
+  "printable" : false,
 
-  "apexDescription" : "todo",
-  "avianDescription" : "todo",
-  "floranDescription" : "todo",
-  "glitchDescription" : "todo",
-  "humanDescription" : "todo",
-  "hylotlDescription" : "todo",
   "inventoryIcon" : "quarryicon.png",
   "orientations" : [
     {
@@ -47,11 +42,11 @@
   "inboundNodes" : [ [0, -1] ],
 
   "maxWidth" : 25,
-  "maxSpeed" : [2,2],
+  "maxSpeed" : [2,6],
   "push" : [1,1],
 
-  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [-1, 0], "dir": [-1, 0]} ],
-  "energyConsumptionRate" : 1,
+  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [1, -1], "dir": [1, 0]} ],
+  "energyConsumptionRate" : 10,
   "energyCapacity" : 50
 
 }

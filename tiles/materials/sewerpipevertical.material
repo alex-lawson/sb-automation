@@ -1,0 +1,15 @@
+{
+  "materialId" : 138,
+  "materialName" : "sewerpipevertical",
+  "frames" : "sewerpipevertical.png",
+  "particleColor" : [84, 127, 73, 255],
+  "variants" : 10,
+  "itemDrop" : "sewerpipevertical",
+  "shortdescription" : "Vertical Sewer Pipe",
+  "description" : "A vertical pipe.",
+  "glitchDescription" : "Statement. A vertical pipe.",
+  "floranDescription" : "Ssstanding up pipe.",
+  "multicolored" : true,
+  "footstepSound" : "/sfx/blocks/footstep_lightmetal.wav",
+  "health" : 10
+}

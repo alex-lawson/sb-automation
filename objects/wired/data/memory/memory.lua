@@ -27,6 +27,10 @@ function onInteraction(args)
   reset()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function onInboundNodeChange(args)
   storage.lockInbound = entity.getInboundNodeLevel(1)
   storage.lockOutbound = entity.getInboundNodeLevel(2)
@@ -47,12 +51,12 @@ function updateAnimationState()
   end
 end
 
-function validateData(data, dataType, nodeId)
+function validateData(data, dataType, nodeId, sourceEntityId)
   --only receive data on node 0
   return nodeId == 0
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   if not storage.lockInbound then
     storage.data = data
     storage.dataType = dataType

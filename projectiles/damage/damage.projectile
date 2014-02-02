@@ -1,0 +1,16 @@
+{
+  "projectileName" : "damage",
+  "frames" : "damage.png",
+  "physics" : "laser",
+  "level" : 3,
+  "frameNumber" : 1,
+  "timeToLife" : 0.01,
+  "speed" : 2,
+  "fallSpeed" : 0,
+  "animationLoops" : false,
+  "flippable" : true,
+  "universalDamage" : true,
+  "damagePoly" : [ [-8, 0], [-8, -8], [0, -8], [8, -8], [8, 0], [8, 8], [0, 8], [-8, 8] ],
+  "damageType" : "ignoresdef",
+  "damageKind" : "default"
+}

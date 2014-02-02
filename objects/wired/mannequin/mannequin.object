@@ -1,0 +1,50 @@
+{
+  "objectName" : "mannequin",
+  "rarity" : "Common",
+  "category" : "other",
+  "price" : 50,
+  "printable" : false,
+  "objectType" : "wire",
+
+  "description" : "Put your swag on display.",
+  "shortdescription" : "Mannequin",
+  "race" : "generic",
+
+  "apexDescription" : "todo",
+  "avianDescription" : "todo",
+  "floranDescription" : "todo",
+  "glitchDescription" : "todo",
+  "humanDescription" : "todo",
+  "hylotlDescription" : "todo",
+
+    "inventoryIcon" : "mannequinicon.png",
+    "orientations" : [
+        {
+          "dualImage" : "mannequin.png:display",
+          "imagePosition" : [0, 0],
+
+          "spaceScan" : 0.1,
+          "anchors" : [ "bottom" ]
+        }
+    ],
+    "animation" : "mannequin.animation",
+    "animationParts" : {
+      "mannequin" : "mannequin.png"
+    },
+  "animationPosition" : [0,0],
+  "damageTeam" : {
+    "type" : "friendly"
+  },
+
+  "scripts" : [ "mannequin.lua" ],
+  "scriptDelta" : 30,
+
+  "mannequin" : {
+    "npcSpeciesOptions" : ["dummy"],
+    "npcParameter" : [
+      {
+        "dropPools" : [ ]
+      }
+    ]
+  }
+}

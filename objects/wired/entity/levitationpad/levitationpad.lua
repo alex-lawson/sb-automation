@@ -9,8 +9,6 @@ function init(v)
   self.levitationHeight = entity.configParameter("levitationHeight")
   self.workSound = entity.configParameter("workSound")
   self.st = 0
-  self.laet = {}
-  self.raet = {}
   onNodeConnectionChange(nil)
 end
 
@@ -38,47 +36,33 @@ function onInteraction(args)
 end
 
 function setActive(flag)
-  storage.active = flag
-  if flag then 
-    entity.setAnimationState("jumpState", "jump")
-  else 
-    entity.setAnimationState("jumpState", "idle")
+  if not flag or energy.consumeEnergy(nil, true) then
+    storage.active = flag
+    if flag then entity.setAnimationState("jumpState", "jump")
+    else entity.setAnimationState("jumpState", "idle") end
   end
 end
 
-function filterEntities(eids)
-  local valid = { "monster", "npc" }
-  local ret = { }
+function firstValidEntity(eids)
+  local invalid = { "object", "plant", "effect" }
   for i, id in pairs(eids) do
-    if (self.aet[id] == nil) and (self.laet[id] == nil) and (self.raet[id] == nil) and (not world.callScriptedEntity(id, "entity.configParameter", "isStatic", false)) then
+    if not world.callScriptedEntity(id, "entity.configParameter", "isStatic", false) then
       local et = world.entityType(id)
-      for j, vt in pairs(valid) do
-        if (et == vt) then
-          ret[#ret + 1] = id
+      local f = true
+      for j, vt in pairs(invalid) do
+        if et == vt then 
+          f = false
           break
         end
       end
+      if f then return id end
     end
   end
-  return ret
+  return nil
 end
 
 function rand()
   return math.random() / 5 + 0.9
-end
-
-function process(ox, oy)
-  local eids = world.entityQuery(entity.toAbsolutePosition({ ox + 0.5, oy }), 2, { notAnObject = true, order = "nearest" })
-  eids = filterEntities(eids)
-  for i,id in pairs(eids) do
-    local e = entityProxy.create(id)
-    local v = e.velocity()
-    if (v ~= nil) and (v[2] < self.levitationHeight - oy) then
-      v[2] = v[2] + (self.levitationHeight - oy + 1) * rand()
-      e.setVelocity(v)
-      self.aet[id] = true
-    end
-  end
 end
 
 function main()
@@ -87,25 +71,18 @@ function main()
     if not energy.consumeEnergy() then
       setActive(false)
     end
-    self.aet = {}
     self.st = self.st + 1
-    if self.st > 6 then 
+    if self.st > 7 then 
       self.st = 0
     elseif self.st == 3 then 
       entity.playImmediateSound(self.workSound)
     end
-    for y=1,self.levitationHeight-1 do
-      process(-1, y)
-      process(0, y)
-      process(1, y)
-    end
-    local q = world.objectQuery(entity.toAbsolutePosition({ 4, 0 }), 2, { name = "levitationpad" })
-    for i,id in pairs(q) do
-      world.callScriptedEntity(id, "setraet", self.aet)
-    end
-    q = world.objectQuery(entity.toAbsolutePosition({ -4, 0 }), 2, { name = "levitationpad" })
-    for i,id in pairs(q) do
-      world.callScriptedEntity(id, "setlaet", self.aet)
+    local p = entity.toAbsolutePosition({ -1.25, 1 })
+    local eids = world.entityQuery(p, { p[1] + 2.5, p[2] + self.levitationHeight }, { notAnObject = true, order = "nearest" })
+    local id = firstValidEntity(eids)
+    if id ~= nil then
+      local y = world.entityPosition(id)[2]
+      entity.setForceRegion({ p[1], p[2] - 0.25, p[1] + 2.5, p[2] + self.levitationHeight }, { 0, rand() * 1000 * (y - p[2]) / self.levitationHeight })
     end
   end
 end

@@ -32,6 +32,10 @@ function init(virtual)
   end
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function onInteraction()
   cycleMode()
 end

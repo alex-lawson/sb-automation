@@ -31,7 +31,7 @@
   "animationPosition" : [-8, -16],
 
   "affectWidth" : 20,
-  "fanPower" : 20,
+  "fanPower" : 210,
   "blowSound" : "/sfx/tech/tech_hoverloop.wav",
 
   "energyConsumptionRate" : 5,

@@ -1,0 +1,9 @@
+{
+  "itemName" : "sewerpipeSE",
+  "rarity" : "Common",
+  "inventoryIcon" : "sewerpipeSE.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "South and east exits of a section of a Sewer Pipe.",
+  "shortdescription" : "Sewer Pipe SE Elbow",
+
+  "materialId" : 111}

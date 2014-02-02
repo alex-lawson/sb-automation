@@ -36,6 +36,10 @@ function onInteraction(args)
   startScan()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function onTrigger()
   storage.timer = self.cooldown
   storage.triggered = true

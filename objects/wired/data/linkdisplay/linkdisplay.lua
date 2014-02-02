@@ -22,6 +22,10 @@ function initAfterLoading()
   findAdjacentSegments()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function die()
   if storage.connectedRight then
     world.callScriptedEntity(storage.connectedRight, "disconnectLeft")
@@ -97,11 +101,11 @@ function isLinkedDisplayToLeft(pos, displaySize, entityId)
   end
 end
 
-function validateData(data, dataType, nodeId)
+function validateData(data, dataType, nodeId, sourceEntityId)
   return dataType == "number"
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   setData(data)
 end
 

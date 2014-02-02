@@ -12,6 +12,10 @@ function init(virtual)
   end
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function die()
   energy.die()
   --TODO: cleanup storage api

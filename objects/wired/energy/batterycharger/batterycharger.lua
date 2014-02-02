@@ -9,7 +9,8 @@ function init(virtual)
     self.batteries = {}
 
     -- will be updated when batteries are checked
-    self.batteryUnusedCapacity = 0
+    self.totalUnusedCapacity = 0
+    self.totalStoredEnergy = 0
 
     --maximum energy to request for batteries from a single pulse
     self.batteryChargeAmount = 5
@@ -26,7 +27,7 @@ function init(virtual)
     --store this so that we don't have to compute it repeatedly
     local pos = entity.position()
     self.batteryCheckArea = {
-      {pos[1], pos[2] - 1},
+      {pos[1], pos[2] + 1.5},
       1.5
     }
 
@@ -39,7 +40,14 @@ function initAfterLoading()
   checkBatteries()
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function die()
+  for i, batteryStatus in ipairs(self.batteries) do
+    world.callScriptedEntity(batteryStatus.id, "entity.smash")
+  end
   energy.die()
 end
 
@@ -54,16 +62,18 @@ end
 
 function checkBatteries()
   self.batteries = {}
-  self.batteryUnusedCapacity = 0
+  self.totalUnusedCapacity = 0
+  self.totalStoredEnergy = 0
 
   local entityIds = world.objectQuery(self.batteryCheckArea[1], self.batteryCheckArea[2], { withoutEntityId = entity.id(), callScript = "isBattery" })
   for i, entityId in ipairs(entityIds) do
     local batteryStatus = world.callScriptedEntity(entityId, "getBatteryStatus")
     self.batteries[#self.batteries + 1] = batteryStatus
-    self.batteryUnusedCapacity = self.batteryUnusedCapacity + batteryStatus.unusedCapacity
+    self.totalUnusedCapacity = self.totalUnusedCapacity + batteryStatus.unusedCapacity
+    self.totalStoredEnergy = self.totalStoredEnergy + batteryStatus.energy
   end
 
-  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.batteryUnusedCapacity)
+  --world.logInfo("found %d batteries with %f total unused capacity", #entityIds, self.totalUnusedCapacity)
   --world.logInfo(self.batteries)
 
   --order batteries left -> right
@@ -88,7 +98,7 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  local thisNeed = math.min(self.batteryChargeAmount, self.batteryUnusedCapacity)
+  local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
   energyNeeds["total"] = energyNeeds["total"] + thisNeed
   energyNeeds[tostring(entity.id())] = thisNeed
   return energyNeeds
@@ -142,6 +152,14 @@ function dischargeBatteries()
   --world.logInfo("ended up with %f energy", energy.getEnergy())
 end
 
+--updates outbound nodes and sends datawire data
+function setWireStates()
+  datawire.sendData(self.totalStoredEnergy, "number", 0)
+  datawire.sendData(self.totalUnusedCapacity, "number", 1)
+  entity.setOutboundNodeLevel(0, self.totalUnusedCapacity == 0)
+  entity.setOutboundNodeLevel(1, self.totalStoredEnergy == 0)
+end
+
 function main()
   self.batteryCheckTimer = self.batteryCheckTimer - entity.dt()
   if self.batteryCheckTimer <= 0 then
@@ -151,6 +169,8 @@ function main()
   if storage.discharging then
     dischargeBatteries()
   end
+
+  setWireStates()
 
   datawire.update()
   energy.update()
