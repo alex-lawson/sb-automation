@@ -1,6 +1,6 @@
 {
   "frameGrid" : {
-    "size" : [26,15],
+    "size" : [32, 13],
     "dimensions" : [6, 1],
     "names" : [
       [ "water", "tar", "poison", "juice", "lava", "other" ]
