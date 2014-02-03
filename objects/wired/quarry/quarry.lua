@@ -253,7 +253,7 @@ function runState.update(dt, data)
                     row = row - 2
                     collisions1 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 1.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 1.5}))
                     collisions2 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 2.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 2.5}))
-                    world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
+                    --world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
                 until #collisions1 > 0 or #collisions2 > 0
 
                 data.curY, data.curDir = data.curY + row, -data.curDir
@@ -363,7 +363,7 @@ end
 function spawnQuarry(pos)
     pos = pos or storage.quarry.pos
     if pos then
-        local quarryId = world.spawnMonster("quarry", pos)
+        local quarryId = world.spawnMonster("squarry", pos)
         if quarryId then
             storage.quarry.id = quarryId
         end
@@ -412,7 +412,11 @@ end
 function sendItem()
     if next(pipes.nodeEntities) ~= nil and storageApi.getCount() > 0 then
         for i,item in storageApi.getIterator() do
-            local result = pushItem(1, item)
+            local tarNode = 1
+            if entity.direction() == -1 then
+                tarNode = 2
+            end
+            local result = pushItem(tarNode, item)
             if result == true then storageApi.returnItem(i) end --Whole stack was accepted
             if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
             if result then

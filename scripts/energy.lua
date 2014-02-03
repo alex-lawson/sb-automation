@@ -40,7 +40,7 @@ function energy.init(args)
   energy.sendTimer = energy.sendFreq
 
   --prevent projectile spam with multiple generators
-  energy.transferInterval = 0.2
+  energy.transferInterval = 0.45
   energy.transferCooldown = energy.transferInterval
   energy.transferShown = {}
 

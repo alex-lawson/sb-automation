@@ -4,18 +4,11 @@
   "rarity" : "Common",
   "category" : "light",
   "price" : 50,
-  "description" : "To mark how long to quarry.",
+  "description" : "Used to mark the far edge of an area to quarry.",
   "shortdescription" : "Quarry Marker",
   "race" : "generic",
 
   "hydrophobic" : true,
-
-  "apexDescription" : "An excellent survival tool.",
-  "avianDescription" : "Torches are essential.",
-  "floranDescription" : "Torch ssscare Floran, but Floran musst masster torch.",
-  "glitchDescription" : "Statement. Torches are indispensable.",
-  "humanDescription" : "A torch to light the way.",
-  "hylotlDescription" : "On the surface these are very useful.",
 
   "statusEffects" : [
     {

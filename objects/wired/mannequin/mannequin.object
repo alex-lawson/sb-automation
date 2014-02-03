@@ -3,9 +3,10 @@
   "rarity" : "Common",
   "category" : "other",
   "price" : 50,
+  "printable" : false,
   "objectType" : "wire",
 
-  "description" : "Show of you earnings.",
+  "description" : "Put your swag on display.",
   "shortdescription" : "Mannequin",
   "race" : "generic",
 
