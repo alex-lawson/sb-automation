@@ -46,7 +46,7 @@
       },
       "liquid" : {
         "properties" : {
-          "offset" : [-0.125, -1],
+          "offset" : [-1.625, -1.375],
           "centered" : false,
           "zLevel" : 2,
           "scalingGroup" : "liquid"

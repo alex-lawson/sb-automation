@@ -28,9 +28,9 @@ end
 function die()
   local position = entity.position()
   if storage.liquid[1] ~= nil then
-    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
+    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1, {initialInventory = storage.liquid})
   else
-    world.spawnItem("liquidtank", {position[1] + 1.5, position[2] + 1}, 1)
+    world.spawnItem("submersiontank", {position[1] + 1.5, position[2] + 1}, 1)
   end
 end
 
