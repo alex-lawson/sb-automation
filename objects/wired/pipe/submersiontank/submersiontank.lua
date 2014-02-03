@@ -35,18 +35,33 @@ function die()
 end
 
 function onInteraction(args)
-  world.logInfo("SUBMERSIONTANK: onInteraction")
-  return { "SitDown", {config={
-    ["sitFlipDirection"] = false,
-    ["sitPosition"] = {20,20},
-    ["sitOrientation"] = "lay",
-    ["sitAngle"] = 0,
-    ["sitCoverImage"] = "/objects/wired/pipe/submersiontank.png",
-    ["sitEmote"] = "sleep",
-    ["sitStatusEffects"] =  {
-      ["kind"] = "Nude",
-    },
-  }}}
+  local liquid = self.liquidMap[storage.liquid[1]]
+  local count = storage.liquid[2]
+  local capacity = self.capacity
+  local itemList = ""
+  
+  if liquid == nil then liquid = "other" end
+  if count ~= nil then 
+    return { "ShowPopup", { message = "^white;You manage to suppress the desire to climb into the tank... for now.\n\n^white;Holding ^green;" .. count ..
+      "^white; / ^green;" .. capacity ..
+      "^white; units of liquid ^green;" .. liquid
+    }}
+  else
+    return { "ShowPopup", { message = "Tank is empty."}}
+  end
+
+--  world.logInfo("SUBMERSIONTANK: onInteraction")
+--  return { "SitDown", {config={
+--    ["sitFlipDirection"] = false,
+--    ["sitPosition"] = {20,20},
+--    ["sitOrientation"] = "lay",
+--    ["sitAngle"] = 0,
+--    ["sitCoverImage"] = "/objects/wired/pipe/submersiontank.png",
+--    ["sitEmote"] = "sleep",
+--    ["sitStatusEffects"] =  {
+--      ["kind"] = "Nude",
+--    },
+--  }}}
 end
 
 function main(args)

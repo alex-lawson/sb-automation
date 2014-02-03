@@ -2,7 +2,7 @@
   "objectName" : "submersiontank",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "A tank for submersing yourself.",
+  "description" : "A big tank, big enough to fit a person inside...",
   "shortdescription" : "Submersion Tank",
   "race" : "generic",
   "category" : "wire",
