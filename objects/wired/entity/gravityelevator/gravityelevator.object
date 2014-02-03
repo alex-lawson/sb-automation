@@ -49,8 +49,9 @@
   },
   "animationPosition" : [0, 0],
   "gravityRange" : [3 , 10],
-  "energyConsumptionRate" : 1,
-  "energyCapacity" : 50,
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 40,
 
-  "gravityForce" : [ [ 155, 24, 34 ], [ 65, 20, 100 ] ]
+  "gravityForceOld" : [ [ 155, 15, 100 ], [ 60, 20, 110 ] ],
+  "gravityForce" : [ [ 135, 0.95, 50 ], [ 55, 1.1, 110 ] ]
 }

@@ -1,9 +1,9 @@
 function init(virtual)
    if not self.number and not virtual then
       energy.init()
-      self.gravityForce, self.countdown, self.number = entity.configParameter("gravityForce"), 15, -1
+      self.gravityForce, self.countdown, self.number = entity.configParameter("gravityForce"), 15, 0
       if self.direction == nil then
-         storage.state, self.direction, self.animation = false, 0, "back"
+         self.state, self.direction, self.animation = false, 0, "back"
          if entity.configParameter("anchors")[1] == "top" then
             self.direction = -1
             self.animation = "top"
@@ -19,10 +19,12 @@ function init(virtual)
 end
 
 function onInteraction()
-   startGravityShaft({direction = self.direction, number = -1})
+   startGravityShaft({direction = self.direction, number = 0})
 end
 
 function onEnergyChange(amount)
+   world.logInfo("onEnergyChange %s", amount)
+
    if amount < energy.consumptionRate then
       entity.setGlobalTag("modePart", "energy")
    else
@@ -32,14 +34,15 @@ function onEnergyChange(amount)
 end
 
 function consumeEnergy()
-   if self.number == 0 then
-      local energyn = energy.consumptionRate
+   world.logInfo("consumeEnergy %s %s",self.number,self.size)
+   if self.number == 0 or self.number == self.size then
+      local energyn = energy.consumptionRate/10
       if self.checkedForPlayer then
          energyn = energyn * 5
       end
       if not energy.consumeEnergy(energyn) then
          entity.setGlobalTag("modePart", "energy")
-         storage.state = false
+         self.state = false
          return false
       end
    end
@@ -48,14 +51,14 @@ end
 
 function main()
    energy.update()
-   if storage.state and consumeEnergy() then
+   if self.state and consumeEnergy() then
       local force = self.forceRegion or checkForceRegion()
       setForce()
       if self.countdown == 0 then
-         if isConnected() then
-            self.checkedForPlayer, self.countdown = nil, 5
+         if checkNode(getDirection()) then
+            self.checkedForPlayer, self.countdown = nil, 8
          else
-            storage.state = false
+            self.state = false
             self.connectedShaft, self.setDirection, self.countdown = nil, nil, 15
          end
       else
@@ -63,7 +66,7 @@ function main()
       end
       if not self.checkedForPlayer and self.connectedShaft and checkForPlayer() then
          world.callScriptedEntity(self.connectedShaft, "startGravityShaft", { direction = getDirection(), number = self.number })
-         self.checkedForPlayer, self.countdown = true, 5
+         self.checkedForPlayer, self.countdown = true, 8
       end
    elseif self.lastProj then
       if not world.entityExists(self.lastProj) then
@@ -74,18 +77,18 @@ function main()
 end
 
 function canConnectGravityShaft(direction)
-   --world.logInfo("canConnectGravityShaft %s own %s", direction, self.direction)
+   world.logInfo("canConnectGravityShaft %s own %s", direction, self.direction)
    local con = false
-   if self.direction == 0 or self.direction == direction then
+   if self.direction == 0 or self.direction == direction and checkNode(direction, true) then
       self.setDirection, con = direction, true
    end
    return {con, entity.position()[2]}
 end
 
 function startGravityShaft(args)
-   self.number = args.number + 1
-   storage.state = true
-   self.forceRegion, self.checkedForPlayer, self.setDirection = false, nil, args.direction or self.direction
+   world.logInfo("startGravityShaft %s", args)
+   self.forceRegion, self.checkedForPlayer, self.number = false, nil, args.number
+   self.setDirection, self.state = args.direction or self.direction, true
    return true
 end
 
@@ -103,7 +106,6 @@ function checkForceRegion()
       gravityRange[2] = -gravityRange[2]
    end
    local endPos = entity.toAbsolutePosition({gravityRange[1], gravityRange[2]})
-
    local entities  = world.entityLineQuery(
       pos,
       {pos[1], endPos[2] + dir },
@@ -112,7 +114,7 @@ function checkForceRegion()
          withoutEntityId = entity.id()
       }
    )
-   --world.logInfo("checkForceRegion entities %s (%s - %s)", entities, pos, endPos)
+   world.logInfo("checkForceRegion entities %s (%s - %s)", entities, pos, endPos)
    if #entities > 0 then
       local entity, distance = entities[1], 100
       if #entities > 1 then
@@ -135,12 +137,16 @@ function checkForceRegion()
          endPos[2] = canConnect[2] - dir
       end
    end
+   if not self.connectedShaft then
+      self.countdown = 5
+   end
    if dir == -1 then
       self.forceRegion = { pos[1], endPos[2]+1, endPos[1], pos[2] }
    else
       self.forceRegion = { pos[1], pos[2]+dir, endPos[1], endPos[2] }
    end
    self.size = math.abs(self.forceRegion[4] - self.forceRegion[2]+1)
+   self.number = self.number + self.size
    return self.forceRegion
 end
 
@@ -154,15 +160,15 @@ function setForce(force)
    force = force or self.gravityForce
    local dir, regio = getDirection(), {}
    if dir > 0 then
-      force = math.max(force[1][1] - self.number*force[1][2], force[1][3])
+      force = math.max(force[1][1] - math.pow(self.number/2, force[1][2]), force[1][3])
       regio = {self.forceRegion[1]+2, self.forceRegion[2]}
       entity.setAnimationState("beamState", "up")
-      entity.scaleGroup("beam", {1, (self.size+1)*8})
+      entity.scaleGroup("beam", {1, (1+self.size)*8})
    else
-      force = math.min(force[2][1] + self.number*force[2][2], force[2][3])
+      force = math.min(force[2][1] + math.pow(self.number/1.2, force[2][2]), force[2][3])
       regio = { self.forceRegion[1]+2, self.forceRegion[4] }
       entity.setAnimationState("beamState", "down")
-      entity.scaleGroup("beam", {-1, -(self.size+1)*8})
+      entity.scaleGroup("beam", {-1, -(1+self.size)*8})
    end
 
    if not self.proj or self.proj >= self.size/2 then
@@ -172,34 +178,46 @@ function setForce(force)
       self.proj = self.proj + 1
    end
 
+   world.logInfo("force1 %s", force)
    force = force * (world.gravity({self.forceRegion[1],self.forceRegion[2]})/100)
+   world.logInfo("force2 %s", force)
    entity.setForceRegion(self.forceRegion, {0, force})
 end
 
 function onNodeConnectionChange()
-   checkNodes()
+   onNodeChange()
 end
 
 function onInboundNodeChange()
-   checkNodes()
+   onNodeChange()
 end
 
-function isConnected()
-   return entity.getInboundNodeLevel(0) or entity.getInboundNodeLevel(1)
+function checkNode(direction, ifnot)
+   local node = 0
+   if direction == -1 then
+      node = 1
+   end
+   if entity.isInboundNodeConnected(node) then
+      if entity.getInboundNodeLevel(node) then
+         return true
+      end
+      return false
+   end
+   return ifnot
 end
 
-function checkNodes()
+function onNodeChange()
    if entity.getInboundNodeLevel(0) then
       --world.logInfo("getInboundNodeLevel %s", 1)
       local dir = self.direction
       if dir == 0 then dir = 1 end
-      return startGravityShaft({direction = dir, number = -1})
+      return startGravityShaft({direction = dir, number = 0})
    end
    if entity.getInboundNodeLevel(1) then
       --world.logInfo("getInboundNodeLevel %s", 2)
       local dir = self.direction
       if dir == 0 then dir = -1 end
-      return startGravityShaft({direction = dir, number = -1})
+      return startGravityShaft({direction = dir, number = 0})
    end
 end
 
