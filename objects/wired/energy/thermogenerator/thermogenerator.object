@@ -1,0 +1,38 @@
+{
+  "objectName" : "thermogenerator",
+  "rarity" : "Common",
+  "description" : "Generate energy from water and lava.",
+  "shortdescription" : "Thermoelectric Generator",
+  "race" : "generic",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "thermogenerator.png:background",
+  "orientations" : [
+    {
+      "image" : "thermogenerator.png:background",
+      "imagePosition" : [0, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right",
+      "collision" : "solid"
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "thermogenerator.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "thermogenerator.animation",
+  "animationParts" : {
+    "generator" : "thermogenerator.png",
+    "leftPlate" : "thermogenerator.png",
+    "rightPlate" : "thermogenerator.png"
+  },
+  "animationPosition" : [0, -8],
+
+  "energyCollisionBlocks" : [ [0, -1], [0, 0], [0, 1] ],
+
+  "energySendRate" : 10,
+  "energyCapacity" : 10
+}

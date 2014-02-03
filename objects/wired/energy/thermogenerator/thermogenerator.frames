@@ -1,0 +1,9 @@
+{
+  "frameGrid" : {
+    "size" : [8, 24],
+    "dimensions" : [6, 1],
+    "names" : [
+        [ "background", "right.hot", "right.cold", "left.cold", "left.hot", "off" ]
+    ]
+  }
+}
