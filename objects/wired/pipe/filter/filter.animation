@@ -1,0 +1,29 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "nullState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {}
+        }
+      }
+    },
+    "parts" : {
+      "pipe" : {
+        "properties" : {
+          "image" : "<partImage>:default.0",
+          "offset" : [0, 0],
+          "centered" : false,
+          "zLevel" : 3,
+          "rotationGroup" : "pipe"
+        }
+      }
+    }
+  },
+  "rotationGroups" : {
+    "pipe" : {
+      "rotationCenter" : [0.5, 0.5],
+      "angularVelocity" : 1000
+    }
+  }
+}
