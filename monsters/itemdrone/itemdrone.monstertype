@@ -1,0 +1,75 @@
+{
+  "type" : "itemdrone",
+
+  "categories" : [ "itemdrone" ],
+  "parts" : [ "drone" ],
+
+  "animation" : "itemdrone.animation",
+  "projectiles" : "/monsters/itemdrone/projectiles.config",
+  "colors" : "/monsters/colors.config",
+  "reversed" : true,
+
+  "dropPools" : [],
+
+  "baseParameters" : {
+    "scripts" : [
+      "/monsters/itemdrone/behavior.lua",
+      "/scripts/util.lua",
+      "/scripts/vec2.lua"
+    ],
+
+    "scriptDelta" : 5,
+
+    "metaBoundBox" : [-2.5, -2.5, 2.5, 2.5],
+    "scale" : 1.0,
+
+    "movementSettings" : {
+      "collisionPoly" : [ [-1.0, -1.0], [1.0, -1.0], [1.0, 1.0], [-1.0, 1.0] ],
+
+      "mass" : 0.2,
+      "walkSpeed" : 2,
+      "runSpeed" : 2,
+      "jumpSpeed" : 5,
+      "flySpeed" : 15,
+      "airFriction" : 0.25,
+      "airForce" : 50.0
+    },
+
+    "targetRadius" : 30.0,
+    "targetSearchTime" : 0.5,
+    "targetHoldTime" : 5.0,
+
+    "blockedSensors" : [ [1.5, -1.1], [1.5, -0.5], [1.5, 0.5], [1.5, 1.1] ],
+
+    "knockoutTime" : 1,
+    "knockoutEffect" : "blink",
+    "deathParticles" : "deathPoof",
+    "deathNoise" : [ ],
+    "turnHostileNoise" : [ ],
+
+    "touchDamage" : {
+      "poly" : [ [-1.0, -1.0], [1.0, -1.0], [1.0, 1.0], [-1.0, 1.0] ],
+      "damage" : 15,
+
+      "teamType" : "enemy",
+      "damageSourceKind" : "default",
+      "statusEffects" : [ ]
+    },
+
+    "statusParameters" : {
+      "baseMaxHealth" : 12,
+      "bodyMaterialKind" : "robotic",
+      "damageConfig" : "/monsters/itemdrone/damage.config"
+    },
+
+    "inateStatusEffects" : [
+      {
+        "kind" : "Protection",
+        "amount" : 1.0
+      }
+    ],
+
+    "mouthOffset" : [0, 0],
+    "feetOffset" : [0, -8]
+  }
+}
