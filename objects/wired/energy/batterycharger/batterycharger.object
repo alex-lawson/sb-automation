@@ -12,31 +12,33 @@
   "orientations" : [
     {
       "image" : "batterycharger.png:off",
-      "imagePosition" : [-8, -24],
+      "imagePosition" : [-8, 0],
 
-      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
+      "spaces" : [ [-1, 3], [0, 3], [1, 3], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "bottom" ],
       "direction" : "right",
       "collision" : "platform"
     },
     {
       "image" : "batterycharger.png:off",
-      "imagePosition" : [-8, -16],
+      "imagePosition" : [-8, 0],
 
-      "spaces" : [ [-1, -3], [0, -3], [1, -3], [-1, 0], [0, 0], [1, 0] ],
+      "spaces" : [ [-1, 3], [0, 3], [1, 3], [-1, 0], [0, 0], [1, 0] ],
       "anchors" : [ "background" ],
       "direction" : "right"
     }
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "batterycharger.animation",
   "animationParts" : {
     "charger" : "batterycharger.png"
   },
-  "animationPosition" : [-8, -24],
+  "animationPosition" : [-8, 0],
+
+  "outboundNodes" : [ [0, 3], [0, 0] ],
 
   "energySendRate" : 40,
   "energyCapacity" : 20

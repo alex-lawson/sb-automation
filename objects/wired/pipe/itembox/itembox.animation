@@ -35,7 +35,7 @@
       "box" : {
         "properties" : {
           "offset" : [0, 0],
-          "centered" : false,
+          "centered" : true,
           "zLevel" : 1
         },
         "partStates" : {
@@ -55,7 +55,7 @@
       },
       "invbar" : {
         "properties" : {
-          "offset" : [1.125, 0.5],
+          "offset" : [-0.375, -0.5],
           "centered" : false,
           "zLevel" : 2,
           "scalingGroup" : "invbar"

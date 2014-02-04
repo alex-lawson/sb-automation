@@ -55,6 +55,10 @@ function onInteraction(args)
   output(not storage.state)
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function onInboundNodeChange(args)
   output(not storage.state)
 end

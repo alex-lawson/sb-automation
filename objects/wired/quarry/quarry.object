@@ -1,0 +1,52 @@
+{
+  "objectName" : "quarry",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Uses energy to automatically mine an area of blocks.",
+  "shortdescription" : "Quarry",
+  "race" : "generic",
+
+  "category" : "wire",
+  "price" : 750,
+  "printable" : false,
+
+  "inventoryIcon" : "quarryicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "quarry.png:run.1",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "scripts" : [
+    "/scripts/datawire.lua",
+    "/scripts/energy.lua",
+    "/scripts/stateMachine.lua",
+    "quarry.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/storageapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 2,
+
+  "animation" : "quarry.animation",
+  "animationParts" : {
+    "quarry" : "quarry.png"
+  },
+  "animationPosition" : [-8, -8],
+  "inboundNodes" : [ [0, -1] ],
+
+  "maxWidth" : 25,
+  "maxSpeed" : [2,6],
+  "push" : [1,1],
+
+  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]}, {"offset": [1, -1], "dir": [1, 0]} ],
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 50
+
+}

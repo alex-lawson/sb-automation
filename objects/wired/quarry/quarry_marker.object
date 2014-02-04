@@ -1,0 +1,72 @@
+{
+  "objectName" : "quarry_marker",
+  "printable" : false,
+  "rarity" : "Common",
+  "category" : "light",
+  "price" : 50,
+  "description" : "Used to mark the far edge of an area to quarry.",
+  "shortdescription" : "Quarry Marker",
+  "race" : "generic",
+
+  "hydrophobic" : true,
+
+  "statusEffects" : [
+    {
+      "kind" : "Warmth",
+      "amount" : 8,
+      "range" : 4
+    } ],
+
+  "lightColor" : [2, 188, 237],
+  "flickerDistance" : 0.5,
+  "flickerStrength" : 0.1,
+
+  "particleEmitter" : {
+    "emissionRate" : 1.0,
+    "emissionVariance" : 0.5,
+
+    "particle" : {
+      "type" : "ember",
+      "size" : 1.0,
+      "color" : [255, 100, 0, 255],
+      "light" : [150, 50, 50],
+      "fade" : 0.9,
+      "initialVelocity" : [0.0, 5.0],
+      "finalVelocity" : [0.0, -50.0],
+      "approach" : [0, 20],
+      "timeToLive" : 0.6,
+      "layer" : "middle"
+    },
+
+    "particleVariance" : {
+      "initialVelocity" : [1.5, 2.0]
+    }
+  },
+
+  "inventoryIcon" : "quarry_markericon.png",
+  "orientations" : [
+    {
+      "dualImage" : "quarry_marker.png:default",
+      "imagePosition" : [0, 0],
+      "spaces" : [
+        [-1,0], [0,0]
+      ],
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "dualImage" : "quarry_marker.png:default",
+      "imagePosition" : [0, 0],
+      "direction" : "right",
+      "spaces" : [
+        [-1,0], [0,0]
+      ],
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "soundEffect" : "/sfx/objects/torch.wav",
+  "soundEffectRadius" : 50
+
+}

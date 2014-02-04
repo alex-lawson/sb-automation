@@ -1,0 +1,42 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "solarState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 1
+          },
+          "error" : {}
+        }
+      }
+    },
+    "parts" : {
+      "solar" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "solarState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:solar.off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:solar.on"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:solar.error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

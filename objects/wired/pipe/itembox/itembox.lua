@@ -8,8 +8,8 @@ function init(args)
     if initInv and storage.sApi == nil then
       storage.sApi = initInv
     end
-    
-    storageApi.init(3, 16, true)
+
+    storageApi.init({ mode = 3, capacity = 16, merge = true })
     
     entity.scaleGroup("invbar", {2, 0})
     
@@ -36,7 +36,7 @@ function onInboundNodeChange(args)
     for node=0,1 do
       if entity.getInboundNodeLevel(node) then
         for i,item in storageApi.getIterator() do
-          world.logInfo("%s", args.node)
+          --world.logInfo("%s", args.node)
           local result = pushItem(node+1, item)
           if result == true then storageApi.returnItem(i) end --Whole stack was accepted
           if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted

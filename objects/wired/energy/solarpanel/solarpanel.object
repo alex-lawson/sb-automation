@@ -1,0 +1,45 @@
+{
+  "objectName" : "solarpanel",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Generates energy without the waste of resources.",
+  "shortdescription" : "Solar Panel",
+  "race" : "generic",
+  "category" : "other",
+  "price" : 2000,
+
+  "apexDescription" : "todo",
+  "avianDescription" : "todo",
+  "floranDescription" : "todo",
+  "glitchDescription" : "todo",
+  "humanDescription" : "todo",
+  "hylotlDescription" : "todo",
+
+  "inventoryIcon" : "solarpanelicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "solarpanel.png:solar.on",
+      "imagePosition" : [-16, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  "animation" : "solarpanel.animation",
+  "animationParts" : {
+    "solar" : "solarpanel.png"
+  },
+  "animationPosition" : [-16, 0],
+  "inboundNodes" : [ [0, 0] ],
+
+  "scripts" : [
+    "/scripts/energy.lua",
+    "solarpanel.lua"
+  ],
+  "scriptDelta" : 120,
+
+  "lightLevelThreshold" : 0.5,
+  "energySendRate" : 1,
+  "energyGenerationRate" : 1,
+  "energyCapacity" : 20
+}

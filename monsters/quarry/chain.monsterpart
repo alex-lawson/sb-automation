@@ -1,0 +1,9 @@
+{
+  "name" : "schain",
+  "category" : "squarry",
+  "type" : "chain",
+
+  "frames" : {
+    "chain" : "chain.png"
+  }
+}

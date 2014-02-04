@@ -15,7 +15,7 @@
 
   "orientations" : [
     {
-      "image" : "battery.png",
+      "image" : "battery.png:battery",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -29,8 +29,9 @@
 
   "animation" : "battery.animation",
   "animationParts" : {
-    "battery" : "battery.png",
-    "chargebar" : "chargebar.png"
+    "background" : "battery.png:background",
+    "chargebar" : "chargebar.png",
+    "overlay" : "battery.png:overlay"
   },
   "animationPosition" : [0, 0],
 

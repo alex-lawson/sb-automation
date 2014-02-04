@@ -39,13 +39,9 @@ end
 function onInboundNodeChange(args) 
   checkNodes()
 end
-
-oldOnNodeConnectionChange = onNodeConnectionChange
  
 function onNodeConnectionChange()
-  if oldOnNodeConnectionChange then
-    oldOnNodeConnectionChange()
-  end
+  datawire.onNodeConnectionChange()
 
   checkNodes()
   entity.setInteractive(not entity.isInboundNodeConnected(0))
@@ -59,11 +55,11 @@ function checkNodes()
   end
 end
 
-function validateData(data, dataType, nodeId)
+function validateData(data, dataType, nodeId, sourceEntityId)
   return dataType == "area"
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   if storage.transitionState > 0 then
     storage.pendingAreaData = data
   else

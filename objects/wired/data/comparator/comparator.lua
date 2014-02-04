@@ -52,11 +52,15 @@ function cycleMode()
   compare()
 end
 
-function validateData(data, dataType, nodeId)
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
+function validateData(data, dataType, nodeId, sourceEntityId)
   return dataType == "number"
 end
 
-function onValidDataReceived(data, dataType, nodeId)
+function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   if nodeId == 0 then
     storage.data1 = data
   else

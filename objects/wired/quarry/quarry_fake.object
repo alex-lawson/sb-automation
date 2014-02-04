@@ -1,0 +1,29 @@
+{
+  "objectName" : "quarry_fake",
+  "rarity" : "Common",
+  "description" : "Mines out blocks for you.",
+  "shortdescription" : "Quarry end node",
+  "race" : "generic",
+
+  "category" : "decorative",
+  "price" : 1,
+  "breakDropOptions" : [[]],
+
+  "apexDescription" : "todo",
+  "avianDescription" : "todo",
+  "floranDescription" : "todo",
+  "glitchDescription" : "todo",
+  "humanDescription" : "todo",
+  "hylotlDescription" : "todo",
+
+  "inventoryIcon" : "quarryicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "quarry.png:fake",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ]
+}

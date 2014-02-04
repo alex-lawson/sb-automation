@@ -23,6 +23,10 @@ function init(virtual)
   end
 end
 
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 --------------------------------------------------------------------------------
 function main(args)
   datawire.update()

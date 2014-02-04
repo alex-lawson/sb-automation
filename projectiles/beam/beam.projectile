@@ -1,0 +1,16 @@
+{
+  "projectileName" : "beam",
+  "frames" : "beam.png",
+  "physics" : "laser",
+  "level" : 3,
+  "frameNumber" : 1,
+  "timeToLife" : 3,
+  "power" : -1,
+  "speed" : 0,
+  "fallSpeed" : 0,
+  "animationLoops" : false,
+  "flippable" : true,
+  "universalDamage" : false,
+  "damageType" : "hitTest",
+  "damageKind" : "silent"
+}
