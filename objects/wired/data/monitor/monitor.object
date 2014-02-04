@@ -2,7 +2,7 @@
   "objectName" : "monitor",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Monitors status of connected devices. Will send output if ^red;Alarm status is received",
+  "description" : "Monitors status of connected devices. Will send output if ^red;Alarm^white; status is received",
   "shortdescription" : "Monitor",
   "race" : "generic",
   

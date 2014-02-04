@@ -16,6 +16,7 @@ function init(virtual)
 end
 
 function main(args)
+  entity.setAllOutboundNodes(storage.alarmTriggered)
   datawire.update()
 end
 
@@ -36,18 +37,17 @@ end
 function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   logInfo(data, dataType)
   if dataType == "string" then
-    if data.sub()
+    if string.upper(string.sub(data,0,5)) == "ALARM" then
+      storage.alarmTriggered = true
   end
   datawire.sendData(data, dataType, 0)
 end
 
 function logInfo(data, dataType)
 
-  if dataType == "number" then
-    if storage.prevData == nil or data == storage.prevData then
-      logString = "^white;" .. dataType .. " : " .. data
-    elseif data > storage.prevData then
-      logString = "^white;" .. dataType .. " : ^green;" .. data
+  if dataType == "string" then
+    if string.upper(string.sub(data,0,5)) == "ALARM" then
+      logString = "^red;" .. data
     else
       logString = "^white;" .. dataType .. " : ^red;" .. data
     end
