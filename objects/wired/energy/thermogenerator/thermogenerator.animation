@@ -1,20 +1,15 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "leftState" : {
+      "lavaState" : {
         "default" : "off",
         "states" : {
           "off" : {},
-          "hot" : {},
-          "cold" : {}
-        }
-      },
-      "rightState" : {
-        "default" : "off",
-        "states" : {
-          "off" : {},
-          "hot" : {},
-          "cold" : {}
+          "on" : {
+            "frames": 4,
+            "cycle" : 1,
+            "mode" : "loop"
+          }
         }
       }
     },
@@ -22,59 +17,114 @@
       "generator" : {
         "properties" : {
           "centered" : false,
-          "image" : "<partImage>:background"
+          "image" : "<partImage>",
+          "zLevel" : 1
         }
       },
-      "leftPlate" : {
+      "lavabar" : {
         "properties" : {
           "centered" : false,
+          "offset" : [0.375, 0.250],
           "zLevel" : 2
         },
         "partStates" : {
-          "leftState" : {
+          "lavaState" : {
             "off" : {
               "properties" : {
                 "image" : "<partImage>:off"
               }
             },
-            "hot" : {
+            "on" : {
               "properties" : {
-                "image" : "<partImage>:left.hot"
-              }
-            },
-            "cold" : {
-              "properties" : {
-                "image" : "<partImage>:left.cold"
-              }
-            }
-          }
-        }
-      },
-      "rightPlate" : {
-        "properties" : {
-          "centered" : false,
-          "zLevel" : 2
-        },
-        "partStates" : {
-          "rightState" : {
-            "off" : {
-              "properties" : {
-                "image" : "<partImage>:off"
-              }
-            },
-            "hot" : {
-              "properties" : {
-                "image" : "<partImage>:right.hot"
-              }
-            },
-            "cold" : {
-              "properties" : {
-                "image" : "<partImage>:right.cold"
+                "image" : "<partImage>:on.<frame>"
               }
             }
           }
         }
       }
+    }
+  },
+  "particleEmitters" : {
+    "steam1" : {
+      "emissionRate" : 5.0,
+      "particles" : [
+        {
+          "particle" : {
+            "type" : "ember",
+            "size" : 1.0,
+            "position" : [0.5, 0.5],
+            "initialVelocity" : [0, 0],
+            "finalVelocity" : [0, 2],
+            "approach" : [0, 3],
+            "color" : [230, 230, 230, 240],
+            "destructionAction" : "shrink",
+            "destructionTime" : 0.5,
+            "fade" : 0,
+            "timeToLive" : 0.5,
+            "layer" : "middle",
+            "collidesLiquid" : false,
+            "variance" : {
+              "initialVelocity" : [0, 0],
+              "finalVelocity" : [0.5, 0.5],
+              "position" : [0.4, 0.4]
+            }
+          }
+        }
+      ]
+    },
+    "steam2" : {
+      "emissionRate" : 2.0,
+      "particles" : [
+        {
+          "particle" : {
+            "type" : "ember",
+            "size" : 1.0,
+            "position" : [0.5, 1.5],
+            "initialVelocity" : [0, 0],
+            "finalVelocity" : [0, 2],
+            "approach" : [0, 3],
+            "color" : [230, 230, 230, 240],
+            "destructionAction" : "shrink",
+            "destructionTime" : 0.5,
+            "fade" : 0.1,
+            "timeToLive" : 0.5,
+            "layer" : "middle",
+            "collidesLiquid" : false,
+            "variance" : {
+              "initialVelocity" : [0, 0],
+              "finalVelocity" : [0.5, 0.5],
+              "position" : [0.4, 0.4]
+            }
+          }
+        }
+      ]
+    },
+    "steam3" : {
+      "emissionRate" : 2.0,
+      "particles" : [
+        {
+          "particle" : {
+            "type" : "ember",
+            "size" : 1.0,
+            "position" : [0.5, 2.4],
+            "initialVelocity" : [0, 0],
+            "finalVelocity" : [0, 2],
+            "approach" : [0, 3],
+            "color" : [230, 230, 230, 240],
+            "destructionAction" : "shrink",
+            "destructionTime" : 0.5,
+            "fade" : 0.1,
+            "timeToLive" : 0.5,
+            "layer" : "middle",
+            "collidesLiquid" : false,
+            "variance" : {
+              "initialVelocity" : [0, 0],
+              "finalVelocity" : [0.5, 0.5],
+              "position" : [0.4, 0.3]
+            }
+          }
+        }
+      ]
     }
   }
 }

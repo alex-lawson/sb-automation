@@ -7,32 +7,43 @@
   "objectType" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "thermogenerator.png:background",
+  "inventoryIcon" : "thermogenerator.png",
   "orientations" : [
     {
-      "image" : "thermogenerator.png:background",
-      "imagePosition" : [0, -8],
+      "image" : "thermogenerator.png",
+      "imagePosition" : [0, -16],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "thermogenerator.png",
+      "imagePosition" : [0, -16],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ],
-      "direction" : "right",
-      "collision" : "solid"
+      "direction" : "right"
     }
   ],
 
-  "scripts" : [ "/scripts/energy.lua", "thermogenerator.lua" ],
+  "scripts" : [ 
+    "/scripts/energy.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipesapi.lua",
+    "thermogenerator.lua"
+  ],
   "scriptDelta" : 30,
 
   "animation" : "thermogenerator.animation",
   "animationParts" : {
     "generator" : "thermogenerator.png",
-    "leftPlate" : "thermogenerator.png",
-    "rightPlate" : "thermogenerator.png"
+    "lavabar" : "lavabar.png"
   },
-  "animationPosition" : [0, -8],
+  "animationPosition" : [0, -16],
 
-  "energyCollisionBlocks" : [ [0, -1], [0, 0], [0, 1] ],
+  "energyCollisionBlocks" : [ [0, -2], [0, -1], [0, 0] ],
 
-  "energySendRate" : 10,
-  "energyCapacity" : 10
+  "energySendRate" : 15,
+  "energyCapacity" : 15
 }
