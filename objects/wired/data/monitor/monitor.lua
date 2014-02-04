@@ -35,6 +35,9 @@ end
 
 function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
   logInfo(data, dataType)
+  if dataType == "string" then
+    if data.sub()
+  end
   datawire.sendData(data, dataType, 0)
 end
 

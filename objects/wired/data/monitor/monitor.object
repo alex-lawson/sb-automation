@@ -2,8 +2,8 @@
   "objectName" : "monitor",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Keeps a running log of data received, interact to show the log",
-  "shortdescription" : "monitor",
+  "description" : "Monitors status of connected devices. Will send output if ^red;Alarm status is received",
+  "shortdescription" : "Monitor",
   "race" : "generic",
   
   "category" : "wire",
