@@ -30,12 +30,12 @@ storageApi = {}
 -------------------------------------------------
 
 --- Initializes the storage
--- @param args (optional) Change starting parameters
---      -mode: (int) Should other entities access this storage: 0 not, 1 store, 2 take, 3 both
+-- @param args [optional] (table) Override config parameters
+--      -mode: (int) Should other entities access this storage: 0 not, 1 store in, 2 take from, 3 both
 --      -space: (int) Maximum amount of item stacks, up to 999
 --      -join: (boolean) Should the storage merge stacks if possible?
 --      -content: (table) table of items to prefill the object
---      -dropPosition: {x,y} position to drop items
+--      -dropPosition: (vec2f) position to drop items
 --      -ondeath: (int) Should object 0 do nothing, 1 drop items or 2 store items on death
 function storageApi.init(args)
     if storage.sApi == nil then
