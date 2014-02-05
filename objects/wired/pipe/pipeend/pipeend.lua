@@ -1,7 +1,9 @@
-function init(virtual) 
-  pipes.init({liquidPipe})
-  
-  self.usedNode = 0
+function init(virtual)
+  if not virtual then
+    pipes.init({liquidPipe})
+    
+    self.usedNode = 0
+  end
 end
 
 --------------------------------------------------------------------------------

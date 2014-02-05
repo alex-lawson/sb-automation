@@ -42,7 +42,7 @@
   },
   "animationPosition" : [0, -16],
 
-  "energyCollisionBlocks" : [ [0, -2], [0, -1], [0, 0] ],
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ],
 
   "energySendRate" : 15,
   "energyCapacity" : 15

@@ -1,18 +1,17 @@
 function init(virtual)
   if not virtual then
     energy.init()
+    pipes.init({liquidPipe})
 
-    self.lavaCapacity = 2000
-    storage.lavaLevel = storage.lavaLevel or self.lavaCapacity
-    self.lavaConsumptionRate = 5 --this is per tile, so multiply by 6 to get max energyGenerationRate
+    self.lavaCapacity = 100
+    storage.lavaLevel = storage.lavaLevel or 0
+    self.lavaConsumptionRate = 10 --this is per tile, so multiply by 3 to get maximum total consumption
     self.energyPerLava = 0.2
-    self.waterPerLava = 4
-
-    self.energyPerExchange = 1
+    self.waterPerLava = 5
 
     local pos = entity.position()
     --self.checkArea = {{pos[1] - 1, pos[2] -2}, {pos[1] + 1, pos[2] -2}, {pos[1] - 1, pos[2] - 1}, {pos[1] + 1, pos[2] - 1}, {pos[1] - 1, pos[2]}, {pos[1] + 1, pos[2]}}
-    self.checkArea = {{pos[1], pos[2] -2}, {pos[1], pos[2] - 1}, {pos[1], pos[2]}}
+    self.checkArea = {{pos[1], pos[2] - 2}, {pos[1], pos[2] - 1}, {pos[1], pos[2]}}
 
     -- entity.setParticleEmitterActive("steam1", true)
     -- entity.setParticleEmitterActive("steam2", true)
@@ -41,7 +40,16 @@ function onLiquidPut(liquid, nodeId)
 end
 
 function pullLava()
+  local unusedCapacity = self.lavaCapacity - storage.lavaLevel
+  if unusedCapacity > 0 then
+    local filter = {}
+    filter["3"] = {1, unusedCapacity}
 
+    local liquid = pullLiquid(1, filter)
+    if liquid then
+      storage.lavaLevel = storage.lavaLevel + liquid[2]
+    end
+  end
 end
 
 --never accept energy from elsewhere
@@ -60,7 +68,7 @@ function generate()
 
     --check liquid at the given tile
     local liquidSample = world.liquidAt(pos)
-    if liquidSample and liquidSample[1] == 1 and liquidSample[2] >= 700 then
+    if liquidSample and liquidSample[1] == 1 and liquidSample[2] >= 300 then
       --destroy water in the tile
       local destroyed = world.destroyLiquid(pos)
       
@@ -85,6 +93,8 @@ function generate()
 end
 
 function main()
+  pipes.update(entity.dt())
+
   pullLava()
   generate()
   updateAnimationState()
