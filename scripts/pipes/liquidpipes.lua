@@ -23,7 +23,7 @@ end
 -- @param filter array of filters of liquids {liquidId = {minAmount,maxAmount}, otherLiquidId = {minAmount,maxAmount}}
 -- @returns liquid if successful, false if unsuccessful
 function pullLiquid(nodeId, filter)
-  return pipes.pull("liquid", nodeId, liquid)
+  return pipes.pull("liquid", nodeId, filter)
 end
 
 --- Peeks a liquid push, does not go through with the transfer
@@ -39,7 +39,7 @@ end
 -- @param filter array of filters of liquids {liquidId = {minAmount,maxAmount}, otherLiquidId = {minAmount,maxAmount}}
 -- @returns liquid if successful, false if unsuccessful
 function peekPullLiquid(nodeId, filter)
-  return pipes.peekPull("liquid", nodeId, liquid)
+  return pipes.peekPull("liquid", nodeId, filter)
 end
 
 function isLiquidNodeConnected(nodeId)
@@ -54,15 +54,16 @@ end
 function filterLiquids(filter, liquids)
   if filter then
     for i,liquid in ipairs(liquids) do
-      if filter[tostring(liquid[1])] and liquid[2] >= filter[tostring(liquid[1])][1]then
-        if liquid[2] <= filter[tostring(liquid[1])][2] then
+      local liquidId = tostring(liquid[1])
+      if filter[liquidId] and liquid[2] >= filter[liquidId][1]then
+        if liquid[2] <= filter[liquidId][2] then
           return liquid, i
         else
-          return {liquid[1], filter[tostring(liquid[1])][2]}, i
+          return {liquid[1], filter[liquidId][2]}, i
         end
       end
     end
   else
-    return items[1], 1
+    return liquids[1], 1
   end
 end
