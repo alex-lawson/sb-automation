@@ -1,0 +1,76 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "gravelevatorState" : {
+        "default" : "back",
+        "states" : {
+          "back" : {},
+          "bottom" : {},
+          "top" : {}
+        }
+      },
+      "beamState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "down" : {},
+          "up" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "gravityelevator" : {
+        "properties" : {
+          "centered" : false,
+          "layer" : "middle",
+          "zLevel" : 1
+        },
+
+        "partStates" : {
+          "gravelevatorState" : {
+            "back" : {  "properties" : { "image" : "<partImage>:<modePart>.back" }},
+            "bottom" : {"properties" : { "image" : "<partImage>:<modePart>.bottom" }},
+            "top" : {"properties" : { "image" : "<partImage>:<modePart>.top" }}
+          }
+        }
+      },
+      "beam" : {
+        "properties" : {
+          "centered" : false,
+          "scalingGroup" : "beam",
+          "layer" : "back",
+          "zLevel" : 0
+        },
+        "partStates" : {
+          "beamState" : {
+            "up" : {
+              "properties" : {
+                "offset" : [0.125, 0.5],
+                "image" : "<partImage>:<frame>"
+              }
+            },
+            "down" : {
+              "properties" : {
+                "offset" : [3.875, 0.875],
+                "image" : "<partImage>:<frame>"
+              }
+            },
+            "off" : {}
+          }
+        }
+      }
+    }
+  },
+  "rotationGroups" : {
+    "beam" : {
+      "rotationCenter" : [2, 0],
+      "angularVelocity" : 1
+    }
+  },
+  "scalingGroups" : {
+    "beam" : {
+      "pivot" : [0, 0]
+    }
+  }
+}
