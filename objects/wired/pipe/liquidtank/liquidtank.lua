@@ -139,28 +139,25 @@ end
 
 function onLiquidGet(filter, nodeId)
   if storage.liquid[1] ~= nil then
-    local liquids = {storage.liquid}
-    liquids[1][2] = math.min(liquids[1][2], self.pushAmount)
+    local liquids = {{storage.liquid[1], math.min(storage.liquid[2], self.pushAmount)}}
 
     local returnLiquid = filterLiquids(filter, liquids)
-    --world.logInfo("(onLiquidGet) Filtered liquid to %s", returnLiquid)
-    
-    storage.liquid[2] = storage.liquid[2] - returnLiquid[2]
-    if storage.liquid[2] <= 0 then
-      storage.liquid = {}
+    if returnLiquid then
+      storage.liquid[2] = storage.liquid[2] - returnLiquid[2]
+      if storage.liquid[2] <= 0 then
+        storage.liquid = {}
+      end
+      return returnLiquid
     end
-    return returnLiquid
   end
   return false
 end
 
 function beforeLiquidGet(filter, nodeId)
   if storage.liquid[1] ~= nil then
-    local liquids = {storage.liquid}
-    liquids[1][2] = math.min(liquids[1][2], self.pushAmount)
+    local liquids = {{storage.liquid[1], math.min(storage.liquid[2], self.pushAmount)}}
 
     local returnLiquid = filterLiquids(filter, liquids)
-    --world.logInfo("(beforeLiquidGet) Filtered liquid to %s", returnLiquid)
 
     return returnLiquid
   end
