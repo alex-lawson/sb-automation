@@ -14,10 +14,11 @@
   "orientations" : [
     {
       "image" : "layerswap.png:default.foreground",
-      "imagePosition" : [0, 0],
+      "imagePosition" : [0, -8],
 
       "spaceScan" : 0.1,
-      "anchors" : [ ]
+      "anchors" : [ "background" ],
+      "direction" : "right"
     }
   ],
 
@@ -28,7 +29,7 @@
   "animationParts" : {
     "switch" : "layerswap.png"
   },
-  "animationPosition" : [0, 0],
+  "animationPosition" : [0, -8],
 
   "inboundNodes" : [ [0, 0] ]
 }
