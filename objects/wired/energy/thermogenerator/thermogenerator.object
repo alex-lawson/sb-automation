@@ -1,0 +1,49 @@
+{
+  "objectName" : "thermogenerator",
+  "rarity" : "Common",
+  "description" : "Generate energy from water and lava.",
+  "shortdescription" : "Thermoelectric Generator",
+  "race" : "generic",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "thermogenerator.png",
+  "orientations" : [
+    {
+      "image" : "thermogenerator.png",
+      "imagePosition" : [0, -16],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "thermogenerator.png",
+      "imagePosition" : [0, -16],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ 
+    "/scripts/energy.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipesapi.lua",
+    "thermogenerator.lua"
+  ],
+  "scriptDelta" : 30,
+
+  "animation" : "thermogenerator.animation",
+  "animationParts" : {
+    "generator" : "thermogenerator.png",
+    "lavabar" : "lavabar.png"
+  },
+  "animationPosition" : [0, -16],
+
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [0, 1]} ],
+
+  "energySendRate" : 15,
+  "energyCapacity" : 15
+}

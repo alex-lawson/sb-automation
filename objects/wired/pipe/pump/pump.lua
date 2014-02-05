@@ -70,7 +70,4 @@ function main(args)
     entity.setAnimationState("pumping", "idle")
     entity.setAllOutboundNodes(false)
   end
-  
-  
-  
 end
