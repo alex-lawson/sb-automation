@@ -137,23 +137,31 @@ function beforeLiquidPut(liquid, nodeId)
   return false
 end
 
-function onLiquidGet(liquid, nodeId)
-  if storage.liquid[1] ~= nil and (liquid == nil or liquid[1] == storage.liquid[1]) then
-    local returnLiquid = {storage.liquid[1], self.pushAmount}
-    if returnLiquid[2] > storage.liquid[2] then returnLiquid[2] = storage.liquid[2] end
-    if liquid ~= nil and returnLiquid[2] > liquid[2] then returnLiquid[2] = liquid[2] end
+function onLiquidGet(filter, nodeId)
+  if storage.liquid[1] ~= nil then
+    local liquids = {storage.liquid}
+    liquids[1][2] = math.min(liquids[1][2], self.pushAmount)
+
+    local returnLiquid = filterLiquids(filter, liquids)
+    --world.logInfo("(onLiquidGet) Filtered liquid to %s", returnLiquid)
     
     storage.liquid[2] = storage.liquid[2] - returnLiquid[2]
+    if storage.liquid[2] <= 0 then
+      storage.liquid = {}
+    end
     return returnLiquid
   end
   return false
 end
 
-function beforeLiquidGet(liquid, nodeId)
-  if storage.liquid[1] ~= nil and (liquid == nil or liquid[1] == storage.liquid[1]) then
-    local returnLiquid = {storage.liquid[1], self.pushAmount}
-    if returnLiquid[2] > storage.liquid[2] then returnLiquid[2] = storage.liquid[2] end
-    if liquid ~= nil and returnLiquid[2] > liquid[2] then returnLiquid[2] = liquid[2] end
+function beforeLiquidGet(filter, nodeId)
+  if storage.liquid[1] ~= nil then
+    local liquids = {storage.liquid}
+    liquids[1][2] = math.min(liquids[1][2], self.pushAmount)
+
+    local returnLiquid = filterLiquids(filter, liquids)
+    --world.logInfo("(beforeLiquidGet) Filtered liquid to %s", returnLiquid)
+
     return returnLiquid
   end
   return false
