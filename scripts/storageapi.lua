@@ -32,7 +32,7 @@ storageApi = {}
 --- Initializes the storage
 -- @param args [optional] (table) Override config parameters
 --      -mode: (int) Should other entities access this storage: 0 not, 1 store in, 2 take from, 3 both
---      -space: (int) Maximum amount of item stacks, up to 999
+--      -capacity: (int) Maximum amount of item stacks, up to 999
 --      -join: (boolean) Should the storage merge stacks if possible?
 --      -content: (table) table of items to prefill the object
 --      -dropPosition: (vec2f) position to drop items

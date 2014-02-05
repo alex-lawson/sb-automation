@@ -8,7 +8,7 @@ end
 function stationState.update(dt, sd)
   moveTo(sd.pos, dt)
   local pos = entity.position()
-  if world.magnitude(pos, sd.pos) < 3 then
+  if world.magnitude(pos, sd.pos) < 1 then
     for i,v in storageApi.getIterator() do
       local item = storageApi.returnItem(i)
       local res = world.callScriptedEntity(self.stationId, "storeItemFit", item.name, item.count, item.data)

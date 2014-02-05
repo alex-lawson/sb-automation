@@ -2,13 +2,14 @@ function init()
   entity.setDeathParticleBurst("deathPoof")
   entity.setAnimationState("movement", "flying")
   if storageApi.isInit() then
-    storageApi.init({ mode = 1, space = 9, join = true, ondeath = 1 })
+    storageApi.init({ mode = 1, capacity = 9, join = true, ondeath = 1 })
   end
   local states = stateMachine.scanScripts(entity.configParameter("scripts"), "(%a+State)%.lua")
   self.state = stateMachine.create(states)
   if storage.stationPos == nil then
     storage.stationPos = entity.configParameter("stationPos")
   end
+  if storage.active == nil then storage.active = true end
   if (self.stationId == nil) or not world.entityExists(self.stationId) then
     local ids = world.objectQuery(storage.stationPos, 5, { order = "nearest", name = "dronestation", callScript = "droneRegister", callScriptArgs = { entity.id() } })
     for _,v in ids do
@@ -16,6 +17,10 @@ function init()
       break
     end
   end
+end
+
+function setActive(flag)
+  storage.active = flag
 end
 
 function die()

@@ -1,0 +1,42 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "flipped" : {
+        "priority" : 1,
+        "default" : "right",
+
+        "states" : {
+          "right" : {
+            "frames" : 1
+          },
+          "left" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+    "parts" : {
+      "box" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 1
+        },
+        "partStates" : {
+          "flipped" : {
+            "right" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            },
+            "left" : {
+              "properties" : {
+                "image" : "<partImage>"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
