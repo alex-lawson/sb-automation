@@ -1,9 +1,9 @@
 {
   "frameGrid" : {
     "size" : [24, 16],
-    "dimensions" : [1, 1],
+    "dimensions" : [4, 1],
     "names" : [
-      [ "default.0" ]
+      [ "offno", "offyes", "onno", "onyes" ]
     ]
   }
 }
