@@ -1,15 +1,14 @@
 {
   "animatedParts" : {
     "stateTypes" : {
-      "flipped" : {
+      "droneState" : {
         "priority" : 1,
-        "default" : "right",
-
+        "default" : "show",
         "states" : {
-          "right" : {
+          "show" : {
             "frames" : 1
           },
-          "left" : {
+          "hide" : {
             "frames" : 1
           }
         }
@@ -20,18 +19,26 @@
         "properties" : {
           "offset" : [0, 0],
           "centered" : true,
+          "zLevel" : 1,
+          "image" : "<partImage>"
+        }
+      },
+      "drone" : {
+        "properties" : {
+          "offset" : [0, 16],
+          "centered" : true,
           "zLevel" : 1
         },
         "partStates" : {
-          "flipped" : {
-            "right" : {
+          "droneState" : {
+            "show" : {
               "properties" : {
-                "image" : "<partImage>"
+                "image" : "<partImage>:show"
               }
             },
-            "left" : {
+            "hide" : {
               "properties" : {
-                "image" : "<partImage>"
+                "image" : "<partImage>:hide"
               }
             }
           }

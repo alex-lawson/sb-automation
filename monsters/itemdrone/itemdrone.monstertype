@@ -51,7 +51,7 @@
     "turnHostileNoise" : [ ],
 
     "statusParameters" : {
-      "baseMaxHealth" : 12,
+      "baseMaxHealth" : 20,
       "bodyMaterialKind" : "robotic",
       "damageConfig" : "/monsters/itemdrone/damage.config"
     },

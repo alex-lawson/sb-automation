@@ -45,5 +45,5 @@
   
   "itemNodes" : [ { "offset" : [-1, 0], "dir" : [-1, 0] } ],
   
-  "itemPushRate" : 0.5
+  "itemPushRate" : 0.25
 }

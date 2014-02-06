@@ -11,7 +11,7 @@ function init()
   end
   if storage.active == nil then storage.active = true end
   if (self.stationId == nil) or not world.entityExists(self.stationId) then
-    local ids = world.objectQuery(storage.stationPos, 5, { order = "nearest", name = "dronestation", callScript = "droneRegister", callScriptArgs = { entity.id() } })
+    local ids = world.objectQuery(storage.stationPos, 1, { name = "dronestation", callScript = "droneRegister", callScriptArgs = { entity.id() } })
     for _,v in ids do
       self.stationId = v
       break
@@ -28,8 +28,9 @@ function die()
   storageApi.die()
 end
 
-function setDead()
+function onLanding()
   self.dead = true
+  return storageApi.returnContents()
 end
 
 function shouldDie()
