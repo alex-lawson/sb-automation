@@ -5,6 +5,8 @@ function init(virtual)
     pipes.init({itemPipe})
     
     self.conversions = {}
+    self.conversions["sand"] = {3, 1, "glassmaterial"}
+    self.conversions["sand2"] = {3, 1, "glassmaterial"}
     self.conversions["fullwood1"] = {10, 1, "coalore"}
     self.conversions["copperore"] = {2, 1, "copperbar"}
     self.conversions["ironore"] = {2, 1, "ironbar"}
