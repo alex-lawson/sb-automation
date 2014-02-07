@@ -56,6 +56,10 @@ function onInteraction(args)
   updateAnimationState()
 end
 
+function isBattery()
+  return true
+end
+
 function battCompare(a, b)
   return a.position[1] < b.position[1]
 end
@@ -98,9 +102,14 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
-  energyNeeds["total"] = energyNeeds["total"] + thisNeed
-  energyNeeds[tostring(entity.id())] = thisNeed
+  if not storage.discharging or not world.callScriptedEntity(energyNeeds.sourceId, "isBattery") then
+    local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
+    energyNeeds["total"] = energyNeeds["total"] + thisNeed
+    energyNeeds[tostring(entity.id())] = thisNeed
+  else
+    energyNeeds[tostring(entity.id())] = 0
+  end
+
   return energyNeeds
 end
 

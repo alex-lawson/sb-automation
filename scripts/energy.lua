@@ -458,10 +458,11 @@ function energy.sendEnergy(amount)
   --end
 
   -- get the network's energy needs
-  local energyNeeds = {total=0}
+  local energyNeeds = {total=0, sourceId=entity.id()}
   energyNeeds[tostring(entity.id())] = 0
   energyNeeds = energy.energyNeedsQuery(energyNeeds)
   energyNeeds["total"] = nil
+  energyNeeds["sourceId"] = nil
 
   -- world.logInfo("initial energyNeeds: %s", energyNeeds)
 
