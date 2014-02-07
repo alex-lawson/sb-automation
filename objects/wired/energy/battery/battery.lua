@@ -2,6 +2,9 @@ function init(virtual)
   if not virtual then
     energy.init()
 
+    self.particleCooldown = 0.2
+    self.particleTimer = 0
+
     entity.setParticleEmitterActive("charging", false)
     updateAnimationState()
   end
@@ -36,11 +39,23 @@ function onEnergyChange(newAmount)
   updateAnimationState()
 end
 
+function showChargeEffect()
+  entity.setParticleEmitterActive("charging", true)
+  self.particleTimer = self.particleCooldown
+end
+
 function updateAnimationState()
   local chargeAmt = energy.getEnergy() / energy.getCapacity()
   entity.scaleGroup("chargebar", {1, chargeAmt})
 end
 
 function main()
+  if self.particleTimer > 0 then
+    self.particleTimer = self.particleTimer - entity.dt()
+    if self.particleTimer <= 0 then
+      entity.setParticleEmitterActive("charging", false)
+    end
+  end
+
   energy.update()
 end

@@ -135,7 +135,7 @@ function chargeBatteries(amount)
     local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
       if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "entity.burstParticleEmitter", "charging")
+        world.callScriptedEntity(bStatus.id, "showChargeEffect")
       end
       amountRemaining = amountRemaining - amountAccepted
     end
