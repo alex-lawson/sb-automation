@@ -56,7 +56,7 @@ function onInteraction(args)
   updateAnimationState()
 end
 
-function isBattery()
+function isBatteryCharger()
   return true
 end
 
@@ -102,7 +102,7 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  if not storage.discharging or not world.callScriptedEntity(energyNeeds.sourceId, "isBattery") then
+  if not storage.discharging or not world.callScriptedEntity(energyNeeds.sourceId, "isBatteryCharger") then
     local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
     energyNeeds["total"] = energyNeeds["total"] + thisNeed
     energyNeeds[tostring(entity.id())] = thisNeed
