@@ -156,7 +156,7 @@ function quarryHolders(destroy)
         while i <= storage.quarry.width+1 do
             pos[1] = i*-dir+storage.quarry.fakePos[1]
             if destroy then
-                world.damageTiles({pos}, "foreground", storage.quarry.fakePos, "blockish", 2200)
+                world.damageTiles({pos}, "foreground", storage.quarry.fakePos, "plantish", 2200)
             else
                 world.placeObject("quarry_holder", pos, dir )
             end
@@ -478,6 +478,6 @@ function die()
     killQuarry()
     quarryHolders(true)
     if storage.quarry.fakePos then
-        world.damageTiles({storage.quarry.fakePos}, "foreground", storage.quarry.fakePos, "blockish", 2200)
+        world.damageTiles({storage.quarry.fakePos}, "foreground", storage.quarry.fakePos, "plantish", 2200)
     end
 end
