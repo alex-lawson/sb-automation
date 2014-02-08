@@ -49,19 +49,21 @@ function onInteraction(args)
   else
     return { "ShowPopup", { message = "Tank is empty."}}
   end
+end
 
---  world.logInfo("SUBMERSIONTANK: onInteraction")
---  return { "SitDown", {config={
---    ["sitFlipDirection"] = false,
---    ["sitPosition"] = {20,20},
---    ["sitOrientation"] = "lay",
---    ["sitAngle"] = 0,
---    ["sitCoverImage"] = "/objects/wired/pipe/submersiontank.png",
---    ["sitEmote"] = "sleep",
---    ["sitStatusEffects"] =  {
---      ["kind"] = "Nude",
---    },
---  }}}
+function onInteractionNew(args)
+  world.logInfo("SUBMERSIONTANK: onInteraction")
+  return { "SitDown", {config={
+    ["sitFlipDirection"] = false,
+    ["sitPosition"] = {20,20},
+    ["sitOrientation"] = "lay",
+    ["sitAngle"] = 0,
+    ["sitCoverImage"] = "/objects/wired/pipe/submersiontank.png:foreground",
+    ["sitEmote"] = "sleep",
+    ["sitStatusEffects"] =  {
+      ["kind"] = "Nude",
+    },
+  }}}
 end
 
 function main(args)
