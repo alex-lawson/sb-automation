@@ -23,7 +23,7 @@ function onInteraction()
 end
 
 function onEnergyChange(amount)
-   world.logInfo("onEnergyChange %s", amount)
+   --world.logInfo("onEnergyChange %s", amount)
 
    if amount < energy.consumptionRate then
       entity.setGlobalTag("modePart", "energy")
