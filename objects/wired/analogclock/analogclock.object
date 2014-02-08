@@ -9,7 +9,7 @@
   "price" : 1,
   "printable" : false,
 
-  "inventoryIcon" : "analogclockicon.png",
+  "inventoryIcon" : "clock.png:default",
   "orientations" : [
     {
       "image" : "clock.png:default",
