@@ -34,7 +34,7 @@ function onEnergyChange(amount)
 end
 
 function consumeEnergy()
-   world.logInfo("consumeEnergy %s %s",self.number,self.size)
+   -- world.Loginfo("consumeEnergy %s %s",self.number,self.size)
    if self.number == 0 or self.number == self.size then
       local energyn = energy.consumptionRate/10
       if self.checkedForPlayer then
@@ -77,7 +77,7 @@ function main()
 end
 
 function canConnectGravityShaft(direction)
-   world.logInfo("canConnectGravityShaft %s own %s", direction, self.direction)
+   -- world.Loginfo("canConnectGravityShaft %s own %s", direction, self.direction)
    local con = false
    if self.direction == 0 or self.direction == direction and checkNode(direction, true) then
       self.setDirection, con = direction, true
@@ -86,7 +86,7 @@ function canConnectGravityShaft(direction)
 end
 
 function startGravityShaft(args)
-   world.logInfo("startGravityShaft %s", args)
+   -- world.Loginfo("startGravityShaft %s", args)
    self.forceRegion, self.checkedForPlayer, self.number = false, nil, args.number
    self.setDirection, self.state = args.direction or self.direction, true
    return true
@@ -114,7 +114,7 @@ function checkForceRegion()
          withoutEntityId = entity.id()
       }
    )
-   world.logInfo("checkForceRegion entities %s (%s - %s)", entities, pos, endPos)
+   -- world.Loginfo("checkForceRegion entities %s (%s - %s)", entities, pos, endPos)
    if #entities > 0 then
       local entity, distance = entities[1], 100
       if #entities > 1 then
@@ -178,9 +178,9 @@ function setForce(force)
       self.proj = self.proj + 1
    end
 
-   world.logInfo("force1 %s", force)
+   -- world.Loginfo("force1 %s", force)
    force = force * (world.gravity({self.forceRegion[1],self.forceRegion[2]})/100)
-   world.logInfo("force2 %s", force)
+   -- world.Loginfo("force2 %s", force)
    entity.setForceRegion(self.forceRegion, {0, force})
 end
 
