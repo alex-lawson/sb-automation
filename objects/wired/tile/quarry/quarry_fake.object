@@ -27,5 +27,5 @@
     }
   ],
   
-  "damageTable" : "/objects/wired/quarry/quarryDamage.config"
+  "damageTable" : "/objects/wired/tile/quarry/quarryDamage.config"
 }
