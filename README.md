@@ -14,9 +14,7 @@ Resources
 *  Wiki: https://github.com/alex-lawson/sb-automation/wiki
 *  Discussion: ##starbound-modding on freenode IRC
 
-Collaboration Guidelines
+Workflow
 ---
-*  Don't work on the master (or the primary dev) branch. Use a development branch that describes what you are doing, e.g. "dev-pipes"
-  *  metadept will periodically merge these branches into the primary dev branch
-*  Try to be consistent with starbound's existing asset structure
-*  If you need to change something in a common script, please consult with the group or author of that script first
+
+Workflow Guide: https://docs.google.com/document/d/1ttu-By2pavLbLxvjdpNjK0VFif6X26o3U1AV0SBNp6E/edit?usp=sharing
