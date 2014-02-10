@@ -65,5 +65,16 @@
 
     "mouthOffset" : [0, 0],
     "feetOffset" : [0, -8]
+  },
+    
+  "scriptConfig" : {
+    "collect" : {
+      "scanRadius" : 25
+    },
+    "storageapi" : {
+      "merge" : true,
+      "capacity" : 4,
+      "mode" : 1
+    }
   }
 }

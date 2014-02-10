@@ -2,7 +2,7 @@ function init()
   entity.setDeathParticleBurst("deathPoof")
   entity.setAnimationState("movement", "flying")
   if storageApi.isInit() then
-    storageApi.init({ mode = 1, capacity = 9, join = true, ondeath = 1 })
+    storageApi.init({ mode = 1, capacity = 4, join = true, ondeath = 1 })
   end
   local states = stateMachine.scanScripts(entity.configParameter("scripts"), "(%a+State)%.lua")
   self.state = stateMachine.create(states)
@@ -42,6 +42,8 @@ function moveTo(pos, dt)
 end
 
 function main()
-  local dt = entity.dt()
-  self.state.update(dt)
+  if not self.dead then
+    if not world.entityExists(self.stationId or -1) then self.dead = true
+    else self.state.update(entity.dt()) end
+  end
 end
