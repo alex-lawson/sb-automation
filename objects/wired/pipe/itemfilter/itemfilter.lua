@@ -32,40 +32,24 @@ function main(args)
   pipes.update(entity.dt())
 end
 
-function beforeLiquidGet(liquid, nodeId)
-  -- if storage.state then
-  --   --world.logInfo("passing liquid peek get from %s to %s", nodeId, self.connectionMap[nodeId])
-  --   return peekPullLiquid(self.connectionMap[nodeId], liquid)
-  -- else
-    return false
-  -- end
+function beforeLiquidGet(filter, nodeId)
+  --world.logInfo("passing liquid peek get from %s to %s", nodeId, self.connectionMap[nodeId])
+  return peekPullLiquid(self.connectionMap[nodeId], filter)
 end
 
-function onLiquidGet(liquid, nodeId)
-  -- if storage.state then
-  --   --world.logInfo("passing liquid get from %s to %s", nodeId, self.connectionMap[nodeId])
-  --   return pullLiquid(self.connectionMap[nodeId], liquid)
-  -- else
-    return false
-  -- end
+function onLiquidGet(filter, nodeId)
+  --world.logInfo("passing liquid get from %s to %s", nodeId, self.connectionMap[nodeId])
+  return pullLiquid(self.connectionMap[nodeId], filter)
 end
 
 function beforeLiquidPut(liquid, nodeId)
-  -- if storage.state then
-  --   --world.logInfo("passing liquid peek from %s to %s", nodeId, self.connectionMap[nodeId])
-  --   return peekPushLiquid(self.connectionMap[nodeId], liquid)
-  -- else
-    return false
-  -- end
+  --world.logInfo("passing liquid peek from %s to %s", nodeId, self.connectionMap[nodeId])
+  return peekPushLiquid(self.connectionMap[nodeId], liquid)
 end
 
 function onLiquidPut(liquid, nodeId)
-  -- if storage.state then
-  --   --world.logInfo("passing liquid from %s to %s", nodeId, self.connectionMap[nodeId])
-  --   return pushLiquid(self.connectionMap[nodeId], liquid)
-  -- else
-    return false
-  -- end
+  --world.logInfo("passing liquid from %s to %s", nodeId, self.connectionMap[nodeId])
+  return pushLiquid(self.connectionMap[nodeId], liquid)
 end
 
 function beforeItemPut(item, nodeId)

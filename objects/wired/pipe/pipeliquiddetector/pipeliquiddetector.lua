@@ -68,14 +68,14 @@ function output(liquid)
   end
 end
 
-function beforeLiquidGet(liquid, nodeId)
+function beforeLiquidGet(filter, nodeId)
   --world.logInfo("passing liquid peek get from %s to %s", nodeId, self.connectionMap[nodeId])
-  return peekPullLiquid(self.connectionMap[nodeId], liquid)
+  return peekPullLiquid(self.connectionMap[nodeId], filter)
 end
 
-function onLiquidGet(liquid, nodeId)
+function onLiquidGet(filter, nodeId)
   --world.logInfo("passing liquid get from %s to %s", nodeId, self.connectionMap[nodeId])
-  local result = pullLiquid(self.connectionMap[nodeId], liquid)
+  local result = pullLiquid(self.connectionMap[nodeId], filter)
   if result then
     activate()
     output(result)
