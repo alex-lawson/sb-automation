@@ -1,7 +1,7 @@
 {
   "input" : [ ],
   "output" : {
-    "item" : "filter",
+    "item" : "itemfilter",
     "count" : 1
   },
   "groups" : [ "mod" ]
