@@ -19,13 +19,24 @@ function main(args)
   checkDirs[2] = {1, 0}
   checkDirs[3] = {0, 1}
   
-  for i=0,3 do 
-    local angle = (math.pi / 2) * i
-    local tilePos = {position[1] + checkDirs[i][1], position[2] + checkDirs[i][2]}
-    local pipeDirections = pipes.getPipeTileData("item", tilePos, "foreground", checkDirs[i])
-    if pipeDirections then
-      entity.rotateGroup("ejector", angle)
-      self.usedNode = i + 1
+
+  if #pipes.nodeEntities["item"] > 0 then
+    for i=0,3 do 
+      local angle = (math.pi / 2) * i
+      if #pipes.nodeEntities["item"][i+1] > 0 then
+        entity.rotateGroup("ejector", angle)
+        self.usedNode = i + 1
+      elseif i == 3 then --Not connected to an object, look for pipes instead
+        for i=0,3 do 
+          local angle = (math.pi / 2) * i
+          local tilePos = {position[1] + checkDirs[i][1], position[2] + checkDirs[i][2]}
+          local pipeDirections = pipes.getPipeTileData("item", tilePos, "foreground", checkDirs[i])
+          if pipeDirections then
+            entity.rotateGroup("ejector", angle)
+            self.usedNode = i + 1
+          end
+        end
+      end
     end
   end
   
