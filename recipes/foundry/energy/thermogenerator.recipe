@@ -1,0 +1,12 @@
+{
+  "input" : [ 
+    { "item" : "glassmaterial", "count" : 20 },
+    { "item" : "copperbar", "count" : 10 },
+    { "item" : "energycrystal", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "thermogenerator",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "energy" ]
+}
