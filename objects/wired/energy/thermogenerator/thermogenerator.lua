@@ -9,13 +9,7 @@ function init(virtual)
     self.energyPerLava = 0.2
     self.waterPerLava = 4
 
-    local pos = entity.position()
-    --self.checkArea = {{pos[1] - 1, pos[2] -2}, {pos[1] + 1, pos[2] -2}, {pos[1] - 1, pos[2] - 1}, {pos[1] + 1, pos[2] - 1}, {pos[1] - 1, pos[2]}, {pos[1] + 1, pos[2]}}
-    self.checkArea = {{pos[1], pos[2] - 2}, {pos[1], pos[2] - 1}, {pos[1], pos[2]}}
-
-    -- entity.setParticleEmitterActive("steam1", true)
-    -- entity.setParticleEmitterActive("steam2", true)
-    -- entity.setParticleEmitterActive("steam3", true)
+    setOrientation()
 
     updateAnimationState()
   end
@@ -23,6 +17,17 @@ end
 
 function die()
   energy.die()
+end
+
+function setOrientation()
+  local orientation = entity.configParameter("orientation")
+  local pos = entity.position()
+  if orientation == "down" then
+    self.checkArea = {{pos[1], pos[2] - 2}, {pos[1], pos[2] - 1}, {pos[1], pos[2]}}
+  else
+    self.checkArea = {{pos[1], pos[2]}, {pos[1], pos[2] + 1}, {pos[1], pos[2] + 2}}
+  end
+  entity.setAnimationState("orientState", orientation)
 end
 
 function updateAnimationState()
@@ -50,7 +55,7 @@ function pullLava()
     local filter = {}
     filter["3"] = {1, unusedCapacity}
 
-    local liquid = pullLiquid(1, filter)
+    local liquid = pullLiquid(1, filter) or pullLiquid(2, filter)
     if liquid then
       storage.lavaLevel = storage.lavaLevel + liquid[2]
     end
