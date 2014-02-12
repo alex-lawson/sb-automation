@@ -49,6 +49,7 @@
   
   "energyConsumptionRate" : 5,
   "energyCapacity" : 10,
+  "energyNodeOffset" : [1.5, 1.5],
   
   "damageRate" : 0.25,
   "damageAmount" : 201,
