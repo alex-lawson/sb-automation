@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "valve", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "itemfilter",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}

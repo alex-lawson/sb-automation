@@ -1,7 +1,9 @@
-function init(virtual) 
-  pipes.init({liquidPipe})
-  
-  self.usedNode = 0
+function init(virtual)
+  if not virtual then
+    pipes.init({liquidPipe})
+    
+    self.usedNode = 0
+  end
 end
 
 --------------------------------------------------------------------------------
@@ -15,13 +17,23 @@ function main(args)
   checkDirs[2] = {1, 0}
   checkDirs[3] = {0, 1}
   
-  for i=0,3 do 
-    local angle = (math.pi / 2) * i
-    local tilePos = {position[1] + checkDirs[i][1], position[2] + checkDirs[i][2]}
-    local pipeDirections = pipes.getPipeTileData("liquid", tilePos, "foreground", checkDirs[i])
-    if pipeDirections then
-      entity.rotateGroup("pipe", angle)
-      self.usedNode = i + 1
+  if #pipes.nodeEntities["liquid"] > 0 then
+    for i=0,3 do 
+      local angle = (math.pi / 2) * i
+      if #pipes.nodeEntities["liquid"][i+1] > 0 then
+        entity.rotateGroup("pipe", angle)
+        self.usedNode = i + 1
+      elseif i == 3 then --Not connected to an object, check for pipes instead
+        for i=0,3 do 
+          local angle = (math.pi / 2) * i
+          local tilePos = {position[1] + checkDirs[i][1], position[2] + checkDirs[i][2]}
+          local pipeDirections = pipes.getPipeTileData("liquid", tilePos, "foreground", checkDirs[i])
+          if pipeDirections then
+            entity.rotateGroup("pipe", angle)
+            self.usedNode = i + 1
+          end
+        end
+      end
     end
   end
   
@@ -38,15 +50,18 @@ function convertEndlessLiquid(liquid)
   return liquid
 end
 
-function canGetLiquid(liquid, nodeId)
+function canGetLiquid(filter, nodeId)
   if nodeId ~= self.usedNode then return false end
   --Only get liquid if the pipe is emerged in liquid
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
   local liquid = world.liquidAt(liquidPos)
+
+  local returnLiquid = filterLiquids(filter, {liquid})
+  --world.logInfo("(canGetLiquid) filter result: %s", returnLiquid)
   
-  if liquid then
-    return liquid
+  if returnLiquid then
+    return returnLiquid
   end
   return false
 end
@@ -57,12 +72,15 @@ function canPutLiquid(liquid, nodeId)
   return true
 end
 
-function onLiquidGet(liquid, nodeId)
+function onLiquidGet(filter, nodeId)
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
-  local getLiquid = canGetLiquid(liquid, nodeId)
+  local getLiquid = canGetLiquid(filter, nodeId)
   if getLiquid then
-    getLiquid = world.destroyLiquid(liquidPos)
+    local destroyed = world.destroyLiquid(liquidPos)
+    if destroyed[2] > getLiquid[2] then
+      world.spawnLiquid(liquidPos, destroyed[1], destroyed[2] - getLiquid[2])
+    end
     getLiquid = convertEndlessLiquid(getLiquid)
     return getLiquid
   end
@@ -82,8 +100,8 @@ function onLiquidPut(liquid, nodeId)
   end
 end
 
-function beforeLiquidGet(liquid, nodeId)
-  return canGetLiquid(liquid, nodeId)
+function beforeLiquidGet(filter, nodeId)
+  return canGetLiquid(filter, nodeId)
 end
 
 function beforeLiquidPut(liquid, nodeId)

@@ -1,0 +1,57 @@
+{
+  "objectName" : "gravityelevator",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Allows gentle vertical ascent and descent.",
+  "shortdescription" : "Gravity Elevator",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 1000,
+  "printable" : false,
+
+  "inventoryIcon" : "gravityelevator.png:default.bottom",
+
+  "orientations" : [
+    {
+      "image" : "gravityelevator.png:default.bottom",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "gravityelevator.png:default.top",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "gravityelevator.png:default.back",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+        "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "gravityelevator.lua" ],
+  "scriptDelta" : 5,
+  "inboundNodes" : [ [0, 0], [3, 0] ],
+
+  "animation" : "gravityelevator.animation",
+  "animationParts" : {
+    "gravityelevator" : "gravityelevator.png",
+    "beam" : "gravitybeam.png"
+  },
+  "animationPosition" : [0, 0],
+  "gravityRange" : [3 , 10],
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 40,
+
+  "gravityForceOld" : [ [ 155, 15, 100 ], [ 60, 20, 110 ] ],
+  "gravityForce" : [ [ 135, 0.95, 50 ], [ 55, 1.1, 110 ] ]
+}

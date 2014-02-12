@@ -156,7 +156,7 @@ function quarryHolders(destroy)
         while i <= storage.quarry.width+1 do
             pos[1] = i*-dir+storage.quarry.fakePos[1]
             if destroy then
-                world.damageTiles({pos}, "foreground", storage.quarry.fakePos, "blockish", 2200)
+                world.damageTiles({pos}, "foreground", storage.quarry.fakePos, "plantish", 2200)
             else
                 world.placeObject("quarry_holder", pos, dir )
             end
@@ -253,7 +253,7 @@ function runState.update(dt, data)
                     row = row - 2
                     collisions1 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 1.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 1.5}))
                     collisions2 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 2.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 2.5}))
-                    world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
+                    --world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
                 until #collisions1 > 0 or #collisions2 > 0
 
                 data.curY, data.curDir = data.curY + row, -data.curDir
@@ -478,6 +478,6 @@ function die()
     killQuarry()
     quarryHolders(true)
     if storage.quarry.fakePos then
-        world.damageTiles({storage.quarry.fakePos}, "foreground", storage.quarry.fakePos, "blockish", 2200)
+        world.damageTiles({storage.quarry.fakePos}, "foreground", storage.quarry.fakePos, "plantish", 2200)
     end
 end

@@ -56,6 +56,10 @@ function onInteraction(args)
   updateAnimationState()
 end
 
+function isBatteryCharger()
+  return true
+end
+
 function battCompare(a, b)
   return a.position[1] < b.position[1]
 end
@@ -98,9 +102,14 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
-  energyNeeds["total"] = energyNeeds["total"] + thisNeed
-  energyNeeds[tostring(entity.id())] = thisNeed
+  if not storage.discharging or not world.callScriptedEntity(energyNeeds.sourceId, "isBatteryCharger") then
+    local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
+    energyNeeds["total"] = energyNeeds["total"] + thisNeed
+    energyNeeds[tostring(entity.id())] = thisNeed
+  else
+    energyNeeds[tostring(entity.id())] = 0
+  end
+
   return energyNeeds
 end
 
@@ -126,7 +135,7 @@ function chargeBatteries(amount)
     local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
     if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
       if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "entity.burstParticleEmitter", "charging")
+        world.callScriptedEntity(bStatus.id, "showChargeEffect")
       end
       amountRemaining = amountRemaining - amountAccepted
     end

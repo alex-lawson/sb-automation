@@ -1,0 +1,68 @@
+{
+  "objectName" : "thermogenerator",
+  "rarity" : "Common",
+  "description" : "Connect to lava source and submerge in water to generate energy",
+  "shortdescription" : "Thermoelectric Generator",
+  "race" : "generic",
+  "objectType" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "thermogenerator.png:down",
+  "orientations" : [
+    {
+      "image" : "thermogenerator.png:down",
+      "imagePosition" : [0, -16],
+
+      "animationPosition" : [0, -16],
+
+      "orientation" : "down",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "thermogenerator.png:up",
+      "imagePosition" : [0, 0],
+
+      "animationPosition" : [0, 0],
+
+      "orientation" : "up",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    },
+    {
+      "image" : "thermogenerator.png:down",
+      "imagePosition" : [0, -16],
+
+      "animationPosition" : [0, -16],
+
+      "orientation" : "down",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ 
+    "/scripts/energy.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipesapi.lua",
+    "thermogenerator.lua"
+  ],
+  "scriptDelta" : 30,
+
+  "animation" : "thermogenerator.animation",
+  "animationParts" : {
+    "generator" : "thermogenerator.png",
+    "lavabar" : "lavabar.png"
+  },
+  
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [0, 1]}, {"offset": [0, 0], "dir": [0, -1]} ],
+
+  "energySendRate" : 15,
+  "energyCapacity" : 15
+}

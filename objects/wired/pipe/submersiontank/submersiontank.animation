@@ -1,0 +1,96 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "liquid" : {
+        "priority" : 1,
+        "default" : "water",
+
+        "states" : {
+          "water" : {
+            "frames" : 1
+          },
+          "tar" : {
+            "frames" : 1
+          },
+          "poison" : {
+            "frames" : 1
+          },
+          "juice" : {
+            "frames" : 1
+          },
+          "lava" : {
+            "frames" : 1
+          },
+          "other" : {
+            "frames" : 1
+          }
+        }
+      }
+    },
+    "parts" : {
+      "fore" : {
+        "properties" : {
+          "image" : "<partImage>:foreground",
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 3
+        }
+      },
+      "back" : {
+        "properties" : {
+          "image" : "<partImage>:background",
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 1
+        }
+      },
+      "liquid" : {
+        "properties" : {
+          "offset" : [-1.375, -2.25],
+          "centered" : false,
+          "zLevel" : 2,
+          "scalingGroup" : "liquid"
+        },
+        "partStates" : {
+          "liquid" : {
+            "water" : {
+              "properties" : {
+                "image" : "<partImage>:water"
+              }
+            },
+            "tar" : {
+              "properties" : {
+                "image" : "<partImage>:tar"
+              }
+            },
+            "poison" : {
+              "properties" : {
+                "image" : "<partImage>:poison"
+              }
+            },
+            "juice" : {
+              "properties" : {
+                "image" : "<partImage>:juice"
+              }
+            },
+            "lava" : {
+              "properties" : {
+                "image" : "<partImage>:lava"
+              }
+            },
+            "other" : {
+              "properties" : {
+                "image" : "<partImage>:other"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "liquid" : {
+      "pivot" : [0, 0]
+    }
+  }
+}

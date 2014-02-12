@@ -29,7 +29,5 @@
   "animationParts" : {
     "relay" : "relay.png"
   },
-  "animationPosition" : [0, 0],
-
-  "energyRelayMax" : 500
+  "animationPosition" : [0, 0]
 }

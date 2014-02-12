@@ -25,7 +25,7 @@
   ],
 
   "scripts" : [ "/scripts/energy.lua", "battery.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "battery.animation",
   "animationParts" : {

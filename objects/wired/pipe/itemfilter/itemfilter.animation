@@ -1,0 +1,57 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "filterState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {},
+          "pass" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          },
+          "fail" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          }
+        }
+      }
+    },
+    "parts" : {
+      "pipe" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : false
+        },
+        "partStates" : {
+          "filterState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            },
+            "pass" : {
+              "properties" : {
+                "image" : "<partImage>:pass"
+              }
+            },
+            "fail" : {
+              "properties" : {
+                "image" : "<partImage>:fail"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

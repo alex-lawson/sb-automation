@@ -25,5 +25,7 @@
       "spaceScan" : 0.1,
       "anchors" : []
     }
-  ]
+  ],
+  
+  "damageTable" : "/objects/wired/tile/quarry/quarryDamage.config"
 }

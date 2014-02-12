@@ -1,0 +1,52 @@
+{
+  "objectName" : "submersiontank",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "A big tank, big enough to fit a person inside...",
+  "shortdescription" : "Submersion Tank",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+  
+  "breakDropOptions": [],
+  "sitPosition" : [7, 22],
+
+  "inventoryIcon" : "submersiontankicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "submersiontank.png",
+      "imageLayers" : [ { "image" : "submersiontank.png:foreground" }, {"image" : "submersiontank.png:background"}],
+      "imagePosition" : [0, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "animation" : "submersiontank.animation",
+  "animationParts" : {
+    "fore" : "submersiontank.png",
+    "back" : "submersiontank.png",
+    "liquid" : "submersiontank_bar.png"
+  },
+  "animationPosition" : [16,31],
+  
+  "scripts" : [
+    "submersiontank.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "inboundNodes" : [[0,1],[3,1]],
+  
+  "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [3, 0], "dir": [1, 0]} ],
+  
+  "liquidCapacity" : 150000,
+  "liquidPushAmount" : 1400,
+  "liquidPushRate" : 1
+}

@@ -73,7 +73,13 @@ function main()
     end
     local d = entity.direction();
     local p = entity.position();
-    entity.setForceRegion({ p[1], p[2] - 1, p[1] + d * self.affectWidth, p[2] + 1 }, { self.fanPower * d, 0 })
+    local region;
+    if d == 1 then
+      region = { p[1], p[2] - 1, p[1] + d * self.affectWidth, p[2] + 1 }
+    else
+      region = { p[1] + d * self.affectWidth, p[2] - 1, p[1], p[2] + 1 }
+    end
+    entity.setForceRegion(region, { self.fanPower * d, 0 })
   elseif self.timer > 0 then
     if self.timer % 12 == 4 then 
       entity.playImmediateSound(self.blowSound) 

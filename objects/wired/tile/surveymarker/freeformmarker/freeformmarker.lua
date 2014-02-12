@@ -23,7 +23,7 @@ function init(virtual)
 
     self.triggerDistance = entity.configParameter("triggerDistance")
     if self.triggerDistance == nil then
-      self.triggerDistance = 5
+      self.triggerDistance = 10
     end
 
     self.smashed = false
