@@ -2,7 +2,7 @@
   "objectName" : "itemfilter",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Allows only the specified item to pass",
+  "description" : "Allows only a specified item to pass",
   "shortdescription" : "Item Filter Pipe",
   "race" : "generic",
   "category" : "wire",

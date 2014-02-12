@@ -1,0 +1,10 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 2 },
+    { "item" : "energycrystal", "count" : 1 },
+    { "item" : "titaniumbar", "count" : 4},
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : { "item" : "gravityelevator", "count" : 1 },
+  "groups" : [ "foundry", "all", "misc" ]
+}
