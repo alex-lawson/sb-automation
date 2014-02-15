@@ -2,9 +2,11 @@
   "animatedParts" : {
     "stateTypes" : {
       "relayState" : {
-        "default" : "off",
+        "default" : "air",
         "states" : {
-          "off" : {}
+          "off" : {}, //deprecated state left in for compatibility
+          "air" : {},
+          "wall" : {}
         }
       }
     },
@@ -19,7 +21,17 @@
           "relayState" : {
             "off" : {
               "properties" : {
-                "image" : "<partImage>:off"
+                "image" : "<partImage>:air"
+              }
+            },
+            "air" : {
+              "properties" : {
+                "image" : "<partImage>:air"
+              }
+            },
+            "wall" : {
+              "properties" : {
+                "image" : "<partImage>:wall"
               }
             }
           }
