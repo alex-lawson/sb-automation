@@ -60,6 +60,9 @@
           },
           "tar" : {
             "frames" : 1
+          },
+          "fleshblock" : {
+            "frames" : 1
           }
         }
       }
@@ -121,6 +124,11 @@
             "tar" : {
               "properties" : {
                 "image" : "<partImage>:tar"
+              }
+            },
+            "fleshblock" : {
+              "properties" : {
+                "image" : "<partImage>:fleshblock"
               }
             }
           }

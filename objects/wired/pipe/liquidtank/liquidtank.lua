@@ -12,7 +12,7 @@ function init(args)
     self.liquidMap[1] = "water"
     self.liquidMap[3] = "lava"
     self.liquidMap[4] = "poison"
-    self.liquidMap[6] = "juice"
+    self.liquidMap[6] = "tentacle juice"
     self.liquidMap[7] = "tar"
     
     self.capacity = entity.configParameter("liquidCapacity")
@@ -42,14 +42,14 @@ function onInteraction(args)
   local itemList = ""
   
   if liquid == nil then liquid = "other" end
-  if count ~= nil then 
-    return { "ShowPopup", { message = "^white;Holding ^green;" .. count ..
-      "^white; / ^green;" .. capacity ..
-      "^white; units of liquid ^green;" .. liquid
-    }}
+
+  local popupMessage
+  if count ~= nil then
+    popupMessage = string.format("^white;Holding ^green;%d^white; / ^green;%d^white; units of liquid ^green;%s", count, capacity, liquid)
   else
-    return { "ShowPopup", { message = "Tank is empty."}}
+    popupMessage = "Tank is empty."
   end
+  return { "ShowPopup", { message = popupMessage }}
 end
 
 function main(args)

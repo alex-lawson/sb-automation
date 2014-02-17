@@ -15,7 +15,7 @@
           "poison" : {
             "frames" : 1
           },
-          "juice" : {
+          "tentacle juice" : {
             "frames" : 1
           },
           "lava" : {
@@ -68,7 +68,7 @@
                 "image" : "<partImage>:poison"
               }
             },
-            "juice" : {
+            "tentacle juice" : {
               "properties" : {
                 "image" : "<partImage>:juice"
               }

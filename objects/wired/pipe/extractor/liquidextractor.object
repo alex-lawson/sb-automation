@@ -13,11 +13,11 @@
     {
       "image" : "liquidextractor.png:open.on",
 
-      "imagePosition" : [-8, -8],
+      "imagePosition" : [0, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
-      "spaces" : [[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]],
+      "spaces" : [[0,0],[1,0],[2,0],[0,1],[2,1],[0,2],[1,2],[2,2]],
       "anchors" : [ "bottom" ],
       "direction" : "right"
     }
@@ -38,18 +38,20 @@
   "animationParts" : {
     "extractor" : "liquidextractor.png"
   },
-  "animationPosition" : [-8, -8],
+  "animationPosition" : [0, 0],
   
-  "inboundNodes" : [[0, 1]],
+  "inboundNodes" : [[1, 1]],
   
-  "itemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
-  "liquidNodes" : [ {"offset": [1, -1], "dir": [1, 0]} ],
+  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
+  "liquidNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
+  "flippedLiquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
   
   
   "energyConsumptionRate" : 5,
   "energyCapacity" : 10,
+  "energyNodeOffset" : [1.5, 1.5],
   
   "damageRate" : 0.25,
   "damageAmount" : 201,
-  "blockOffset" : [0, 0]
+  "blockOffset" : [1, 1]
 }
