@@ -40,11 +40,15 @@ function main(args)
 end
 
 function showPass()
-  entity.setAnimationState("filterState", "pass")
+  if entity.animationState("filterState") == "on" then
+    entity.setAnimationState("filterState", "pass")
+  end
 end
 
 function showFail()
-  entity.setAnimationState("filterState", "fail")
+  if entity.animationState("filterState") == "on" then
+    entity.setAnimationState("filterState", "fail")
+  end
 end
 
 function beforeLiquidGet(filter, nodeId)
