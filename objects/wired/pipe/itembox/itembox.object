@@ -47,7 +47,7 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 50,
+  "scriptDelta" : 30,
   
   
   "inboundNodes" : [[0, 1], [2, 1]],
