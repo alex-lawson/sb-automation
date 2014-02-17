@@ -56,7 +56,9 @@ function onInteraction(args)
 end
 
 function onNodeConnectionChange()
-  datawire.onNodeConnectionChange()
+  if datawire then
+    datawire.onNodeConnectionChange()
+  end
 end
 
 function onInboundNodeChange(args)
