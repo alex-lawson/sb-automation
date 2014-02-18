@@ -62,11 +62,11 @@ function main()
   datawire.update()
   pipes.update(entity.dt())
 
-  if storage.ore.name == nil or storage.ore.count <= 0 then
+  if storage.state and (storage.ore.name == nil or storage.ore.count <= 0) then
     pullOre()
   end
   
-  if storage.ore.name and storage.state and  energy.consumeEnergy() then
+  if storage.ore.name and storage.state and energy.consumeEnergy() then
     local oreConversion = self.conversions[storage.ore.name]
     local bar = {name = oreConversion[3], count = oreConversion[2], data = {}}
     
