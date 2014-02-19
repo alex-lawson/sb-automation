@@ -41,5 +41,6 @@
   "outboundNodes" : [ [0, 3], [0, 0] ],
 
   "energySendRate" : 40,
-  "energyCapacity" : 20
+  "energyCapacity" : 20,
+  "energyNodeOffset" : [0.5, 3.5]
 }

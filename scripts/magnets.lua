@@ -2,7 +2,7 @@
 magnets = {
   constant = 40,
   radius = 50,
-  limit = 100,
+  limit = 200,
   minDist = 1
 }
 

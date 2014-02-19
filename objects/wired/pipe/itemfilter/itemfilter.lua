@@ -72,10 +72,7 @@ function beforeItemPut(item, nodeId)
   if storage.itemName ~= nil then
     if item.name == storage.itemName then
       --world.logInfo("passing item peek from %s to %s", nodeId, self.connectionMap[nodeId])
-      showPass()
       return peekPushItem(self.connectionMap[nodeId], item)
-    else
-      showFail()
     end
   end
 
@@ -83,18 +80,22 @@ function beforeItemPut(item, nodeId)
 end
 
 function onItemPut(item, nodeId)
+  local pushResult = false
+
   --world.logInfo("Trying to put item %s with filter %s", item.name, storage.itemName)
   if storage.itemName ~= nil then
     if item.name == storage.itemName then
       --world.logInfo("passing item from %s to %s", nodeId, self.connectionMap[nodeId])
-      showPass()
-      return pushItem(self.connectionMap[nodeId], item)
-    else
-      showFail()
+      pushResult = pushItem(self.connectionMap[nodeId], item)
     end
   end
 
-  return false
+  if pushResult then
+    showPass()
+  else
+    showFail()
+  end
+  return pushResult
 end
 
 function beforeItemGet(filter, nodeId)
@@ -104,10 +105,7 @@ function beforeItemGet(filter, nodeId)
       if filterString == storage.itemName then
         pullFilter[filterString] = amount
         --world.logInfo("passing item peek get from %s to %s", nodeId, self.connectionMap[nodeId])
-        showPass()
         return peekPullItem(self.connectionMap[nodeId], pullFilter)
-      else
-        showFail()
       end
     end
   end
@@ -116,19 +114,24 @@ function beforeItemGet(filter, nodeId)
 end
 
 function onItemGet(filter, nodeId)
+  local pullResult = false
+
   if storage.itemName ~= nil then
     for filterString, amount in pairs(filter) do
       local pullFilter = {}
       if filterString == storage.itemName then
         pullFilter[filterString] = amount
         --world.logInfo("passing item get from %s to %s", nodeId, self.connectionMap[nodeId])
-        showPass()
-        return pullItem(self.connectionMap[nodeId], pullFilter)
-      else
-        showFail()
+        pullResult = pullItem(self.connectionMap[nodeId], pullFilter)
       end
     end
   end
 
-  return false
+  if pullResult then
+    showPass()
+  else
+    showFail()
+  end
+
+  return pullResult
 end

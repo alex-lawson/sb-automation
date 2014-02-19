@@ -5,6 +5,8 @@ function init(virtual)
     self.particleCooldown = 0.2
     self.particleTimer = 0
 
+    self.acceptCharge = entity.configParameter("acceptCharge") or true
+
     entity.setParticleEmitterActive("charging", false)
     updateAnimationState()
   end
@@ -31,7 +33,8 @@ function getBatteryStatus()
     capacity=energy.getCapacity(),
     energy=energy.getEnergy(),
     unusedCapacity=energy.getUnusedCapacity(),
-    position=entity.position()
+    position=entity.position(),
+    acceptCharge=self.acceptCharge
   }
 end
 

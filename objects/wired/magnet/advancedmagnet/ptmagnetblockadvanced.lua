@@ -4,7 +4,7 @@ function validateData(data, dataType, nodeId, sourceEntityId)
 end
 
 function onValidDataReceived(data, dataType, nodeId, sourceEntityId)
-  storage.charge = clamp(data * 10, -magnets.limit, magnets.limit)
+  storage.charge = clamp(data * 20, -magnets.limit, magnets.limit)
   storage.magnetOnAnim = storage.charge == 0 and "positiveOn" or (storage.charge > 0 and "positiveOn" or "negativeOn")
   storage.magnetOffAnim = storage.charge == 0 and "positiveOff" or (storage.charge > 0 and "positiveOff" or "negativeOff")
   if storage.state then
