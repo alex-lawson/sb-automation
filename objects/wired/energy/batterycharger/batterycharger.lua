@@ -73,7 +73,9 @@ function checkBatteries()
   for i, entityId in ipairs(entityIds) do
     local batteryStatus = world.callScriptedEntity(entityId, "getBatteryStatus")
     self.batteries[#self.batteries + 1] = batteryStatus
-    self.totalUnusedCapacity = self.totalUnusedCapacity + batteryStatus.unusedCapacity
+    if batteryStatus.acceptCharge then
+      self.totalUnusedCapacity = self.totalUnusedCapacity + batteryStatus.unusedCapacity
+    end
     self.totalStoredEnergy = self.totalStoredEnergy + batteryStatus.energy
   end
 
@@ -132,12 +134,14 @@ end
 function chargeBatteries(amount)
   local amountRemaining = amount
   for i, bStatus in ipairs(self.batteries) do
-    local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
-    if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
-      if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "showChargeEffect")
+    if bStatus.acceptCharge then
+      local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
+      if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
+        if amountAccepted > 0 then
+          world.callScriptedEntity(bStatus.id, "showChargeEffect")
+        end
+        amountRemaining = amountRemaining - amountAccepted
       end
-      amountRemaining = amountRemaining - amountAccepted
     end
   end
 

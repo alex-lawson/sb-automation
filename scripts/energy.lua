@@ -44,6 +44,11 @@ function energy.init(args)
   energy.transferCooldown = energy.transferInterval
   energy.transferShown = {}
 
+  --define custom source position for energy projectiles and LoS checks
+  --NOTE: making this too far from the object's position will result in strange behavior (as it is not used in the initial queries for nearby objects)
+  local nodeOffset = args["energyNodeOffset"] or entity.configParameter("energyNodeOffset") or {0.5, 0.5}
+  energy.nodePosition = {entity.position()[1] + nodeOffset[1], entity.position()[2] + nodeOffset[2]}
+
   --maximum range (in blocks) that this device will search for entities to connect to
   --NOTE: we may not want to make this configurable, since it will result in strange behavior if asymmetrical
   energy.linkRange = args["energyLinkRange"] or entity.configParameter("energyLinkRange") or 10
@@ -285,7 +290,7 @@ end
 
 -- get the source position for the visual effect (TODO: replace with something better)
 function energy.getProjectileSourcePosition()
-  return {entity.position()[1] + 0.5, entity.position()[2] + 0.5}
+  return energy.nodePosition
 end
 
 --adds appropriate entries into energy.connections and energy.sortedConnections

@@ -2,7 +2,7 @@
   "objectName" : "relay",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "A simple energy relay.",
+  "description" : "Transfers energy between devices within range.",
   "shortdescription" : "Energy Relay",
   "race" : "generic",
   "category" : "wire",
@@ -13,10 +13,44 @@
 
   "orientations" : [
     {
-      "image" : "relay.png:off",
-      "imagePosition" : [0, 0],
+      //DUMMY ORIENTATION USED FOR PLACEMENT PREVIEW
+      "relayType" : "air",
 
-      "spaceScan" : 0.1,
+      "image" : "relay.png:air",
+
+      "collision" : "solid",
+      "anchors" : [ "left", "right", "top", "bottom" ],
+      "direction" : "right",
+
+      "energyCollisionBlocks" : [ [0, 0] ]
+    },
+    {
+      "relayType" : "wall",
+
+      "image" : "relay.png:wall",
+
+      "collision" : "solid",
+      "anchors" : [ "left", "right" ],
+      "direction" : "right",
+
+      "energyCollisionBlocks" : [ [0, 0] ]
+    },
+    {
+      "relayType" : "wall",
+
+      "image" : "relay.png:wall",
+
+      "collision" : "solid",
+      "anchors" : [ "top", "bottom" ],
+      "direction" : "right",
+
+      "energyCollisionBlocks" : [ [0, 0] ]
+    },
+    {
+      "relayType" : "air",
+
+      "image" : "relay.png:air",
+
       "anchors" : [ ],
       "direction" : "right"
     }
@@ -24,6 +58,9 @@
 
   "scripts" : [ "/scripts/energy.lua", "relay.lua" ],
   "scriptDelta" : 5,
+
+  "spaceScan" : 0.5,
+  "imagePosition" : [0, 0],
 
   "animation" : "relay.animation",
   "animationParts" : {

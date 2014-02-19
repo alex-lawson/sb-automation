@@ -1,7 +1,7 @@
 {
   "frameGrid" : {
     "size" : [12, 12],
-    "dimensions" : [1, 10],
+    "dimensions" : [1, 11],
     "names" : [
       [ "snow" ],
       [ "slush" ],
@@ -12,7 +12,8 @@
       [ "obsidian" ],
       [ "sewage" ],
       [ "slime" ],
-      [ "tar" ]
+      [ "tar" ],
+      [ "fleshblock" ]
     ]
   }
 }

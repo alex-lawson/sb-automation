@@ -33,9 +33,9 @@
   
   "inboundNodes" : [ [0, 0] ],
   
-  "chargeStrength" : 100,
+  "chargeStrength" : 200,
   "magnetCenter" : [1, 1],
 
   "energyAllowConnection" : true,
-  "energyCapacity" : 5
+  "energyCapacity" : 10
 }

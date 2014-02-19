@@ -16,46 +16,67 @@
   "hylotlDescription" : "Pipe spout",
 
   "inventoryIcon" : "pipeend.png",
+
+  "animation" : "/objects/wired/pipe/pipeend/pipeend.animation",
+  "animationParts" : {
+    "pipe" : "pipeend.png"
+  },
+  "animationPosition" : [0, 0],
+  
   "orientations" : [
     {
       "image" : "pipeend.png",
-      "imagePosition" : [0, 0],
-
+      "direction" : "right",
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ],
-      "direction" : "right"
+      "anchors" : [ "background" ]
     },
     {
       "image" : "pipeend.png",
-      "imagePosition" : [0, 0],
-
+      "direction" : "right",
       "spaceScan" : 0.1,
-      "anchors" : [ "top" ],
-      "direction" : "right"
+      "anchors" : [ "top" ]
     },
     {
       "image" : "pipeend.png",
-      "imagePosition" : [0, 0],
-
+      "direction" : "right",
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ],
-      "direction" : "right"
+      "anchors" : [ "bottom" ]
     },
     {
       "image" : "pipeend.png",
-      "imagePosition" : [0, 0],
-
+      "direction" : "right",
       "spaceScan" : 0.1,
-      "anchors" : [ "left" ],
-      "direction" : "right"
+      "anchors" : [ "left" ]
     },
     {
       "image" : "pipeend.png",
-      "imagePosition" : [0, 0],
-
+      "direction" : "right",
       "spaceScan" : 0.1,
-      "anchors" : [ "right" ],
-      "direction" : "right"
+      "anchors" : [ "right" ]
+    },
+    {
+      "image" : "pipeend.png",
+      "direction" : "right",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "pipeend.png",
+      "direction" : "right",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "pipeend.png",
+      "direction" : "right",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "pipeend.png",
+      "direction" : "right",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
     }
   ],
   
@@ -68,12 +89,6 @@
     "/scripts/vec2.lua"
   ],
   "scriptDelta" : 5,
-  
-  "animation" : "/objects/wired/pipe/pipeend/pipeend.animation",
-  "animationParts" : {
-    "pipe" : "pipeend.png"
-  },
-  "animationPosition" : [0, 0],
   
   "liquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [0, 0], "dir": [0, -1]}, {"offset": [0, 0], "dir": [1, 0]}, {"offset": [0, 0], "dir": [0, 1]} ],
   

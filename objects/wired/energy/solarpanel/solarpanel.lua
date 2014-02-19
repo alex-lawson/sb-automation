@@ -19,8 +19,8 @@ end
 
 function main()
    energy.update()
-   local lightLevel = world.lightLevel(entity.position())
-   if checkSolar() and lightLevel >= entity.configParameter("lightLevelThreshold") then
+   local lightLevel = onShip() and 1.0 or world.lightLevel(entity.position())
+   if lightLevel >= entity.configParameter("lightLevelThreshold") and checkSolar() then
       local generatedEnergy = lightLevel*entity.configParameter("energyGenerationRate")*entity.dt()
       energy.addEnergy(generatedEnergy)
       updateAnimationState()
@@ -33,6 +33,10 @@ function updateAnimationState()
    else
       entity.setAnimationState("solarState", "off")
    end
+end
+
+function onShip()
+  return world.info() == nil
 end
 
 function onNodeConnectionChange()
@@ -54,12 +58,12 @@ end
 
 -- Check for aboveground and daytime
 function checkSolar()
-  if world.underground(entity.position()) or world.timeOfDay() > 0.5 then
+  if (world.underground(entity.position()) or world.timeOfDay() > 0.5) and not onShip() then
     return false
   end
   
-  local ll = entity.toAbsolutePosition({ -4.0, 1.0 })
-  local tr = entity.toAbsolutePosition({ 4.0, 32.0 })
+  local ll = entity.toAbsolutePosition({ -2.0, 1.0 })
+  local tr = entity.toAbsolutePosition({ 2.0, 16.0 })
   
   local bounds = {0, 0, 0, 0}
   bounds[1] = ll[1]
