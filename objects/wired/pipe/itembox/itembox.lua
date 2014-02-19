@@ -77,7 +77,6 @@ function pushItems()
         local result = pushItem(node+1, item)
         if result == true then storageApi.returnItem(i) end --Whole stack was accepted
         if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
-        world.logInfo("trying to push %s resulted in %s", item, result)
         if result then break end
       end
     end
