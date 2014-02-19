@@ -77,12 +77,13 @@ function main()
     elseif self.st == 3 then 
       entity.playImmediateSound(self.workSound)
     end
-    local p = entity.toAbsolutePosition({ -1.25, 1 })
-    local eids = world.entityQuery(p, { p[1] + 2.5, p[2] + self.levitationHeight }, { notAnObject = true, order = "nearest" })
-    local id = firstValidEntity(eids)
-    if id ~= nil then
-      local y = world.entityPosition(id)[2]
-      entity.setForceRegion({ p[1], p[2] - 0.25, p[1] + 2.5, p[2] + self.levitationHeight }, { 0, rand() * 1000 * (y - p[2]) / self.levitationHeight })
-    end
+    local p = entity.position()
+    entity.setForceRegion({ p[1] - 1, p[2], p[1] + 2, p[2] + self.levitationHeight }, {0, 150})
+    -- local eids = world.entityQuery(p, { p[1] + 2.5, p[2] + self.levitationHeight }, { notAnObject = true, order = "nearest" })
+    -- local id = firstValidEntity(eids)
+    -- if id ~= nil then
+    --   local y = world.entityPosition(id)[2]
+    --   entity.setForceRegion({ p[1], p[2] - 0.25, p[1] + 2.5, p[2] + self.levitationHeight }, { 0, rand() * 1000 * (y - p[2]) / self.levitationHeight })
+    -- end
   end
 end
