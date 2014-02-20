@@ -1,0 +1,29 @@
+{
+  "itemName" : "lavacapsule",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/liquid/lavacapsule.png",
+  "image" : "/projectiles/liquid/lavacapsule.png",
+  "shortdescription" : "Lava Capsule",
+  "description" : "Holding this makes your hand blister and sizzle.",
+
+  "ammoUsage" : 1,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "lavacapsule",
+  "projectileConfig" : {
+    "speed" : 45,
+    "power" : 0,
+    "actionOnReap" : [
+      {
+        "action" : "liquid",
+        "quantity" : 3000,
+        "liquidId" : 3
+      }
+    ]
+  
+  }
+}
+

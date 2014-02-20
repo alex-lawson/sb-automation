@@ -1,0 +1,44 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "fillstate" : {
+        "default" : "off",
+        "states" : {
+          "on" : {},
+          "off" : {},
+          "work" : {
+            "frames" : 2,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          }
+        }
+      }
+    },
+    "parts" : {
+      "filler" : {
+        "properties" : {
+          "centered" : true
+        },
+        "partStates" : {
+          "fillstate" : {
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            },
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:error"
+              }
+            },
+            "work" : {
+              "properties" : {
+                "image" : "<partImage>:work.<frame>"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
