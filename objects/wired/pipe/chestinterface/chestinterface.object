@@ -1,0 +1,48 @@
+{
+  "objectName" : "chestinterface",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Connects to a storage chest to provide pipe access.",
+  "shortdescription" : "Pipe Chest Adaptor",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "chestinterface.png",
+  "orientations" : [
+    {
+      "dualImage" : "chestinterface.png",
+
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.6,
+      "anchors" : [ "background" ]
+    },
+    {
+      "dualImage" : "chestinterface.png",
+
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.6,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "animation" : "chestinterface.animation",
+  "animationParts" : {
+    "interface" : "chestinterface.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "scripts" : [
+    "chestinterface.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua"
+  ],
+  "scriptDelta" : 30,
+  
+  "inboundNodes" : [[0, 0]],
+  
+  "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]}, {"offset": [0, 1], "dir": [-1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [0, 0], "dir": [1, 0]}, {"offset": [0, 1], "dir": [1, 0]} ]
+}
