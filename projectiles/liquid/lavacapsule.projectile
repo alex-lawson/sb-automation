@@ -10,5 +10,5 @@
   "speed" : 20,
   "fallSpeed" : 0,
 
-  "damageKind" : "default",
+  "damageKind" : "default"
 }
