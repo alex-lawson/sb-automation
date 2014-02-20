@@ -1,0 +1,38 @@
+{
+  "objectName" : "clicker",
+  "objectType" : "wire",
+  "printable" : false,
+  "rarity" : "Common",
+  "price" : 300,
+
+  "description" : "Interacts with nearby objects when it receives a signal.",
+  "shortdescription" : "Clicker",
+  "race" : "generic",
+
+
+  "inventoryIcon" : "ekey.png",
+  "orientations" : [
+
+    {
+      "image" : "ekey.png",
+      "imagePosition" : [-1, -1],
+
+      "spaceScan" : 0.5,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "clicker.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "clicker.animation",
+
+  "animationParts" : {
+    "clicker" : "ekey.png",
+    "target" : "targetarea.png"
+  },
+  "animationPosition" : [-1, -1],
+
+  "inboundNodes" : [ [0, 0] ]
+}

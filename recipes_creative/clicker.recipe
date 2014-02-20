@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "clicker",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}
