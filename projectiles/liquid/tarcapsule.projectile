@@ -5,7 +5,7 @@
   "frames" : "tarcapsule.png",
   "animationCycle" : 1,
   "frameNumber" : 1,
-  "timeToLive" : 4,
+  "timeToLive" : 8,
 
   "speed" : 20,
   "fallSpeed" : 0,
