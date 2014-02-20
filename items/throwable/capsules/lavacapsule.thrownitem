@@ -15,7 +15,7 @@
   "projectileType" : "lavacapsule",
   "projectileConfig" : {
     "speed" : 45,
-    "power" : 50,
+    "power" : 0,
     "actionOnReap" : [
       {
         "action" : "liquid",

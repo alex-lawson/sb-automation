@@ -11,7 +11,4 @@
   "fallSpeed" : 0,
 
   "damageKind" : "default",
-
-  "damage" : 0,
-  "power" : 0
 }
