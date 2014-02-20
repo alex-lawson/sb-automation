@@ -3,7 +3,7 @@
   "rarity" : "Common",
   "inventoryIcon" : "/projectiles/liquid/acidcapsule.png",
   "image" : "/projectiles/liquid/acidcapsule.png",
-  "shortdescription" : "acid Capsule",
+  "shortdescription" : "Acid Capsule",
   "description" : "An acid grenade, duck and cover!",
 
   "ammoUsage" : 1,
@@ -19,7 +19,7 @@
     "actionOnReap" : [
       {
         "action" : "liquid",
-        "quantity" : 1400,
+        "quantity" : 3000,
         "liquidId" : 4
       }
     ]

@@ -19,7 +19,7 @@
     "actionOnReap" : [
       {
         "action" : "liquid",
-        "quantity" : 1400,
+        "quantity" : 3000,
         "liquidId" : 7
       }
     ]

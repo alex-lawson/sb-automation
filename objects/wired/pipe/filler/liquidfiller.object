@@ -49,6 +49,6 @@
   "energyConsumptionRate" : 5,
   "energyCapacity" : 10,
 
-  "liquidConversions" : [ ["watercapsule", 1400], ["watercapsule", 1400], ["lavacapsule", 1400], ["acidcapsule", 1400], ["lavacapsule", 1400], ["juicecapsule", 1400], ["tarcapsule", 1400]],
+  "liquidConversions" : [ ["watercapsule", 3000], ["watercapsule", 3000], ["lavacapsule", 3000], ["acidcapsule", 3000], ["lavacapsule", 3000], ["juicecapsule", 3000], ["tarcapsule", 3000]],
   "fillInterval" : 2
 }

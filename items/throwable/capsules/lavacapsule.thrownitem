@@ -3,8 +3,8 @@
   "rarity" : "Common",
   "inventoryIcon" : "/projectiles/liquid/lavacapsule.png",
   "image" : "/projectiles/liquid/lavacapsule.png",
-  "shortdescription" : "lava Capsule",
-  "description" : "Holding this makes your hand blister.",
+  "shortdescription" : "Lava Capsule",
+  "description" : "Holding this makes your hand blister and sizzle.",
 
   "ammoUsage" : 1,
 
@@ -19,7 +19,7 @@
     "actionOnReap" : [
       {
         "action" : "liquid",
-        "quantity" : 1400,
+        "quantity" : 3000,
         "liquidId" : 3
       }
     ]

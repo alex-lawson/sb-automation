@@ -3,8 +3,8 @@
   "rarity" : "Common",
   "inventoryIcon" : "/projectiles/liquid/juicecapsule.png",
   "image" : "/projectiles/liquid/juicecapsule.png",
-  "shortdescription" : "juice Capsule",
-  "description" : "A juice box. Throw it!",
+  "shortdescription" : "Juice Capsule",
+  "description" : "A juice box. You should obviously throw it.",
 
   "ammoUsage" : 1,
 
@@ -19,7 +19,7 @@
     "actionOnReap" : [
       {
         "action" : "liquid",
-        "quantity" : 1400,
+        "quantity" : 3000,
         "liquidId" : 6
       }
     ]
