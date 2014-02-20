@@ -38,7 +38,6 @@ end
 
 function pushItems()
   local items = world.containerItems(self.chest)
-  world.logInfo("attempting to push items %s", items)
   for key, item in pairs(items) do
     local result = pushItem(1, item)
     if result then
@@ -57,15 +56,12 @@ function beforeItemPut(item, nodeId)
     local canFit = world.containerItemsFitWhere(self.chest, item)
     if canFit then
       if canFit.leftover == 0 then
-        world.logInfo("(peek) accepted whole stack %s", item)
         return true
       else
-        world.logInfo("(peek) accepted partial stack %s", item)
         return item.count - canFit.leftover
       end
     end
   end
-  world.logInfo("(peek) didn't accept item %s", item)
   return false
 end
 
@@ -73,7 +69,6 @@ function onItemPut(item, nodeId)
   if item and self.chest then
     local returnedItem = world.containerAddItems(self.chest, item)
     if returnedItem then
-      world.logInfo("(put) didn't accept full stack, returned %s", returnedItem)
       local returnCount = item.count - returnedItem.count
       if returnCount > 0 then
         return returnCount
@@ -81,49 +76,46 @@ function onItemPut(item, nodeId)
         return false
       end
     else
-      world.logInfo("(put) accepted whole stack %s", item)
       return true
     end
   end
-  world.logInfo("(put) failed for item %s", item)
   return false
 end
 
--- function beforeItemGet(filter, nodeId)
---   if filter then
---     for i,item in storageApi.getIterator() do
---       for filterString,amount  in ipairs(filter) do
---         if item.name == filterString and item.count >= amount[1] then
---           return true 
---         end
---       end
---     end
---   else
---     for i,item in storageApi.getIterator() do
---       return true
---     end
---   end
---   return false
--- end
+function beforeItemGet(filter, nodeId)
+  if self.chest then
+    if filter then
+      for itemName, amount in pairs(filter) do
+        local filterItem = {name=itemName, count=amount[1], data={}}
+        local available = world.containerAvailable(self.chest, filterItem)
+        if available >= 1 then return true end
+      end
+    else
+      for key, item in pairs(world.containerItems(self.chest)) do
+        return true
+      end
+    end
+  end
+  return false
+end
 
--- function onItemGet(filter, nodeId)
---   if filter then
---     for i,item in storageApi.getIterator() do
---       for filterString,amount  in pairs(filter) do
---         if item.name == filterString and item.count >= amount[1] then
---           if item.count <= amount[2] then
---             return storageApi.returnItem(i)
---           else
---             item.count = item.count - amount[2]
---             return {name = item.name, count = amount[2], data = item.data}
---           end
---         end
---       end
---     end
---   else
---     for i,item in storageApi.getIterator() do
---       return storageApi.returnItem(i)
---     end
---   end
---   return false
--- end
+function onItemGet(filter, nodeId)
+  if self.chest then
+    if filter then
+      for itemName, amount in pairs(filter) do
+        local filterItem = {name=itemName, count=amount[1], data={}}
+        local availableAmount = world.containerAvailable(self.chest, filterItem)
+        if availableAmount >= 1 then
+          filterItem.count = math.min(availableAmount * amount[1], amount[2])
+          world.containerConsume(self.chest, filterItem)
+          return filterItem
+        end
+      end
+    else
+      for key, item in pairs(world.containerItems(self.chest)) do
+        return item
+      end
+    end
+  end
+  return false
+end

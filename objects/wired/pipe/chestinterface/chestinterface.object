@@ -3,7 +3,7 @@
   "objectType" : "wire",
   "rarity" : "Common",
   "description" : "Connects to a storage chest to provide pipe access.",
-  "shortdescription" : "Container Interface",
+  "shortdescription" : "Pipe Chest Adaptor",
   "race" : "generic",
   "category" : "wire",
   "printable" : false,
