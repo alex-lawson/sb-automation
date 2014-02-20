@@ -1,7 +1,8 @@
 {
   "objectName" : "itemfilter",
   "rarity" : "Common",
-  "objectType" : "wire",
+  "objectType" : "container",
+
   "description" : "Allows only a specified item to pass",
   "shortdescription" : "Item Filter Pipe",
   "race" : "generic",
@@ -47,6 +48,11 @@
     }
   ],
 
+  "slotCount" : 4,
+  "uiConfig" : "/interface/chests/filter4.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
   "scripts" : [
     "/objects/wired/pipe/itemfilter/itemfilter.lua",
     "/scripts/pipes/liquidpipes.lua",
@@ -55,7 +61,7 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 30,
   
   "animation" : "/objects/wired/pipe/itemfilter/itemfilter.animation",
   "animationParts" : {
