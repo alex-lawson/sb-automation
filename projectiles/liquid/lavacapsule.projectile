@@ -1,6 +1,6 @@
 {
   "projectileName" : "lavacapsule",
-  "physics" : "nodamagegrenade",
+  "physics" : "grenade",
   "level" : 1,
   "frames" : "lavacapsule.png",
   "animationCycle" : 1,
