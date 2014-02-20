@@ -1,0 +1,54 @@
+{
+  "objectName" : "liquidfiller",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "This device creates liquid from moist, slimy, or igneous blocks.",
+  "shortdescription" : "Liquid Extractor",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "liquidfiller.png:on",
+  "orientations" : [
+    {
+      "image" : "liquidfiller.png:on",
+
+      "imagePosition" : [-8, -8],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/filler/liquidfiller.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/energy.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/filler/liquidfiller.animation",
+  "animationParts" : {
+    "filler" : "liquidfiller.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [[1, 1]],
+  
+  "liquidNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
+  "flippedLiquidNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
+  "itemNodes" : [ {"offset": [1, -1], "dir": [1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [1, 0], "dir": [1, 0]} ],
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 10,
+
+  "liquidConversions" : [ ["watercapsule", 1400], ["watercapsule", 1400], ["lavacapsule", 1400], ["acidcapsule", 1400], ["lavacapsule", 1400], ["juicecapsule", 1400], ["tarcapsule", 1400]],
+  "fillInterval" : 2
+}

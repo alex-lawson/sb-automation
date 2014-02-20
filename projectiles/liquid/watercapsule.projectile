@@ -1,12 +1,11 @@
 {
-  "projectileName" : "liquidcapsule",
+  "projectileName" : "watercapsule",
   "physics" : "grenade",
   "level" : 1,
-  "frames" : "watercapsule
-  .png",
+  "frames" : "watercapsule.png",
   "animationCycle" : 1,
   "frameNumber" : 1,
-  "timeToLive" : 1,
+  "timeToLive" : 4,
 
   "speed" : 20,
   "fallSpeed" : 0,

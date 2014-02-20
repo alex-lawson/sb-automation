@@ -1,10 +1,10 @@
 {
-  "itemName" : "plasmagrenade",
+  "itemName" : "watercapsule",
   "rarity" : "Common",
-  "inventoryIcon" : "watercapsuleicon.png",
-  "image" : "watercapsule.png",
-  "shortdescription" : "Plasma Grenade",
-  "description" : "A plasma grenade. Duck and cover!",
+  "inventoryIcon" : "/projectiles/liquid/watercapsule.png",
+  "image" : "/projectiles/liquid/watercapsule.png",
+  "shortdescription" : "Water Capsule",
+  "description" : "Like a water balloon, but heavier.",
 
   "ammoUsage" : 1,
 
@@ -12,14 +12,14 @@
   "windupTime" : 0.0,
   "cooldown" : 0.4,
 
-  "projectileType" : "plasmagrenade",
+  "projectileType" : "watercapsule",
   "projectileConfig" : {
     "speed" : 45,
     "power" : 50,
     "actionOnReap" : [
       {
         "action" : "liquid",
-        "quantity" : 3000,
+        "quantity" : 1400,
         "liquidId" : 1
       }
     ]
