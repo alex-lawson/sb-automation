@@ -2,8 +2,6 @@ function init(virtual)
   if not virtual then
     pipes.init({liquidPipe,itemPipe})
 
-    entity.setInteractive(true)
-
     self.connectionMap = {}
     self.connectionMap[1] = 2
     self.connectionMap[2] = 1
@@ -13,22 +11,6 @@ function init(virtual)
     buildFilter()
   end
 end
-
---------------------------------------------------------------------------------
-
--- function onInteraction(args)
---   local itemName = world.entityHandItem(args.sourceId, "primary")
---   if itemName == nil then
---     if storage.itemName == nil then
---       return { "ShowPopup", { message = "Filtered item : " .. "none" }}
---     else
---       return { "ShowPopup", { message = "Filtered item : " .. storage.itemName }}
---     end
---   else
---     storage.itemName = itemName
---     entity.setAnimationState("filterState", "on")
---   end
--- end
 
 --------------------------------------------------------------------------------
 function main(args)
@@ -65,10 +47,8 @@ function onLiquidPut(liquid, nodeId)
 end
 
 function beforeItemPut(item, nodeId)
-  --world.logInfo("Testing to put item %s with filter %s", item.name, storage.itemName)
   if self.filterCount > 0 then
     if self.filter[item.name] then
-      --world.logInfo("passing item peek from %s to %s", nodeId, self.connectionMap[nodeId])
       return peekPushItem(self.connectionMap[nodeId], item)
     end
   end
@@ -79,10 +59,8 @@ end
 function onItemPut(item, nodeId)
   local pushResult = false
 
-  --world.logInfo("Trying to put item %s with filter %s", item.name, storage.itemName)
   if self.filterCount > 0 then
     if self.filter[item.name] then
-      --world.logInfo("passing item from %s to %s", nodeId, self.connectionMap[nodeId])
       pushResult = pushItem(self.connectionMap[nodeId], item)
     end
   end
@@ -92,19 +70,24 @@ function onItemPut(item, nodeId)
   else
     showFail()
   end
+
   return pushResult
 end
 
 function beforeItemGet(filter, nodeId)
   if self.filterCount > 0 then
+    local pullFilter = {}
+    local filterMatch = false
     for filterString, amount in pairs(filter) do
-      local pullFilter = {}
       if self.filter[filterString] then
-        pullFilter[filterString] = amount        
+        pullFilter[filterString] = amount
+        filterMatch = true
       end
     end
 
-    return peekPullItem(self.connectionMap[nodeId], pullFilter)
+    if filterMatch then
+      return peekPullItem(self.connectionMap[nodeId], pullFilter)
+    end
   end
 
   return false
@@ -114,14 +97,18 @@ function onItemGet(filter, nodeId)
   local pullResult = false
 
   if self.filterCount > 0 then
+    local pullFilter = {}
+    local filterMatch = false
     for filterString, amount in pairs(filter) do
-      local pullFilter = {}
       if self.filter[filterString] then
         pullFilter[filterString] = amount
+        filterMatch = true
       end
     end
 
-    pullResult = pullItem(self.connectionMap[nodeId], pullFilter)
+    if filterMatch then
+      pullResult = pullItem(self.connectionMap[nodeId], pullFilter)
+    end
   end
 
   if pullResult then
@@ -148,10 +135,9 @@ function buildFilter()
     end
   end
 
-  if self.filterCount > 0 then
+  if self.filterCount > 0 and entity.animationState("filterState") == "off" then
     entity.setAnimationState("filterState", "on")
-  else
+  elseif self.filterCount <= 0 then
     entity.setAnimationState("filterState", "off")
   end
-
 end
