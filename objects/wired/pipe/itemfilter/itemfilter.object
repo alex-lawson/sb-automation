@@ -3,7 +3,7 @@
   "rarity" : "Common",
   "objectType" : "container",
 
-  "description" : "Allows only a specified item to pass",
+  "description" : "Allows only the specified items to pass",
   "shortdescription" : "Item Filter Pipe",
   "race" : "generic",
   "category" : "wire",
