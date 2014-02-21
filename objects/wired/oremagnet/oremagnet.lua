@@ -120,7 +120,7 @@ function pullOres()
         if world.material(newPos, "foreground") then
           local prevMod = world.mod(newPos, "foreground")
           if not prevMod then
-            prevMod = "null"
+            prevMod = "sand"
           end
           if not self.oreTypes[prevMod] then
             if world.placeMod(newPos, "foreground", ore.mod) then
