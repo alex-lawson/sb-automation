@@ -23,7 +23,7 @@
   ],
 
   "scripts" : [ "oremagnet.lua", "/scripts/energy.lua" ],
-  "scriptDelta" : 30,
+  "scriptDelta" : 10,
 
   "animation" : "oremagnet.animation",
   "animationParts" : {

@@ -19,13 +19,18 @@ function init(virtual)
       aegisalt = true
     }
 
-    local range = 100
+    self.cleanupLocs = {}
+
+    self.pullInterval = 1.0
+    self.pullTimer = self.pullInterval
+
+    local range = 50
     local bl = entity.toAbsolutePosition({-range, -range})
     local tr = entity.toAbsolutePosition({range, range})
     self.oreLocs = findOres(bl, tr)
     table.sort(self.oreLocs, compareDistance)
 
-    world.logInfo("registered %d ores: %s", #self.oreLocs, self.oreLocs)
+    --world.logInfo("registered %d ores: %s", #self.oreLocs, self.oreLocs)
 
     entity.setInteractive(not entity.isInboundNodeConnected(0))
 
@@ -48,8 +53,18 @@ end
 function main()
   energy.update()
 
-  if storage.state then
+  -- if #self.cleanupLocs > 0 then
+  --   --world.logInfo("cleaning up null mods at %s", self.cleanupLocs)
+  --   world.damageTiles(self.cleanupLocs, "foreground", entity.position(), "blockish", 1)
+
+  --   self.cleanupLocs = {}
+  -- end
+
+  if self.pullTimer > 0 then
+    self.pullTimer = self.pullTimer - entity.dt()
+  elseif self.pullTimer <= 0 and storage.state then
     pullOres()
+    self.pullTimer = self.pullInterval
   end
 end
 
@@ -81,15 +96,24 @@ function findOres(pos1, pos2)
   world.logInfo("finding ores in area from %s to %s", pos1, pos2)
 
   local oreLocs = {}
+  -- local cleanupLocs = {}
 
   for x=pos1[1], pos2[1] do
     for y=pos1[2], pos2[2] do
       local mod = world.mod({x, y}, "foreground")
       if mod and self.oreTypes[mod] then
-        world.logInfo("found %s at %d, %d", mod, x, y)
+        --world.logInfo("found %s at %d, %d", mod, x, y)
         oreLocs[#oreLocs + 1] = {position={x, y}, mod=mod, active=true}
+      elseif mod == "nullmod" then
+        self.cleanupLocs[#self.cleanupLocs + 1] = {x, y}
       end
     end
+  end
+
+  if #self.cleanupLocs > 0 then
+    --world.logInfo("cleaning up null mods at %s", self.cleanupLocs)
+    world.damageTiles(self.cleanupLocs, "foreground", entity.position(), "plantish", 1)
+    self.cleanupLocs = {}
   end
 
   return oreLocs
@@ -114,17 +138,19 @@ function pullOres()
         local jitter  = {math.random() * 0.5 - 0.25, math.random() * 0.5 - 0.25}
         local newPos = {math.round(ore.position[1] - (relPos[1] / magnitude) + jitter[1]), math.round(ore.position[2] - (relPos[2] / magnitude) + jitter[2])}
 
-        -- check suitability (foreground material, existing mods)
-        --world.logInfo("checking suitability to move %s from %s to %s", ore.mod, ore.position, newPos)
-
         if world.material(newPos, "foreground") then
           local prevMod = world.mod(newPos, "foreground")
-          if not prevMod then
-            prevMod = "sand"
-          end
           if not self.oreTypes[prevMod] then
             if world.placeMod(newPos, "foreground", ore.mod) then
-              world.placeMod(ore.position, "foreground", prevMod)
+              if prevMod then
+                world.placeMod(ore.position, "foreground", prevMod)
+              else
+                world.placeMod(ore.position, "foreground", "nullmod")
+                -- world.damageTiles({ore.position}, "foreground", entity.position(), "plantish", 1)
+                -- world.logInfo("adding %s to cleanupLocs", ore.position)
+                -- local oldPos = ore.position
+                -- self.cleanupLocs[#self.cleanupLocs + 1] = oldPos
+              end
               ore.position = newPos
             end
           end
