@@ -1,0 +1,33 @@
+{
+  "objectName" : "sortingchest",
+  "printable" : false,
+  "rarity" : "Common",
+  "objectType" : "container",
+
+  "category" : "storage",
+  "price" : 500,
+  "description" : "A chest that periodically organizes its contents.",
+  "shortdescription" : "Sorting Chest",
+  "race" : "generic",
+
+  "inventoryIcon" : "sortingchesticon.png",
+  "orientations" : [
+    {
+      "dualImage" : "sortingchest.png:<color>.<key>",
+      "imagePosition" : [-8, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "openSounds" : [ "/sfx/objects/chest_small_open.wav" ],
+  "closeSounds" : [ "/sfx/objects/chest_small_close.wav" ],
+  "slotCount" : 16,
+  "uiConfig" : "/interface/chests/chest%slots%.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
+  "scripts" : [ "sortingchest.lua" ],
+  "scriptDelta" : 180
+}
