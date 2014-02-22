@@ -35,7 +35,7 @@ end
 
 -- Check requirements for solar generation
 function checkSolar()
-  return (world.timeOfDay() <= 0.5 or onShip()) and not world.underground(entity.position()) and clearSkiesAbove()
+  return (onShip() or (world.timeOfDay() <= 0.5 and not world.underground(entity.position()))) and clearSkiesAbove()
 end
 
 function clearSkiesAbove()
