@@ -1,9 +1,0 @@
-{
-  "modId" : 900,
-  "modName" : "nullmod",
-  "frames" : "nullmod.png",
-  "variants" : 1,
-  "Description" : "Nothing to see here!",
-  "health" : 0,
-  "grass" : true
-}

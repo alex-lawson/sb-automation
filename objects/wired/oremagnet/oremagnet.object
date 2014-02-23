@@ -14,25 +14,25 @@
   "orientations" : [
     {
       "image" : "oremagnet.png:on",
-      "imagePosition" : [0, -8],
+      "imagePosition" : [-16, 0],
 
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ],
+      "anchors" : [ "bottom" ],
       "direction" : "right"
     }
   ],
 
   "scripts" : [ "oremagnet.lua", "/scripts/energy.lua" ],
-  "scriptDelta" : 10,
+  "scriptDelta" : 5,
 
   "animation" : "oremagnet.animation",
   "animationParts" : {
-    "magnet" : "oremagnet.png"
+    "magnet" : "oremagnet.png",
+    "needle" : "needle.png"
   },
-  "animationPosition" : [0, -8],
+  "animationPosition" : [-16, 0],
 
-  "inboundNodes" : [ [0, 0] ],
+  "inboundNodes" : [ [1, 3] ],
 
-  "energyConsumptionRate" : 10,
-  "energyCapacity" : 30
+  "energyCapacity" : 100
 }

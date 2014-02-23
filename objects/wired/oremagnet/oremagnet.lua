@@ -5,7 +5,7 @@ function init(virtual)
     self.oreTypes = {
       copper = true,
       iron = true,
-      silver = true,
+      silverore = true,
       gold = true,
       titanium = true,
       lead = true,
@@ -20,19 +20,21 @@ function init(virtual)
     }
 
     self.cleanupLocs = {}
+    self.nullMod = "grass"
 
-    self.pullInterval = 1.0
+    self.pullInterval = 1
     self.pullTimer = self.pullInterval
 
-    local range = 50
-    local bl = entity.toAbsolutePosition({-range, -range})
-    local tr = entity.toAbsolutePosition({range, range})
-    self.oreLocs = findOres(bl, tr)
-    table.sort(self.oreLocs, compareDistance)
+    self.findInterval = 10
+    self.findTimer = self.findInterval
 
-    --world.logInfo("registered %d ores: %s", #self.oreLocs, self.oreLocs)
+    self.range = 100
+    findOres()
 
-    entity.setInteractive(not entity.isInboundNodeConnected(0))
+    self.energyCost = 100
+
+    self.needleMinPos = math.pi / 2.1
+    self.needleRange = math.pi / 1.16
 
     storage.state = storage.state or false
     checkNodes()
@@ -53,19 +55,23 @@ end
 function main()
   energy.update()
 
-  -- if #self.cleanupLocs > 0 then
-  --   --world.logInfo("cleaning up null mods at %s", self.cleanupLocs)
-  --   world.damageTiles(self.cleanupLocs, "foreground", entity.position(), "blockish", 1)
+  cleanupMods()
 
-  --   self.cleanupLocs = {}
-  -- end
+  if self.findTimer > 0 then
+    self.findTimer = self.findTimer - entity.dt()
+  elseif storage.state then
+    findOres()
+    self.findTimer = self.findInterval
+  end
 
   if self.pullTimer > 0 then
     self.pullTimer = self.pullTimer - entity.dt()
-  elseif self.pullTimer <= 0 and storage.state then
+  elseif storage.state and energy.consumeEnergy(self.energyCost) then
     pullOres()
     self.pullTimer = self.pullInterval
   end
+
+  updateAnimationState()
 end
 
 function onInboundNodeChange(args) 
@@ -85,38 +91,44 @@ function checkNodes()
 end
 
 function updateAnimationState()
-  if storage.state then
-    entity.setAnimationState("magnetState", "on")
-  else
-    entity.setAnimationState("magnetState", "off")
+  if entity.animationState("magnetState") ~= "pulse" then
+    if storage.state then
+      if energy.getEnergy() < energy.getCapacity() then
+        entity.setAnimationState("magnetState", "charge")
+      else
+        entity.setAnimationState("magnetState", "on")
+      end
+    else
+      entity.setAnimationState("magnetState", "off")
+    end
   end
+  setNeedlePos()
 end
 
-function findOres(pos1, pos2)
-  world.logInfo("finding ores in area from %s to %s", pos1, pos2)
+function setNeedlePos()
+  local angle = self.needleMinPos - self.needleRange * ((energy.getEnergy() / energy.getCapacity()) + (math.random() * 0.04))
+  entity.rotateGroup("needle", angle)
+end
 
-  local oreLocs = {}
-  -- local cleanupLocs = {}
+function findOres()
+  local pos1 = entity.toAbsolutePosition({-self.range, -self.range})
+  local pos2 = entity.toAbsolutePosition({self.range, 5})
+
+  -- world.logInfo("finding ores in area from %s to %s", pos1, pos2)
+
+  self.oreLocs = {}
 
   for x=pos1[1], pos2[1] do
     for y=pos1[2], pos2[2] do
       local mod = world.mod({x, y}, "foreground")
       if mod and self.oreTypes[mod] then
         --world.logInfo("found %s at %d, %d", mod, x, y)
-        oreLocs[#oreLocs + 1] = {position={x, y}, mod=mod, active=true}
-      elseif mod == "nullmod" then
-        self.cleanupLocs[#self.cleanupLocs + 1] = {x, y}
+        self.oreLocs[#self.oreLocs + 1] = {position={x, y}, mod=mod, active=true}
       end
     end
   end
 
-  if #self.cleanupLocs > 0 then
-    --world.logInfo("cleaning up null mods at %s", self.cleanupLocs)
-    world.damageTiles(self.cleanupLocs, "foreground", entity.position(), "plantish", 1)
-    self.cleanupLocs = {}
-  end
-
-  return oreLocs
+  table.sort(self.oreLocs, compareDistance)
 end
 
 function compareDistance(a, b)
@@ -129,35 +141,50 @@ function math.round(num, idp)
 end
 
 function pullOres()
+  entity.setAnimationState("magnetState", "pulse")
+
   for i, ore in ipairs(self.oreLocs) do
     if ore.active then
       if world.mod(ore.position, "foreground") == ore.mod then
-        -- find closer space
         local relPos = {ore.position[1] - entity.position()[1], ore.position[2] - entity.position()[2]}
         local magnitude = math.sqrt((relPos[1] ^ 2) + (relPos[2] ^ 2)) * 1.2
-        local jitter  = {math.random() * 0.5 - 0.25, math.random() * 0.5 - 0.25}
+        local jitter  = {math.random() * 0.8 - 0.4, math.random() * 0.8 - 0.4}
         local newPos = {math.round(ore.position[1] - (relPos[1] / magnitude) + jitter[1]), math.round(ore.position[2] - (relPos[2] / magnitude) + jitter[2])}
 
-        if world.material(newPos, "foreground") then
-          local prevMod = world.mod(newPos, "foreground")
-          if not self.oreTypes[prevMod] then
-            if world.placeMod(newPos, "foreground", ore.mod) then
-              if prevMod then
-                world.placeMod(ore.position, "foreground", prevMod)
-              else
-                world.placeMod(ore.position, "foreground", "nullmod")
-                -- world.damageTiles({ore.position}, "foreground", entity.position(), "plantish", 1)
-                -- world.logInfo("adding %s to cleanupLocs", ore.position)
-                -- local oldPos = ore.position
-                -- self.cleanupLocs[#self.cleanupLocs + 1] = oldPos
-              end
-              ore.position = newPos
+        if newPos ~= ore.position and world.material(newPos, "foreground") and not self.oreTypes[world.mod(newPos, "foreground")] then
+          if world.placeMod(newPos, "foreground", ore.mod) then
+            if prevMod then
+              world.placeMod(ore.position, "foreground", prevMod)
+            else
+              markForCleanup(ore.position)
             end
+            ore.position = newPos
           end
         end
       else
         ore.active = false
       end
+    end
+  end
+end
+
+function markForCleanup(pos)
+  world.placeMod(pos, "foreground", self.nullMod)
+  self.cleanupLocs[#self.cleanupLocs + 1] = pos
+end
+
+function cleanupMods()
+  if #self.cleanupLocs > 0 then
+    local finalLocs = {}
+    -- world.logInfo("cleaning up null mods at %s", self.cleanupLocs)
+    for i, pos in ipairs(self.cleanupLocs) do
+      if world.mod(pos, "foreground") == self.nullMod then
+        finalLocs[#finalLocs + 1] = pos
+      end
+    end
+    self.cleanupLocs = {}
+    if #finalLocs > 0 then
+      world.damageTiles(finalLocs, "foreground", entity.position(), "plantish", 0.01)
     end
   end
 end

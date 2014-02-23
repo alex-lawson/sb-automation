@@ -5,7 +5,18 @@
         "default" : "off",
         "states" : {
           "off" : {},
-          "on" : {}
+          "charge" : {
+            "frames" : 2,
+            "cycle" : 1.0,
+            "mode" : "loop"
+          },
+          "on" : {},
+          "pulse" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "transition",
+            "transition" : "off"
+          }
         }
       }
     },
@@ -13,7 +24,8 @@
     "parts" : {
       "magnet" : {
         "properties" : {
-          "centered" : false
+          "centered" : false,
+          "zLevel" : 1
         },
 
         "partStates" : {
@@ -23,14 +35,39 @@
                 "image" : "<partImage>:off"
               }
             },
+            "charge" : {
+              "properties" : {
+                "image" : "<partImage>:charge.<frame>"
+              }
+            },
             "on" : {
               "properties" : {
                 "image" : "<partImage>:on"
               }
+            },
+            "pulse" : {
+              "properties" : {
+                "image" : "<partImage>:pulse.<frame>"
+              }
             }
           }
         }
+      },
+      "needle" : {
+        "properties" : {
+          "centered" : false,
+          "image" : "<partImage>",
+          "offset" : [1.45, 3],
+          "rotationGroup" : "needle",
+          "zLevel" : 2
+        }
       }
+    }
+  },
+  "rotationGroups" : {
+    "needle" : {
+      "rotationCenter" : [1.45, 3],
+      "angularVelocity" : 10
     }
   }
 }
