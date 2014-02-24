@@ -3,12 +3,13 @@ function init(v)
   if not v then
     pipes.init({ itemPipe })
     if storageApi.isInit() then
-      storageApi.init({ mode = 3, capacity = 9, ondeath = 1, merge = true })
+      storageApi.init({ mode = 2, capacity = 9, ondeath = 1, merge = true })
     end
     self.pushRate = entity.configParameter("itemPushRate")
     self.pushTimer = 0
-    if storage.state == nil then setStatus(0)
-    elseif storage.state == 1 then setStatus(2)
+    if storage.active == nil then setActive(true)
+    else setActive(storage.active) end
+    if (storage.state == nil) or (storage.state == 1) then setStatus(2)
     else setStatus(storage.state) end
   end
 end
@@ -23,6 +24,8 @@ end
 
 function setActive(f)
   storage.active = f
+  if f then entity.setAnimationState("workState", "on")
+  else entity.setAnimationState("workState", "off") end
   if self.droneId ~= nil then
     world.callScriptedEntity(self.droneId, "setActive", f)
   end
@@ -70,11 +73,16 @@ function launchDrone()
 end
 
 function onInboundNodeChange(args)
-  -- TODO: Toggle the drone state
+  onNodeConnectionChange()
+end
+
+function onNodeConnectionChange()
+  entity.setInteractive(not entity.isInboundNodeConnected(0))
+  setActive(entity.getInboundNodeLevel(0))
 end
 
 function onInteraction(args)
-  -- TODO: Toggle all
+  setActive(not storage.active)
 end
 
 function main()
@@ -91,7 +99,7 @@ function main()
   end
   self.pushTimer = self.pushTimer + dt
   if (self.droneId ~= nil) and not world.entityExists(self.droneId) then setStatus(2) end
-  if storage.state < 1 then
+  if storage.active and (storage.state < 1) and not storageApi.isFull() then
     local drops = world.itemDropQuery(entity.position(), 20)
     if #drops > 0 then launchDrone() end
   elseif storage.state > 1 then

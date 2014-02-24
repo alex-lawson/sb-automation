@@ -1,0 +1,29 @@
+{
+  "itemName" : "juicecapsule",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/liquid/juicecapsule.png",
+  "image" : "/projectiles/liquid/juicecapsule.png",
+  "shortdescription" : "Juice Capsule",
+  "description" : "A juice box. You should obviously throw it.",
+
+  "ammoUsage" : 1,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "juicecapsule",
+  "projectileConfig" : {
+    "speed" : 45,
+    "power" : 0,
+    "actionOnReap" : [
+      {
+        "action" : "liquid",
+        "quantity" : 3000,
+        "liquidId" : 6
+      }
+    ]
+  
+  }
+}
+

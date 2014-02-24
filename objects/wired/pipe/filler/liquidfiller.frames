@@ -1,0 +1,9 @@
+{
+  "frameGrid" : {
+    "size" : [16, 16],
+    "dimensions" : [4, 1],
+    "names" : [
+      [ "on", "error", "work.1", "work.2" ]
+    ]
+  }
+}

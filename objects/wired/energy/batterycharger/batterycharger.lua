@@ -56,6 +56,10 @@ function onInteraction(args)
   updateAnimationState()
 end
 
+function isBatteryCharger()
+  return true
+end
+
 function battCompare(a, b)
   return a.position[1] < b.position[1]
 end
@@ -69,7 +73,9 @@ function checkBatteries()
   for i, entityId in ipairs(entityIds) do
     local batteryStatus = world.callScriptedEntity(entityId, "getBatteryStatus")
     self.batteries[#self.batteries + 1] = batteryStatus
-    self.totalUnusedCapacity = self.totalUnusedCapacity + batteryStatus.unusedCapacity
+    if batteryStatus.acceptCharge then
+      self.totalUnusedCapacity = self.totalUnusedCapacity + batteryStatus.unusedCapacity
+    end
     self.totalStoredEnergy = self.totalStoredEnergy + batteryStatus.energy
   end
 
@@ -98,9 +104,14 @@ function updateAnimationState()
 end
 
 function onEnergyNeedsCheck(energyNeeds)
-  local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
-  energyNeeds["total"] = energyNeeds["total"] + thisNeed
-  energyNeeds[tostring(entity.id())] = thisNeed
+  if not storage.discharging or not world.callScriptedEntity(energyNeeds.sourceId, "isBatteryCharger") then
+    local thisNeed = math.min(self.batteryChargeAmount, self.totalUnusedCapacity)
+    energyNeeds["total"] = energyNeeds["total"] + thisNeed
+    energyNeeds[tostring(entity.id())] = thisNeed
+  else
+    energyNeeds[tostring(entity.id())] = 0
+  end
+
   return energyNeeds
 end
 
@@ -123,12 +134,14 @@ end
 function chargeBatteries(amount)
   local amountRemaining = amount
   for i, bStatus in ipairs(self.batteries) do
-    local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
-    if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
-      if amountAccepted > 0 then
-        world.callScriptedEntity(bStatus.id, "entity.burstParticleEmitter", "charging")
+    if bStatus.acceptCharge then
+      local amountAccepted = world.callScriptedEntity(bStatus.id, "energy.addEnergy", amountRemaining)
+      if amountAccepted then --this check probably isn't necessary, but just in case a battery explodes or somethin
+        if amountAccepted > 0 then
+          world.callScriptedEntity(bStatus.id, "showChargeEffect")
+        end
+        amountRemaining = amountRemaining - amountAccepted
       end
-      amountRemaining = amountRemaining - amountAccepted
     end
   end
 

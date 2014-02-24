@@ -1,5 +1,6 @@
 function init(virtual)
   if not virtual then
+    entity.setAnimationState("relayState", entity.configParameter("relayType"))
     energy.init()
   end
 end

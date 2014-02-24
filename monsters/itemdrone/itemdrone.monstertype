@@ -64,10 +64,8 @@
     ],
 
     "mouthOffset" : [0, 0],
-    "feetOffset" : [0, -8]
-  },
+    "feetOffset" : [0, -8],
     
-  "scriptConfig" : {
     "collect" : {
       "scanRadius" : 25
     },

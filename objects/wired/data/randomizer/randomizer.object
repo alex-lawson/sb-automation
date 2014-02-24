@@ -1,0 +1,37 @@
+{
+  "objectName" : "randomizer",
+  "objectType" : "wire",
+  "printable" : false,
+  "rarity" : "Common",
+
+  "description" : "Turns on a random output each time the input is turned on.",
+  "shortdescription" : "Randomizer",
+  "race" : "generic",
+
+  "inventoryIcon" : "randomizericon.png",
+  "orientations" : [
+
+    {
+      "image" : "randomizer.png:off",
+      "imagePosition" : [-8, -8],
+
+      "spaces" : [ [0, 0], [0, 1], [1, 0], [0, -1], [-1, 0] ],
+      "bgAnchors" : [ [0, 0] ],
+
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "randomizer.lua" ],
+  "scriptDelta" : 60,
+
+  "animation" : "randomizer.animation",
+
+  "animationParts" : {
+    "randomizer" : "randomizer.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [0, 0] ],
+  "outboundNodes" : [ [0, 1], [1, 0], [0, -1], [-1, 0] ]
+}

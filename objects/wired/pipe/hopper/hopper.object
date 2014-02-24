@@ -16,24 +16,43 @@
   "hylotlDescription" : "Hopper",
 
   "inventoryIcon" : "hopper.png",
+
   "orientations" : [
     {
       "image" : "hopper.png",
-      "imagePosition" : [0, 0],
-
+      "collision" : "solid",
       "spaceScan" : 0.1,
-      "anchors" : [ "background" ],
-
-      "collision" : "solid"
+      "anchors" : [ "background" ]
     },
     {
       "image" : "hopper.png",
-      "imagePosition" : [0, 0],
-
+      "collision" : "solid",
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ],
-
-      "collision" : "solid"
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "hopper.png",
+      "collision" : "solid",
+      "spaceScan" : 0.1,
+      "fgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "hopper.png",
+      "collision" : "solid",
+      "spaceScan" : 0.1,
+      "fgAnchors" : [ [1, -1] ]
+    },
+    {
+      "image" : "hopper.png",
+      "collision" : "solid",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "hopper.png",
+      "collision" : "solid",
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, -1] ]
     }
   ],
   

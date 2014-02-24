@@ -56,7 +56,9 @@ function onInteraction(args)
 end
 
 function onNodeConnectionChange()
-  datawire.onNodeConnectionChange()
+  if datawire then
+    datawire.onNodeConnectionChange()
+  end
 end
 
 function onInboundNodeChange(args)
@@ -86,6 +88,9 @@ function main()
   end
   if (storage.dataID == nil or (storage.dataID ~= nil and not world.entityExists(storage.dataID))) then
     updateMagnetData()
+  end
+  if datawire then
+    datawire.update()
   end
   
   local charge = storage.charge

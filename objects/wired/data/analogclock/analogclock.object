@@ -1,0 +1,38 @@
+{
+  "objectName" : "analogclock",
+  "rarity" : "Rare",
+  "objectType" : "wire",
+  "description" : "Displays planetary day/night and outputs during the day",
+  "shortdescription" : "Analog Clock",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 1,
+  "printable" : false,
+
+  "inventoryIcon" : "clock.png:default",
+  "orientations" : [
+    {
+      "image" : "clock.png:default",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "analogclock.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "clock.animation",
+
+  "animationParts" : {
+    "clock" : "clock.png",
+    "hand" : "hand.png"
+  },
+  "animationPosition" : [8, 8],
+  
+  "outboundNodes" : [
+    [0, 0]
+  ]
+}

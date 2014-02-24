@@ -8,15 +8,14 @@ end
 function stationState.update(dt, sd)
   moveTo(sd.pos, dt)
   local pos = entity.position()
-  if world.magnitude(pos, sd.pos) < 0.5 then
+  if world.magnitude(pos, sd.pos) < 0.25 then
     for i,v in storageApi.getIterator() do
       local item = storageApi.returnItem(i)
-      local res = world.callScriptedEntity(self.stationId, "storeItemFit", item.name, item.count, item.data)
+      local res = world.callScriptedEntity(self.stationId, "storageApi.storeItemFit", item.name, item.count, item.data)
       if res < item.count then
         storageApi.storeItem(item.name, item.count - res, item.data) 
       end
-      storageApi.dropAll()
-      world.callScriptedEntity(self.stationId, "droneLand")
+      world.callScriptedEntity(self.stationId, "droneLand", entity.id())
     end
     return true
   end

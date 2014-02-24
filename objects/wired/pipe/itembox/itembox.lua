@@ -31,22 +31,6 @@ function die()
   end
 end
 
-function onInboundNodeChange(args)
-  if args.level then
-    for node=0,1 do
-      if entity.getInboundNodeLevel(node) then
-        for i,item in storageApi.getIterator() do
-          --world.logInfo("%s", args.node)
-          local result = pushItem(node+1, item)
-          if result == true then storageApi.returnItem(i) end --Whole stack was accepted
-          if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
-          if result then break end
-        end
-      end
-    end
-  end
-end
-
 function onInteraction(args)
   local count = storageApi.getCount()
   local capacity = storageApi.getCapacity()
@@ -80,30 +64,34 @@ function main(args)
   
   --Push out items if switched on
   if self.pushTimer > self.pushRate then
-    for node=0,1 do
-      if entity.getInboundNodeLevel(node) then
-        for i,item in storageApi.getIterator() do
-          local result = pushItem(node+1, item)
-          if result == true then storageApi.returnItem(i) end --Whole stack was accepted
-          if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
-          if result then break end
-        end
-      end
-    end
+    pushItems()
     self.pushTimer = 0
   end
   self.pushTimer = self.pushTimer + entity.dt()
 end
 
+function pushItems()
+  for node = 0, 1 do
+    if entity.getInboundNodeLevel(node) then
+      for i, item in storageApi.getIterator() do
+        local result = pushItem(node+1, item)
+        if result == true then storageApi.returnItem(i) end --Whole stack was accepted
+        if result and result ~= true then item.count = item.count - result end --Only part of the stack was accepted
+        if result then break end
+      end
+    end
+  end
+end
+
 function onItemPut(item, nodeId)
-  if item then
+  if item and not entity.getInboundNodeLevel(nodeId - 1) then
     return storageApi.storeItem(item.name, item.count, item.data)
   end
   return false
 end
 
 function beforeItemPut(item, nodeId)
-  if item then
+  if item and not entity.getInboundNodeLevel(nodeId - 1) then
     return not storageApi.isFull() --TODO: Make this use the future function for fitting in a stack of items
   end
   return false

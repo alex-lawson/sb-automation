@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "laserdiode", "count" : 4 },
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "randomizer",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "logic" ]
+}

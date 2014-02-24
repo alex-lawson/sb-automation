@@ -2,14 +2,14 @@
   "objectName" : "gravityelevator",
   "objectType" : "wire",
   "rarity" : "Common",
-  "description" : "A simple energy gravityelevator.",
+  "description" : "Allows gentle vertical ascent and descent.",
   "shortdescription" : "Gravity Elevator",
   "race" : "generic",
   "category" : "wire",
   "price" : 1000,
   "printable" : false,
 
-  "inventoryIcon" : "gravityelevatoricon.png",
+  "inventoryIcon" : "gravityelevator.png:default.bottom",
 
   "orientations" : [
     {

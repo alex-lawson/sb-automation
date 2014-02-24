@@ -9,6 +9,7 @@
   "printable" : false,
   
   "breakDropOptions": [],
+  "sitPosition" : [7, 22],
 
   "inventoryIcon" : "submersiontankicon.png",
   "orientations" : [
@@ -28,9 +29,9 @@
   "animationParts" : {
     "fore" : "submersiontank.png",
     "back" : "submersiontank.png",
-    "liquid" : "submersiontankbar.png"
+    "liquid" : "submersiontank_bar.png"
   },
-  "animationPosition" : [16, 20],
+  "animationPosition" : [16,31],
   
   "scripts" : [
     "submersiontank.lua",

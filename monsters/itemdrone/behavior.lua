@@ -1,6 +1,6 @@
 function init()
   entity.setDeathParticleBurst("deathPoof")
-  entity.setAnimationState("movement", "flying")
+  entity.setAnimationState("movement", "fly")
   if storageApi.isInit() then
     storageApi.init({ mode = 1, capacity = 4, join = true, ondeath = 1 })
   end
@@ -12,7 +12,7 @@ function init()
   if storage.active == nil then storage.active = true end
   if (self.stationId == nil) or not world.entityExists(self.stationId) then
     local ids = world.objectQuery(storage.stationPos, 1, { name = "dronestation", callScript = "droneRegister", callScriptArgs = { entity.id() } })
-    for _,v in ids do
+    for _,v in pairs(ids) do
       self.stationId = v
       break
     end
@@ -29,12 +29,12 @@ function die()
 end
 
 function onLanding()
+  entity.setDeathParticleBurst(nil)
   self.dead = true
-  return storageApi.returnContents()
 end
 
 function shouldDie()
-  return dead or not world.entityExists(self.stationId or -1)
+  return self.dead or not world.entityExists(self.stationId or -1)
 end
 
 function moveTo(pos, dt)

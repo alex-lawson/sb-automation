@@ -46,7 +46,6 @@ function spawnMannequin()
     if not storage.mannequin.id then
         storage.mannequin.npcSpecies = entity.randomizeParameter("mannequin.npcSpeciesOptions")
         storage.mannequin.npcParameter = entity.configParameter("mannequin.npcParameter")
-        storage.mannequin.npcParameter.levelVariance = {1,1}
 
         storage.mannequin.direction = entity.direction()
         storage.mannequin.objectId = entity.id()

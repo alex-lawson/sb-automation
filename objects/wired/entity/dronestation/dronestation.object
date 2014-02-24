@@ -8,10 +8,10 @@
   "category" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "dronestation.png",
+  "inventoryIcon" : "dronestation.png:off.1",
   "orientations" : [
     {
-      "dualImage" : "dronestation.png",
+      "dualImage" : "dronestation.png:off.1",
 
       "imagePosition" : [-8, 0],
       "frames" : 1,
@@ -22,7 +22,7 @@
     }
   ],
   
-  "animation" : "/objects/wired/pipe/itembox/dronestation.animation",
+  "animation" : "/objects/wired/entity/dronestation/dronestation.animation",
   "animationParts" : {
     "box" : "dronestation.png",
     "drone" : "drone.png"

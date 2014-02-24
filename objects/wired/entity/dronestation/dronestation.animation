@@ -12,6 +12,22 @@
             "frames" : 1
           }
         }
+      },
+      "workState" : {
+        "priority" : 1,
+        "default" : "on",
+        "states" : {
+          "on" : {
+            "frames" : 2,
+            "cycle" : 0.25,
+            "mode" : "loop"
+          },
+          "off" : {
+            "frames" : 2,
+            "cycle" : 0.25,
+            "mode" : "loop"
+          }
+        }
       }
     },
     "parts" : {
@@ -19,8 +35,21 @@
         "properties" : {
           "offset" : [0, 0],
           "centered" : true,
-          "zLevel" : 1,
-          "image" : "<partImage>"
+          "zLevel" : 1
+        },
+        "partStates" : {
+          "workState" : {
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off.<frame>"
+              }
+            }
+          }
         }
       },
       "drone" : {

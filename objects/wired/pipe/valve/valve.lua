@@ -57,19 +57,19 @@ function updateAnimationState()
   end
 end
 
-function beforeLiquidGet(liquid, nodeId)
+function beforeLiquidGet(filter, nodeId)
   if storage.state then
     --world.logInfo("passing liquid peek get from %s to %s", nodeId, self.connectionMap[nodeId])
-    return peekPullLiquid(self.connectionMap[nodeId], liquid)
+    return peekPullLiquid(self.connectionMap[nodeId], filter)
   else
     return false
   end
 end
 
-function onLiquidGet(liquid, nodeId)
+function onLiquidGet(filter, nodeId)
   if storage.state then
     --world.logInfo("passing liquid get from %s to %s", nodeId, self.connectionMap[nodeId])
-    return pullLiquid(self.connectionMap[nodeId], liquid)
+    return pullLiquid(self.connectionMap[nodeId], filter)
   else
     return false
   end

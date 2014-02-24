@@ -5,6 +5,8 @@ function init(virtual)
     pipes.init({itemPipe})
     
     self.conversions = {}
+    self.conversions["sand"] = {3, 1, "glassmaterial"}
+    self.conversions["sand2"] = {3, 1, "glassmaterial"}
     self.conversions["fullwood1"] = {10, 1, "coalore"}
     self.conversions["copperore"] = {2, 1, "copperbar"}
     self.conversions["ironore"] = {2, 1, "ironbar"}
@@ -60,11 +62,11 @@ function main()
   datawire.update()
   pipes.update(entity.dt())
 
-  if storage.ore.name == nil or storage.ore.count <= 0 then
+  if storage.state and (storage.ore.name == nil or storage.ore.count <= 0) then
     pullOre()
   end
   
-  if storage.ore.name and storage.state and  energy.consumeEnergy() then
+  if storage.ore.name and storage.state and energy.consumeEnergy() then
     local oreConversion = self.conversions[storage.ore.name]
     local bar = {name = oreConversion[3], count = oreConversion[2], data = {}}
     
@@ -91,7 +93,6 @@ function main()
   
 end
 
---TODO: Change this to only grab the ore it needs
 function pullOre() 
   storage.ore = {}
   local pullFilter = {}
@@ -104,19 +105,19 @@ function pullOre()
   end
 end
 
---TODO: Change this to only accept the ore it needs
 function onItemPut(item, nodeId) 
   if item and nodeId == 1 and storage.ore.name == nil then
-    for ore,conversion in pairs(self.conversions) do
-      if ore == item.name then
-        if item.count <= conversion[1] then
-          storage.ore = item
-          return true --used whole stack
-        else
-          item.count = conversion[1]
-          storage.ore = item
-          return conversion[1] --return amount used
-        end
+    if self.conversions[item.name] then
+      local conversion = self.conversions[item.name]
+      if item.count < conversion[1] then
+        return false
+      elseif item.count == conversion[1] then
+        storage.ore = item
+        return true --used whole stack
+      else
+        item.count = conversion[1]
+        storage.ore = item
+        return conversion[1] --return amount used
       end
     end
   end

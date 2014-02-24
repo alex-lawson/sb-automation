@@ -24,6 +24,8 @@ function init(args)
     self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 1400}
     --Tar
     self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 1400}
+    --Tentacle Juice
+    self.conversions["fleshblock"] = {liquid = 6, material = "fleshblock", input = 20, output = 1400}
     
     
     self.damageRate = entity.configParameter("damageRate")

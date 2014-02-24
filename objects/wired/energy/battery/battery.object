@@ -25,7 +25,7 @@
   ],
 
   "scripts" : [ "/scripts/energy.lua", "battery.lua" ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 10,
 
   "animation" : "battery.animation",
   "animationParts" : {
@@ -35,6 +35,6 @@
   },
   "animationPosition" : [0, 0],
 
-  "energyCapacity" : 500,
+  "energyCapacity" : 1000,
   "energyAllowConnection" : false
 }

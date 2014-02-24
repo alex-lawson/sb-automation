@@ -1,6 +1,13 @@
 {
   "animatedParts" : {
     "stateTypes" : {
+      "orientState" : {
+        "default" : "down",
+        "states" : {
+          "up" : {},
+          "down" : {}
+        }
+      },
       "lavaState" : {
         "default" : "off",
         "states" : {
@@ -17,8 +24,21 @@
       "generator" : {
         "properties" : {
           "centered" : false,
-          "image" : "<partImage>",
           "zLevel" : 1
+        },
+        "partStates" : {
+          "orientState" : {
+            "up" : {
+              "properties" : {
+                "image" : "<partImage>:up"
+              }
+            },
+            "down" : {
+              "properties" : {
+                "image" : "<partImage>:down"
+              }
+            }
+          }
         }
       },
       "lavabar" : {

@@ -78,6 +78,8 @@ function pipes.init(pipeTypes)
     pipes.nodes[pipeName] = entity.configParameter(pipeType.nodesConfigParameter)
     pipes.nodeEntities[pipeName] = {}
   end
+
+  pipes.rejectNode = {}
 end
 
 --- Push, calls the put hook on the closest connected object that returns true
@@ -86,9 +88,11 @@ end
 -- @param args - The arguments to send to the put hook
 -- @returns Hook return if successful, false if unsuccessful
 function pipes.push(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 and not pipes.rejectNode[nodeId] then
     for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
+      pipes.rejectNode[nodeId] = true
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.put, args, entity.nodeId)
+      pipes.rejectNode[nodeId] = false
       if entityReturn then return entityReturn end
     end
   end
@@ -101,9 +105,11 @@ end
 -- @param args - The arguments to send to the hook
 -- @returns Hook return if successful, false if unsuccessful
 function pipes.pull(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 and not pipes.rejectNode[nodeId] then
     for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
+      pipes.rejectNode[nodeId] = true
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.get, args, entity.nodeId)
+      pipes.rejectNode[nodeId] = false
       if entityReturn then return entityReturn end
     end
   end
@@ -116,9 +122,11 @@ end
 -- @param args - The arguments to send to the hook
 -- @returns Hook return if successful, false if unsuccessful
 function pipes.peekPush(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 and not pipes.rejectNode[nodeId] then
     for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
+      pipes.rejectNode[nodeId] = true
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekPut, args, entity.nodeId)
+      pipes.rejectNode[nodeId] = false
       if entityReturn then return entityReturn end
     end
   end
@@ -131,9 +139,11 @@ end
 -- @param args - The arguments to send to the hook
 -- @returns Hook return if successful, false if unsuccessful
 function pipes.peekPull(pipeName, nodeId, args)
-  if #pipes.nodeEntities[pipeName][nodeId] > 0 then
+  if #pipes.nodeEntities[pipeName][nodeId] > 0 and not pipes.rejectNode[nodeId] then
     for i,entity in ipairs(pipes.nodeEntities[pipeName][nodeId]) do
+      pipes.rejectNode[nodeId] = true
       local entityReturn = world.callScriptedEntity(entity.id, pipes.types[pipeName].hooks.peekGet, args, entity.nodeId)
+      pipes.rejectNode[nodeId] = false
       if entityReturn then return entityReturn end
     end
   end
