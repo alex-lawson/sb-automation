@@ -11,8 +11,8 @@
   "inventoryIcon" : "dronestation.png:off.1",
   "orientations" : [
     {
-      "dualImage" : "dronestation.png:off.1",
-
+      "image" : "dronestation.png:off.1",
+      "direction" : "left",
       "imagePosition" : [-8, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
@@ -27,7 +27,7 @@
     "box" : "dronestation.png",
     "drone" : "drone.png"
   },
-  "animationPosition" : [-8, 0],
+  "animationPosition" : [0, 8],
   
   "scripts" : [
     "/objects/wired/entity/dronestation/dronestation.lua",

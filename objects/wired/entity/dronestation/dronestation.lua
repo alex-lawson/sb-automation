@@ -67,7 +67,7 @@ end
 
 function launchDrone()
   if self.droneId == nil then
-    self.droneId = world.spawnMonster("itemdrone", entity.position(), { stationPos = entity.position() })
+    self.droneId = world.spawnMonster("itemdrone", getLandingPos(), { stationPos = entity.position() })
     setStatus(1)
   end
 end

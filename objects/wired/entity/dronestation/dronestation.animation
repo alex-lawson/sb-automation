@@ -19,12 +19,12 @@
         "states" : {
           "on" : {
             "frames" : 2,
-            "cycle" : 0.25,
+            "cycle" : 1,
             "mode" : "loop"
           },
           "off" : {
             "frames" : 2,
-            "cycle" : 0.25,
+            "cycle" : 1,
             "mode" : "loop"
           }
         }
@@ -54,7 +54,7 @@
       },
       "drone" : {
         "properties" : {
-          "offset" : [0, 16],
+          "offset" : [0, 2],
           "centered" : true,
           "zLevel" : 1
         },

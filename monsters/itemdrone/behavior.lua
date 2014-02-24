@@ -2,7 +2,7 @@ function init()
   entity.setDeathParticleBurst("deathPoof")
   entity.setAnimationState("movement", "fly")
   if storageApi.isInit() then
-    storageApi.init({ mode = 1, capacity = 4, join = true, ondeath = 1 })
+    storageApi.init({ mode = 1, capacity = 4, merge = true, ondeath = 1 })
   end
   local states = stateMachine.scanScripts(entity.configParameter("scripts"), "(%a+State)%.lua")
   self.state = stateMachine.create(states)

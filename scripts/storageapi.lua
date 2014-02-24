@@ -33,7 +33,7 @@ storageApi = {}
 -- @param args [optional] (table) Override config parameters
 --      -mode: (int) Should other entities access this storage: 0 not, 1 store in, 2 take from, 3 both
 --      -capacity: (int) Maximum amount of item stacks, up to 999
---      -join: (boolean) Should the storage merge stacks if possible?
+--      -merge: (boolean) Should the storage merge stacks if possible?
 --      -content: (table) table of items to prefill the object
 --      -dropPosition: (vec2f) position to drop items
 --      -ondeath: (int) Should object 0 do nothing, 1 drop items or 2 store items on death
@@ -235,13 +235,11 @@ end
 -- @param itemname (string) The item name
 -- @param count (int) The amount of item to store
 -- @param properties [optional] (table) The properties table of the item
--- @return (int) The amount of item that was actually stored
+-- @return (int) The amount of item that was left
 function storageApi.storeItemFit(itemname, count, data)
-    local ret = 0
     local max = storageApi.getMaxStackSize(itemname)
     while (count > max) and not storageApi.isFull() do
         storageApi.storeItem(itemname, max, data)
-        ret = ret + max
         count = count - max
     end
     for i,v in storageApi.getIterator() do
@@ -252,7 +250,8 @@ function storageApi.storeItemFit(itemname, count, data)
             count = count + v.count - amo
         end
     end
-    return ret
+    if (count > 0) and storageApi.storeItem(itemname, count, data) then return 0 end
+    return count
 end
 
 --- Drops an item from storage
