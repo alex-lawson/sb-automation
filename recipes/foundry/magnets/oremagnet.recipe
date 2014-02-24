@@ -1,0 +1,11 @@
+{
+  "input" : [
+    { "item" : "magnetcore", "count" : 10 },
+    { "item" : "energycrystal", "count" : 1 },
+    { "item" : "laserdiode", "count" : 1 },
+    { "item" : "steelbar", "count" : 10 },
+    { "item" : "money", "count" : 1000 }
+  ],
+  "output" : { "item" : "oremagnet", "count" : 1 },
+  "groups" : [ "foundry", "all", "magnets", "misc" ]
+}
