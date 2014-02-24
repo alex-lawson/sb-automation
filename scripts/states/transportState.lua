@@ -23,7 +23,7 @@ function transportState.update(dt, stateData)
   if pos == nil then return true end
   moveTo(pos, dt)
   local epos = entity.position()
-  if (math.abs(epos[1] - pos[1])) < 3 and (world.magnitude(entity.position(), pos) < 6) then
+  if (math.abs(epos[1] - pos[1])) < 3 and (world.magnitude(epos, pos) < 6) then
     local ids = storageApi.getStorageIndices()
     for i,ix in pairs(ids) do
       local item = storageApi.returnItem(ix)

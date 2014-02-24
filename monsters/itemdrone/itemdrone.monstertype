@@ -5,7 +5,6 @@
   "parts" : [ "drone" ],
 
   "animation" : "itemdrone.animation",
-  "projectiles" : "/monsters/itemdrone/projectiles.config",
   "colors" : "/monsters/colors.config",
   "reversed" : true,
 
@@ -14,8 +13,12 @@
   "baseParameters" : {
     "scripts" : [
       "/monsters/itemdrone/behavior.lua",
+      "/scripts/states/collectState.lua",
+      "/scripts/states/stationState.lua",
       "/scripts/util.lua",
-      "/scripts/vec2.lua"
+      "/scripts/vec2.lua",
+      "/scripts/storageapi.lua",
+      "/scripts/statemachine.lua"
     ],
 
     "scriptDelta" : 5,
@@ -47,17 +50,8 @@
     "deathNoise" : [ ],
     "turnHostileNoise" : [ ],
 
-    "touchDamage" : {
-      "poly" : [ [-1.0, -1.0], [1.0, -1.0], [1.0, 1.0], [-1.0, 1.0] ],
-      "damage" : 15,
-
-      "teamType" : "enemy",
-      "damageSourceKind" : "default",
-      "statusEffects" : [ ]
-    },
-
     "statusParameters" : {
-      "baseMaxHealth" : 12,
+      "baseMaxHealth" : 20,
       "bodyMaterialKind" : "robotic",
       "damageConfig" : "/monsters/itemdrone/damage.config"
     },
@@ -70,6 +64,15 @@
     ],
 
     "mouthOffset" : [0, 0],
-    "feetOffset" : [0, -8]
+    "feetOffset" : [0, -8],
+    
+    "collect" : {
+      "scanRadius" : 25
+    },
+    "storageapi" : {
+      "merge" : true,
+      "capacity" : 4,
+      "mode" : 1
+    }
   }
 }
