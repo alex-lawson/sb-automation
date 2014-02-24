@@ -1,0 +1,12 @@
+{
+  "input" : [
+    { "item" : "liquidpump", "count" : 1 },
+    { "item" : "circuitboard", "count" : 1 },
+    { "item" : "steelbar", "count" : 6 }
+  ],
+  "output" : {
+    "item" : "liquidfiller",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}
