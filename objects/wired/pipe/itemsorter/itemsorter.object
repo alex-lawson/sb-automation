@@ -1,0 +1,83 @@
+{
+  "objectName" : "itemsorter",
+  "rarity" : "Common",
+  "objectType" : "container",
+  "description" : "Allows you to direct the sweet flow of items",
+  "shortdescription" : "Item Sorter Pipe",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "itemsortericon.png",
+  "orientations" : [
+    {
+      "image" : "itemsorter.png:on",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
+    }
+  ],
+
+  "slotCount" : 16,
+  "uiConfig" : "/interface/chests/sorter16.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
+  "scripts" : [
+    "/objects/wired/pipe/itemsorter/itemsorter.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/itemsorter/itemsorter.animation",
+  "animationParts" : {
+    "pipe" : "itemsorter.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "liquidNodes" : [
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, 1]},
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]}
+  ],
+  "itemNodes" : [
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, 1]},
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]}
+  ]
+}
