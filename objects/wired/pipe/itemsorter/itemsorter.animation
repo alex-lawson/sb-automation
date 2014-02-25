@@ -1,0 +1,90 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "filterState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {},
+          "pass.right" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          },
+          "pass.up" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          },
+          "pass.left" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          },
+          "pass.down" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          },
+          "fail" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "on"
+          }
+        }
+      }
+    },
+    "parts" : {
+      "pipe" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : false
+        },
+        "partStates" : {
+          "filterState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            },
+            "pass.right" : {
+              "properties" : {
+                "image" : "<partImage>:pass.right"
+              }
+            },
+            "pass.up" : {
+              "properties" : {
+                "image" : "<partImage>:pass.up"
+              }
+            },
+            "pass.left" : {
+              "properties" : {
+                "image" : "<partImage>:pass.left"
+              }
+            },
+            "pass.down" : {
+              "properties" : {
+                "image" : "<partImage>:pass.down"
+              }
+            },
+            "fail" : {
+              "properties" : {
+                "image" : "<partImage>:fail"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
