@@ -4,23 +4,10 @@ function init(virtual)
     datawire.init()
     pipes.init({itemPipe})
     
-    self.conversions = {}
-    self.conversions["sand"] = {3, 1, "glassmaterial"}
-    self.conversions["sand2"] = {3, 1, "glassmaterial"}
-    self.conversions["fullwood1"] = {10, 1, "coalore"}
-    self.conversions["copperore"] = {2, 1, "copperbar"}
-    self.conversions["ironore"] = {2, 1, "ironbar"}
-    self.conversions["silverore"] = {2, 1, "silverbar"}
-    self.conversions["goldore"] = {2, 1, "goldbar"}
-    self.conversions["diamondore"] = {4, 1, "diamond"}
-    self.conversions["platinumore"] = {2, 1, "platinumbar"}
-    self.conversions["titaniumore"] = {2, 1, "titaniumbar"}
-    self.conversions["aegisaltore"] = {2, 1, "aegisaltbar"}
-    self.conversions["Rubiumore"] = {2, 1, "Rubiumbar"}
-    self.conversions["Ceruliumore"] = {2, 1, "Ceruliumbar"}
-    
     if storage.ore == nil then storage.ore = {} end
     if storage.state == nil then storage.state = false end
+
+    self.conversions = entity.configParameter("smeltRecipes")
     
     self.smeltRate = entity.configParameter("smeltRate")
     self.smeltTimer = 0
