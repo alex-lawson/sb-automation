@@ -10,13 +10,6 @@
   "shortdescription" : "Mannequin",
   "race" : "generic",
 
-  "apexDescription" : "todo",
-  "avianDescription" : "todo",
-  "floranDescription" : "todo",
-  "glitchDescription" : "todo",
-  "humanDescription" : "todo",
-  "hylotlDescription" : "todo",
-
     "inventoryIcon" : "mannequinicon.png",
     "orientations" : [
         {
@@ -41,10 +34,8 @@
 
   "mannequin" : {
     "npcSpeciesOptions" : ["dummy"],
-    "npcParameter" : [
-      {
-        "dropPools" : [ ]
-      }
-    ]
+    "npcParameter" : {
+      "dropPools" : [ ]
+    }
   }
 }

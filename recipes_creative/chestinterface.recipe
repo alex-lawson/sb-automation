@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "chestinterface",
+    "count" : 1
+  },
+  "groups" : [ "mod" ]
+}
