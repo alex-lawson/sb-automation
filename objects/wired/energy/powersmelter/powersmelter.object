@@ -60,7 +60,7 @@
     "solariumore" : [2, 1, "solariumrod"],
     "sand" : [3, 1, "glassmaterial"],
     "sand2" : [3, 1, "glassmaterial"],
-    "fullwood1" : [10, 1, "coalore"],
+    "fullwood1" : [10, 1, "coalore"]
   },
   "smeltRate" : 0.5
 }
