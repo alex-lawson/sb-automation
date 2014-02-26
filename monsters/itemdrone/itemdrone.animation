@@ -12,7 +12,7 @@
           },
           "start" : {
             "frames" : 4,
-            "cycle" : 0.25,
+            "cycle" : 0.33,
             "mode" : "loop"
           },
           "idle" : {

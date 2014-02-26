@@ -1,12 +1,14 @@
 function init(v)
   entity.setInteractive(true)
   if not v then
+    energy.init()
     pipes.init({ itemPipe })
     if storageApi.isInit() then
       storageApi.init({ mode = 2, capacity = 9, ondeath = 1, merge = true })
     end
     self.pushRate = entity.configParameter("itemPushRate")
     self.pushTimer = 0
+    if storage.power == nil then storage.power = 0 end
     if storage.active == nil then setActive(true)
     else setActive(storage.active) end
     if (storage.state == nil) or (storage.state == 1) then setStatus(2)
@@ -16,6 +18,8 @@ end
 
 function die()
   storageApi.die()
+  energy.die()
+  
 end
 
 function getLandingPos()
@@ -60,15 +64,23 @@ end
 
 function droneLand(eId)
   if self.droneId == eId then
-    world.callScriptedEntity(eId, "onLanding")
+    local fuel = world.callScriptedEntity(eId, "onLanding")
+    world.logInfo("drone returned " .. fuel .. " fuel")
+    storage.power = storage.power + fuel
     setStatus(0)
   end
 end
 
 function launchDrone()
   if self.droneId == nil then
-    self.droneId = world.spawnMonster("itemdrone", getLandingPos(), { stationPos = entity.position() })
-    setStatus(1)
+    if (storage.power < 50) and energy.consumeEnergy(50 - storage.power) then
+      storage.power = 50
+    end
+    if storage.power >= 50 then
+      storage.power = storage.power - 50
+      self.droneId = world.spawnMonster("itemdrone", getLandingPos(), { stationPos = entity.position() })
+      setStatus(1)
+    end
   end
 end
 
@@ -88,6 +100,7 @@ end
 function main()
   local dt = entity.dt()
   pipes.update(dt)
+  energy.update()
   if self.pushTimer > self.pushRate then
     for i,item in storageApi.getIterator() do
       local result = pushItem(1, item)

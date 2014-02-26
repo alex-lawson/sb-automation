@@ -1,6 +1,6 @@
 function init()
   entity.setDeathParticleBurst("deathPoof")
-  entity.setAnimationState("movement", "fly")
+  entity.setAnimationState("movement", "start")
   if storageApi.isInit() then
     storageApi.init({ mode = 1, capacity = 4, merge = true, ondeath = 1 })
   end
@@ -17,6 +17,8 @@ function init()
       break
     end
   end
+  self.start = 2
+  storage.fuel = 50
 end
 
 function setActive(flag)
@@ -29,8 +31,10 @@ function die()
 end
 
 function onLanding()
+  entity.setAnimationState("movement", "start")
   entity.setDeathParticleBurst(nil)
   self.dead = true
+  return storage.fuel
 end
 
 function shouldDie()
@@ -44,6 +48,15 @@ end
 function main()
   if not self.dead then
     if not world.entityExists(self.stationId or -1) then self.dead = true
-    else self.state.update(entity.dt()) end
+    else if self.start > 0 then
+      self.start = self.start - entity.dt()
+      if self.start <= 0 then
+        entity.setAnimationState("movement", "fly")
+      end
+    else
+      local dt = entity.dt()
+      storage.fuel = storage.fuel - dt * 2.5
+      self.state.update(dt)
+    end
   end
 end
