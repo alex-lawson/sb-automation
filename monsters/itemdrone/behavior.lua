@@ -42,14 +42,18 @@ function shouldDie()
 end
 
 function moveTo(pos, dt)
+  local x = entity.position()[1]
   entity.flyTo(pos, true)
+  if (math.abs(x - pos[1]) > 0.1) and (math.abs(entity.position()[1] - x) <= 0.1) then
+    entity.fly({ 0, 0.25 })
+  end
 end
 
 function main()
   if not self.dead then
     if not world.entityExists(self.stationId or -1) then self.dead = true
     elseif self.start > 0 then
-      entity.fly({ 0, 0.2 })
+      entity.fly({ 0, 0.15 })
       self.start = self.start - entity.dt()
       if self.start <= 0 then
         entity.setAnimationState("movement", "fly")

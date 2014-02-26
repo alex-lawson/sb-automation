@@ -52,13 +52,13 @@ function storageApi.init(args)
 end
 
 --- Should the storage be initialized?
--- @return True if storage should be initialized
+-- @return (bool) True if storage should be initialized
 function storageApi.isInit()
     return storageApi.capacity == nil
 end
 
 --- Sets storage contents and returns previous contents
--- @param itemArray an array of item structures (name, count, params)
+-- @param itemArray (table) An array of item structures (name, count, params)
 function storageApi.setContents(itemArray)
     local ret = storage.sApi
     storage.sApi = itemArray
