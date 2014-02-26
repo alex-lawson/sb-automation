@@ -12,8 +12,8 @@
   "orientations" : [
     {
       "image" : "dronestation.png:off.1",
-      "direction" : "left",
-      "imagePosition" : [-12, 0],
+      "direction" : "right",
+      "imagePosition" : [-8, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
@@ -27,7 +27,7 @@
     "box" : "dronestation.png",
     "drone" : "drone.png"
   },
-  "animationPosition" : [0, 8],
+  "animationPosition" : [4, 8],
   
   "scripts" : [
     "/objects/wired/entity/dronestation/dronestation.lua",

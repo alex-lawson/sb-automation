@@ -23,7 +23,7 @@ function die()
 end
 
 function getLandingPos()
-  return entity.toAbsolutePosition({ -0.5, 3 })
+  return entity.toAbsolutePosition({ 0.5, 3 })
 end
 
 function setActive(f)
@@ -65,7 +65,6 @@ end
 function droneLand(eId)
   if self.droneId == eId then
     local fuel = world.callScriptedEntity(eId, "onLanding")
-    world.logInfo("drone returned " .. fuel .. " fuel")
     storage.power = storage.power + fuel
     setStatus(0)
   end

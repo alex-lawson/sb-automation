@@ -18,7 +18,7 @@ function init()
     end
   end
   self.start = 2
-  storage.fuel = 50
+  if storage.fuel == nil then storage.fuel = 50 end
 end
 
 function setActive(flag)
@@ -48,14 +48,15 @@ end
 function main()
   if not self.dead then
     if not world.entityExists(self.stationId or -1) then self.dead = true
-    else if self.start > 0 then
+    elseif self.start > 0 then
+      entity.fly({ 0, 0.2 })
       self.start = self.start - entity.dt()
       if self.start <= 0 then
         entity.setAnimationState("movement", "fly")
       end
     else
       local dt = entity.dt()
-      storage.fuel = storage.fuel - dt * 2.5
+      if storage.fuel > 0 then storage.fuel = storage.fuel - dt * 2 end
       self.state.update(dt)
     end
   end
