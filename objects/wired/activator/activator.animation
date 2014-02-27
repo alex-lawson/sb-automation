@@ -16,7 +16,7 @@
     },
 
     "parts" : {
-      "clicker" : {
+      "activator" : {
         "properties" : {
           "image" : "<partImage>",
           "centered" : false

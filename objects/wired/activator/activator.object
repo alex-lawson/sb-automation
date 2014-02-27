@@ -1,12 +1,12 @@
 {
-  "objectName" : "clicker",
+  "objectName" : "activator",
   "objectType" : "wire",
   "printable" : false,
   "rarity" : "Common",
   "price" : 300,
 
-  "description" : "Interacts with nearby objects when it receives a signal.",
-  "shortdescription" : "Clicker",
+  "description" : "Interacts with scripted objects at the target position when it receives a signal.",
+  "shortdescription" : "Activator",
   "race" : "generic",
 
 
@@ -23,13 +23,13 @@
     }
   ],
 
-  "scripts" : [ "clicker.lua" ],
+  "scripts" : [ "activator.lua" ],
   "scriptDelta" : 30,
 
-  "animation" : "clicker.animation",
+  "animation" : "activator.animation",
 
   "animationParts" : {
-    "clicker" : "ekey.png",
+    "activator" : "ekey.png",
     "target" : "targetarea.png"
   },
   "animationPosition" : [-1, -1],
