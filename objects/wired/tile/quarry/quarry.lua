@@ -113,30 +113,34 @@ function prepareState.findMarker()
             markerId = { entityIds[1], pos}
         end
     end
+    local pos, collisionPos = nil, {}
     if markerId then
-        local pos, dir, collisionPos = markerId[2], entity.direction(), {}
-        if dir < 0 then
-            collisionPos = { pos[1] - dir*2, pos[2], quarryPos[1] + dir*2, quarryPos[2] + 1 }
-        else
-            collisionPos = { quarryPos[1] + dir*2, quarryPos[2], pos[1] - dir*2, pos[2] + 1 }
+        pos = markerId[2], entity.direction()
+    else
+        pos = toAbsolutePosition(quarryPos, {dir*self.range,0})
+    end
+
+    if dir < 0 then
+        collisionPos = { pos[1] - dir*2, pos[2], quarryPos[1] + dir*2, quarryPos[2] + 1 }
+    else
+        collisionPos = { quarryPos[1] + dir*2, quarryPos[2], pos[1] - dir*2, pos[2] + 1 }
+    end
+    if not world.rectCollision(collisionPos) then
+        if world.damageTiles({pos}, "foreground", pos, "blockish", 1000) or markerId == false then
+            storage.quarry.pos, storage.quarry.fakePos = quarryPos, toAbsolutePosition(pos, {0,1})
+            storage.quarry.width = math.ceil(math.abs(world.distance(pos, quarryPos)[1]))-3
+            return true
         end
-        if not world.rectCollision(collisionPos) then
-            if world.damageTiles({pos}, "foreground", pos, "blockish", 1000) then
-                storage.quarry.pos, storage.quarry.fakePos = quarryPos, toAbsolutePosition(pos, {0,1})
-                storage.quarry.width = math.ceil(math.abs(world.distance(pos, quarryPos)[1]))-3
-                return true
-            end
-        else
-            for _, h in ipairs({0,1}) do
-                for i = 2, math.abs(pos[1]-quarryPos[1]), 1 do
-                    local pos = toAbsolutePosition(quarryPos, {dir*i,h+0.5})
-                    if not world.pointCollision(pos) then
-                        world.spawnProjectile("beam", pos, entity.id(), {0,0}, false, {})
-                    end
+    else
+        for _, h in ipairs({0,1}) do
+            for i = 2, math.abs(pos[1]-quarryPos[1]), 1 do
+                local pos = toAbsolutePosition(quarryPos, {dir*i,h+0.5})
+                if not world.pointCollision(pos) then
+                    world.spawnProjectile("beam", pos, entity.id(), {0,0}, false, {})
                 end
             end
-            storage.quarry.active = false
         end
+        storage.quarry.active = false
     end
     return false
 end
