@@ -30,12 +30,12 @@ storageApi = {}
 -------------------------------------------------
 
 --- Initializes the storage
--- @param args (optional) Change starting parameters
---      -mode: (int) Should other entities access this storage: 0 not, 1 store, 2 take, 3 both
---      -space: (int) Maximum amount of item stacks, up to 999
---      -join: (boolean) Should the storage merge stacks if possible?
+-- @param args [optional] (table) Override config parameters
+--      -mode: (int) Should other entities access this storage: 0 not, 1 store in, 2 take from, 3 both
+--      -capacity: (int) Maximum amount of item stacks, up to 999
+--      -merge: (boolean) Should the storage merge stacks if possible?
 --      -content: (table) table of items to prefill the object
---      -dropPosition: {x,y} position to drop items
+--      -dropPosition: (vec2f) position to drop items
 --      -ondeath: (int) Should object 0 do nothing, 1 drop items or 2 store items on death
 function storageApi.init(args)
     if storage.sApi == nil then
@@ -46,19 +46,19 @@ function storageApi.init(args)
     storageApi.isout = storageApi.mode % 4 >= 2
     storageApi.capacity = math.min(999, args.capacity or entity.configParameter("storageapi.capacity") or 1)
     storageApi.isjoin = args.merge or entity.configParameter("storageapi.merge")
-    storageApi.dropPosition = args.dropPosition or entity.configParameter("storageapi.dropPosition") or entity.position()
+    storageApi.dropPosition = args.dropPosition or entity.configParameter("storageapi.dropPosition")
     storageApi.ondeath = args.ondeath or entity.configParameter("storageapi.ondeath") or 0
     storageApi.ignoreDropIds = {}
 end
 
 --- Should the storage be initialized?
--- @return True if storage should be initialized
+-- @return (bool) True if storage should be initialized
 function storageApi.isInit()
     return storageApi.capacity == nil
 end
 
 --- Sets storage contents and returns previous contents
--- @param itemArray an array of item structures (name, count, params)
+-- @param itemArray (table) An array of item structures (name, count, params)
 function storageApi.setContents(itemArray)
     local ret = storage.sApi
     storage.sApi = itemArray
@@ -235,13 +235,11 @@ end
 -- @param itemname (string) The item name
 -- @param count (int) The amount of item to store
 -- @param properties [optional] (table) The properties table of the item
--- @return (int) The amount of item that was actually stored
+-- @return (int) The amount of item that was left
 function storageApi.storeItemFit(itemname, count, data)
-    local ret = 0
     local max = storageApi.getMaxStackSize(itemname)
     while (count > max) and not storageApi.isFull() do
         storageApi.storeItem(itemname, max, data)
-        ret = ret + max
         count = count - max
     end
     for i,v in storageApi.getIterator() do
@@ -252,7 +250,8 @@ function storageApi.storeItemFit(itemname, count, data)
             count = count + v.count - amo
         end
     end
-    return ret
+    if (count > 0) and storageApi.storeItem(itemname, count, data) then return 0 end
+    return count
 end
 
 --- Drops an item from storage
@@ -261,7 +260,7 @@ end
 -- @param pos [optional] (vec2f) A position to drop item at
 -- @return (int) ID of dropped item entity or nil
 function storageApi.drop(index, amount, pos)
-    pos = pos or storageApi.dropPosition
+    pos = pos or storageApi.dropPosition or entity.position()
     local item, drop = storage.sApi[index], nil
     if item then
         if not amount then amount = item.count or 0 end
@@ -287,7 +286,7 @@ end
 -- @param pos [optional] (vec2f) A position to drop items at
 -- @return (bool) True if all items were dropped successfully
 function storageApi.dropAll(pos)
-    pos = pos or storageApi.dropPosition
+    pos = pos or storageApi.dropPosition or entity.position()
     for i in storageApi.getIterator() do
         storageApi.drop(i)
     end
@@ -313,7 +312,7 @@ end
 -- @param takenBy (int) Entity ID to animate item drop to
 -- @return (int) Amount of found items
 function storageApi.take(pos, radius, takenBy)
-    pos = pos or storageApi.dropPosition
+    pos = pos or storageApi.dropPosition or entity.position()
     radius = radius or 1
     local itemIds, time, ret = world.itemDropQuery(pos, radius), os.time(), 0
     for _, itemId in ipairs(itemIds) do
