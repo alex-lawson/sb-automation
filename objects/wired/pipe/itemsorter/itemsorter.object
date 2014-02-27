@@ -1,46 +1,45 @@
 {
-  "objectName" : "itemfilter",
+  "objectName" : "itemsorter",
   "rarity" : "Common",
   "objectType" : "container",
-
-  "description" : "Allows only the specified items to pass",
-  "shortdescription" : "Item Filter Pipe",
+  "description" : "Allows you to direct the sweet flow of items",
+  "shortdescription" : "Item Sorter Pipe",
   "race" : "generic",
   "category" : "wire",
   "printable" : false,
 
-  "inventoryIcon" : "itemfiltericon.png",
+  "inventoryIcon" : "itemsortericon.png",
   "orientations" : [
     {
-      "image" : "itemfilter.png:on",
+      "image" : "itemsorter.png:on",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
-      "image" : "itemfilter.png:on",
+      "image" : "itemsorter.png:on",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
-      "image" : "itemfilter.png:on",
+      "image" : "itemsorter.png:on",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "top" ]
     },
     {
-      "image" : "itemfilter.png:on",
+      "image" : "itemsorter.png:on",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "left" ]
     },
     {
-      "image" : "itemfilter.png:on",
+      "image" : "itemsorter.png:on",
       "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
@@ -48,37 +47,37 @@
     }
   ],
 
-  "slotCount" : 4,
-  "uiConfig" : "/interface/chests/filter4.config",
+  "slotCount" : 16,
+  "uiConfig" : "/interface/chests/sorter16.config",
   "frameCooldown" : 67,
   "autoCloseCooldown" : 3600,
 
   "scripts" : [
-    "/objects/wired/pipe/itemfilter/itemfilter.lua",
+    "/objects/wired/pipe/itemsorter/itemsorter.lua",
     "/scripts/pipes/liquidpipes.lua",
     "/scripts/pipes/itempipes.lua",
     "/scripts/pipesapi.lua",
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 30,
+  "scriptDelta" : 5,
   
-  "animation" : "/objects/wired/pipe/itemfilter/itemfilter.animation",
+  "animation" : "/objects/wired/pipe/itemsorter/itemsorter.animation",
   "animationParts" : {
-    "pipe" : "itemfilter.png"
+    "pipe" : "itemsorter.png"
   },
   "animationPosition" : [0, 0],
 
   "liquidNodes" : [
-    {"offset": [0, 0], "dir": [-1, 0]},
     {"offset": [0, 0], "dir": [1, 0]},
-    {"offset": [0, 0], "dir": [0, -1]},
-    {"offset": [0, 0], "dir": [0, 1]}
+    {"offset": [0, 0], "dir": [0, 1]},
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]}
   ],
   "itemNodes" : [
-    {"offset": [0, 0], "dir": [-1, 0]},
     {"offset": [0, 0], "dir": [1, 0]},
-    {"offset": [0, 0], "dir": [0, -1]},
-    {"offset": [0, 0], "dir": [0, 1]}
+    {"offset": [0, 0], "dir": [0, 1]},
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]}
   ]
 }

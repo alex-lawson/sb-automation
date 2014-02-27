@@ -8,7 +8,7 @@
       "amount" : 500.0
     }
   ],
-  "levelVariance" : [0, 10],
+  "levelVariance" : [1, 1],
   "damageTeam" : 0,
 
   "scripts" : [

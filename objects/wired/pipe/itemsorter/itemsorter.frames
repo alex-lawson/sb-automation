@@ -1,0 +1,9 @@
+{
+  "frameGrid" : {
+    "size" : [8, 8],
+    "dimensions" : [7, 1],
+    "names" : [
+      [ "off", "on", "pass.right", "pass.up", "pass.left", "pass.down", "fail" ]
+    ]
+  }
+}

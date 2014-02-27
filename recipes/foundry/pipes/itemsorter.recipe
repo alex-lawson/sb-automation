@@ -1,0 +1,12 @@
+{
+  "input" : [
+    { "item" : "itemfilter", "count" : 4 },
+    { "item" : "steelbar", "count" : 2 },
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "itemsorter",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "pipes" ]
+}
