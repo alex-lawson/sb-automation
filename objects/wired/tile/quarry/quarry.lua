@@ -184,6 +184,8 @@ runState = {}
 function runState.enterWith(args)
     if not args.run or not storage.quarry.id or energy.getEnergy() < 1 then return nil end
     self.stuck = 0
+    self.loadTimer = 0
+    self.loadInterval = entity.configParameter("diggingLoadInterval")
     entity.setAnimationState("quarryState", "run")
     return storage.quarry
 end
@@ -235,8 +237,28 @@ function runState.update(dt, data)
                     world.callScriptedEntity(data.id, "dig")
                 end
             end
+
+            --Prevent quarry base from getting unloaded
+            if self.loadTimer > self.loadInterval then
+                runState.loadRegions(data)
+                self.loadTimer = 0
+            end
+            self.loadTimer = self.loadTimer + entity.dt()
+
+            local movedDown = false
+            if (data.curX == 0 and data.curDir == data.dir) or (data.curX == data.width and data.curDir ~= data.dir) then
+                local collisions1 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY - 1.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY - 1.5}))
+                local collisions2 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY - 2.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY - 2.5}))
+                
+                if #collisions1 == 0 and #collisions2 == 0 then
+                    data.curY = data.curY - 2
+                    movedDown = true
+                end
+
+                runState.loadRegions(data)
+            end
             
-            if (data.curDir == data.dir and data.curX < data.width) or (data.curX > 0 and data.curDir ~= data.dir) then
+            if movedDown == false and ( (data.curDir == data.dir and data.curX < data.width) or (data.curX > 0 and data.curDir ~= data.dir) ) then
                 if data.curDir == data.dir then
                     data.curX = data.curX + 2
                 else
@@ -244,19 +266,9 @@ function runState.update(dt, data)
                 end
                 data.curX = math.max(math.min(data.curX, data.width), 0)
                 self.justdid = false
-            else
-                --See how many rows down we can go
-                local row = 0
-                local collisions1 = {}
-                local collisions2 = {}
-                repeat
-                    row = row - 2
-                    collisions1 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 1.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 1.5}))
-                    collisions2 = world.collisionBlocksAlongLine(toAbsolutePosition(data.homePos, {-0.5, data.curY + row - 2.5}), toAbsolutePosition(data.homePos, {data.width * data.dir + 0.5, data.curY + row - 2.5}))
-                    --world.logInfo("Quarry sez coll1: %s coll2: %s", collisions1, collisions2)
-                until #collisions1 > 0 or #collisions2 > 0
-
-                data.curY, data.curDir = data.curY + row, -data.curDir
+            elseif movedDown == false then
+                runState.loadRegions(data)
+                data.curY, data.curDir = data.curY - 2, -data.curDir
             end
 
 
@@ -297,6 +309,18 @@ function runState.dig(data, desiredPos)
     return data.dig, false
 end
 
+function runState.loadRegions(data)
+    --Load quarry digging position
+    local minPos = toAbsolutePosition(data.homePos, {-5.5, data.curY - 24.5})
+    local maxPos = toAbsolutePosition(data.homePos, {data.width * data.dir + 5.5, data.curY + 22.5})
+    world.loadRegion({minPos[1], minPos[2], maxPos[1], maxPos[2]})
+
+    --Load actual quarry position
+    minPos = toAbsolutePosition(data.homePos, {-5.5, -5.5})
+    maxPos = toAbsolutePosition(data.homePos, {data.width * data.dir + 5.5, 5.5})
+    world.loadRegion({minPos[1], minPos[2], maxPos[1], maxPos[2]})
+end
+
 function runState.leavingState(data)
     data.returnPosition, data.returnDirection, data.run = data.homePos, 1, nil
     if data.id then
@@ -313,12 +337,23 @@ function returnState.enterWith(args)
     if not args.returnPosition then return nil end
     storage.quarry = args
     updateAnimationState()
+    self.loadTimer = 0
+    self.loadInterval = entity.configParameter("returningLoadInterval")
     self.done, self.stuck, self.changeDirection = false, 0, false
     return args
 end
 
 function returnState.update(dt, data)
     storage.quarry = data
+
+
+    --Prevent quarry base from getting unloaded
+    if self.loadTimer > self.loadInterval then
+        runState.loadRegions(data)
+        self.loadTimer = 0
+    end
+    self.loadTimer = self.loadTimer + entity.dt()
+
     local quarryPos = world.entityPosition(storage.quarry.id)
     if quarryPos and not self.changeDirection then
         if inPosition({data.pos[1]-quarryPos[1],data.pos[2]-quarryPos[2]},0.01) then
