@@ -1,0 +1,29 @@
+{
+  "itemName" : "acidcapsule",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/liquid/acidcapsule.png",
+  "image" : "/projectiles/liquid/acidcapsule.png",
+  "shortdescription" : "Acid Capsule",
+  "description" : "An acid grenade, duck and cover!",
+
+  "ammoUsage" : 1,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "acidcapsule",
+  "projectileConfig" : {
+    "speed" : 45,
+    "power" : 0,
+    "actionOnReap" : [
+      {
+        "action" : "liquid",
+        "quantity" : 3000,
+        "liquidId" : 4
+      }
+    ]
+  
+  }
+}
+

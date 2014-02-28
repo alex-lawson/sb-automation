@@ -30,7 +30,6 @@
     "solar" : "solarpanel.png"
   },
   "animationPosition" : [-16, 0],
-  "inboundNodes" : [ [0, 0] ],
 
   "scripts" : [
     "/scripts/energy.lua",

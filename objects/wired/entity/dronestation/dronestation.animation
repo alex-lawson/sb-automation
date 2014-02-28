@@ -1,0 +1,78 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "droneState" : {
+        "priority" : 1,
+        "default" : "show",
+        "states" : {
+          "show" : {
+            "frames" : 1
+          },
+          "hide" : {
+            "frames" : 1
+          }
+        }
+      },
+      "workState" : {
+        "priority" : 1,
+        "default" : "on",
+        "states" : {
+          "on" : {
+            "frames" : 2,
+            "cycle" : 1.5,
+            "mode" : "loop"
+          },
+          "off" : {
+            "frames" : 2,
+            "cycle" : 1.5,
+            "mode" : "loop"
+          }
+        }
+      }
+    },
+    "parts" : {
+      "box" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 1
+        },
+        "partStates" : {
+          "workState" : {
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off.<frame>"
+              }
+            }
+          }
+        }
+      },
+      "drone" : {
+        "properties" : {
+          "offset" : [0, 2],
+          "centered" : true,
+          "zLevel" : 1
+        },
+        "partStates" : {
+          "droneState" : {
+            "show" : {
+              "properties" : {
+                "image" : "<partImage>:show"
+              }
+            },
+            "hide" : {
+              "properties" : {
+                "image" : "<partImage>:hide"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "itemName" : "tarcapsule",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/liquid/tarcapsule.png",
+  "image" : "/projectiles/liquid/tarcapsule.png",
+  "shortdescription" : "Tar Capsule",
+  "description" : "Only lacking feathers.",
+
+  "ammoUsage" : 1,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "tarcapsule",
+  "projectileConfig" : {
+    "speed" : 45,
+    "power" : 0,
+    "actionOnReap" : [
+      {
+        "action" : "liquid",
+        "quantity" : 3000,
+        "liquidId" : 7
+      }
+    ]
+  
+  }
+}
+

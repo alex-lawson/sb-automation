@@ -3,16 +3,26 @@
     "stateTypes" : {
       "movement" : {
         "priority" : 0,
-        "default" : "flying",
-
+        "default" : "idle",
         "states" : {
-          "flying" : {
+          "fly" : {
+            "frames" : 4,
+            "cycle" : 0.25,
+            "mode" : "loop"
+          },
+          "start" : {
+            "frames" : 4,
+            "cycle" : 0.33,
+            "mode" : "loop"
+          },
+          "idle" : {
             "frames" : 1,
-            "cycle" : 1,
+            "cycle" : 5,
             "mode" : "loop"
           }
         }
       },
+
       "portrait" : {
         "priority" : -1,
         "default" : "portrait",
@@ -25,19 +35,30 @@
     },
 
     "parts" : {
-      "ufo" : {
+      "drone" : {
         "partStates" : {
           "movement" : {
-            "flying" : {
+            "fly" : {
               "properties" : {
-                "image" : "<partImage>:flying"
+                "image" : "<partImage>:on.<frame>"
+              }
+            },
+            "start" : {
+              "properties" : {
+                "image" : "<partImage>:off.<frame>"
+              }
+            },
+            "idle" : {
+              "properties" : {
+                "image" : "<partImage>:stand"
               }
             }
           },
+
           "portrait" : {
             "portrait" : {
               "properties" : {
-                "image" : "<partImage>:flying"
+                "image" : "<partImage>:portrait"
               }
             }
           }

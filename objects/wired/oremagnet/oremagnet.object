@@ -1,0 +1,38 @@
+{
+  "objectName" : "oremagnet",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Gradually pulls ores closer through the ground.",
+  "shortdescription" : "Ore Magnet",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 1000,
+  "printable" : false,
+
+  "inventoryIcon" : "oremagneticon.png",
+
+  "orientations" : [
+    {
+      "image" : "oremagnet.png:on",
+      "imagePosition" : [-16, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "oremagnet.lua", "/scripts/energy.lua" ],
+  "scriptDelta" : 5,
+
+  "animation" : "oremagnet.animation",
+  "animationParts" : {
+    "magnet" : "oremagnet.png",
+    "needle" : "needle.png"
+  },
+  "animationPosition" : [-16, 0],
+
+  "inboundNodes" : [ [1, 3] ],
+
+  "energyCapacity" : 100
+}

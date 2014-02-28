@@ -1,0 +1,54 @@
+{
+  "objectName" : "liquidfiller",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Puts liquids into portable, throwable capsules.",
+  "shortdescription" : "Liquid Filler",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "liquidfiller.png:on",
+  "orientations" : [
+    {
+      "dualImage" : "liquidfiller.png:on",
+
+      "imagePosition" : [-8, -8],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "scripts" : [
+    "/objects/wired/pipe/filler/liquidfiller.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/energy.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "animation" : "/objects/wired/pipe/filler/liquidfiller.animation",
+  "animationParts" : {
+    "filler" : "liquidfiller.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "inboundNodes" : [[1, 1]],
+  
+  "liquidNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
+  "flippedLiquidNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
+  "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
+
+  "energyConsumptionRate" : 5,
+  "energyCapacity" : 10,
+
+  "liquidConversions" : [ ["watercapsule", 3000], ["watercapsule", 3000], ["lavacapsule", 3000], ["acidcapsule", 3000], ["lavacapsule", 3000], ["juicecapsule", 3000], ["tarcapsule", 3000]],
+  "fillInterval" : 2
+}

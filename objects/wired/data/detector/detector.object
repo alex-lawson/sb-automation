@@ -33,8 +33,6 @@
 
   "outboundNodes" : [ [0, 0] ],
 
-  "modes" : [ "all", "owner", "player", "monster", "item", "npc" ],
-  "detectRadius" : 3,
-  "detectTickDuration" : 10,
-  "lightLevel" : 0.5
+  "detectModes" : [ "all", "owner", "player", "monster", "item", "npc" ],
+  "detectDuration" : 1
 }

@@ -1,0 +1,15 @@
+{
+  "projectileName" : "acidcapsule",
+  "physics" : "grenade",
+  "level" : 1,
+  "frames" : "acidcapsule.png",
+  "animationCycle" : 1,
+  "frameNumber" : 1,
+  "timeToLive" : 8,
+
+  "speed" : 20,
+  "fallSpeed" : 0,
+
+  "damageKind" : "default"
+
+}

@@ -1,0 +1,50 @@
+{
+  "objectName" : "dronestation",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Bring some serious automation into your home!",
+  "shortdescription" : "Item Drone Station",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "dronestation.png:off.1",
+  "orientations" : [
+    {
+      "image" : "dronestation.png:off.1",
+      "direction" : "right",
+      "imagePosition" : [-8, 0],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaces" : [ [0, 0], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1], [-1, 2], [0, 2], [1, 2], [-1, 3], [0, 3], [1, 3] ],
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "animation" : "/objects/wired/entity/dronestation/dronestation.animation",
+  "animationParts" : {
+    "box" : "dronestation.png",
+    "drone" : "drone.png"
+  },
+  "animationPosition" : [4, 8],
+  
+  "scripts" : [
+    "/objects/wired/entity/dronestation/dronestation.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/storageapi.lua",
+    "/scripts/energy.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 10,
+  
+  "energyCapacity" : 50,
+  
+  "inboundNodes" : [ [0, 0] ],
+  
+  "itemNodes" : [ { "offset" : [-1, 0], "dir" : [-1, 0] } ],
+  
+  "itemPushRate" : 0.25
+}

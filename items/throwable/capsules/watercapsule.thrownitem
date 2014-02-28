@@ -1,0 +1,29 @@
+{
+  "itemName" : "watercapsule",
+  "rarity" : "Common",
+  "inventoryIcon" : "/projectiles/liquid/watercapsule.png",
+  "image" : "/projectiles/liquid/watercapsule.png",
+  "shortdescription" : "Water Capsule",
+  "description" : "Like a water balloon, but heavier.",
+
+  "ammoUsage" : 1,
+
+  "edgeTrigger" : true,
+  "windupTime" : 0.0,
+  "cooldown" : 0.4,
+
+  "projectileType" : "watercapsule",
+  "projectileConfig" : {
+    "speed" : 45,
+    "power" : 0,
+    "actionOnReap" : [
+      {
+        "action" : "liquid",
+        "quantity" : 3000,
+        "liquidId" : 1
+      }
+    ]
+  
+  }
+}
+
