@@ -42,11 +42,13 @@ function shouldDie()
 end
 
 function moveTo(pos, dt)
-  local x = entity.position()[1]
-  entity.flyTo(pos, true)
-  if (math.abs(x - pos[1]) > 0.1) and (math.abs(entity.position()[1] - x) <= 0.1) then
-    entity.fly({ 0, 0.25 })
+  local p = entity.position()
+  if (self.px ~= nil) and (math.abs(pos[1] - p[1]) > 1) and (math.abs(p[1] - self.px) < 0.01) then
+    entity.flyTo({ pos[1], p[2] + 2.5 }, true)
+  else
+    entity.flyTo(pos, true)
   end
+  self.px = p[1]
 end
 
 function main()
