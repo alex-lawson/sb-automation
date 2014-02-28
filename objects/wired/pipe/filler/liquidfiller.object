@@ -11,7 +11,7 @@
   "inventoryIcon" : "liquidfiller.png:on",
   "orientations" : [
     {
-      "image" : "liquidfiller.png:on",
+      "dualImage" : "liquidfiller.png:on",
 
       "imagePosition" : [-8, -8],
       "frames" : 1,
@@ -43,8 +43,8 @@
   
   "liquidNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
   "flippedLiquidNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
-  "itemNodes" : [ {"offset": [1, -1], "dir": [1, 0]} ],
-  "flippedItemNodes" : [ {"offset": [1, 0], "dir": [1, 0]} ],
+  "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
 
   "energyConsumptionRate" : 5,
   "energyCapacity" : 10,
