@@ -79,7 +79,7 @@ function main(args)
   
   if storage.state then
     --Pull item if we don't have any
-    if energy.consumeEnergy() and self.fillTimer > self.fillInterval then
+    if self.fillTimer > self.fillInterval then
 
       local pullFilter = {}
       for liquidId,conversion in pairs(self.conversions) do
@@ -88,7 +88,7 @@ function main(args)
       local pulledLiquid = peekPullLiquid(1, pullFilter)
       if pulledLiquid then
         local newCapsule = fillCapsule(pulledLiquid)
-        if newCapsule then
+        if newCapsule and  energy.consumeEnergy(10) then
           pullLiquid(1, pullFilter)
           pushItem(1, newCapsule)
           entity.setAnimationState("fillstate", "work")
