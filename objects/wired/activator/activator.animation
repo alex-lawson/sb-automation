@@ -1,0 +1,56 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "clickState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 1,
+            "cycle" : 0.25,
+            "mode" : "transition",
+            "transition" : "off"
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "activator" : {
+        "properties" : {
+          "image" : "<partImage>",
+          "centered" : false
+        }
+      },
+      "target" : {
+        "properties" : {
+          "centered" : false,
+          "offset" : [-1, 1],
+          "rotationGroup" : "target"
+        },
+
+        "partStates" : {
+          "clickState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:off"
+              }
+            },
+
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:on"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "rotationGroups" : {
+    "target" : {
+      "rotationCenter" : [0.5, 0.5],
+      "angularVelocity" : 10
+    }
+  }
+}

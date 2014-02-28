@@ -1,0 +1,38 @@
+{
+  "objectName" : "activator",
+  "objectType" : "wire",
+  "printable" : false,
+  "rarity" : "Common",
+  "price" : 300,
+
+  "description" : "Interacts with scripted objects at the target position when it receives a signal.",
+  "shortdescription" : "Activator",
+  "race" : "generic",
+
+
+  "inventoryIcon" : "ekey.png",
+  "orientations" : [
+
+    {
+      "image" : "ekey.png",
+      "imagePosition" : [-1, -1],
+
+      "spaceScan" : 0.5,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "activator.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "activator.animation",
+
+  "animationParts" : {
+    "activator" : "ekey.png",
+    "target" : "targetarea.png"
+  },
+  "animationPosition" : [-1, -1],
+
+  "inboundNodes" : [ [0, 0] ]
+}
