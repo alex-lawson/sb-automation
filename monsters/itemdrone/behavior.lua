@@ -1,6 +1,7 @@
 function init()
   entity.setDeathParticleBurst("deathPoof")
   entity.setAnimationState("movement", "start")
+  self.rect = { -1, -1, 1, 1 }
   if storageApi.isInit() then
     storageApi.init({ mode = 1, capacity = 4, merge = true, ondeath = 1 })
   end
@@ -42,11 +43,7 @@ function shouldDie()
 end
 
 function moveTo(pos, dt)
-  local x = entity.position()[1]
-  entity.flyTo(pos, true)
-  if (math.abs(x - pos[1]) > 0.1) and (math.abs(entity.position()[1] - x) <= 0.1) then
-    entity.fly({ 0, 0.25 })
-  end
+  return astarApi.flyTo(pos, self.rect)
 end
 
 function main()
