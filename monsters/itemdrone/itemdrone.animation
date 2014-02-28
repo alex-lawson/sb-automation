@@ -21,6 +21,16 @@
             "mode" : "loop"
           }
         }
+      },
+
+      "portrait" : {
+        "priority" : -1,
+        "default" : "portrait",
+        "states" : {
+          "portrait" : {
+            "frames" : 1
+          }
+        }
       }
     },
 
@@ -41,6 +51,14 @@
             "idle" : {
               "properties" : {
                 "image" : "<partImage>:stand"
+              }
+            }
+          },
+
+          "portrait" : {
+            "portrait" : {
+              "properties" : {
+                "image" : "<partImage>:portrait"
               }
             }
           }
