@@ -10,6 +10,8 @@ function init(virtual)
     self.pumping = false
     self.pumpRate = entity.configParameter("pumpRate")
     self.pumpTimer = 0
+
+    buildFilter()
     
     if storage.state == nil then storage.state = false end
   end
@@ -50,14 +52,14 @@ function main(args)
     end
     
     if self.pumpTimer > self.pumpRate then
-      local canGetLiquid = peekPullLiquid(srcNode)
+      local canGetLiquid = peekPullLiquid(srcNode, self.filter)
       local canPutLiquid = peekPushLiquid(tarNode, canGetLiquid)
 
       if canGetLiquid and canPutLiquid and energy.consumeEnergy() then
         entity.setAnimationState("pumping", "pump")
         entity.setAllOutboundNodes(true)
         
-        local liquid = pullLiquid(srcNode)
+        local liquid = pullLiquid(srcNode, self.filter)
         pushLiquid(tarNode, liquid)
       else
         entity.setAllOutboundNodes(false)
@@ -69,5 +71,13 @@ function main(args)
   else
     entity.setAnimationState("pumping", "idle")
     entity.setAllOutboundNodes(false)
+  end
+end
+
+function buildFilter()
+  local pullAmount = entity.configParameter("pumpAmount")
+  self.filter = {}
+  for i = 1, 7 do
+    self.filter[tostring(i)] = {1, pullAmount}
   end
 end
