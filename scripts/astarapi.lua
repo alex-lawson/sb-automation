@@ -158,7 +158,8 @@ function astarApi.getPath(from, to, rect)
       break
     end
     astarApi.tries = astarApi.tries + 1
-    if astarApi.tries % 125 == 0 then
+    if astarApi.tries > 3000 then return true, nil end
+    if astarApi.tries % 100 == 0 then
       coroutine.yield(false)
     end
   until (astarApi.currentNode == astarApi.finalNode)
