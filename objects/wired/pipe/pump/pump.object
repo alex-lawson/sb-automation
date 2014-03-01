@@ -54,5 +54,6 @@
   "energyConsumptionRate" : 5,
   "energyCapacity" : 5,
 
-  "pumpRate" : 0.5
+  "pumpRate" : 0.5,
+  "pumpAmount" : 1400
 }
