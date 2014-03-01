@@ -13,10 +13,12 @@ end
 function collectState.update(dt, stateData)
   local pos, ix
   for i,id in pairs(stateData.drops) do
-    pos = world.entityPosition(id)
-    ix = i
-    if pos == nil then stateData.drops[i] = nil
-    else break end
+    if world.entityExists(id) then
+      pos = world.entityPosition(id)
+      ix = i
+      if not pos then stateData.drops[i] = nil
+      else break end
+    else stateData.drops[i] = nil end
   end
   if pos == nil then return true end
   if not moveTo(pos, dt) then stateData.drops[ix] = nil end
