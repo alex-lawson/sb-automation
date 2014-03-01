@@ -11,14 +11,15 @@ function collectState.enter()
 end
 
 function collectState.update(dt, stateData)
-  local pos
+  local pos, ix
   for i,id in pairs(stateData.drops) do
     pos = world.entityPosition(id)
+    ix = i
     if pos == nil then stateData.drops[i] = nil
     else break end
   end
   if pos == nil then return true end
-  moveTo(pos, dt)
+  if not moveTo(pos, dt) then stateData.drops[ix] = nil end
   local ids = world.itemDropQuery(entity.position(), 3)
   for i,id in pairs(ids) do
     if storageApi.isFull() then break end
