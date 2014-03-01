@@ -18,6 +18,7 @@
       "/scripts/util.lua",
       "/scripts/vec2.lua",
       "/scripts/storageapi.lua",
+      "/scripts/astarapi.lua",
       "/scripts/statemachine.lua"
     ],
 
