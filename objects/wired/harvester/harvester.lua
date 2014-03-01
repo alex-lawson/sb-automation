@@ -54,36 +54,40 @@ function click()
 
     for i, eId in ipairs(eIds) do
       if world.entityType(eId) == "object" then
-        world.logInfo("harvesting entity #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
+        world.logInfo("(harvester) harvesting crop #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
         harvestCrop(eId)
-        --world.callScriptedEntity(eId, "onInteraction", interactArgs)
+      elseif world.entityType(eId) == "plant" then
+        world.logInfo("(harvester) chopping plant #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
+        world.damageTiles({world.entityPosition(eId)}, "foreground", entity.position(), "plantish", 100)
+      else
+        world.logInfo("(harvester) ignoring entity #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
       end
     end
   end
 end
 
-  function harvestCrop(entityId)
-    local interactions = world.callScriptedEntity(entityId, "entity.configParameter", "interactionTransition")
-    if interactions then
-      for _,v in pairs(interactions) do
-        local drops = v.dropOptions
-        if drops then
-          local i = 2
-          local odds = drops[1]
-          while drops[i] do
-            if drops[i+1] == nil or math.random() < odds then
-              local j = 1
-              while drops[i][j] do
-                world.spawnItem(drops[i][j].name, world.callScriptedEntity(entityId, "entity.toAbsolutePosition", { 0.0, 1.0 }), drops[i][j].count)
-                j = j + 1
-              end
-              break
+function harvestCrop(entityId)
+  local interactions = world.callScriptedEntity(entityId, "entity.configParameter", "interactionTransition")
+  if interactions then
+    for key, interaction in pairs(interactions) do
+      local drops = interaction.dropOptions
+      if drops then
+        local i = 2
+        local odds = drops[1]
+        while drops[i] do
+          if drops[i + 1] == nil or math.random() < odds then
+            local j = 1
+            while drops[i][j] do
+              world.spawnItem(drops[i][j].name, world.callScriptedEntity(entityId, "entity.toAbsolutePosition", { 0.0, 1.0 }), drops[i][j].count)
+              j = j + 1
             end
-            i = i + 1
+            break
           end
-          break
+          i = i + 1
         end
+        break
       end
-      world.callScriptedEntity(entityId, "entity.break")
     end
+    world.callScriptedEntity(entityId, "entity.break")
   end
+end
