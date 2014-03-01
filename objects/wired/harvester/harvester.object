@@ -1,0 +1,38 @@
+{
+  "objectName" : "harvester",
+  "objectType" : "wire",
+  "printable" : false,
+  "rarity" : "Common",
+  "price" : 300,
+
+  "description" : "Maybe it works, maybe it doesn't!",
+  "shortdescription" : "Harvester",
+  "race" : "generic",
+
+
+  "inventoryIcon" : "ekey.png",
+  "orientations" : [
+
+    {
+      "image" : "ekey.png",
+      "imagePosition" : [-1, -1],
+
+      "spaceScan" : 0.5,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "harvester.lua" ],
+  "scriptDelta" : 30,
+
+  "animation" : "harvester.animation",
+
+  "animationParts" : {
+    "harvester" : "ekey.png",
+    "target" : "targetarea.png"
+  },
+  "animationPosition" : [-1, -1],
+
+  "inboundNodes" : [ [0, 0] ]
+}
