@@ -108,35 +108,6 @@ function astarApi.getNewFreeNode(node)
   return nil
 end
 
---- Computes a path from initial to final nodes
--- @return (table) The path as a table of nodes
-function astarApi.computePath()
-  astarApi.path = {}
-  astarApi.currentNode = Node(astarApi.initialNode.x, astarApi.initialNode.y, 0, 0, 0, Node(astarApi.initialNode.x, astarApi.initialNode.y))
-  astarApi.cList = {}
-  astarApi.oList = {}
-  table.insert(astarApi.cList,astarApi.currentNode)
-    if astarApi.finalNode == astarApi.initialNode then
-    astarApi.path = astarApi.cList
-    return
-    end
-    
-    repeat
-    astarApi.addNode()
-    local bestPos = next(astarApi.oList)
-    if bestPos then
-      astarApi.currentNode = astarApi.oList[bestPos]
-      table.remove(astarApi.oList,bestPos)
-      table.insert(astarApi.cList,astarApi.currentNode)
-    else
-      astarApi.cList = nil
-      break
-    end
-    astarApi.tries = astarApi.tries + 1
-    until (astarApi.currentNode == astarApi.finalNode)
-  astarApi.path = astarApi.cList
-end
-
 --- Pick a nearest walkable node around specified position
 -- @return (Node) A walkable node or nil
 function astarApi.getWalkableNode(x, y)
@@ -151,7 +122,7 @@ end
 --- Checks if a node is walkable
 -- @param node (Node) A node
 function astarApi.isWalkable(node)
-  return not world.rectCollision({ astarApi.trect[1] + node.x, astarApi.trect[2] + node.y, astarApi.trect[3] + node.x, astarApi.trect[4] + node.y })
+  return not world.rectCollision({ astarApi.trect[1] + node.x, astarApi.trect[2] + node.y, astarApi.trect[3] + node.x, astarApi.trect[4] + node.y }, true)
 end
 
 --- Returns the reordered path from the starting node to the final node
@@ -161,20 +132,37 @@ end
 -- @return (table) A list of nodes
 function astarApi.getPath(from, to, rect)
   astarApi.trect = rect
-  astarApi.diagonalMove = false
+  astarApi.diagonalMove = true
   astarApi.searchDepth = 2
   astarApi.tries = 0
   astarApi.initialNode = astarApi.getWalkableNode(from[1], from[2])
   astarApi.finalNode = astarApi.getWalkableNode(to[1], to[2])
-  
-  world.logInfo("DEBUG: A* start")
-  world.logInfo("DEBUG: Target " .. astarApi.finalNode.x .. "|" .. astarApi.finalNode.y)
-  
-  astarApi.computePath()
-  
-  world.logInfo("DEBUG: A* end")
-  world.logInfo("DEBUG: Tried " .. astarApi.tries)
-  
+  astarApi.path = {}
+  astarApi.currentNode = Node(astarApi.initialNode.x, astarApi.initialNode.y, 0, 0, 0, Node(astarApi.initialNode.x, astarApi.initialNode.y))
+  astarApi.cList = {}
+  astarApi.oList = {}
+  table.insert(astarApi.cList,astarApi.currentNode)
+  if astarApi.finalNode == astarApi.initialNode then
+    astarApi.path = astarApi.cList
+    return
+  end
+  repeat
+    astarApi.addNode()
+    local bestPos = next(astarApi.oList)
+    if bestPos then
+      astarApi.currentNode = astarApi.oList[bestPos]
+      table.remove(astarApi.oList, bestPos)
+      table.insert(astarApi.cList, astarApi.currentNode)
+    else
+      astarApi.cList = nil
+      break
+    end
+    astarApi.tries = astarApi.tries + 1
+    if astarApi.tries % 125 == 0 then
+      coroutine.yield(false)
+    end
+  until (astarApi.currentNode == astarApi.finalNode)
+  astarApi.path = astarApi.cList
   if astarApi.path and (#astarApi.path > 0) then
     local way = {}
     local nxt = Node(astarApi.finalNode.x, astarApi.finalNode.y)
@@ -190,9 +178,8 @@ function astarApi.getPath(from, to, rect)
       end
     until (nxt == astarApi.initialNode)
     table.remove(way, 1)
-    world.logInfo("DEBUG: Path length " .. #way)
-    return way
-  else return nil end
+    return true, way
+  else return true, nil end
 end
 
 --- Just an usage example, if you mind
@@ -201,23 +188,45 @@ end
 -- @return (bool) A flag indicating whenever the path could be found
 function astarApi.flyTo(fdest, rect)
   local dest = astarApi.floorVec(fdest)
-  if (astarApi.flyp == nil) or (dest[1] ~= astarApi.pdest[1]) or (dest[2] ~= astarApi.pdest[2]) then
-    astarApi.flyp = astarApi.getPath(astarApi.floorVec(entity.position()), dest, rect)
-    astarApi.pnode = 1
+  local f = (astarApi.pdest == nil) or (dest[1] ~= astarApi.pdest[1]) or (dest[2] ~= astarApi.pdest[2])
+  if not astarApi.pdone or f then
+    if f or (astarApi.pth == nil) then astarApi.pth = coroutine.create(astarApi.getPath) end
     astarApi.pdest = dest
+    local _, res, path = coroutine.resume(astarApi.pth, astarApi.floorVec(entity.position()), dest, rect)
+    if not res then
+      astarApi.pdone = false
+      entity.fly({ 0, 0 })
+      return true
+    else
+      astarApi.pdone = true
+      astarApi.flyp = path
+      astarApi.pnode = 1
+    end
   end
   if astarApi.flyp == nil then return false end
   local p = entity.position()
   if astarApi.pnode >= #astarApi.flyp then
-    entity.fly({ (fdest[1] - p[1]) * 1.5, (fdest[2] - p[2]) * 1.5 })
+    entity.flyTo(fdest, true)
   else
     local n = astarApi.flyp[astarApi.pnode]
-    entity.fly({ (n.x - p[1] + 0.5) * 1.5, (n.y - p[2] + 0.5) * 1.5 })
-    if world.magnitude(entity.position(), astarApi.n2v(astarApi.flyp[astarApi.pnode])) < 1.5 then
+    entity.fly(astarApi.dirVec({ n.x - p[1] + 0.5, n.y - p[2] + 0.5 }, 4))
+    if world.magnitude(entity.position(), astarApi.n2v(astarApi.flyp[astarApi.pnode])) < 1.25 then
       astarApi.pnode = astarApi.pnode + 1
     end
   end
   return true
+end
+
+function astarApi.dirVec(v, spd)
+  local l = math.sqrt(v[1] * v[1] + v[2] * v[2])
+  return { v[1] * spd / l, v[2] * spd / l }
+end
+
+--- Vector the node!
+-- @param node (Node) A node
+-- @return (vec2f) A vector
+function astarApi.n2v(node)
+  return { node.x, node.y }
 end
 
 --- Floor the vector!
