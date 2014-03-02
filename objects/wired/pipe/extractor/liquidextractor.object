@@ -11,15 +11,14 @@
   "inventoryIcon" : "liquidextractor.png:open.on",
   "orientations" : [
     {
-      "image" : "liquidextractor.png:open.on",
+      "dualImage" : "liquidextractor.png:open.on",
 
       "imagePosition" : [0, 0],
       "frames" : 1,
       "animationCycle" : 1.0,
 
       "spaces" : [[0,0],[1,0],[2,0],[0,1],[2,1],[0,2],[1,2],[2,2]],
-      "anchors" : [ "bottom" ],
-      "direction" : "right"
+      "anchors" : [ "bottom" ]
     }
   ],
   
@@ -38,14 +37,14 @@
   "animationParts" : {
     "extractor" : "liquidextractor.png"
   },
-  "animationPosition" : [0, 0],
+  "animationPosition" : [12, 12],
   
   "inboundNodes" : [[1, 1]],
   
   "itemNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
   "liquidNodes" : [ {"offset": [2, 0], "dir": [1, 0]} ],
   "flippedLiquidNodes" : [ {"offset": [0, 0], "dir": [-1, 0]} ],
-  
   
   "energyConsumptionRate" : 5,
   "energyCapacity" : 10,
