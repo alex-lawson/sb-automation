@@ -5,6 +5,14 @@ function init(virtual)
     setTargetPosition()
 
     entity.setInteractive(true)
+
+    -- for k, v in pairs(entity) do
+    --   world.logInfo(type(v).." entity."..k)
+    -- end
+
+    -- for k, v in pairs(world) do
+    --   world.logInfo(type(v).." world."..k)
+    -- end
   end
 end
 
@@ -53,9 +61,10 @@ function click()
     local eIds = world.entityLineQuery(self.clickPos, self.clickPos, { withoutEntityId = entity.id() })
 
     for i, eId in ipairs(eIds) do
-      if world.entityType(eId) == "object" then
+      if world.entityType(eId) == "object" and world.callScriptedEntity(eId, "entity.configParameter", "objectType") == "farmable" then
         world.logInfo("(harvester) harvesting crop #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
-        harvestCrop(eId)
+        world.logInfo("stage %s", world.callScriptedEntity(eId, "entity.animationState", "stage"))
+        --harvestCrop(eId)
       elseif world.entityType(eId) == "plant" then
         world.logInfo("(harvester) chopping plant #%d  name: %s  type: %s  configName: %s", eId, world.entityName(eId), world.entityType(eId), world.callScriptedEntity(eId, "entity.configParameter", "objectName"))
         world.damageTiles({world.entityPosition(eId)}, "foreground", entity.position(), "plantish", 100)
