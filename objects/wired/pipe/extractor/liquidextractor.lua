@@ -5,6 +5,7 @@ function init(args)
     
     if entity.direction() < 0 then
       pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
+      pipes.nodes["item"] = entity.configParameter("flippedItemNodes")
     end
     
     entity.setInteractive(true)
@@ -188,7 +189,7 @@ function placeBlock()
     local blockConversion = self.conversions[storage.block.name]
     if blockConversion then
       local placePosition = blockPosition()
-      local placedObject = world.placeObject("extractorblock", placePosition, 1, {initState = storage.block.name})
+      local placedObject = world.placeObject("extractorblock", placePosition, entity.direction(), {initState = storage.block.name})
       if placedObject then
         local placedBlock = {}
         placedBlock[1] = storage.block.name

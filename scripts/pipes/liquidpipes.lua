@@ -43,9 +43,9 @@ function peekPullLiquid(nodeId, filter)
 end
 
 function isLiquidNodeConnected(nodeId)
-  if pipes.nodeEntities["liquid"] == nil then return false end
-  if #pipes.nodeEntities["liquid"] > 0 then
-    return pipes.nodeEntities["liquid"]
+  if pipes.nodeEntities["liquid"] == nil or pipes.nodeEntities["liquid"][nodeId] == nil then return false end
+  if #pipes.nodeEntities["liquid"][nodeId] > 0 then
+    return pipes.nodeEntities["liquid"][nodeId]
   else
     return false
   end

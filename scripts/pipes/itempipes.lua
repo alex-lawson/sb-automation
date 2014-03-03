@@ -43,9 +43,9 @@ function peekPullItem(nodeId, filter)
 end
 
 function isItemNodeConnected(nodeId)
-  if pipes.nodeEntities["item"] == nil then return false end
-  if #pipes.nodeEntities["item"] > 0 then
-    return pipes.nodeEntities["item"]
+  if pipes.nodeEntities["item"] == nil or pipes.nodeEntities["item"][nodeId] == nil then return false end
+  if #pipes.nodeEntities["item"][nodeId] > 0 then
+    return pipes.nodeEntities["item"][nodeId]
   else
     return false
   end

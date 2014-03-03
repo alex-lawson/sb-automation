@@ -2,10 +2,13 @@
   "objectName" : "foundry",
   "rarity" : "Legendary",
   "objectType" : "wire",
-  "scripts" : [ "/objects/wired/foundry/foundry.lua" ],
-  "scriptDelta" : 5,
- 
-  "printable" : false,  
+  "printable" : false,
+
+  "interactAction" : "OpenCraftingInterface",
+  "interactData" : {
+    "config" : "/interface/windowconfig/foundry.config",
+    "filter" : [ "foundry" ]
+  },
 
   "filterButtons" : [ 
     {
