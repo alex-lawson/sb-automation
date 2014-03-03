@@ -47,7 +47,7 @@ end
 function Node:computeHeuristicsTo(node, final)
   local cost = 1  
   if (self[1] ~= node[1] and self[2] ~= node[2]) then 
-    cost = 1.41
+    cost = 2--1.41
   end
   self.G = cost + node.G
   self.H = self:getDistanceTo(final)
@@ -65,12 +65,15 @@ function astarApi.isListed(list, obj)
 end
 
 --- Divide and Conquer the open list!
-function astarApi.findPos(node)
-  local imin, imax = 1, #astarApi.oList
-  while (imax > imin) do
-    local imid = math.floor((imin + imax) / 2)
-    if (astarApi.oList[imid + 1].F > node.F) and (astarApi.oList[imid].F <= node.F) then return imid + 1
-    elseif (astarApi.oList[imid].F < node.F) then imin = imid + 1
+function astarApi.findPos(F)
+  local imid = next(astarApi.oList)
+  if imid == nil or astarApi.oList[imid].F >= F then return 1 end
+  local imin, imax = 1, #astarApi.oList - 1
+  while (imax >= imin) do
+    imid = math.floor((imin + imax) / 2)
+    if astarApi.oList[imid].F == F then return imid
+    elseif (astarApi.oList[imid + 1].F > F) and (astarApi.oList[imid].F <= F) then return imid + 1
+    elseif astarApi.oList[imid].F < F then imin = imid + 1
     else imax = imid - 1 end
   end
   return #astarApi.oList + 1
@@ -78,7 +81,6 @@ end
 
 --- Internal function which checks new nodes to study around self node.
 function astarApi.addNode()
-  local lowerCostNode = astarApi.currentNode
   for y = astarApi.currentNode[2] - 1, astarApi.currentNode[2] + 1, 1 do
     for x = astarApi.currentNode[1] - 1, astarApi.currentNode[1] + 1, 1 do
       local left, right = false, false
@@ -94,25 +96,16 @@ function astarApi.addNode()
           --world.placeMaterial(n2v(tmpNode), "background", "ice")
           -- DEBUG
           tmpNode:computeHeuristicsTo(astarApi.currentNode, astarApi.finalNode)
-          if not astarApi.isListed(astarApi.cList,tmpNode) then
+          if not astarApi.isListed(astarApi.cList, tmpNode) then
             local opened, pos = astarApi.isListed(astarApi.oList, tmpNode)
-            if opened then
-              if (tmpNode.F < astarApi.oList[pos].F) then
-                astarApi.oList[pos] = tmpNode
-              end
-            else
-              if tmpNode.F <= lowerCostNode.F  then
-                lowerCostNode = tmpNode   
-                table.insert(astarApi.oList, 1, tmpNode)
-              else
-                table.insert(astarApi.oList, astarApi.findPos(tmpNode), tmpNode)
-              end
+            if not opened or (tmpNode.G < astarApi.oList[pos].G) then
+              if opened then table.remove(astarApi.oList, pos) end
+              table.insert(astarApi.oList, astarApi.findPos(tmpNode.F), tmpNode)
             end
           end
-        else
-          -- DEBUG
-          --world.placeMaterial(n2v(tmpNode), "background", "iceblock")
-          -- DEBUG
+        -- DEBUG
+        --else world.placeMaterial(n2v(tmpNode), "background", "iceblock")
+        -- DEBUG
         end
       end
     end
@@ -173,19 +166,17 @@ end
 -- @param rect (rect4f) A rectangle to be used for collision testing
 -- @return (table) A list of nodes
 function astarApi.getPath(from, to)
+  if not astarApi.init then return true, nil end
   astarApi.tries = 0
   astarApi.initialNode = astarApi.getWalkableNode(from)
   astarApi.finalNode = astarApi.getWalkableNode(to)
+  if not astarApi.initialNode or not astarApi.finalNode then return false end
   astarApi.path = {}
   astarApi.currentNode = Node(astarApi.initialNode[1], astarApi.initialNode[2], 0, 0, 0, Node(astarApi.initialNode[1], astarApi.initialNode[2]))
   astarApi.cList = {}
   astarApi.oList = {}
-  table.insert(astarApi.cList,astarApi.currentNode)
-  if astarApi.finalNode == astarApi.initialNode then
-    astarApi.path = astarApi.cList
-    return
-  end
-  repeat
+  table.insert(astarApi.cList, astarApi.currentNode)
+  while (not (astarApi.finalNode == astarApi.initialNode)) do
     astarApi.addNode()
     local bestPos = next(astarApi.oList)
     if bestPos then
@@ -201,7 +192,7 @@ function astarApi.getPath(from, to)
     if astarApi.tries % astarApi.tpt == 0 then
       coroutine.yield(false)
     end
-  until (astarApi.currentNode == astarApi.finalNode)
+  end
   astarApi.path = astarApi.cList
   if astarApi.path and (#astarApi.path > 0) then
     local way = {}
@@ -224,6 +215,7 @@ end
 
 --- Required to call before using path functions
 function astarApi.setConfig(args)
+  astarApi.init = true
   astarApi.trect = args.collisionRect or { -1, -1, 1, 1 }
   astarApi.diagonal = args.diagonal or false
   astarApi.searchDepth = args.searchDepth or 2
