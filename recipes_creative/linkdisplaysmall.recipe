@@ -4,5 +4,5 @@
     "item" : "linkdisplaysmall",
     "count" : 1
   },
-  "groups" : [ "mod" ]
+  "groups" : [ "mod", "sfmod" ]
 }

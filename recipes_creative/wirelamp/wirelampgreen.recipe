@@ -4,5 +4,5 @@
     "item" : "wirelampgreen",
     "count" : 1
   },
-  "groups" : [ "mod" ]
+  "groups" : [ "mod", "sfmod" ]
 }
