@@ -24,7 +24,7 @@ end
  DiagonalShortCut:
    diagonal   = math.min(math.abs(mNewLocationX - end.X), math.abs(mNewLocationY - end.Y))
    straight   = (math.abs(mNewLocationX - end.X) + math.abs(mNewLocationY - end.Y))
-   H          = (2 * 2) * diagonal + 2 * (straight - 2 * diagonal)
+   H          = 4 * diagonal + 2 * (straight - 2 * diagonal)
  Euclidean:
    H          = 2 * math.sqrt(math.pow((mNewLocationY - end.X) , 2) + math.pow((mNewLocationY - end.Y), 2))
  EuclideanNoSQR:
@@ -36,8 +36,7 @@ end
    H          = 2 * (Diagonal + Orthogonal + dxy.X + dxy.Y)
 ]]--
 
-
---- Computes the distance from self node to another node (Euclidean No SQR)
+--- Computes the distance from self node to another node
 function Node:getDistanceTo(node)
   local x, y = self[1] - node[1], self[2] - node[2]
   return 2 * (x * x + y * y)
@@ -65,6 +64,8 @@ function astarApi.isListed(list, obj)
 end
 
 --- Divide and Conquer the open list!
+-- @param F (float) A F node value to find a position for
+-- @return (int) Suitable position in the open list for the node
 function astarApi.findPos(F)
   local imid = next(astarApi.oList)
   if imid == nil or astarApi.oList[imid].F >= F then return 1 end
@@ -79,7 +80,7 @@ function astarApi.findPos(F)
   return #astarApi.oList + 1
 end
 
---- Internal function which checks new nodes to study around self node.
+--- Internal function which checks new nodes to study around self node
 function astarApi.addNode()
   for y = astarApi.currentNode[2] - 1, astarApi.currentNode[2] + 1, 1 do
     for x = astarApi.currentNode[1] - 1, astarApi.currentNode[1] + 1, 1 do
@@ -113,7 +114,8 @@ function astarApi.addNode()
 end
 
 --- Looks for a new walkable destination in the search area around a node
--- @param node (Node) A node
+-- @param node (vec2f) Position to look around from
+-- @return (Node) A walkable node or nil
 function astarApi.getNewFreeNode(node)
   local depth = 0
   repeat
@@ -144,6 +146,7 @@ function astarApi.getNewFreeNode(node)
 end
 
 --- Pick a nearest walkable node around specified position
+-- @param vec (vec2f) Position to look around from
 -- @return (Node) A walkable node or nil
 function astarApi.getWalkableNode(vec)
   local node = Node(vec[1], vec[2])
@@ -156,6 +159,7 @@ end
 
 --- Checks if a node is walkable
 -- @param node (Node) A node
+-- @return (bool) True if the node is passable
 function astarApi.isWalkable(node)
   return not world.rectCollision({ astarApi.trect[1] + node[1], astarApi.trect[2] + node[2], astarApi.trect[3] + node[1], astarApi.trect[4] + node[2] }, true)
 end
@@ -214,6 +218,15 @@ function astarApi.getPath(from, to)
 end
 
 --- Required to call before using path functions
+-- @param args (table) [optional] A table containing possible configuration keys:
+--  - walkFunc (func{Node}) Function to be used for node passability checking
+--  - moveSpeed (float) Speed multiplier used in integrated move functions
+--  - triesLimit (int) Node search limit
+--  - triesPerTick (int) Maximum amount of node checks per tick
+--  - maxDistance (int) Distance after which all nodes are considered impassable
+--  - searchDepth (int) Maximum tolerated distance from destination
+--  - diagonal (bool) Allow diagonal movement along the path
+--  - collisionRect (rect4f) Collision rectangle to use by the default passability function
 function astarApi.setConfig(args)
   astarApi.init = true
   astarApi.trect = args.collisionRect or { -1, -1, 1, 1 }
@@ -223,6 +236,7 @@ function astarApi.setConfig(args)
   astarApi.tpt = args.triesPerTick or 100
   astarApi.tlimit = args.triesLimit or 3000
   astarApi.spd = args.moveSpeed or 4
+  astarApi.isWalkable = args.walkFunc or astarApi.isWalkable
 end
 
 --- Just an usage example, if you mind
@@ -261,10 +275,16 @@ function astarApi.flyTo(fdest, rect)
   return true
 end
 
+--- Vector the node!
+-- @param n (Node) A node
+-- @return (vec2f) A vector
 function n2v(n)
   return { n[1], n[2] }
 end
 
+--- Normalizes a vector and multiplies it by speed
+-- @param v (vec2f) Vector to process
+-- @param spd (float) Speed multiplier to apply
 function astarApi.dirVec(v, spd)
   local l = math.sqrt(v[1] * v[1] + v[2] * v[2])
   return { v[1] * spd / l, v[2] * spd / l }
