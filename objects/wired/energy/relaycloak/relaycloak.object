@@ -1,0 +1,34 @@
+{
+  "objectName" : "relaycloak",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "Refracts light to camouflage nearby energy relays.",
+  "shortdescription" : "Relay Cloak",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 500,
+  "printable" : false,
+
+  "inventoryIcon" : "relaycloakicon.png",
+
+  "orientations" : [
+    {
+      "image" : "relaycloak.png:1",
+      "imagePosition" : [0, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "relaycloak.lua" ],
+  "scriptDelta" : 120,
+
+  "animation" : "relaycloak.animation",
+  "animationParts" : {
+    "switch" : "relaycloak.png",
+    "relay" : "relaystates.png"
+  },
+  "animationPosition" : [0, -8]
+}
