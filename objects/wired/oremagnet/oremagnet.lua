@@ -20,7 +20,7 @@ function init(virtual)
     self.range = 100
     findOres()
 
-    self.energyCost = 1
+    self.energyCost = 100
 
     self.needleMinPos = math.pi / 2.1
     self.needleRange = math.pi / 1.16
