@@ -1,0 +1,9 @@
+{
+  "itemName" : "cleanpipemiddle",
+  "rarity" : "Common",
+  "inventoryIcon" : "cleanpipemiddle.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "clean Pipe Middle",
+  "shortdescription" : "Pipe Middle",
+  
+  "materialId" : 5738}
