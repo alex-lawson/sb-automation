@@ -12,38 +12,66 @@
   "orientations" : [
     {
       "image" : "itemsorter.png:on",
-      "imagePosition" : [0, 0],
+      "direction" : "right",
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "itemsorter.png:on",
-      "imagePosition" : [0, 0],
+      "direction" : "right",
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "itemsorter.png:on",
-      "imagePosition" : [0, 0],
+      "direction" : "right",
 
       "spaceScan" : 0.1,
       "anchors" : [ "top" ]
     },
     {
       "image" : "itemsorter.png:on",
-      "imagePosition" : [0, 0],
+      "direction" : "right",
 
       "spaceScan" : 0.1,
       "anchors" : [ "left" ]
     },
     {
       "image" : "itemsorter.png:on",
-      "imagePosition" : [0, 0],
+      "direction" : "right",
 
       "spaceScan" : 0.1,
       "anchors" : [ "right" ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "direction" : "right",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "direction" : "right",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "direction" : "right",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "itemsorter.png:on",
+      "direction" : "right",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
     }
   ],
 

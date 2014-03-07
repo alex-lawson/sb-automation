@@ -36,7 +36,6 @@ function setActive(f)
 end
 
 function setStatus(i)
-  world.logInfo("setStatus " .. i)
   storage.state = i
   if i > 0 then
     entity.setAnimationState("droneState", "hide")
