@@ -3,7 +3,7 @@
   "materialName" : "cleanpipeSW",
   "frames" : "cleanpipeSW.png",
   "particleColor" : [84, 127, 73, 255],
-  "variants" : 10,
+  "variants" : 1,
   "itemDrop" : "cleanpipeSW",
   "shortdescription" : "clean Pipe exiting south and west.",
   "description" : "South and west exits of a section of a clean Pipe.",

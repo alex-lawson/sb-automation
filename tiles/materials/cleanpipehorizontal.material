@@ -3,7 +3,7 @@
   "materialName" : "cleanpipehorizontal",
   "frames" : "cleanpipehorizontal.png",
   "particleColor" : [84, 127, 73, 255],
-  "variants" : 10,
+  "variants" : 5,
   "itemDrop" : "cleanpipehorizontal",
   "shortdescription" : "Horizontal clean Pipe",
   "description" : "A horizontal pipe.",

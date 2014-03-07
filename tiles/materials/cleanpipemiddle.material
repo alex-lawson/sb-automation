@@ -3,7 +3,7 @@
   "materialName" : "cleanpipemiddle",
   "frames" : "cleanpipemiddle.png",
   "particleColor" : [84, 127, 73, 255],
-  "variants" : 10,
+  "variants" : 2,
   "itemDrop" : "cleanpipemiddle",
   "shortdescription" : "clean Pipe Middle.",
   "description" : "clean Pipe Middle.",

@@ -3,7 +3,7 @@
   "materialName" : "cleanpipevertical",
   "frames" : "cleanpipevertical.png",
   "particleColor" : [84, 127, 73, 255],
-  "variants" : 10,
+  "variants" : 5,
   "itemDrop" : "cleanpipevertical",
   "shortdescription" : "Vertical clean Pipe",
   "description" : "A vertical pipe.",
