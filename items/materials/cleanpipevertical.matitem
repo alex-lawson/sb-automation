@@ -1,12 +1,12 @@
 {
-  "itemName" : "sewerpipevertical",
+  "itemName" : "cleanpipevertical",
   "rarity" : "Common",
-  "inventoryIcon" : "sewerpipevertical.png",
+  "inventoryIcon" : "cleanpipevertical.png",
   "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
-  "shortdescription" : "Vertical Sewer Pipe",
+  "shortdescription" : "Vertical Pipe",
   "description" : "A vertical pipe.",
   "glitchdescription" : "Statement. A vertical pipe.",
   "florandescription" : "Ssstanding up pipe.",
 
-  "materialId" : 138
+  "materialId" : 5744
 }

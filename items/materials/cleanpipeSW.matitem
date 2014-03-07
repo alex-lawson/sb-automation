@@ -1,0 +1,9 @@
+{
+  "itemName" : "cleanpipeSW",
+  "rarity" : "Common",
+  "inventoryIcon" : "cleanpipeSW.png",
+  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
+  "description" : "South and west exits of a section of a clean Pipe.",
+  "shortdescription" : "Pipe SW Elbow",
+
+  "materialId" : 5740}

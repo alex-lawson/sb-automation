@@ -55,7 +55,14 @@ pipes.directions = {
   b2 = {{1, 0}, {0, -1}},
   b3 = {{-1,0}, {0, -1}},
   b4 = {{-1, 0}, {0, 1}},
-  plus = {{1,0}, {-1, 0}, {0, -1}, {0, 1}}
+  plus = {{1,0}, {-1, 0}, {0, -1}, {0, 1}},
+  horizontal = {{1,0}, {-1, 0}},
+  vertical = {{0, 1}, {0, -1}},
+  NE = {{1,0}, {0,1}},
+  NW = {{1, 0}, {0, -1}},
+  SW = {{-1,0}, {0, -1}},
+  SE = {{-1, 0}, {0, 1}},
+  middle = {{1,0}, {-1, 0}, {0, -1}, {0, 1}}
 }
 
 --- Initialize, always run this in init (when init args == false)
@@ -169,10 +176,12 @@ end
 -- @param layer - layer to check ("foreground" or "background")
 -- @returns Hook return if successful, false if unsuccessful
 function pipes.tileDirections(pipeName, position, layer)
-  local foregroundTile = world.material(position, layer)
-  for orientation,directions in pairs(pipes.directions) do
-    if foregroundTile == pipes.types[pipeName].tiles .. orientation then
-      return directions
+  local checkedTile = world.material(position, layer)
+  for _,tileType in ipairs(pipes.types[pipeName].tiles) do
+    for orientation,directions in pairs(pipes.directions) do
+      if checkedTile == tileType .. orientation then
+        return directions
+      end
     end
   end
   return false
