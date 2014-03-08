@@ -1,0 +1,41 @@
+{
+  "objectName" : "fullbattery",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "A battery that requires recharging after use.",
+  "shortdescription" : "Full Battery",
+  "race" : "generic",
+  "category" : "wire",
+  "price" : 1000,
+  "printable" : false,
+
+  "inventoryIcon" : "fullbatteryicon.png",
+
+  "breakDropOptions": [],
+
+  "orientations" : [
+    {
+      "image" : "battery.png:full",
+      "imagePosition" : [0, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ ],
+      "direction" : "right"
+    }
+  ],
+
+  "scripts" : [ "/scripts/energy.lua", "battery.lua" ],
+  "scriptDelta" : 10,
+
+  "animation" : "battery.animation",
+  "animationParts" : {
+    "background" : "battery.png:background",
+    "chargebar" : "chargebar.png",
+    "overlay" : "battery.png:overlay"
+  },
+  "animationPosition" : [0, 0],
+
+  "energyCapacity" : 1000,
+  "fuelAmount" : 10,
+  "energyAllowConnection" : false
+}

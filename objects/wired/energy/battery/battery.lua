@@ -16,6 +16,8 @@ function die()
   local position = entity.position()
   if energy.getEnergy() == 0 then
     world.spawnItem("battery", {position[1] + 0.5, position[2] + 1}, 1)
+  elseif energy.getUnusedCapacity() == 0 then
+    world.spawnItem("fullbattery", {position[1] + 0.5, position[2] + 1}, 1, {savedEnergy=energy.getEnergy()})
   else
     world.spawnItem("battery", {position[1] + 0.5, position[2] + 1}, 1, {savedEnergy=energy.getEnergy()})
   end

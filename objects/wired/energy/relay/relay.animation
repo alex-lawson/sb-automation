@@ -6,7 +6,13 @@
         "states" : {
           "off" : {}, //deprecated state left in for compatibility
           "air" : {},
-          "wall" : {}
+          "wall" : {},
+          "air.default" : {},
+          "wall.default" : {},
+          "air.subtle" : {},
+          "wall.subtle" : {},
+          "air.hidden" : {},
+          "wall.hidden" : {}
         }
       }
     },
@@ -21,17 +27,48 @@
           "relayState" : {
             "off" : {
               "properties" : {
-                "image" : "<partImage>:air"
+                "image" : "<partImage>:air.<variant>"
               }
             },
             "air" : {
               "properties" : {
-                "image" : "<partImage>:air"
+                "image" : "<partImage>:air.<variant>"
               }
             },
             "wall" : {
               "properties" : {
-                "image" : "<partImage>:wall"
+                "image" : "<partImage>:wall.<variant>"
+              }
+            },
+            /* v v v v stupid workarounds while setGlobalTag is broken v v v v */
+            "air.default" : {
+              "properties" : {
+                "image" : "<partImage>:air.default"
+              }
+            },
+            "wall.default" : {
+              "properties" : {
+                "image" : "<partImage>:wall.default"
+              }
+            },
+            "air.subtle" : {
+              "properties" : {
+                "image" : "<partImage>:air.subtle"
+              }
+            },
+            "wall.subtle" : {
+              "properties" : {
+                "image" : "<partImage>:wall.subtle"
+              }
+            },
+            "air.hidden" : {
+              "properties" : {
+                "image" : "<partImage>:air.hidden"
+              }
+            },
+            "wall.hidden" : {
+              "properties" : {
+                "image" : "<partImage>:wall.hidden"
               }
             }
           }

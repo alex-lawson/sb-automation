@@ -14,38 +14,57 @@
   "orientations" : [
     {
       "image" : "pipeliquiddetector.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "pipeliquiddetector.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "top" ]
     },
     {
       "image" : "pipeliquiddetector.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "pipeliquiddetector.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "left" ]
     },
     {
       "image" : "pipeliquiddetector.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "right" ]
+    },
+    {
+      "image" : "pipeliquiddetector.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "pipeliquiddetector.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "pipeliquiddetector.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "pipeliquiddetector.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
     }
   ],
 

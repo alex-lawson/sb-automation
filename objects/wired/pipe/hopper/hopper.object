@@ -22,37 +22,37 @@
   "orientations" : [
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "fgAnchors" : [ [0, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "fgAnchors" : [ [1, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "bgAnchors" : [ [0, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "bgAnchors" : [ [1, -1] ]
     }

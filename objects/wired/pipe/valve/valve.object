@@ -14,38 +14,57 @@
   "orientations" : [
     {
       "image" : "valve.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "valve.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "valve.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "top" ]
     },
     {
       "image" : "valve.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "left" ]
     },
     {
       "image" : "valve.png:<color>.off",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "right" ]
+    },
+    {
+      "image" : "valve.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "valve.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "valve.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "valve.png:<color>.off",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
     }
   ],
 
