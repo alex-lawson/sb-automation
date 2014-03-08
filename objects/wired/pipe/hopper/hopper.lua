@@ -15,13 +15,32 @@ function main(args)
   pipes.update(entity.dt())
   
   if self.timer > self.pickupCooldown and (isItemNodeConnected(1) or isItemNodeConnected(2)) then
-    local itemDropList = findItemDrops()
-    if #itemDropList > 0 then
-      for i, itemId in ipairs(itemDropList) do
-        if not self.ignoreIds[itemId] then
-          local item = world.takeItemDrop(itemId, entity.id())
-          if item then
-            outputItem(item)
+
+    --Try to push from inventory first
+    local result = false;
+    local items = world.containerItems(entity.id())
+    for key, item in pairs(items) do
+      result = pushItem(1, item) or pushItem(2, item)
+      if result then
+        if result ~= true then
+          item.count = result --amount accepted
+        end
+        world.containerConsume(entity.id(), item)
+
+        break
+      end
+    end
+
+    --If inventory fails
+    if not result then
+      local itemDropList = findItemDrops()
+      if #itemDropList > 0 then
+        for i, itemId in ipairs(itemDropList) do
+          if not self.ignoreIds[itemId] then
+            local item = world.takeItemDrop(itemId, entity.id())
+            if item then
+              outputItem(item)
+            end
           end
         end
       end
