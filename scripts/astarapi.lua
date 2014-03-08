@@ -157,13 +157,6 @@ function astarApi.getWalkableNode(vec)
   else return node end
 end
 
---- Checks if a node is walkable
--- @param node (Node) A node
--- @return (bool) True if the node is passable
-function astarApi.isWalkable(node)
-  return not world.rectCollision({ astarApi.trect[1] + node[1], astarApi.trect[2] + node[2], astarApi.trect[3] + node[1], astarApi.trect[4] + node[2] }, true)
-end
-
 --- Returns the reordered path from the starting node to the final node
 -- @param from (vec2f) The starting position
 -- @param to (vec2f) The destination
@@ -180,7 +173,7 @@ function astarApi.getPath(from, to)
   astarApi.cList = {}
   astarApi.oList = {}
   table.insert(astarApi.cList, astarApi.currentNode)
-  while (not (astarApi.finalNode == astarApi.initialNode)) do
+  while (not (astarApi.finalNode == astarApi.currentNode)) do
     astarApi.addNode()
     local bestPos = next(astarApi.oList)
     if bestPos then
@@ -236,7 +229,7 @@ function astarApi.setConfig(args)
   astarApi.tpt = args.triesPerTick or 100
   astarApi.tlimit = args.triesLimit or 3000
   astarApi.spd = args.moveSpeed or 4
-  astarApi.isWalkable = args.walkFunc or astarApi.isWalkable
+  astarApi.isWalkable = args.walkFunc or function(node) return not world.rectCollision({ astarApi.trect[1] + node[1], astarApi.trect[2] + node[2], astarApi.trect[3] + node[1], astarApi.trect[4] + node[2] }, true) end
 end
 
 --- Just an usage example, if you mind
