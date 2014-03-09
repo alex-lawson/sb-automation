@@ -13,38 +13,57 @@
   "orientations" : [
     {
       "image" : "itemfilter.png:on",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "itemfilter.png:on",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "itemfilter.png:on",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "top" ]
     },
     {
       "image" : "itemfilter.png:on",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "left" ]
     },
     {
       "image" : "itemfilter.png:on",
-      "imagePosition" : [0, 0],
 
       "spaceScan" : 0.1,
       "anchors" : [ "right" ]
+    },
+    {
+      "image" : "itemfilter.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "itemfilter.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "itemfilter.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "itemfilter.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
     }
   ],
 

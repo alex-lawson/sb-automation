@@ -25,7 +25,8 @@ end
 function connectChest()
   self.chest = false
   local pos = entity.toAbsolutePosition({entity.direction(), 1})
-  local entityIds = world.objectLineQuery({pos[1] + 0.5, pos[2] + 0.1}, {pos[1] + 0.5 + entity.direction(), pos[2] + 0.1}, { withoutEntityId = entity.id(), order = "nearest" })
+  local searchPos = {pos[1] + 0.5, pos[2] + 0.1}
+  local entityIds = world.objectLineQuery(searchPos, searchPos, { withoutEntityId = entity.id(), order = "nearest" })
   --world.logInfo("searched for chests, found entities %s", entityIds)
   for i, entityId in ipairs(entityIds) do
     if world.containerSize(entityId) then

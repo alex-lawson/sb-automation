@@ -2,22 +2,11 @@ function init(virtual)
   if not virtual then
     energy.init()
 
-    self.oreTypes = {
-      copper = true,
-      iron = true,
-      silverore = true,
-      gold = true,
-      titanium = true,
-      lead = true,
-      metal = true,
-      rubium = true,
-      uranium = true,
-      solarium = true,
-      plutonium = true,
-      cerulium = true,
-      platinum = true,
-      aegisalt = true
-    }
+    -- tile mods to pull
+    self.pullTypes = entity.configParameter("pullTypes") or {}
+
+    -- tile mods not worth replacing
+    self.trashTypes = entity.configParameter("trashTypes") or {}
 
     self.cleanupLocs = {}
     self.nullMod = "grass"
@@ -121,7 +110,7 @@ function findOres()
   for x=pos1[1], pos2[1] do
     for y=pos1[2], pos2[2] do
       local mod = world.mod({x, y}, "foreground")
-      if mod and self.oreTypes[mod] then
+      if mod and self.pullTypes[mod] then
         --world.logInfo("found %s at %d, %d", mod, x, y)
         self.oreLocs[#self.oreLocs + 1] = {position={x, y}, mod=mod, active=true}
       end
@@ -150,10 +139,11 @@ function pullOres()
         local magnitude = math.sqrt((relPos[1] ^ 2) + (relPos[2] ^ 2)) * 1.2
         local jitter  = {math.random() * 0.8 - 0.4, math.random() * 0.8 - 0.4}
         local newPos = {math.round(ore.position[1] - (relPos[1] / magnitude) + jitter[1]), math.round(ore.position[2] - (relPos[2] / magnitude) + jitter[2])}
+        local prevMod = world.mod(newPos, "foreground")
 
-        if newPos ~= ore.position and world.material(newPos, "foreground") and not self.oreTypes[world.mod(newPos, "foreground")] then
+        if newPos ~= ore.position and world.material(newPos, "foreground") and not self.pullTypes[prevMod] then
           if world.placeMod(newPos, "foreground", ore.mod) then
-            if prevMod then
+            if prevMod and not self.trashTypes[prevMod] then
               world.placeMod(ore.position, "foreground", prevMod)
             else
               markForCleanup(ore.position)

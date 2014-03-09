@@ -65,7 +65,7 @@ end
 function droneLand(eId)
   if self.droneId == eId then
     local fuel = world.callScriptedEntity(eId, "onLanding")
-    storage.power = storage.power + fuel
+    storage.power = math.max(0, storage.power + fuel)
     setStatus(0)
   end
 end
@@ -112,7 +112,7 @@ function main()
   self.pushTimer = self.pushTimer + dt
   if (self.droneId ~= nil) and not world.entityExists(self.droneId) then setStatus(2) end
   if storage.active and (storage.state < 1) and not storageApi.isFull() then
-    local drops = world.itemDropQuery(entity.position(), 20)
+    local drops = world.itemDropQuery(getLandingPos(), 20)
     if #drops > 0 then launchDrone() end
   elseif storage.state > 1 then
     if self.spawnTimer < 0 then

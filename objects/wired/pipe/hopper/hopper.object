@@ -1,12 +1,14 @@
 {
   "objectName" : "hopper",
-  "objectType" : "wire",
   "rarity" : "Common",
+  "objectType" : "container",
+
   "description" : "This device vacuums up loose items.",
   "shortdescription" : "Hopper",
   "race" : "generic",
   "category" : "wire",
   "printable" : false,
+  "subtitle" : "",
 
   "apexDescription" : "Hopper",
   "avianDescription" : "Hopper",
@@ -20,41 +22,47 @@
   "orientations" : [
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "background" ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "anchors" : [ "bottom" ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "fgAnchors" : [ [0, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "fgAnchors" : [ [1, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "bgAnchors" : [ [0, -1] ]
     },
     {
       "image" : "hopper.png",
-      "collision" : "solid",
+      "collision" : "platform",
       "spaceScan" : 0.1,
       "bgAnchors" : [ [1, -1] ]
     }
   ],
+
+
+  "slotCount" : 1,
+  "uiConfig" : "/interface/chests/slots1.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
   
   "scripts" : [
     "/objects/wired/pipe/hopper/hopper.lua",

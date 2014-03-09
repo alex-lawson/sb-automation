@@ -1,0 +1,70 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "cloakState" : {
+        "default" : "default",
+        "states" : {
+          "default" : {},
+          "subtle" : {},
+          "hidden" : {}
+        }
+      },
+      "screenState" : {
+        "default" : "default",
+        "states" : {
+          "default" : {
+            "frames" : 4,
+            "cycle" : 0.5,
+            "mode" : "loop"
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "switch" : {
+        "properties" : {
+          "zLevel" : 1,
+          "centered" : false
+        },
+
+        "partStates" : {
+          "screenState" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:<frame>"
+              }
+            }
+          }
+        }
+      },
+      "relay" : {
+        "properties" : {
+          "offset" : [0.5, 0.5],
+          "zLevel" : 2,
+          "centered" : false
+        },
+
+        "partStates" : {
+          "cloakState" : {
+            "default" : {
+              "properties" : {
+                "image" : "<partImage>:default"
+              }
+            },
+            "subtle" : {
+              "properties" : {
+                "image" : "<partImage>:subtle"
+              }
+            },
+            "hidden" : {
+              "properties" : {
+                "image" : "<partImage>:hidden"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
