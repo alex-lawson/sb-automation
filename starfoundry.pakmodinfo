@@ -1,7 +1,7 @@
 {
     "name": "starfoundry",
     "version": "Beta v. Enraged Koala",
-    "path": ".",
+    "path": "starfoundry.pak",
     "dependencies": [],
     "metadata": {
         "author": "Starfoundry Collaborators",
