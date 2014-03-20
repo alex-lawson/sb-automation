@@ -1,0 +1,33 @@
+{
+  "objectName" : "logicencoder",
+  "printable" : false,
+  "rarity" : "Common",
+  "objectType" : "container",
+
+  "category" : "storage",
+  "price" : 500,
+  "description" : "Do some really complicated stuff... poof! It's magic!",
+  "shortdescription" : "Logic Encoder",
+  "race" : "generic",
+
+  "inventoryIcon" : "logicencodericon.png",
+  "orientations" : [
+    {
+      "dualImage" : "logicencoder.png:<color>.<key>",
+      "imagePosition" : [-8, 0],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+
+  "openSounds" : [ "/sfx/objects/chest_small_open.wav" ],
+  "closeSounds" : [ "/sfx/objects/chest_small_close.wav" ],
+  "slotCount" : 16,
+  "uiConfig" : "/interface/chests/chest%slots%.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
+  "scripts" : [ "logicencoder.lua" ],
+  "scriptDelta" : 180
+}
