@@ -1,0 +1,7 @@
+{
+  "itemName" : "sym_xor",
+  "rarity" : "Common",
+  "inventoryIcon" : "xor.png",
+  "description" : "True when one of the adjacent symbols is True (but not both).",
+  "shortdescription" : "XOR"
+}

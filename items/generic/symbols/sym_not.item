@@ -1,0 +1,7 @@
+{
+  "itemName" : "sym_not",
+  "rarity" : "Common",
+  "inventoryIcon" : "not.png",
+  "description" : "Inverts the result of the following symbols.",
+  "shortdescription" : "NOT"
+}

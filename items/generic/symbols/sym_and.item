@@ -1,0 +1,7 @@
+{
+  "itemName" : "sym_and",
+  "rarity" : "Common",
+  "inventoryIcon" : "and.png",
+  "description" : "True when symbols on both sides are True.",
+  "shortdescription" : "AND"
+}

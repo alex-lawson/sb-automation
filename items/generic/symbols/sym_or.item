@@ -1,0 +1,7 @@
+{
+  "itemName" : "sym_or",
+  "rarity" : "Common",
+  "inventoryIcon" : "or.png",
+  "description" : "True when a symbol on either side is True.",
+  "shortdescription" : "OR"
+}

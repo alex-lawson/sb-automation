@@ -1,0 +1,7 @@
+{
+  "itemName" : "sym_b",
+  "rarity" : "Common",
+  "inventoryIcon" : "b.png",
+  "description" : "Boolean input from the bottom wire node.",
+  "shortdescription" : "Input B"
+}
