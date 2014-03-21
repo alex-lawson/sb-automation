@@ -23,11 +23,11 @@
 
   "openSounds" : [ "/sfx/objects/chest_small_open.wav" ],
   "closeSounds" : [ "/sfx/objects/chest_small_close.wav" ],
-  "slotCount" : 16,
+  "slotCount" : 64,
   "uiConfig" : "/interface/chests/chest%slots%.config",
   "frameCooldown" : 67,
   "autoCloseCooldown" : 3600,
 
   "scripts" : [ "logicencoder.lua" ],
-  "scriptDelta" : 180
+  "scriptDelta" : 30
 }
