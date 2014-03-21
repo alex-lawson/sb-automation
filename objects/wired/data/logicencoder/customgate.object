@@ -1,0 +1,38 @@
+{
+  "objectName" : "customgate",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Its custom parameters are literally indescribable.",
+  "shortdescription" : "Custom Logic Gate",
+  "race" : "human",
+
+  "category" : "wire",
+  "price" : 300,
+
+  "inventoryIcon" : "customgate.png:default.1",
+  "orientations" : [
+    {
+      "image" : "customgate.png:<color>.off",
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    }
+  ],
+
+  "scripts" : [ "customgate.lua" ],
+  "scriptDelta" : 1,
+
+  "animation" : "customgate.animation",
+
+  "animationParts" : {
+    "switch" : "customgate.png"
+  },
+  "animationPosition" : [-8, -8],
+
+  "inboundNodes" : [ [-1, 0] ],
+  "outboundNodes" : [ ],
+
+  "gates" : 1,
+  "truthtable" : [ false, true ]
+}

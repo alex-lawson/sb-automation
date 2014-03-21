@@ -24,12 +24,31 @@ function main()
   -- eject illegal items
 
   -- sync gate < - > active symbols
-  
+  buildGate()
 
   -- replenish source symbols
   fillSourceSymbols()
 end
 
+-- builds a custom logic gate object from the current active symbol set
+function buildGate()
+  -- empty the current contents of the gate slot
+  if self.inventory[self.gateSlot + 1] then
+    local oldStack = self.inventory[self.gateSlot + 1]
+    if oldStack.name == "customgate" then
+      world.containerConsumeAt(entity.id(), self.gateSlot, oldStack.count)
+    else
+      local ejectStack = world.containerTakeAt(entity.id(), self.gateSlot)
+      eject(ejectStack)
+    end
+  end
+
+  -- create a new gate
+  local newGate = {name="customgate",count=1,data={}}
+  world.containerPutItemsAt(entity.id(), newGate, self.gateSlot)
+end
+
+-- replenishes the symbol palette
 function fillSourceSymbols()
   for i, slotId in ipairs(self.srcSymSlots) do
     if self.srcSymPalette[i] then
