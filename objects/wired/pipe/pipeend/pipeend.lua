@@ -1,5 +1,7 @@
 function init(virtual)
   if not virtual then
+    self.convertLiquid = entity.configParameter("liquidConversions")
+
     pipes.init({liquidPipe})
     
     self.usedNode = 0
@@ -36,8 +38,6 @@ function main(args)
       end
     end
   end
-  
-  self.convertLiquid = entity.configParameter("liquidConversions")
 end
 
 function convertEndlessLiquid(liquid)
@@ -55,7 +55,7 @@ function canGetLiquid(filter, nodeId)
   --Only get liquid if the pipe is emerged in liquid
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
-  local liquid = world.liquidAt(liquidPos)
+  local liquid = convertEndlessLiquid(world.liquidAt(liquidPos))
 
   local returnLiquid = filterLiquids(filter, {liquid})
   --world.logInfo("(canGetLiquid) filter result: %s", returnLiquid)

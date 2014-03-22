@@ -77,7 +77,7 @@ end
 function buildFilter()
   local pullAmount = entity.configParameter("pumpAmount")
   self.filter = {}
-  for i = 1, 7 do
+  for i = 0, 7 do
     self.filter[tostring(i)] = {1, pullAmount}
   end
 end
