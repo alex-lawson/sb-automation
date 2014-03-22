@@ -21,7 +21,7 @@
   ],
 
   "scripts" : [ "customgate.lua" ],
-  "scriptDelta" : 1,
+  "scriptDelta" : 5,
 
   "animation" : "customgate.animation",
 
@@ -30,9 +30,6 @@
   },
   "animationPosition" : [-8, -8],
 
-  "inboundNodes" : [ [-1, 0] ],
-  "outboundNodes" : [ ],
-
-  "gates" : 1,
-  "truthtable" : [ false, true ]
+  "inboundNodes" : [ [-1, 0], [-1, -1] ],
+  "outboundNodes" : [ [0, 0] ]
 }

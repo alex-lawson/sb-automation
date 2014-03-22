@@ -2,6 +2,7 @@ function init(virtual)
   if not virtual then
     self.inventory = {}
     self.gateSlot = 0
+    self.trashSlot = 3
     self.actSymSlots = {8, 9, 10, 11, 12, 13, 14, 15}
     self.srcSymSlots = {16, 17, 18, 19, 20, 21, 22, 23}
     self.srcSymPalette = {
@@ -28,6 +29,20 @@ function main()
 
   -- replenish source symbols
   fillSourceSymbols()
+
+  -- take out the garbage
+  emptyTrash()
+end
+
+function die()
+  -- don't drop all those messy symbols and things
+  world.containerTakeAt(entity.id(), self.gateSlot)
+  for i, slotId in ipairs(self.actSymSlots) do
+    world.containerTakeAt(entity.id(), slotId)
+  end
+  for i, slotId in ipairs(self.srcSymSlots) do
+    world.containerTakeAt(entity.id(), slotId)
+  end
 end
 
 -- builds a custom logic gate object from the current active symbol set
@@ -43,8 +58,20 @@ function buildGate()
     end
   end
 
+  -- interpret the current symbols
+  local symbols = {}
+  for i, slotId in ipairs(self.actSymSlots) do
+    if self.inventory[slotId + 1] then
+      symbols[#symbols + 1] = self.inventory[slotId + 1].name:sub(5)
+    end
+  end
+
+  -- world.logInfo("current active symbol set: %s", symbols)
+
   -- create a new gate
-  local newGate = {name="customgate",count=1,data={}}
+  local newGate = {name="customgate",count=1,data={
+      color="green"
+    }}
   world.containerPutItemsAt(entity.id(), newGate, self.gateSlot)
 end
 
@@ -73,11 +100,16 @@ function fillSourceSymbols()
         else
           world.logInfo("replacing some items in slot %d", slotId)
           -- different item, throw it out!
-          -- world.containerConsumeAt(entity.id(), slotId, slotStack.count)
-          local ejectStack = world.containerTakeAt(entity.id(), slotId)
-          eject(ejectStack)
+          if slotStack.name:sub(1, 4) == "sym_" then
+            -- don't bother ejecting symbols
+            world.containerConsumeAt(entity.id(), slotId, slotStack.count)
+          else
+            -- ...but do eject potentially important items
+            local ejectStack = world.containerTakeAt(entity.id(), slotId)
+            eject(ejectStack)
+          end
 
-          -- ...then fill it with the right item
+          -- now, fill it with the correct item from the palette
           world.containerPutItemsAt(entity.id(), palStack, slotId)
         end
       else
@@ -89,6 +121,7 @@ function fillSourceSymbols()
   end
 end
 
+-- spawn the specified item stack at the object's location
 function eject(item)
   if item then
     if next(item.data) == nil then 
@@ -99,21 +132,7 @@ function eject(item)
   end
 end
 
-function sortItems()
-  local contents = world.containerTakeAll(entity.id())
-  local sortItems = {}
-  for key, item in pairs(contents) do
-    item.sortString = world.itemType(item.name)..item.name
-    sortItems[#sortItems + 1] = item
-  end
-  if #sortItems > 0 then
-    table.sort(sortItems, compareItems)
-    for i, item in ipairs(sortItems) do
-      world.containerAddItems(entity.id(), item)
-    end
-  end
-end
-
-function compareItems(a, b)
-  return a.sortString < b.sortString
+-- delete the item in the trash slot
+function emptyTrash()
+  world.containerTakeAt(entity.id(), self.trashSlot)
 end
