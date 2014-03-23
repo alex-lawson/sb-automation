@@ -52,5 +52,5 @@
   
   "damageRate" : 0.25,
   "damageAmount" : 201,
-  "blockOffset" : [1, 1]
+  "blockOffset" : [1.5, 1.5]
 }

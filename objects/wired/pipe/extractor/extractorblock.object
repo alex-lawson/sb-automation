@@ -28,7 +28,7 @@
     "block" : "extractorblock.png",
     "damage" : "blockdamage.png"
   },
-  "animationPosition" : [-4, -2],
+  "animationPosition" : [4, 4],
   
   "scripts" : [
     "/objects/wired/pipe/extractor/extractorblock.lua",
