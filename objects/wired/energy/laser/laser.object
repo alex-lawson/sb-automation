@@ -1,0 +1,53 @@
+{
+  "objectName" : "laser",
+  "objectType" : "wire",
+  "rarity" : "Common",
+  "description" : "It's a laser",
+  "shortdescription" : "Laser",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "scaffold.png",
+  "orientations" : [
+    {
+      "dualImage" : "scaffold.png",
+
+      "imagePosition" : [-8, -8],
+      "frames" : 1,
+      "animationCycle" : 1.0,
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    }
+  ],
+  
+  "animation" : "/objects/wired/energy/laser/laser.animation",
+  "animationParts" : {
+    "lasergun" : "lasergun.png",
+    "scaffold" : "scaffold.png",
+    "beam" : "laserbeam.png"
+  },
+  "animationPosition" : [0, 0],
+  
+  "scripts" : [
+    "/objects/wired/energy/laser/laser.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/energy.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/stateMachine.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+  
+  "inboundNodes" : [[0, 0]],
+  
+  "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
+  "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
+
+  "energyConsumptionRate" : 20,
+  "energyCapacity" : 40,
+  
+  "fillInterval" : 2
+}
