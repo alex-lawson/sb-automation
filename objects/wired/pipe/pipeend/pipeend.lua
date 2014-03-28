@@ -55,13 +55,16 @@ function canGetLiquid(filter, nodeId)
   --Only get liquid if the pipe is emerged in liquid
   local position = entity.position()
   local liquidPos = {position[1] + 0.5, position[2] + 0.5}
-  local liquid = convertEndlessLiquid(world.liquidAt(liquidPos))
+  local availableLiquid = world.liquidAt(liquidPos)
+  if availableLiquid then
+    local liquid = convertEndlessLiquid(availableLiquid)
 
-  local returnLiquid = filterLiquids(filter, {liquid})
-  --world.logInfo("(canGetLiquid) filter result: %s", returnLiquid)
-  
-  if returnLiquid then
-    return returnLiquid
+    local returnLiquid = filterLiquids(filter, {liquid})
+    --world.logInfo("(canGetLiquid) filter result: %s", returnLiquid)
+    
+    if returnLiquid then
+      return returnLiquid
+    end
   end
   return false
 end

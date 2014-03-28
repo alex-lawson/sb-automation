@@ -80,17 +80,16 @@ function onItemPut(item, nodeId)
     if self.filterCount[node] > 0 then
       if self.filter[node][item.name] then
         pushResult = pushItem(node, item)
-        if pushResult then resultNode = node end
+        if pushResult then 
+          resultNode = node
+          showPass(self.stateMap[resultNode])
+          return pushResult
+        end
       end
     end
   end
 
-  if pushResult then
-    showPass(self.stateMap[resultNode])
-  else
-    showFail()
-  end
-
+  showFail()
   return pushResult
 end
 
