@@ -2,8 +2,8 @@
   "objectName" : "dirpipe",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Passes items or liquids between opposite sides when active.",
-  "shortdescription" : "dirpipe Junction",
+  "description" : "Lets through items and liquids in one direction only",
+  "shortdescription" : "One Way Pipe",
   "race" : "generic",
 
   "category" : "wire",
