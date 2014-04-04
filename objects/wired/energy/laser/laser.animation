@@ -2,7 +2,7 @@
   "animatedParts" : {
     "stateTypes" : {
       "laser" : {
-        "default" : "work",
+        "default" : "off",
         "states" : {
           "off" : {},
           "work" : {

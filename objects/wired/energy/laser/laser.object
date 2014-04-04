@@ -39,15 +39,13 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
+  "scriptDelta" : 100,
   
-  "inboundNodes" : [[0, 0]],
+  "inboundNodes" : [[-1, 0]],
   
   "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
   "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
 
   "energyConsumptionRate" : 20,
-  "energyCapacity" : 40,
-  
-  "fillInterval" : 2
+  "energyCapacity" : 40
 }
