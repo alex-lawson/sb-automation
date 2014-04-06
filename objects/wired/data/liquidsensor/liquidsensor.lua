@@ -1,3 +1,13 @@
+function init(virtual)
+  if not virtual then
+    datawire.init()
+  end
+end
+
+function onNodeConnectionChange()
+  datawire.onNodeConnectionChange()
+end
+
 function getSample()
   return world.liquidAt(entity.position())
 end
