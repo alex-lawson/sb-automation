@@ -128,7 +128,7 @@ end
 function laserState.enteringState(stateData)
   world.logInfo("Entering state: laserState")
   entity.setAnimationState("laser", "work")
-  laserState.setLength(2);
+  laserState.setLength(4);
 end
 
 function laserState.update(dt, stateData)
@@ -146,6 +146,7 @@ function laserState.leavingState(stateData)
   self.state.pickState()
 end
 
+--length in blocks
 function laserState.setLength(length)
-  entity.scaleGroup("beam", {8 * length, 1}) --length in blocks
+  entity.scaleGroup("beam", {8 * length, 1}) 
 end

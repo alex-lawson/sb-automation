@@ -18,7 +18,7 @@
       "animationCycle" : 1.0,
 
       "spaceScan" : 0.1,
-      "anchors" : [ "bottom" ]
+      "anchors" : [ "background" ]
     }
   ],
   
@@ -39,7 +39,7 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 100,
+  "scriptDelta" : 10,
   
   "inboundNodes" : [[-1, 0]],
   
