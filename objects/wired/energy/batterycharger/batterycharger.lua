@@ -170,7 +170,7 @@ function setWireStates()
   datawire.sendData(self.totalStoredEnergy, "number", 0)
   datawire.sendData(self.totalUnusedCapacity, "number", 1)
   entity.setOutboundNodeLevel(0, self.totalUnusedCapacity == 0)
-  entity.setOutboundNodeLevel(1, self.totalStoredEnergy == 0)
+  entity.setOutboundNodeLevel(1, self.totalUnusedCapacity ~= 0)
 end
 
 function main()
