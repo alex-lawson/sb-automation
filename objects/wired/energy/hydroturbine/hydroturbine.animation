@@ -1,0 +1,42 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "turbineState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "on" : {
+            "frames" : 1
+          },
+          "error" : {}
+        }
+      }
+    },
+    "parts" : {
+      "turbine" : {
+        "properties" : {
+          "centered" : false
+        },
+        "partStates" : {
+          "turbineState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:turbine.off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:turbine.on"
+              }
+            },
+            "error" : {
+              "properties" : {
+                "image" : "<partImage>:turbine.error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

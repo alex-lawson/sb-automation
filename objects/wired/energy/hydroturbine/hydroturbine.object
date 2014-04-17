@@ -1,0 +1,53 @@
+{
+  "objectName" : "hydroturbine",
+  "rarity" : "Common",
+  "objectType" : "wire",
+  "description" : "Generates energy from liquid flow",
+  "shortdescription" : "Hydro Turbine",
+  "race" : "generic",
+  "category" : "other",
+  "price" : 8000,
+  "printable" : false,
+
+  "inventoryIcon" : "hydroturbineicon.png",
+  
+  "orientations" : [
+    {
+      "dualImage" : "hydroturbine.png:turbine.on",
+      "imagePosition" : [-24, 0],
+
+	  "collision" : "solid",
+      "anchors" : [ "bottom" ],
+	  
+	  "spaces" : [
+		         [-2, 4], [-1, 4], [0, 4], [1, 4], [2, 4],
+		         [-2, 3], [-1, 3], [0, 3], [1, 3], [2, 3],
+		[-3, 2], [-2, 2], [-1, 2], [0, 2], [1, 2], [2, 2], [3, 2],
+		[-3, 1], [-2, 1], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1],
+		[-3, 0], [-2, 0], [-1, 0],         [1, 0], [2, 0], [3, 0]
+	  ]
+    }
+  ],
+
+  "animation" : "hydroturbine.animation",
+  "animationParts" : {
+    "turbine" : "hydroturbine.png"
+  },
+  "animationPosition" : [-24, 0],
+
+  "scripts" : [
+    "/scripts/energy.lua",
+    "hydroturbine.lua"
+  ],
+  "scriptDelta" : 12,
+
+  "inboundNodes" : [ [-4, 4] ],
+
+  "energyNodeOffset" : [ 0.5, 5.5 ],
+  "energySendRate" : 150,
+  "energyCapacity" : 300,
+  
+  "energyGenerationPerLiquid" : 1,
+  "liquidConsumptionRate" : 50,
+  "liquidOutputThreshold" : 1400
+}
