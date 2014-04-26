@@ -1,6 +1,6 @@
 {
   "frameGrid" : {
-    "size" : [12, 12],
+    "size" : [16, 12],
     "dimensions" : [1, 11],
     "names" : [
       [ "snow" ],

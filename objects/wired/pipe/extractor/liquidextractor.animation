@@ -19,7 +19,7 @@
     "parts" : {
       "extractor" : {
         "properties" : {
-          "centered" : false
+          "centered" : true
         },
         "partStates" : {
           "extractState" : {

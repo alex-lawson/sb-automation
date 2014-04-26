@@ -1,7 +1,7 @@
 liquidPipe = {
   pipeName = "liquid",
   nodesConfigParameter = "liquidNodes",
-  tiles = "metalpipe",
+  tiles = {"metalpipe", "sewerpipe", "cleanpipe"},
   hooks = {
     put = "onLiquidPut",  --Should take whatever argument get returns
     get = "onLiquidGet", --Should return whatever argument you want to plug into the put hook, can take whatever argument you want like a filter or something
@@ -43,9 +43,9 @@ function peekPullLiquid(nodeId, filter)
 end
 
 function isLiquidNodeConnected(nodeId)
-  if pipes.nodeEntities["liquid"] == nil then return false end
-  if #pipes.nodeEntities["liquid"] > 0 then
-    return pipes.nodeEntities["liquid"]
+  if pipes.nodeEntities["liquid"] == nil or pipes.nodeEntities["liquid"][nodeId] == nil then return false end
+  if #pipes.nodeEntities["liquid"][nodeId] > 0 then
+    return pipes.nodeEntities["liquid"][nodeId]
   else
     return false
   end

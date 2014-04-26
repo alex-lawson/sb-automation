@@ -1,0 +1,63 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "active" : {
+        "priority" : 0,
+        "default" : "off",
+
+        "states" : {
+          "off" : { 
+          },
+          "on" : { 
+            "frames" : 1,
+            "cycle" : 0.5,
+            "mode" : "transition",
+            "transition" : "off"
+          }
+        }
+      }
+    },
+
+    "parts" : {
+      "dirpipe" : {
+        "properties" : {
+          "image" : "<partImage>:default.0",
+          "offset" : [0, 0],
+          "centered" : true,
+          "zLevel" : 1
+        }
+      },
+
+      "spinner" : {
+        "properties" : {
+          "offset" : [0, 0],
+          "centered" : true,
+          "rotationGroup" : "pipe",
+          "zLevel" : 3
+        },
+
+        "partStates" : {
+          "active" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:default.off"
+              }
+            },
+            "on" : {
+              "properties" : {
+                "image" : "<partImage>:default.on"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "rotationGroups" : {
+    "pipe" : {
+      "rotationCenter" : [0, 0],
+      "angularVelocity" : 20
+    }
+  }
+}

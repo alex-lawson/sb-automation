@@ -20,6 +20,7 @@ function init()
   end
   self.start = 2
   if storage.fuel == nil then storage.fuel = 50 end
+  astarApi.setConfig({ diagonal = true })
 end
 
 function setActive(flag)

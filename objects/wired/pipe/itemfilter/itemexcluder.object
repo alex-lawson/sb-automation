@@ -1,0 +1,103 @@
+{
+  "objectName" : "itemexcluder",
+  "rarity" : "Common",
+  "objectType" : "container",
+
+  "description" : "Allows anything but the specified items to pass",
+  "shortdescription" : "Item Excluder Pipe",
+  "race" : "generic",
+  "category" : "wire",
+  "printable" : false,
+
+  "inventoryIcon" : "itemexcludericon.png",
+  "orientations" : [
+    {
+      "image" : "itemexcluder.png:on",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "background" ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "top" ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "left" ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "right" ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, 1] ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [1, 0] ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [0, -1] ]
+    },
+    {
+      "image" : "itemexcluder.png:on",
+      
+      "spaceScan" : 0.1,
+      "bgAnchors" : [ [-1, 0] ]
+    }
+  ],
+
+  "slotCount" : 4,
+  "uiConfig" : "/interface/chests/excluder4.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
+  "scripts" : [
+    "/objects/wired/pipe/itemfilter/itemexcluder.lua",
+    "/scripts/pipes/liquidpipes.lua",
+    "/scripts/pipes/itempipes.lua",
+    "/scripts/pipesapi.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 30,
+  
+  "animation" : "/objects/wired/pipe/itemfilter/itemfilter.animation",
+  "animationParts" : {
+    "pipe" : "itemexcluder.png"
+  },
+  "animationPosition" : [0, 0],
+
+  "liquidNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ],
+  "itemNodes" : [
+    {"offset": [0, 0], "dir": [-1, 0]},
+    {"offset": [0, 0], "dir": [1, 0]},
+    {"offset": [0, 0], "dir": [0, -1]},
+    {"offset": [0, 0], "dir": [0, 1]}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+    "name": "starfoundry",
+    "version": "Beta v. Enraged Koala",
+    "path": ".",
+    "dependencies": [],
+    "metadata": {
+        "author": "Starfoundry Collaborators",
+        "version": "1.3.2",
+        "description": "A comprehensive system of Starbound mods to automate the movement, production, and storage of materials, liquids, items, energy and data.",
+        "support_url": "http://community.playstarbound.com/index.php?threads/starfoundry.67585/"
+    }
+}

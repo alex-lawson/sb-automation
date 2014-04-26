@@ -23,8 +23,8 @@
           },
           "5" : {
             "frames" : 1
+            }
           }
-        }
       },
       "blocktype" : {
         "priority" : 1,
@@ -71,7 +71,7 @@
       "block" : {
         "properties" : {
           "offset" : [0, 0],
-          "centered" : false,
+          "centered" : true,
           "zLevel" : 1
         },
         "partStates" : {
@@ -136,8 +136,8 @@
       },
       "damage" : {
         "properties" : {
-          "offset" : [0.25, 0.25],
-          "centered" : false,
+          "offset" : [-0.25, 0],
+          "centered" : true,
           "zLevel" : 2
         },
         "partStates" : {

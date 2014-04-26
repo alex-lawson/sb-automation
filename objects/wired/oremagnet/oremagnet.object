@@ -34,5 +34,39 @@
 
   "inboundNodes" : [ [1, 3] ],
 
-  "energyCapacity" : 100
+  "energyCapacity" : 100,
+
+  "pullTypes" : {
+    "copper" : true,
+    "iron" : true,
+    "silverore" : true,
+    "gold" : true,
+    "titanium" : true,
+    "lead" : true,
+    "metal" : true,
+    "Rubium" : true,
+    "uranium" : true,
+    "solarium" : true,
+    "plutonium" : true,
+    "Cerulium" : true,
+    "platinum" : true,
+    "aegisalt" : true
+  },
+
+  "trashTypes" : {
+    "grass" : true,
+    "aridgrass" : true,
+    "thickgrass" : true,
+    "charredgrass" : true,
+    "junglegrass" : true,
+    "fleshgrass" : true,
+    "savannahgrass" : true,
+    "ash" : true,
+    "blackash" : true,
+    "bone" : true,
+    "tar" : true,
+    "sand" : true,
+    "snow" : true,
+    "tilled" : true
+  }
 }

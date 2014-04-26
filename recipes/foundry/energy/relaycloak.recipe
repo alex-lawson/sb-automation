@@ -1,0 +1,10 @@
+{
+  "input" : [
+    { "item" : "circuitboard", "count" : 1 }
+  ],
+  "output" : {
+    "item" : "relaycloak",
+    "count" : 1
+  },
+  "groups" : [ "foundry", "all", "energy" ]
+}
