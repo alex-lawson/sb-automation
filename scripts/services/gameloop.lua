@@ -35,16 +35,16 @@ function gameloop.update()
     math.starfoundry.gameloop.objects.last = newIndex
     math.starfoundry.gameloop.objects[id] = newIndex
    
-    printf("mark: object %s (%d) registred at index %d",
-      entity.configParameter("objectName"), entity.id(),
-      math.starfoundry.gameloop.objects.last)
+    --printf("mark: object %s (%d) registred at index %d",
+    --  entity.configParameter("objectName"), entity.id(),
+    --  math.starfoundry.gameloop.objects.last)
     index = newIndex
   else
     index = math.starfoundry.gameloop.objects[id]
   end
  
   if (index <= math.starfoundry.gameloop.objects.lastUpdated) then
-    printf("%s: mark: new frame", getLocationName())
+    --printf("%s: mark: new frame", getLocationName())
     gameloop.notifyListeners()
   end
  
@@ -53,7 +53,6 @@ end
 
 function gameloop.notifyListeners()
   for i, listenerName in ipairs(storage.gameloop.listeners) do
-  print("notifyListener ", listenerName)
     if (_ENV[listenerName].gameloopUpdate) then _ENV[listenerName].gameloopUpdate() end
   end
 end

@@ -135,7 +135,6 @@ function datawire.gameloopUpdate()
     return
   end
   
-  print("mark: datawire.gameloopUpdate")
   datawire.updateReceivers()
 end
 
