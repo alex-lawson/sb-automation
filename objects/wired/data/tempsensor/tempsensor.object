@@ -23,8 +23,8 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/3statesensor.lua", "tempsensor.lua" ],
-  "scriptDelta" : 50,
-
+  "scriptDelta" : 1,
+  
   "animation" : "/objects/wired/3statesensor.animation",
   "animationParts" : {
     "sensor" : "tempsensor.png"

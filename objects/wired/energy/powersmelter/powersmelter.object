@@ -29,8 +29,8 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
-
+  "scriptDelta" : 1,
+  
   "animation" : "powersmelter.animation",
   "animationParts" : {
     "smelter" : "powersmelter.png"

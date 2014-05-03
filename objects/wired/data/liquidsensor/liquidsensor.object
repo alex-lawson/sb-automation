@@ -50,8 +50,8 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "liquidsensor.lua" ],
-  "scriptDelta" : 15,
-
+  "scriptDelta" : 1,
+  
   "animation" : "liquidsensor.animation",
   "animationParts" : {
     "sensor" : "liquidsensor.png"

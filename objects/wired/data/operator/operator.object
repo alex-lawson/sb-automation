@@ -23,8 +23,8 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "operator.lua" ],
-  "scriptDelta" : 20,
-
+  "scriptDelta" : 1,
+  
   "animation" : "operator.animation",
 
   "animationParts" : {

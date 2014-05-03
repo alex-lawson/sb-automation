@@ -50,8 +50,8 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/3statesensor.lua", "windsensor.lua" ],
-  "scriptDelta" : 25,
-
+  "scriptDelta" : 1,
+  
   "animation" : "/objects/wired/3statesensor.animation",
   "animationParts" : {
     "sensor" : "windsensor.png"

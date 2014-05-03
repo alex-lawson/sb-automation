@@ -23,8 +23,8 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "/scripts/tilemanipulation.lua", "layerswap.lua" ],
-  "scriptDelta" : 2,
-
+  "scriptDelta" : 1,
+  
   "animation" : "layerswap.animation",
   "animationParts" : {
     "switch" : "layerswap.png"

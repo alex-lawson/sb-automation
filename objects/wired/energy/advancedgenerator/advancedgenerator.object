@@ -30,8 +30,8 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
-
+  "scriptDelta" : 1,
+  
   "animation" : "advancedgenerator.animation",
   "animationParts" : {
     "generator" : "advancedgenerator.png",

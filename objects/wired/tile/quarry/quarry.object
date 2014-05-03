@@ -32,8 +32,8 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 2,
-
+  "scriptDelta" : 1,
+  
   "animation" : "quarry.animation",
   "animationParts" : {
     "quarry" : "quarry.png"

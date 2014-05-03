@@ -77,8 +77,8 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 5,
-
+  "scriptDelta" : 1,
+  
   "animation" : "/objects/wired/pipe/pipeliquiddetector/pipeliquiddetector.animation",
 
   "animationParts" : {

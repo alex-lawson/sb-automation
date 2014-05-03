@@ -22,8 +22,8 @@
   ],
 
   "scripts" : [ "/scripts/energy.lua", "/scripts/entityProxy.lua", "/scripts/datawire.lua", "/scripts/magnets.lua", "/objects/wired/magnet/magnetblock/ptmagnetblock.lua", "ptmagnetblockadvanced.lua" ],
-  "scriptDelta" : 5,
-
+  "scriptDelta" : 1,
+  
   "animation" : "/objects/wired/magnet/magnetblock/ptmagnetblock.animation",
 
   "animationParts" : {

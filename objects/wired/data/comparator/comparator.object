@@ -23,7 +23,7 @@
   ],
 
   "scripts" : [ "/scripts/datawire.lua", "comparator.lua" ],
-  "scriptDelta" : 20,
+  "scriptDelta" : 1,
 
   "animation" : "comparator.animation",
 

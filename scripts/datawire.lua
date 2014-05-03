@@ -1,4 +1,50 @@
-datawire = {}
+datawire = datawire or {}
+
+function inspectInternal(key, value, prefix) 
+  local out = prefix and prefix..".%s" or "%s" 
+  if type(value) == "table" then 
+    for k, v in pairs(value) do
+      inspectInternal(k, v, prefix.."."..key)
+    end
+  else 
+    out = type(value) == "function" and out.."()" or out.." = %s" 
+    world.logInfo(out:format(key, tostring(value))) 
+  end 
+end
+
+function inspect(table, prefix)
+  world.logInfo("inspecting %@:", prefix)
+  local name = prefix
+  for k, v in pairs(table) do
+    inspectInternal(k, v, prefix);
+  end
+end 
+
+function print(...)
+  local arg={...}
+
+  local printResult = ""
+  for i,v in ipairs(arg) do
+    printResult = printResult .. tostring(v)
+  end
+
+  world.logInfo("%s", printResult)
+end
+
+function printf(frmt, ...)
+  world.logInfo(frmt, ...)
+end
+
+function getLocationName()
+  if ((world.info() ~= nil) and (world.info().name ~= "")) then
+    return world.info().name
+  else
+    return "Ship"
+  end
+ 
+end
+
+---------------------------------------------------------------------
 
 --- this should be called by the implementing object in its own init()
 function datawire.init()
@@ -6,12 +52,26 @@ function datawire.init()
   datawire.outboundConnections = {}
 
   datawire.initialized = false
+  end
+
+function datawire.globalInit()
+
 end
 
 --- this should be called by the implementing object in its own onNodeConnectionChange()
 function datawire.onNodeConnectionChange()
   datawire.createConnectionTable()
 end
+
+
+
+function datawire.test()
+  
+  local location = getLocationName()
+  
+  world.logInfo("%s: %s (%d) has index %d", location, entity.configParameter("objectName"), entity.id(), math.starfoundry.frameUpdateSim.objects[entity.id()])
+end
+
 
 --- any datawire operations that need to be run when main() is first called
 function datawire.update()
@@ -21,14 +81,60 @@ function datawire.update()
     datawire.initAfterLoading()
     if initAfterLoading then initAfterLoading() end
   end
+  
+  local id = entity.id()
+  local index
+  if (not math.starfoundry.frameUpdateSim.objects[id]) then
+    local newIndex = math.starfoundry.frameUpdateSim.objects.last + 1
+    math.starfoundry.frameUpdateSim.objects.last = newIndex
+    math.starfoundry.frameUpdateSim.objects[id] = newIndex
+   
+    --printf("mark: object %s (%d) registred at index %d",
+    --  entity.configParameter("objectName"), entity.id(),
+    --  math.starfoundry.frameUpdateSim.objects.last)
+    index = newIndex
+  else
+    index = math.starfoundry.frameUpdateSim.objects[id]
+  end
+ 
+  if (index <= math.starfoundry.frameUpdateSim.objects.lastUpdated) then
+    printf("%s: mark: new frame", getLocationName())
+    datawire.updateReceivers()
+  end
+ 
+  math.starfoundry.frameUpdateSim.objects.lastUpdated = index
 end
 
 -------------------------------------------
 
 --- this will be called internally, to build connection tables once the world has fully loaded
 function datawire.initAfterLoading()
+  --datawire.globalInit()
+  storage.wiredata = {};
+  storage.wiredata.nextState = {};
   datawire.createConnectionTable()
   datawire.initialized = true
+  
+  datawire.globalInit()
+end
+
+function datawire.globalInit()
+  if (math.starfoundry and
+      math.starfoundry.datawire and 
+      math.starfoundry.datawire.initialized) then -- I hate chain nil tests
+    return
+  end
+    
+  math.starfoundry = math.starfoundry or {}
+  math.starfoundry.frameUpdateSim = math.starfoundry.frameUpdateSim or {}
+  math.starfoundry.frameUpdateSim.objects = math.starfoundry.frameUpdateSim.objects or {}
+  
+  math.starfoundry.frameUpdateSim.objects.last = -1
+  math.starfoundry.frameUpdateSim.objects.lastUpdated = math.huge
+  
+  math.starfoundry.datawire = {}
+  math.starfoundry.datawire.initialized = true
+  math.starfoundry.datawire.receivers =  {}
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -103,6 +209,26 @@ function datawire.sendData(data, dataType, nodeId)
   return transmitSuccess
 end
 
+function datawire.updateReceivers()
+  local toRemove = {}
+  
+  for receiverid, dummy in pairs(math.starfoundry.datawire.receivers) do
+    local result = world.callScriptedEntity(receiverid, "datawire.flushData", { })
+  end
+ 
+  math.starfoundry.datawire.receivers = {}
+end
+
+function datawire.flushData()
+  for nodeId, dataItem in pairs(storage.wiredata.nextState) do
+    for dataType, data in pairs(dataItem) do
+      onValidDataReceived(data, dataType, nodeId, nil) -- todo: fix regression
+    end
+  end
+  storage.wiredata.nextState = {}
+  return true
+end
+
 --- Receives data from another datawire object
 -- @param data (args[1]) the data received
 -- @param dataType (args[2]) the data type received ("boolean", "number", "string", "area", etc.)
@@ -128,9 +254,28 @@ function datawire.receiveData(args)
     return false
   elseif validateData and validateData(data, dataType, nodeId, sourceEntityId) then
     if onValidDataReceived then
-      onValidDataReceived(data, dataType, nodeId, sourceEntityId)
-    end
+      
+      -- initial state of stored data is nil 
+      storage.wiredata.nextState[nodeId] = storage.wiredata.nextState[nodeId] or {}
 
+      if (dataType == "number") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or 0
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] + data
+      elseif (dataType == "boolean") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or false
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or data
+      elseif (dataType == "string") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or "" -- todo: Проверить ли, нужна ли эта строка
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] .. data
+      else
+        -- todo: Проверить список допустимых типов
+        storage.wiredata.nextState[nodeId][dataType] = data
+      end
+          
+       math.starfoundry.datawire.receivers[entity.id()] = entity.id();
+      --onValidDataReceived(data, dataType, nodeId, sourceEntityId)
+    end
+     
     -- world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
 
     return true
