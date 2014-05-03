@@ -3,6 +3,7 @@ function init(virtual)
     self.detectThresholdHigh = entity.configParameter("detectThresholdHigh")
     self.detectThresholdLow = entity.configParameter("detectThresholdLow")
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -17,6 +18,7 @@ function getSample()
 end
 
 function main()
+  gameloop.update()
   datawire.update()
   
   local sample = getSample()

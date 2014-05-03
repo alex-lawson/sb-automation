@@ -22,7 +22,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "operator.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "operator.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "operator.animation",

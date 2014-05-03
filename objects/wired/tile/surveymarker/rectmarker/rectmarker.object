@@ -21,7 +21,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "rectmarker.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "rectmarker.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "rectmarker.animation",

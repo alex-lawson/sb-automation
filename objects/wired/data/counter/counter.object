@@ -22,7 +22,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "counter.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "counter.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "counter.animation",

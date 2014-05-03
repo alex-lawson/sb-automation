@@ -22,7 +22,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "memory.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "memory.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "memory.animation",

@@ -21,7 +21,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "wiretap.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "wiretap.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "wiretap.animation",

@@ -1,6 +1,7 @@
 function init(virtual)
   if not virtual then
-    energy.init()
+ 	gameloop.init()
+	energy.init()
     datawire.init()
     pipes.init({itemPipe})
     
@@ -45,6 +46,7 @@ function onInteraction(args)
 end
 
 function main()
+  gameloop.update()
   energy.update()
   datawire.update()
   pipes.update(entity.dt())

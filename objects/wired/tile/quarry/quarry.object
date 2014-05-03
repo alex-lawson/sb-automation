@@ -22,6 +22,8 @@
   ],
 
   "scripts" : [
+	"/scripts/luahelpers.lua", 
+	"/scripts/services/gameloop.lua", 
     "/scripts/datawire.lua",
     "/scripts/energy.lua",
     "/scripts/stateMachine.lua",

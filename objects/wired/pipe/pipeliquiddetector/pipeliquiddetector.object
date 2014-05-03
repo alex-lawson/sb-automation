@@ -69,6 +69,8 @@
   ],
 
   "scripts" : [
+	"/scripts/luahelpers.lua",
+	"/scripts/services/gameloop.lua", 
     "/scripts/datawire.lua",
     "/objects/wired/pipe/pipeliquiddetector/pipeliquiddetector.lua",
     "/scripts/pipes/liquidpipes.lua",

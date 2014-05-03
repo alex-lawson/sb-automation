@@ -29,7 +29,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "/scripts/energy.lua", "batterycharger.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "batterycharger.animation",

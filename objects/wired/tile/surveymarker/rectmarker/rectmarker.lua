@@ -23,6 +23,7 @@ function init(virtual)
 
     self.smashed = false
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -86,5 +87,6 @@ function getTileAreaFromRect(corner1, corner2)
 end
 
 function main()
+  gameloop.update()
   datawire.update()
 end

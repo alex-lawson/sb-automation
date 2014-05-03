@@ -23,7 +23,7 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "entityscanner.lua" ],
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "entityscanner.lua" ],
   "scriptDelta" : 1,
   
   "animation" : "entityscanner.animation",

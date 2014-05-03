@@ -1,51 +1,5 @@
 datawire = datawire or {}
 
-function inspectInternal(key, value, prefix) 
-  local out = prefix and prefix..".%s" or "%s" 
-  if type(value) == "table" then 
-    for k, v in pairs(value) do
-      inspectInternal(k, v, prefix.."."..key)
-    end
-  else 
-    out = type(value) == "function" and out.."()" or out.." = %s" 
-    world.logInfo(out:format(key, tostring(value))) 
-  end 
-end
-
-function inspect(table, prefix)
-  world.logInfo("inspecting %@:", prefix)
-  local name = prefix
-  for k, v in pairs(table) do
-    inspectInternal(k, v, prefix);
-  end
-end 
-
-function print(...)
-  local arg={...}
-
-  local printResult = ""
-  for i,v in ipairs(arg) do
-    printResult = printResult .. tostring(v)
-  end
-
-  world.logInfo("%s", printResult)
-end
-
-function printf(frmt, ...)
-  world.logInfo(frmt, ...)
-end
-
-function getLocationName()
-  if ((world.info() ~= nil) and (world.info().name ~= "")) then
-    return world.info().name
-  else
-    return "Ship"
-  end
- 
-end
-
----------------------------------------------------------------------
-
 --- this should be called by the implementing object in its own init()
 function datawire.init()
   datawire.inboundConnections = {}
@@ -54,23 +8,12 @@ function datawire.init()
   datawire.initialized = false
   end
 
-function datawire.globalInit()
-
-end
 
 --- this should be called by the implementing object in its own onNodeConnectionChange()
 function datawire.onNodeConnectionChange()
   datawire.createConnectionTable()
 end
 
-
-
-function datawire.test()
-  
-  local location = getLocationName()
-  
-  world.logInfo("%s: %s (%d) has index %d", location, entity.configParameter("objectName"), entity.id(), math.starfoundry.frameUpdateSim.objects[entity.id()])
-end
 
 
 --- any datawire operations that need to be run when main() is first called
@@ -81,28 +24,8 @@ function datawire.update()
     datawire.initAfterLoading()
     if initAfterLoading then initAfterLoading() end
   end
-  
-  local id = entity.id()
-  local index
-  if (not math.starfoundry.frameUpdateSim.objects[id]) then
-    local newIndex = math.starfoundry.frameUpdateSim.objects.last + 1
-    math.starfoundry.frameUpdateSim.objects.last = newIndex
-    math.starfoundry.frameUpdateSim.objects[id] = newIndex
-   
-    --printf("mark: object %s (%d) registred at index %d",
-    --  entity.configParameter("objectName"), entity.id(),
-    --  math.starfoundry.frameUpdateSim.objects.last)
-    index = newIndex
-  else
-    index = math.starfoundry.frameUpdateSim.objects[id]
-  end
- 
-  if (index <= math.starfoundry.frameUpdateSim.objects.lastUpdated) then
-    printf("%s: mark: new frame", getLocationName())
-    datawire.updateReceivers()
-  end
- 
-  math.starfoundry.frameUpdateSim.objects.lastUpdated = index
+  datawire.globalInit()
+
 end
 
 -------------------------------------------
@@ -115,7 +38,10 @@ function datawire.initAfterLoading()
   datawire.createConnectionTable()
   datawire.initialized = true
   
-  datawire.globalInit()
+  if (gameloop) then
+    gameloop.registerListener("datawire")
+  end
+   
 end
 
 function datawire.globalInit()
@@ -126,15 +52,10 @@ function datawire.globalInit()
   end
     
   math.starfoundry = math.starfoundry or {}
-  math.starfoundry.frameUpdateSim = math.starfoundry.frameUpdateSim or {}
-  math.starfoundry.frameUpdateSim.objects = math.starfoundry.frameUpdateSim.objects or {}
-  
-  math.starfoundry.frameUpdateSim.objects.last = -1
-  math.starfoundry.frameUpdateSim.objects.lastUpdated = math.huge
   
   math.starfoundry.datawire = {}
-  math.starfoundry.datawire.initialized = true
   math.starfoundry.datawire.receivers =  {}
+  math.starfoundry.datawire.initialized = true
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -207,6 +128,15 @@ function datawire.sendData(data, dataType, nodeId)
   -- end
 
   return transmitSuccess
+end
+
+function datawire.gameloopUpdate()
+  if (not datawire.initialized) then
+    return
+  end
+  
+  print("mark: datawire.gameloopUpdate")
+  datawire.updateReceivers()
 end
 
 function datawire.updateReceivers()

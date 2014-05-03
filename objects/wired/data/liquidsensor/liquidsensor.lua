@@ -1,5 +1,6 @@
 function init(virtual)
   if not virtual then
+	gameloop.init()
     datawire.init()
   end
 end
@@ -13,6 +14,7 @@ function getSample()
 end
 
 function main()
+  gameloop.update()
   datawire.update()
 
   local sample = getSample()
