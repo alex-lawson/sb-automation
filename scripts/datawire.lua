@@ -194,10 +194,10 @@ function datawire.receiveData(args)
         storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or false
         storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or data
       elseif (dataType == "string") then
-        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or "" -- todo: Проверить ли, нужна ли эта строка
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or ""
         storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] .. data
       else
-        -- todo: Проверить список допустимых типов
+        -- todo: check other types
         storage.wiredata.nextState[nodeId][dataType] = data
       end
           
