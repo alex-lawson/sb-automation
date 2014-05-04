@@ -14,6 +14,7 @@ function init(virtual)
       self.displaySize = 1
     end
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -177,6 +178,7 @@ function updateDisplay(newDisplayData)
 end
 
 function main()
+  gameloop.update()
   datawire.update()
 
   if storage.data then

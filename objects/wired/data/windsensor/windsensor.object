@@ -49,9 +49,9 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "/scripts/3statesensor.lua", "windsensor.lua" ],
-  "scriptDelta" : 25,
-
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "/scripts/3statesensor.lua", "windsensor.lua" ],
+  "scriptDelta" : 1,
+  
   "animation" : "/objects/wired/3statesensor.animation",
   "animationParts" : {
     "sensor" : "windsensor.png"

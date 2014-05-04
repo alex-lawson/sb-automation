@@ -1,4 +1,4 @@
-datawire = {}
+datawire = datawire or {}
 
 --- this should be called by the implementing object in its own init()
 function datawire.init()
@@ -6,12 +6,15 @@ function datawire.init()
   datawire.outboundConnections = {}
 
   datawire.initialized = false
-end
+  end
+
 
 --- this should be called by the implementing object in its own onNodeConnectionChange()
 function datawire.onNodeConnectionChange()
   datawire.createConnectionTable()
 end
+
+
 
 --- any datawire operations that need to be run when main() is first called
 function datawire.update()
@@ -21,14 +24,38 @@ function datawire.update()
     datawire.initAfterLoading()
     if initAfterLoading then initAfterLoading() end
   end
+  datawire.globalInit()
+
 end
 
 -------------------------------------------
 
 --- this will be called internally, to build connection tables once the world has fully loaded
 function datawire.initAfterLoading()
+  --datawire.globalInit()
+  storage.wiredata = {};
+  storage.wiredata.nextState = {};
   datawire.createConnectionTable()
   datawire.initialized = true
+  
+  if (gameloop) then
+    gameloop.registerListener("datawire")
+  end
+   
+end
+
+function datawire.globalInit()
+  if (math.starfoundry and
+      math.starfoundry.datawire and 
+      math.starfoundry.datawire.initialized) then -- I hate chain nil tests
+    return
+  end
+    
+  math.starfoundry = math.starfoundry or {}
+  
+  math.starfoundry.datawire = {}
+  math.starfoundry.datawire.receivers =  {}
+  math.starfoundry.datawire.initialized = true
 end
 
 --- Creates connection tables for inbound and outbound nodes
@@ -103,6 +130,34 @@ function datawire.sendData(data, dataType, nodeId)
   return transmitSuccess
 end
 
+function datawire.gameloopUpdate()
+  if (not datawire.initialized) then
+    return
+  end
+  
+  datawire.updateReceivers()
+end
+
+function datawire.updateReceivers()
+  local toRemove = {}
+  
+  for receiverid, dummy in pairs(math.starfoundry.datawire.receivers) do
+    local result = world.callScriptedEntity(receiverid, "datawire.flushData", { })
+  end
+ 
+  math.starfoundry.datawire.receivers = {}
+end
+
+function datawire.flushData()
+  for nodeId, dataItem in pairs(storage.wiredata.nextState) do
+    for dataType, data in pairs(dataItem) do
+      onValidDataReceived(data, dataType, nodeId, nil) -- todo: fix regression
+    end
+  end
+  storage.wiredata.nextState = {}
+  return true
+end
+
 --- Receives data from another datawire object
 -- @param data (args[1]) the data received
 -- @param dataType (args[2]) the data type received ("boolean", "number", "string", "area", etc.)
@@ -128,9 +183,28 @@ function datawire.receiveData(args)
     return false
   elseif validateData and validateData(data, dataType, nodeId, sourceEntityId) then
     if onValidDataReceived then
-      onValidDataReceived(data, dataType, nodeId, sourceEntityId)
-    end
+      
+      -- initial state of stored data is nil 
+      storage.wiredata.nextState[nodeId] = storage.wiredata.nextState[nodeId] or {}
 
+      if (dataType == "number") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or 0
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] + data
+      elseif (dataType == "boolean") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or false
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or data
+      elseif (dataType == "string") then
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] or ""
+        storage.wiredata.nextState[nodeId][dataType] = storage.wiredata.nextState[nodeId][dataType] .. data
+      else
+        -- todo: check other types
+        storage.wiredata.nextState[nodeId][dataType] = data
+      end
+          
+       math.starfoundry.datawire.receivers[entity.id()] = entity.id();
+      --onValidDataReceived(data, dataType, nodeId, sourceEntityId)
+    end
+     
     -- world.logInfo(string.format("DataWire: %s received data of type %s from %d", entity.configParameter("objectName"), dataType, sourceEntityId))
 
     return true

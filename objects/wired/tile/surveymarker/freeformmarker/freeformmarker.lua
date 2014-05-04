@@ -28,6 +28,7 @@ function init(virtual)
 
     self.smashed = false
 
+    gameloop.init()
     datawire.init()
   end
 end
@@ -111,6 +112,7 @@ function smashConnectedMarkers(originId)
 end
 
 function main()
+  gameloop.update()
   datawire.update()
   
   if storage.timer > 0 then

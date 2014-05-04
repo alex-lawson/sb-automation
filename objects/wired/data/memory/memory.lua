@@ -19,6 +19,7 @@ function init(virtual)
 
     updateAnimationState()
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -70,6 +71,7 @@ function output()
 end
 
 function main()
+  gameloop.update()
   datawire.update()
   output()
 end

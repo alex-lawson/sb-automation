@@ -21,9 +21,9 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "freeformmarker.lua" ],
-  "scriptDelta" : 5,
-
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "freeformmarker.lua" ],
+  "scriptDelta" : 1,
+  
   "animation" : "freeformmarker.animation",
   "animationParts" : {
     "marker" : "freeformmarker.png"

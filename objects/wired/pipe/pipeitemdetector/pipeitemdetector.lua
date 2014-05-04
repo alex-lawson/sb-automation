@@ -19,6 +19,7 @@ function init(virtual)
     self.connectionMap[4] = 3
   
     pipes.init({liquidPipe,itemPipe})
+	gameloop.init()
     datawire.init()
   end
 end
@@ -29,6 +30,7 @@ end
 
 --------------------------------------------------------------------------------
 function main(args)
+  gameloop.update()
   datawire.update()
   pipes.update(entity.dt())
 

@@ -1,5 +1,6 @@
 function init(virtual)
   if not virtual then
+	gameloop.init()
     energy.init()
     datawire.init()
     pipes.init({itemPipe})
@@ -42,6 +43,7 @@ function main()
     energy.generateEnergy()
     rotateTurbine()
   end
+  gameloop.update()
   energy.update()
   datawire.update()
   pipes.update(entity.dt())

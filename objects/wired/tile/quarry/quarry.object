@@ -22,6 +22,8 @@
   ],
 
   "scripts" : [
+	"/scripts/luahelpers.lua", 
+	"/scripts/services/gameloop.lua", 
     "/scripts/datawire.lua",
     "/scripts/energy.lua",
     "/scripts/stateMachine.lua",
@@ -32,8 +34,8 @@
     "/scripts/util.lua",
     "/scripts/vec2.lua"
   ],
-  "scriptDelta" : 2,
-
+  "scriptDelta" : 1,
+  
   "animation" : "quarry.animation",
   "animationParts" : {
     "quarry" : "quarry.png"

@@ -1,5 +1,6 @@
 function init(virtual)
   if not virtual then
+	gameloop.init()
     energy.init()
     datawire.init()
 
@@ -185,6 +186,7 @@ function main()
 
   setWireStates()
 
+  gameloop.update()
   datawire.update()
   energy.update()
 end
