@@ -44,7 +44,6 @@ function gameloop.update()
   end
  
   if (index <= math.starfoundry.gameloop.objects.lastUpdated) then
-    --printf("%s: mark: new frame", getLocationName())
     gameloop.notifyListeners()
   end
  
@@ -58,6 +57,5 @@ function gameloop.notifyListeners()
 end
 
 function gameloop.registerListener(listenerName)
-  print("registerListener ", listenerName)
   table.insert(storage.gameloop.listeners, listenerName)
 end
