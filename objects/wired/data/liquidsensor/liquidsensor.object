@@ -51,12 +51,12 @@
 
   "scripts" : [ "/scripts/datawire.lua", "liquidsensor.lua" ],
   "scriptDelta" : 15,
-
+  
   "animation" : "liquidsensor.animation",
   "animationParts" : {
     "sensor" : "liquidsensor.png"
   },
   "animationPosition" : [0, 0],
 
-  "outboundNodes" : [ [0, 0], [0, 1] ]
+  "outboundNodes" : [ [0, 0], [1, 0] ]
 }
