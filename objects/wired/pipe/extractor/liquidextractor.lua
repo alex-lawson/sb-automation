@@ -17,16 +17,21 @@ function init(args)
     self.conversions["ice"] = {liquid = 1, material = "ice", input = 20, output = 1400}
     self.conversions["mud"] = {liquid = 1, material = "mud", input = 20, output = 1400}
     self.conversions["wetdirt"] = {liquid = 1, material = "wetdirt", input = 20, output = 1400}
+    self.conversions["watercapsule"] = {liquid = 1, material = "watercapsule", input = 1, output = 3000}
     --Lava
     self.conversions["magmarock"] = {liquid = 3, material = "magmarock", input = 20, output = 1400}
     self.conversions["obsidian"] = {liquid = 3, material = "obsidian", input = 20, output = 1400}
+	self.conversions["lavacapsule"] = {liquid = 3, material = "lavacapsule", input = 1, output = 3000}
     --Poison
     self.conversions["sewage"] = {liquid = 4, material = "sewage", input = 20, output = 1400}
     self.conversions["slime"] = {liquid = 4, material = "slime", input = 20, output = 1400}
+    self.conversions["acidcapsule"] = {liquid = 4, material = "acidcapsule", input = 1, output = 3000}
     --Tar
     self.conversions["tar"] = {liquid = 7, material = "tar", input = 20, output = 1400}
+    self.conversions["tarcapsule"] = {liquid = 7, material = "tarcapsule", input = 1, output = 3000}
     --Tentacle Juice
     self.conversions["fleshblock"] = {liquid = 6, material = "fleshblock", input = 20, output = 1400}
+    self.conversions["juicecapsule"] = {liquid = 6, material = "juicecapsule", input = 1, output = 3000}
     
     
     self.damageRate = entity.configParameter("damageRate")
