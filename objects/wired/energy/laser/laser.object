@@ -47,5 +47,8 @@
   "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
 
   "energyConsumptionRate" : 20,
-  "energyCapacity" : 40
+  "energyCapacity" : 40,
+
+  "damagePerSecond" : 10,
+  "maxLength" : 50
 }
