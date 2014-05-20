@@ -128,8 +128,11 @@ function laserState.enteringState(stateData)
 end
 
 function laserState.update(dt, stateData)
-  
   laserState.dig(stateData)
+
+  laserState.spawnEndProjectiles(stateData)
+
+  laserState.spawnBeamProjectiles(stateData)
 
   if entity.getInboundNodeLevel(0) then
     return false
@@ -163,8 +166,9 @@ function laserState.findTilesByDamage(stateData)
     length = length + 1
 
     firstLine = laserState.getBeamLine(stateData, length)
-    secondLine = laserState.addBeamOffset(firstLine, stateData.tileOffset)
-
+    for i = 1, 5 do
+      secondLine = laserState.addBeamOffset(firstLine, stateData.tileOffset)
+    end
     firstFound = world.damageTiles({firstLine[2]}, "foreground", entity.position(), "blockish", 0)
     secondFound = world.damageTiles({secondLine[2]}, "foreground", entity.position(), "blockish", 0)
   end
@@ -201,4 +205,30 @@ end
 --length in blocks
 function laserState.setLength(length)
   entity.scaleGroup("beam", {8 * length, 1}) 
+end
+
+function laserState.spawnEndProjectiles(stateData)
+  local beam = laserState.addBeamOffset(laserState.getBeamLine(stateData, stateData.curLength), {stateData.minLength * -stateData.direction[1], stateData.minLength * -stateData.direction[2]})
+  local beam2 = laserState.addBeamOffset(laserState.getBeamLine(stateData, 0), {stateData.minLength * -stateData.direction[1], stateData.minLength * -stateData.direction[2]})
+
+  world.spawnProjectile("laserfire", beam[2], entity.id(), stateData.direction, false, {timeToLive = entity.dt()}) --hides ugly beam end
+  world.spawnProjectile("laserfire", beam2[2], entity.id(), stateData.direction, false, {timeToLive = entity.dt()}) --looks cool at the "muzzle" too
+end
+
+function laserState.spawnBeamProjectiles(stateData)
+  local beam = laserState.addBeamOffset(laserState.getBeamLine(stateData, stateData.curLength), {stateData.minLength * -stateData.direction[1], stateData.minLength * -stateData.direction[2]});
+  
+  local projSpeed = 100 --Blocks per second? Who even knows.
+
+  local pos = {beam[1][1], beam[1][2]}
+  local entityPos = entity.position()
+
+  --Nice way to randomize perpendicular offset?
+  local perpOffset = (math.random(0, 4) - 2) * 0.1
+  for index,val in ipairs(pos) do
+    if val == entityPos[index] then pos[index] = pos[index] + perpOffset end --wow
+  end
+
+  world.logInfo("%s", pos)
+  world.spawnProjectile("laserbeam", pos, entity.id(), stateData.direction, false, {speed = projSpeed, timeToLive = stateData.curLength / projSpeed}) --hides ugly beam end
 end

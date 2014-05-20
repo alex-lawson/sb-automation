@@ -1,0 +1,15 @@
+{
+  "projectileName" : "laserbeam",
+  "physics" : "bullet",
+  "bounces" : 10,
+  "level" : 0,
+  "power" : 1,
+  "timeToLive" : 7,
+  "speed" : 25,
+  "frames" : "laserbeam.png",
+  "animationCycle" : 0.17,
+  "lightColor" : [235, 126, 2],
+  "frameNumber" : 1,
+  "hydrophobic" : false,
+  "damageKind" : "fire"
+}
