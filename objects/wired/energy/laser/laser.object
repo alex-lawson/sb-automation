@@ -11,14 +11,76 @@
   "inventoryIcon" : "scaffold.png",
   "orientations" : [
     {
-      "dualImage" : "scaffold.png",
-
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
       "imagePosition" : [-8, -8],
-      "frames" : 1,
-      "animationCycle" : 1.0,
-
-      "spaceScan" : 0.1,
-      "anchors" : [ "background" ]
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "anchors" : [ "background"],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "bgAnchors" : [ [-1, 1], [0, 1] ],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "bgAnchors" : [ [-1, -2], [0, -2] ],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "bgAnchors" : [ [-2, 0], [-2, -1] ],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "bgAnchors" : [ [1, 0], [1, -1] ],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "anchors" : [ "top"],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "anchors" : [ "bottom"],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "anchors" : [ "left"],
+      "direction" : "right"
+    },
+    {
+      "image" : "scaffold.png",
+      "imageLayers" : [ { "image" : "scaffold.png" }, { "image" : "lasergun.png:default.0" } ],
+      "imagePosition" : [-8, -8],
+      "spaces" : [ [-1,0], [0,0], [-1,-1], [0,-1] ],
+      "anchors" : [ "right"],
+      "direction" : "right"
     }
   ],
   
@@ -43,11 +105,10 @@
   
   "inboundNodes" : [[-1, 0]],
   
-  "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]} ],
-  "flippedItemNodes" : [ {"offset": [-1, -1], "dir": [-1, 0]} ],
+  "itemNodes" : [ {"offset": [0, -1], "dir": [1, 0]}, {"offset": [-1, -1], "dir": [-1, 0]} ],
 
-  "energyConsumptionRate" : 20,
-  "energyCapacity" : 40,
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 20,
 
   "damagePerSecond" : 10,
   "maxLength" : 50

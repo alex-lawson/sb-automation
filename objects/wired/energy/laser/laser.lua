@@ -1,12 +1,12 @@
 function init(args)
   if args == false then
+    pipes.init({itemPipe})
+    energy.init()
     self.state = stateMachine.create({
       "offState",
       "rotationState",
       "laserState"
     })
-    pipes.init({liquidPipe, itemPipe})
-    energy.init()
     
     entity.setInteractive(true)
 
@@ -22,6 +22,8 @@ function init(args)
 
     --This is the offset of tile 2, add to tile 1 pos
     self.blockOffsets = { {0, -1}, {-1, 0}, {0, -1}, {-1, 0} } 
+
+    self.mirror = {3, 4, 1, 2}
 
     self.dps = entity.configParameter("damagePerSecond", 1)
     self.maxLength = entity.configParameter("maxLength", 50)
@@ -59,6 +61,20 @@ function main(args)
   self.state.update(entity.dt())
 end
 
+-------------------HELPERS-------------------------
+
+function filterNonItems(entities)
+  local items = {}
+  for _,entityId in ipairs(entities) do
+    if world.entityType(entityId) == "itemdrop" then
+      items[#items+1] = entityId
+    end
+  end
+
+  return items
+end
+
+
 --------------------------------------------------------------
 offState = {}
 
@@ -76,7 +92,7 @@ function offState.enteringState(stateData)
 end
 
 function offState.update(dt, stateData)
-  if entity.getInboundNodeLevel(0) then
+  if entity.getInboundNodeLevel(0) and energy.consumeEnergy(nil, true) then
     stateData.state = "laser"
     return true
   end
@@ -128,16 +144,27 @@ function laserState.enteringState(stateData)
 end
 
 function laserState.update(dt, stateData)
+  if not energy.consumeEnergy() then return true end
+
   laserState.dig(stateData)
 
   laserState.spawnEndProjectiles(stateData)
 
   laserState.spawnBeamProjectiles(stateData)
 
+  laserState.pickUpItems(stateData)
+
   if entity.getInboundNodeLevel(0) then
     return false
   end
+
   return true
+end
+
+function laserState.leavingState(stateData)
+  entity.setAnimationState("laser", "off")
+  laserState.setLength(0)
+  self.state.pickState()
 end
 
 function laserState.dig(stateData, damage)
@@ -196,12 +223,6 @@ function laserState.addBeamOffset(firstBeam, offset)
   return {secondLineStart, secondLineEnd}
 end
 
-function laserState.leavingState(stateData)
-  entity.setAnimationState("laser", "off")
-  laserState.setLength(0);
-  self.state.pickState()
-end
-
 --length in blocks
 function laserState.setLength(length)
   entity.scaleGroup("beam", {8 * length, 1}) 
@@ -229,6 +250,37 @@ function laserState.spawnBeamProjectiles(stateData)
     if val == entityPos[index] then pos[index] = pos[index] + perpOffset end --wow
   end
 
-  world.logInfo("%s", pos)
   world.spawnProjectile("laserbeam", pos, entity.id(), stateData.direction, false, {speed = projSpeed, timeToLive = stateData.curLength / projSpeed}) --hides ugly beam end
 end
+
+function laserState.pickUpItems(stateData)
+  local beam = laserState.getBeamLine(stateData, stateData.curLength)
+
+  local entities = world.entityLineQuery(beam[1], beam[2])
+  local items = filterNonItems(entities)
+
+  for _,itemId in ipairs(items) do
+    local item = world.takeItemDrop(itemId, entity.id())
+    if item then
+      --Try to push item through the pipes
+      local result = pushItem(1, item)
+
+      if result ~= true then
+        if result then
+          item.count = item.count - result
+        end
+        result = pushItem(2, item)
+      end
+
+      --If it failed just spawn them
+      if result ~= true then
+        if result then
+          item.count = item.count - result
+        end
+        local spawnPos = entity.toAbsolutePosition(self.directions[self.mirror[storage.curDir]])
+        world.spawnItem(item.name, spawnPos, item.count, item.data)
+      end
+    end
+  end
+end
+
