@@ -1,7 +1,7 @@
 itemPipe = {
   pipeName = "item",
   nodesConfigParameter = "itemNodes",
-  tiles = {"metalpipe", "sewerpipe", "cleanpipe"},
+  tiles = {"sewerpipe", "cleanpipe"},
   hooks = {
     put = "onItemPut", --Should take whatever argument get returns
     get = "onItemGet", --Should return whatever argument you want to plug into the put hook, can take whatever argument you want like a filter or something

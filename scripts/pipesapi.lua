@@ -45,24 +45,44 @@ function table.copy(table)
   return newTable
 end
 
+function compareVectors(firstVector, secondVector)
+  return firstVector[1] == secondVector[1] and firstVector[2] == secondVector[2]
+end
+
 --PIPES
 pipes = {}
 
-pipes.directions = {
-  horz = {{1,0}, {-1, 0}},
-  vert = {{0, 1}, {0, -1}},
-  b1 = {{1,0}, {0,1}},
-  b2 = {{1, 0}, {0, -1}},
-  b3 = {{-1,0}, {0, -1}},
-  b4 = {{-1, 0}, {0, 1}},
-  plus = {{1,0}, {-1, 0}, {0, -1}, {0, 1}},
-  horizontal = {{1,0}, {-1, 0}},
-  vertical = {{0, 1}, {0, -1}},
-  NE = {{1,0}, {0,1}},
-  SE = {{1, 0}, {0, -1}},
-  SW = {{-1,0}, {0, -1}},
-  NW = {{-1, 0}, {0, 1}},
-  middle = {{1,0}, {-1, 0}, {0, -1}, {0, 1}}
+--Directions
+
+pipes.directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}
+pipes.otherDirections = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
+pipes.reverseDir = {}
+pipes.reverseDir["1.0"] = {-1, 0}
+pipes.reverseDir["0.1"] = {0, -1}
+pipes.reverseDir["-1.0"] = {1, 0}
+pipes.reverseDir["0.-1"] = {0, 1}
+
+--Varieties. Order is important. Middle, hrz, vert, ne, nw, sw, se
+pipes.varieties = {}
+
+pipes.varieties["sewerpipe"] = {
+  "sewerpipehorizontal",
+  "sewerpipevertical",
+  "sewerpipeNE",
+  "sewerpipeNW",
+  "sewerpipeSW",
+  "sewerpipeSE",
+  "sewerpipemiddle"
+}
+
+pipes.varieties["cleanpipe"] = {
+  "cleanpipehorizontal",
+  "cleanpipevertical",
+  "cleanpipeNE",
+  "cleanpipeNW",
+  "cleanpipeSW",
+  "cleanpipeSE",
+  "cleanpipemiddle"
 }
 
 --- Initialize, always run this in init (when init args == false)
@@ -170,17 +190,18 @@ function pipes.pipesConnect(firstDirection, secondDirections)
   return false
 end
 
---- Gets the directions of a tile based on tile name
+--- Matches pipe against a pipe type and layer
 -- @param pipeName string - name of the pipe type to use
 -- @param position vec2 - world position to check
 -- @param layer - layer to check ("foreground" or "background")
+-- @param pipeType - type of pipe to check for, if nil it will return whatever it finds
 -- @returns Hook return if successful, false if unsuccessful
-function pipes.tileDirections(pipeName, position, layer)
+function pipes.pipeMatches(pipeName, position, layer, pipeType)
   local checkedTile = world.material(position, layer)
-  for _,tileType in ipairs(pipes.types[pipeName].tiles) do
-    for orientation,directions in pairs(pipes.directions) do
-      if checkedTile == tileType .. orientation then
-        return directions
+  for type,varieties in pairs(pipes.varieties) do
+    if type == pipeType or pipeType == nil then
+      if table.contains(varieties, checkedTile) then 
+        return type
       end
     end
   end
@@ -193,21 +214,27 @@ end
 -- @param layerMode - layer to prioritise
 -- @param direction (optional) - direction to compare to, if specified it will return false if the pipe does not connect
 -- @returns Hook return if successful, false if unsuccessful
-function pipes.getPipeTileData(pipeName, position, layerMode, direction)
+function pipes.getPipeTileData(pipeName, position, layerMode, typeMode)
+  local checkBothLayers = false
+  if layerMode == nil then checkBothLayers = true end
+
   local layerSwitch = {foreground = "background", background = "foreground"}
   
   layerMode = layerMode or "foreground"
   
-  local firstCheck = pipes.tileDirections(pipeName, position, layerMode)
-  local secondCheck = pipes.tileDirections(pipeName, position, layerSwitch[layerMode])
-  
+  local firstCheck = pipes.pipeMatches(pipeName, position, layerMode, typeMode)
+  local secondCheck = nil
+  if checkBothLayers then secondCheck = pipes.pipeMatches(pipeName, position, layerSwitch[layerMode], typeMode) end
+
   --Return relevant values
-  if firstCheck and (direction == nil or pipes.pipesConnect(direction, firstCheck)) then
-    return firstCheck, layerMode
-  elseif secondCheck and (direction == nil or pipes.pipesConnect(direction, secondCheck)) then
-    return secondCheck, layerSwitch[layerMode]
+  if firstCheck then
+    if typeMode == nil then typeMode = firstCheck end
+    return layerMode, typeMode
+  elseif checkBothLayers and secondCheck then
+    if typeMode == nil then typeMode = secondCheck end
+    return layerSwitch[layerMode], secondCheck
   end
-  return false
+  return false, false
 end
 
 --- Gets all the connected entities for a pipe type
@@ -232,6 +259,7 @@ end
 function pipes.update(dt)
   local position = entity.position()
   pipes.updateTimer = pipes.updateTimer + dt
+  pipes.processPlacementQueue()
   
   if pipes.updateTimer >= pipes.updateInterval then
   
@@ -243,6 +271,7 @@ function pipes.update(dt)
     
     pipes.updateTimer = 0
   end
+
 end
 
 --- Calls a hook on the entity to see if it connects to the specified pipe
@@ -255,6 +284,7 @@ function pipes.validEntity(pipeName, entityId, position, direction)
   return world.callScriptedEntity(entityId, "entityConnectsAt", pipeName, position, direction)
 end
 
+--NEEDS TO BE REWRITTEN FOR ENDPOINTS
 --- Walks through placed pipe tiles to find connected entities
 -- @param pipeName string - name of pipe type to use
 -- @param startOffset vec2 - Position *relative to the object* to start looking, should be set to a node's position
@@ -263,32 +293,45 @@ end
 function pipes.walkPipes(pipeName, startOffset, startDir)
   local validEntities = {}
   local visitedTiles = {}
-  local tilesToVisit = {{pos = {startOffset[1] + startDir[1], startOffset[2] + startDir[2]}, layer = "foreground", dir = startDir, path = {}}}
+  local tilesToVisit = {}
   local layerMode = nil
-  
+  local typeMode = nil
+
+  tilesToVisit[1] =  {pos = {startOffset[1] + startDir[1], startOffset[2] + startDir[2]}, layer = "foreground", dir = startDir, path = {}, neighbors = {pipes.reverseDir[startDir[1].."."..startDir[2]]} } 
+
   while #tilesToVisit > 0 do
     local tile = tilesToVisit[1]
-    local pipeDirections, layerMode = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile.pos), tile.layer, tile.dir)
-    
+    local layer, type = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile.pos), layerMode, typeMode)
+
     --If a tile, add connected spaces to the visit list
-    if pipeDirections then
+    if layer then
+      layerMode = layer
+      typeMode = type
       tile.path[#tile.path+1] = tile.pos --Add tile to the path
-      visitedTiles[tile.pos[1].."."..tile.pos[2]] = true --Add to global visited
-      for _,dir in ipairs(pipeDirections) do
+
+      if tile.prev then 
+        table.insert(visitedTiles[tile.prev].neighbors, 1, tile.dir)
+        visitedTiles[tile.prev].layer = layer
+      end
+
+
+      visitedTiles[tile.pos[1].."."..tile.pos[2]] = tile --Add to global visited
+      for index,dir in ipairs(pipes.directions) do
         local newPos = {tile.pos[1] + dir[1], tile.pos[2] + dir[2]}
-        if not pipes.pipesConnect(dir, {tile.dir}) and visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from, and don't check already visited ones
-          local newTile = {pos = newPos, layer = layerMode, dir = dir, path = table.copy(tile.path)}
+        if visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from, and don't check already visited ones
+          local newTile = {pos = newPos, prev = tile.pos[1].."."..tile.pos[2], layer = layerMode, neighbors = {pipes.otherDirections[index]}, dir = dir, path = table.copy(tile.path)}
           table.insert(tilesToVisit, 2, newTile)
         end
       end
     --If not a tile, check for objects that might connect
-    elseif not pipeDirections then
-      --local connectedObjects = world.objectQuery(entity.toAbsolutePosition(tile.pos), 2)
+    elseif not layer then
       local absTilePos = entity.toAbsolutePosition(tile.pos)
       local connectedObjects = world.entityLineQuery(absTilePos, {absTilePos[1] + 1, absTilePos[2] + 2})
+
       if connectedObjects then
         for key,objectId in ipairs(connectedObjects) do
           local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
+          if entNode and tile.prev then table.insert(visitedTiles[tile.prev].neighbors, 1, tile.dir) end
           if objectId ~= entity.id() and entNode and table.contains(validEntities, objectId) == false then
             validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = table.copy(tile.path)}
           end
@@ -298,6 +341,87 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     table.remove(tilesToVisit, 1)
   end
 
+  if next(visitedTiles) then 
+    pipes.replacePipes(visitedTiles, typeMode)
+  end
+
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
   return validEntities
+end
+
+
+
+------REPLACING TILES WITH THE RIGHT ones
+pipes.placeQueue = {}
+
+pipes.tileMatchMap = {
+  {match = {"e", false, "e", false}, min = 3},
+  {match = {false, "e", false, "e"}, min = 3},
+  {match = {true, true, false, false}, min = 4},
+  {match = {false, true, true, false}, min = 4},
+  {match = {false, false, true, true}, min = 4},
+  {match = {true, false, false, true}, min = 4},
+  {match = {"e", "e", "e", "e"}, min = 0}
+}
+
+function pipes.tileContainsNeighbor(tile, direction)
+  for _,dir in ipairs(tile.neighbors) do
+    if compareVectors(dir, direction) then return true end
+  end
+  return false
+end
+
+function pipes.buildTileConnectionMap(tile)
+  local neighborMap = {}
+  for i=1, 4 do
+    neighborMap[i] = pipes.tileContainsNeighbor(tile, pipes.directions[i])
+  end
+  return neighborMap
+end
+
+function pipes.matchNeighbors(tile, matchKey)
+  local matches = 0
+  local connectionMap = pipes.buildTileConnectionMap(tile)
+  for i=1, 4 do
+    if matchKey.match[i] == "e" then
+      if connectionMap[i] == true then matches = matches + 1 end
+    elseif matchKey.match[i] == connectionMap[i] then
+      matches = matches + 1
+    else
+      return false
+    end
+  end
+
+  if matches >= matchKey.min then return true end
+  return false
+end
+
+function pipes.suggestTileName(tile, type)
+  for i,matchKey in ipairs(pipes.tileMatchMap) do
+    if pipes.matchNeighbors(tile, matchKey) then
+      return pipes.varieties[type][i]
+    end
+  end
+  return false
+end
+
+function pipes.replacePipes(tiles, type)
+  for key,tile in pairs(tiles) do
+    local worldPos = entity.toAbsolutePosition(tile.pos)
+    local tileName = world.material(worldPos, tile.layer)
+    local suggestedName = pipes.suggestTileName(tile, type)
+    if tileName ~= suggestedName then
+        world.damageTiles({worldPos}, tile.layer, entity.position(), "crushing", 1000)
+        table.insert(pipes.placeQueue, {pos = worldPos, layer = tile.layer, material = suggestedName})
+    end
+  end
+end
+
+function pipes.processPlacementQueue()
+  for i=#pipes.placeQueue, 1, -1 do
+    local tile = pipes.placeQueue[i]
+    if world.material(tile.pos, tile.layer) or world.placeMaterial(tile.pos, tile.layer, tile.material) then
+      table.remove(pipes.placeQueue, i)
+    end
+  end
 end
