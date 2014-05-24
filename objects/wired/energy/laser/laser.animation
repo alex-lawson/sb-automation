@@ -1,0 +1,68 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "laser" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "work" : {
+            "frames" : 3,
+            "cycle" : 0.1,
+            "mode" : "loop"
+          }
+        }
+      }
+    },
+    "parts" : {
+      "scaffold" : {
+        "properties" : {
+		      "image" : "<partImage>:default.0",
+          "centered" : true,
+          "zLevel" : 1
+        }
+      },
+      "lasergun" : {
+        "properties" : {
+          "centered" : true,
+          "rotationGroup" : "laser",
+          "zLevel" : 2
+        },
+        "partStates" : {
+          "laser" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:default.0"
+              }
+            },
+            "work" : {
+              "properties" : {
+                "image" : "<partImage>:work.<frame>"
+              }
+            }
+          }
+        }
+      },
+      "beam" : {
+        "properties" : {
+		    "image" : "<partImage>:default.0",
+          "centered" : false,
+          "scalingGroup" : "beam",
+          "rotationGroup" : "laser",
+		      "offset" : [ 1 , -0.375 ],
+          "zLevel" : 3
+        }
+      }
+    }
+  },
+  "scalingGroups" : {
+    "beam" : {
+      "pivot" : [0, 0]
+    }
+  },
+  "rotationGroups" : {
+    "laser" : {
+      "rotationCenter" : [0, 0],
+      "angularVelocity" : 10
+    }
+  }
+}
