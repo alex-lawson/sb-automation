@@ -1,0 +1,15 @@
+{
+  "projectileName" : "laserfire",
+  "physics" : "nocollision",
+  "bounces" : 100,
+  "level" : 0,
+  "power" : 0,
+  "timeToLive" : 7,
+  "speed" : 0.1,
+  "frames" : "laserfire.png",
+  "animationCycle" : 0.17,
+  "lightColor" : [235, 126, 2],
+  "frameNumber" : 4,
+  "hydrophobic" : false,
+  "damageKind" : "fire"
+}
