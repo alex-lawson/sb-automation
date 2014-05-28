@@ -96,6 +96,7 @@ function pipes.init(pipeTypes)
   pipes.types = {}
   pipes.nodes = {} 
   pipes.nodeEntities = {}
+  pipes.virtualNodes = {}
   
   for _,pipeType in ipairs(pipeTypes) do
     pipes.types[pipeType.pipeName] = pipeType
@@ -104,6 +105,7 @@ function pipes.init(pipeTypes)
   for pipeName,pipeType in pairs(pipes.types) do
     pipes.nodes[pipeName] = entity.configParameter(pipeType.nodesConfigParameter)
     pipes.nodeEntities[pipeName] = {}
+    pipes.virtualNodes[pipeName] = {}
   end
 
   pipes.rejectNode = {}
@@ -243,14 +245,14 @@ end
 function pipes.getNodeEntities(pipeName)
   local position = entity.position()
   local nodeEntities = {}
+  local virtualNodes = {}
   local nodesTable = {}
   
   if pipes.nodes[pipeName] == nil then return {} end
   for i,pipeNode in ipairs(pipes.nodes[pipeName]) do
-    nodeEntities[i] = pipes.walkPipes(pipeName, pipeNode.offset, pipeNode.dir)
+    nodeEntities[i], virtualNodes[i] = pipes.walkPipes(pipeName, pipeNode.offset, pipeNode.dir)
   end
-  return nodeEntities
-  
+  return nodeEntities, virtualNodes
 end
 
 --- Should be run in main
@@ -266,7 +268,7 @@ function pipes.update(dt)
     --Get connected entities
     for pipeName,pipeType in pairs(pipes.types) do
       --Get inbound
-      pipes.nodeEntities[pipeName] = pipes.getNodeEntities(pipeName)
+      pipes.nodeEntities[pipeName], pipes.virtualNodes[pipeName] = pipes.getNodeEntities(pipeName)
     end
     
     pipes.updateTimer = 0
@@ -345,8 +347,25 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
     pipes.replacePipes(visitedTiles, typeMode)
   end
 
+  local virtualNodes = pipes.getVirtualNodes(visitedTiles)
+
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
-  return validEntities
+  return validEntities, virtualNodes
+end
+
+
+function pipes.getVirtualNodes(tiles)
+  local vNodes = {}
+  for _,tile in pairs(tiles) do
+    if #tile.neighbors == 1 then
+      local nodePos = entity.toAbsolutePosition(tile.pos)
+      nodePos[1] = nodePos[1] + tile.dir[1]
+      nodePos[2] = nodePos[2] + tile.dir[2]
+      table.insert(vNodes, {pos = nodePos, path = tile.path})
+    end
+  end
+  table.sort(vNodes, function(a,b) return #a.path < #b.path end)
+  return vNodes
 end
 
 

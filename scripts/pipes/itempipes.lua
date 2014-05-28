@@ -15,7 +15,17 @@ itemPipe = {
 -- @param item the item to push, specified as map {name = "itemname", count = 1, data = {}}
 -- @returns true if whole stack was pushed, number amount of items taken if stack was partly taken, false/nil if fail
 function pushItem(nodeId, item)
-  return pipes.push("item", nodeId, item)
+  local pushResult = pipes.push("item", nodeId, item)
+  if pushResult ~= true and next(pipes.virtualNodes["item"][nodeId]) then
+    for _,vNode in ipairs(pipes.virtualNodes["item"][nodeId]) do
+      local nodePos = {vNode.pos[1] + 0.5, vNode.pos[2] + 0.5}
+      if world.spawnItem(item.name, nodePos, item.count, item.data) then 
+        pushResult = true
+        break 
+      end
+    end
+  end
+  return pushResult
 end
 
 --- Pulls item from another object
@@ -23,7 +33,39 @@ end
 -- @param filter an array of filters to specify what items to return and how many {itemname = {minAmount,maxAmount}, otherItem = {minAmount,maxAmount}}
 -- @returns item if successful, false/nil if unsuccessful
 function pullItem(nodeId, filter)
-  return pipes.pull("item", nodeId, filter)
+  local pullResult =  pipes.pull("item", nodeId, filter)
+
+
+  --If pull from entities failed, use vnodes
+  if not pullResult and next(pipes.virtualNodes["item"][nodeId]) then
+    for _,vNode in ipairs(pipes.virtualNodes["item"][nodeId]) do
+      local nodePos = {vNode.pos[1] + 0.5, vNode.pos[2] + 0.5}
+      local itemDropList = world.itemDropQuery(nodePos, 1)
+
+      for i, itemId in ipairs(itemDropList) do
+        local itemName = world.entityName(itemId)
+
+        if filter and filter[itemName] then
+          local item = world.takeItemDrop(itemId)
+          local returnCount = item.count - filter[itemName][2]
+
+          if item.count >= filter[itemName][1] then
+            if returnCount > 0 then
+              item.count = filter[itemName][2]
+              returnItem(nodePos, item, returnCount)
+            end
+
+            return item
+          else
+              returnItem(nodePos, item, item.count)
+          end
+        elseif not filter then
+          local item = world.takeItemDrop(itemId)
+          if item then return item end
+        end
+      end
+    end
+  end
 end
 
 --- Peeks an item push, does not perform the push
@@ -31,7 +73,9 @@ end
 -- @param item the item to push, specified as map {name = "itemname", count = 1, data = {}}
 -- @returns true if the item can be pushed, false if item cannot be pushed
 function peekPushItem(nodeId, item)
-  return pipes.peekPush("item", nodeId, item)
+  local pushResult =  pipes.peekPush("item", nodeId, item)
+  if pushResult ~= true and next(pipes.virtualNodes["item"][nodeId]) then pushResult = true end
+  return pushResult;
 end
 
 --- Peeks an item pull, does not perform the pull
@@ -39,14 +83,55 @@ end
 -- @param filter an array of filters to specify what items to return and how many {{itemname = {minAmount,maxAmount}}, {otherItem = {minAmount,maxAmount}}}
 -- @returns item if successful, false/nil if unsuccessful
 function peekPullItem(nodeId, filter)
-  return pipes.peekPull("item", nodeId, filter)
+  local pullResult = pipes.peekPull("item", nodeId, filter)
+
+  --If pull from entities failed, use vnodes
+  if not pullResult and next(pipes.virtualNodes["item"][nodeId]) then
+    for _,vNode in ipairs(pipes.virtualNodes["item"][nodeId]) do
+      local nodePos = {vNode.pos[1] + 0.5, vNode.pos[2] + 0.5}
+      local itemDropList = world.itemDropQuery(nodePos, 1)
+
+      for i, itemId in ipairs(itemDropList) do
+        local itemName = world.entityName(itemId)
+
+        if filter and filter[itemName] then
+          local item = world.takeItemDrop(itemId)
+          local returnCount = item.count - filter[itemName][2]
+
+          if item.count >= filter[itemName][1] then
+            if returnCount > 0 then
+              returnItem(nodePos, item, item.count)
+              item.count = filter[itemName][2]
+            end
+
+            return item
+          else
+              returnItem(nodePos, item, item.count)
+          end
+        elseif not filter then
+          local item = world.takeItemDrop(itemId)
+          if item then
+            returnItem(nodePos, item, item.count)
+            return item 
+          end
+        end
+      end
+    end
+  end
+end
+
+function returnItem(pos, item, returnCount)
+  world.spawnItem(item.name, pos, returnCount, item.data)
 end
 
 function isItemNodeConnected(nodeId)
   if pipes.nodeEntities["item"] == nil or pipes.nodeEntities["item"][nodeId] == nil then return false end
-  if #pipes.nodeEntities["item"][nodeId] > 0 then
+  if next(pipes.nodeEntities["item"][nodeId]) then
     return pipes.nodeEntities["item"][nodeId]
   else
+    if next(pipes.virtualNodes["item"][nodeId]) then
+      return pipes.virtualNodes["item"][nodeId]
+    end
     return false
   end
 end
