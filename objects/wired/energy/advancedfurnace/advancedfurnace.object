@@ -1,0 +1,70 @@
+{
+  "objectName" : "advancedfurnace",
+  "rarity" : "Common",
+  "description" : "An advanced furnace that requires energy to work.",
+  "shortdescription" : "Advanced Furnace",
+  "race" : "generic",
+  "subtitle" : "New fashioned smelting.",
+  "category" : "crafting",
+  "price" : 200,
+  "objectType" : "container",
+  "printable" : false,
+  "hydrophobic" : true,
+
+  "slotCount" : 2,
+  "uiConfig" : "/interface/advobjectcrafting/advancedfurnace.config",
+  "frameCooldown" : 67,
+  "autoCloseCooldown" : 3600,
+
+  "inventoryIcon" : "advancedfurnaceicon.png",
+  "orientations" : [
+    {
+      "dualImage" : "advancedfurnace.png:off",
+
+      "imagePosition" : [-8, -8],
+
+      "spaceScan" : 0.1,
+      "anchors" : [ "bottom" ],
+      "collision" : "platform"
+    }
+  ],
+
+  "scripts" : [ 
+    "advancedfurnace.lua",
+    "/scripts/energy.lua",
+    "/scripts/util.lua",
+    "/scripts/vec2.lua"
+  ],
+  "scriptDelta" : 5,
+
+  "animation" : "/objects/wired/energy/advancedfurnace/advancedfurnace.animation",
+  "animationParts" : {
+    "smelter" : "advancedfurnace.png"
+  },
+  "animationPosition" : [4, 0],
+
+  "inboundNodes" : [ [0, 0] ],
+
+  "energyConsumptionRate" : 10,
+  "energyCapacity" : 20,
+
+  "smeltRecipes" : [
+    ["copperore", 2, 1, "copperbar"],
+    ["ironore", 2, 1, "ironbar"],
+    ["silverore", 2, 1, "silverbar"],
+    ["goldore", 2, 1, "goldbar"],
+    ["diamondore", 4, 1, "diamond"],
+    ["platinumore", 2, 1, "platinumbar"],
+    ["titaniumore", 2, 1, "titaniumbar"],
+    ["aegisaltore", 2, 1, "aegisaltbar"],
+    ["Rubiumore", 2, 1, "Rubiumbar"],
+    ["Ceruliumore", 2, 1, "Ceruliumbar"],
+    ["plutoniumore", 2, 1, "plutoniumrod"],
+    ["uraniumore", 2, 1, "uraniumrod"],
+    ["solariumore", 2, 1, "solariumrod"],
+    ["sand", 3, 1, "glassmaterial"],
+    ["sand2", 3, 1, "glassmaterial"],
+    ["fullwood1", 10, 1, "coalore"]
+  ],
+  "smeltRate" : 0.5
+}
