@@ -39,6 +39,10 @@ end
 
 function pushItems()
   local items = world.containerItems(self.chest)
+
+  local callback = world.callScriptedEntity(self.chest, "adaptorGetAll", nil, entity.id())
+  if callback ~= nil then items = callback end
+
   for key, item in pairs(items) do
     local result = pushItem(1, item)
     if result then
@@ -54,6 +58,10 @@ end
 
 function beforeItemPut(item, nodeId)
   if item and self.chest then
+
+    local callback = world.callScriptedEntity(self.chest, "beforeAdaptorPut", item, entity.id())
+    if callback ~= nil then return callback end
+
     local canFit = world.containerItemsFitWhere(self.chest, item)
     if canFit then
       if canFit.leftover == 0 then
@@ -68,6 +76,10 @@ end
 
 function onItemPut(item, nodeId)
   if item and self.chest then
+
+    local callback = world.callScriptedEntity(self.chest, "adaptorPut", item, entity.id())
+    if callback ~= nil then return callback end
+
     local returnedItem = world.containerAddItems(self.chest, item)
     if returnedItem then
       local returnCount = item.count - returnedItem.count
@@ -85,6 +97,10 @@ end
 
 function beforeItemGet(filter, nodeId)
   if self.chest then
+
+    local callback = world.callScriptedEntity(self.chest, "beforeAdaptorGet", filter, entity.id())
+    if callback ~= nil then return callback end
+
     if filter then
       for itemName, amount in pairs(filter) do
         local filterItem = {name=itemName, count=amount[1], data={}}
@@ -102,6 +118,10 @@ end
 
 function onItemGet(filter, nodeId)
   if self.chest then
+
+    local callback = world.callScriptedEntity(self.chest, "adaptorGet", filter, entity.id())
+    if callback ~= nil then return callback end
+
     if filter then
       for itemName, amount in pairs(filter) do
         local filterItem = {name=itemName, count=amount[1], data={}}
