@@ -32,9 +32,9 @@
 
   "animationPosition" : [-8, -8],
 
-  "scripts" : [ "/scripts/datawire.lua", "linkdisplay.lua" ],
-  "scriptDelta" : 10,
-
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "linkdisplay.lua" ],
+  "scriptDelta" : 1,
+  
   "inboundNodes" : [ [-1, 0] ],
 
   "displaySize" : 2,

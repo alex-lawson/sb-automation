@@ -1,5 +1,6 @@
 function init(args)
   if not args then
+	gameloop.init()
     if datawire then
       datawire.init()
     end
@@ -83,6 +84,7 @@ function output(state)
 end
 
 function main()
+  gameloop.update()
   if storage.usesEnergy then
     energy.update()
   end

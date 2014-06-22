@@ -10,12 +10,14 @@ function init(virtual)
       -- Re-Initialization
     end
     -- Every Initialization
+	gameloop.init()
     datawire.init()
     entity.setInteractive(true)
   end
 end
 
 function main(args)
+  gameloop.update()
   datawire.update()
 end
 

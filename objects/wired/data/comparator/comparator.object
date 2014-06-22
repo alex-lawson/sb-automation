@@ -22,8 +22,8 @@
     }
   ],
 
-  "scripts" : [ "/scripts/datawire.lua", "comparator.lua" ],
-  "scriptDelta" : 20,
+  "scripts" : [ "/scripts/luahelpers.lua", "/scripts/services/gameloop.lua", "/scripts/datawire.lua", "comparator.lua" ],
+  "scriptDelta" : 1,
 
   "animation" : "comparator.animation",
 

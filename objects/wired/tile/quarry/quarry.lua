@@ -1,5 +1,6 @@
 function init(args)
     if not self.initialized and not args then
+		gameloop.init()
         energy.init()
         storageApi.init({mode = 2, capacity = 16, merge = true, join = true, ondeath = 1})
         pipes.init({itemPipe})
@@ -22,6 +23,7 @@ end
 function main()
     local dt = entity.dt()
     self.state.update(dt)
+	gameloop.update()
     pipes.update(dt)
     energy.update()
     if self.ishome then

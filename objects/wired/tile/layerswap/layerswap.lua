@@ -24,6 +24,7 @@ function init(virtual)
 
     updateAnimationState()
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -92,6 +93,7 @@ function swapLayer(newState)
 end
 
 function main()
+  gameloop.update()
   datawire.update()
 
   --timer waits for blocks to finish being destroyed before starting placement

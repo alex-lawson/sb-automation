@@ -28,6 +28,7 @@ function init(virtual)
       self.flipStr = "flipped."
     end
 
+	gameloop.init()
     datawire.init()
   end
 end
@@ -86,6 +87,7 @@ function updateAnimationState()
 end
 
 function main()
+  gameloop.update()
   datawire.update()
   operate()
 end
