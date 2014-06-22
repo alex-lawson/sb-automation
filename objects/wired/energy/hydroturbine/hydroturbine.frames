@@ -1,0 +1,14 @@
+{
+  "frameGrid" : {
+    "size" : [56, 40],
+    "dimensions" : [3, 1],
+    "names" : [
+      [ "turbine.off", "turbine.error", "turbine.on" ]
+    ]
+  },
+
+  "aliases" : {
+    "default.default" : "turbine.on",
+    "default.1" : "turbine.on"
+  }
+}
