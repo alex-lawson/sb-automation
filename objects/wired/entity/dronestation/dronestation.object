@@ -1,6 +1,6 @@
 {
   "objectName" : "dronestation",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Bring some serious automation into your home!",
   "shortdescription" : "Item Drone Station",

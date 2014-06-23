@@ -1,7 +1,7 @@
 {
   "objectName" : "linkdisplay",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "A modular numeric display.",
   "shortdescription" : "Linked Display",
   "race" : "generic",

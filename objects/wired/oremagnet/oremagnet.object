@@ -1,6 +1,6 @@
 {
   "objectName" : "oremagnet",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Gradually pulls ores closer through the ground.",
   "shortdescription" : "Ore Magnet",

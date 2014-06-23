@@ -1,6 +1,6 @@
 {
   "objectName" : "battery",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "A battery that requires recharging after use.",
   "shortdescription" : "Battery",

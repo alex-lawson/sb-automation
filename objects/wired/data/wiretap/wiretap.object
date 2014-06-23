@@ -1,7 +1,7 @@
 {
   "objectName" : "wiretap",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Keeps a running log of data received, interact to show the log",
   "shortdescription" : "Wiretap",
   "race" : "generic",

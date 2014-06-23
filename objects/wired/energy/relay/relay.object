@@ -1,6 +1,6 @@
 {
   "objectName" : "relay",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Transfers energy between devices within range.",
   "shortdescription" : "Energy Relay",

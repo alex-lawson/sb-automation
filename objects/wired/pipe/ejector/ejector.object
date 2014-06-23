@@ -1,6 +1,6 @@
 {
   "objectName" : "ejector",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "This is a pipe output, for ejecting items.",
   "shortdescription" : "Ejector",

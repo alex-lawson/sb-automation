@@ -1,7 +1,7 @@
 {
   "objectName" : "pipeliquiddetector",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Detects when liquids pass through, and outputs the liquid amount.",
   "shortdescription" : "Liquid Detector Pipe",
   "race" : "generic",

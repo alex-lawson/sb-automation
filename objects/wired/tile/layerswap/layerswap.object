@@ -1,6 +1,6 @@
 {
   "objectName" : "layerswap",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Swaps blocks between foreground and background when activated.",
   "shortdescription" : "Layer Swapper",

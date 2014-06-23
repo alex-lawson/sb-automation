@@ -1,6 +1,6 @@
 {
   "objectName" : "liquidextractor",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "This device creates liquid from moist, slimy, or igneous blocks.",
   "shortdescription" : "Liquid Extractor",

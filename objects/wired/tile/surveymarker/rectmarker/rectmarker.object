@@ -1,6 +1,6 @@
 {
   "objectName" : "rectmarker",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Selects a rectangular area between two corner points.",
   "shortdescription" : "Rectangular Marker",

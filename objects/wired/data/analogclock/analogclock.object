@@ -1,7 +1,7 @@
 {
   "objectName" : "analogclock",
   "rarity" : "Rare",
-  "objectType" : "wire",
+  
   "description" : "Displays planetary day/night and outputs during the day",
   "shortdescription" : "Analog Clock",
   "race" : "generic",

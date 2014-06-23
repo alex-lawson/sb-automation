@@ -1,7 +1,7 @@
 {
   "objectName" : "linkdisplaysmall",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "A micro-sized modular numeric display.",
   "shortdescription" : "Small Linked Display",
   "race" : "generic",

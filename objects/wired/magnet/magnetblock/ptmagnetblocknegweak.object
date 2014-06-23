@@ -1,7 +1,7 @@
 {
   "objectName" : "ptmagnetblocknegweak",
   "rarity" : "Rare",
-  "objectType" : "wire",
+  
   "description" : "A weak magnet, the charge of which is positive.",
   "shortdescription" : "Permanent Negative Magnet",
   "race" : "generic",

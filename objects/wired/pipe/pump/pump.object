@@ -1,6 +1,6 @@
 {
   "objectName" : "liquidpump",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "This pump is used to move liquids from one point to another.",
   "shortdescription" : "Pump",

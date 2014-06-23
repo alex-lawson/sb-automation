@@ -1,7 +1,7 @@
 {
   "objectName" : "pipeitemdetector",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Detects when items pass through, and outputs the item count.",
   "shortdescription" : "Item Detector Pipe",
   "race" : "generic",

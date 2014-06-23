@@ -1,6 +1,6 @@
 {
   "objectName" : "liquidsensor",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Don't use your finger! This trusty sensor indicates the presence of liquids.",
   "shortdescription" : "Liquid Sensor",

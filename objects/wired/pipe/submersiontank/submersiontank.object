@@ -1,6 +1,6 @@
 {
   "objectName" : "submersiontank",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "A big tank, big enough to fit a person inside...",
   "shortdescription" : "Submersion Tank",

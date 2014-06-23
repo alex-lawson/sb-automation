@@ -1,6 +1,6 @@
 {
   "objectName" : "liquidfiller",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Puts liquids into portable, throwable capsules.",
   "shortdescription" : "Liquid Filler",

@@ -1,6 +1,6 @@
 {
   "objectName" : "pipeend",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "A spout that can be used for input or output of liquids.",
   "shortdescription" : "Pipe Spout",

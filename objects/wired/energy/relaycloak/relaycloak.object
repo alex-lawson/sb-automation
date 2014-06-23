@@ -1,6 +1,6 @@
 {
   "objectName" : "relaycloak",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Refracts light to camouflage nearby energy relays.",
   "shortdescription" : "Relay Cloak",

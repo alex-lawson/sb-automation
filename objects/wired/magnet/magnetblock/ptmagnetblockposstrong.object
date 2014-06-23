@@ -1,7 +1,7 @@
 {
   "objectName" : "ptmagnetblockposstrong",
   "rarity" : "Rare",
-  "objectType" : "wire",
+  
   "description" : "A strong magnet, the charge of which can be toggled between positive and neutral.",
   "shortdescription" : "Powered Positive Magnet",
   "race" : "generic",

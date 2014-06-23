@@ -1,7 +1,7 @@
 {
   "objectName" : "valve",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Passes items or liquids between opposite sides when active.",
   "shortdescription" : "Valve Junction",
   "race" : "generic",

@@ -1,6 +1,6 @@
 {
   "objectName" : "windsensor",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Activates the bottom node in low winds and the top node in high winds.",
   "shortdescription" : "Wind Sensor",

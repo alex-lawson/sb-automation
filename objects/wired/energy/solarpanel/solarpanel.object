@@ -1,7 +1,7 @@
 {
   "objectName" : "solarpanel",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Generates energy without the waste of resources.",
   "shortdescription" : "Solar Panel",
   "race" : "generic",

@@ -1,6 +1,6 @@
 {
   "objectName" : "tempsensor",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Activates the bottom node in moderate temperatures and the top node in warm temperatures.",
   "shortdescription" : "Thermometer",

@@ -1,6 +1,6 @@
 {
   "objectName" : "gravityelevator",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Allows gentle vertical ascent and descent.",
   "shortdescription" : "Gravity Elevator",

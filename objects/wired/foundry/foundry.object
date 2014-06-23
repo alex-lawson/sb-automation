@@ -1,7 +1,7 @@
 {
   "objectName" : "foundry",
   "rarity" : "Legendary",
-  "objectType" : "wire",
+  
   "printable" : false,
 
   "interactAction" : "OpenCraftingInterface",

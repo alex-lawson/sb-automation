@@ -1,7 +1,7 @@
 {
   "objectName" : "ptmagnetblockadvanced",
   "rarity" : "Rare",
-  "objectType" : "wire",
+  
   "description" : "An advanced magnet, the charge of which changes based on input.", // Point charge confuse Grom. Grom smash.
   "shortdescription" : "Advanced Magnet",
   "race" : "generic",

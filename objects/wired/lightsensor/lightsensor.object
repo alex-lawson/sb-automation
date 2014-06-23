@@ -1,6 +1,6 @@
 {
   "objectName" : "lightsensor",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Activates the bottom node in dim light and the top node in bright light.",
   "shortdescription" : "Light Sensor",

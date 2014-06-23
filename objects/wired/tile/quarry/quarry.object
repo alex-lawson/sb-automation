@@ -1,7 +1,7 @@
 {
   "objectName" : "quarry",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Uses energy to automatically mine an area of blocks.",
   "shortdescription" : "Quarry",
   "race" : "generic",

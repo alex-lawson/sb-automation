@@ -1,7 +1,7 @@
 {
   "objectName" : "ptmagnetizer",
   "rarity" : "Rare",
-  "objectType" : "wire",
+  
   "description" : "Magnetizes monsters, causing them to be affected by magnets.",
   "shortdescription" : "Magnetizer",
   "race" : "generic",

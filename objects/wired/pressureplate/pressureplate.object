@@ -1,7 +1,7 @@
 {
   "objectName" : "pressureplate",
   "rarity" : "Common",
-  "objectType" : "wire",  
+    
   "description" : "This device detects when weight is placed on it.",
   "shortdescription" : "Pressure Plate",
   "race" : "generic",

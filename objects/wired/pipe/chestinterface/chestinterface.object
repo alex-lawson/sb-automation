@@ -1,6 +1,6 @@
 {
   "objectName" : "chestinterface",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Connects to a storage chest to provide pipe access.",
   "shortdescription" : "Pipe Chest Adaptor",

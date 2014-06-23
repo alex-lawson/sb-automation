@@ -1,6 +1,6 @@
 {
   "objectName" : "freeformmarker",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "Selects an arbitrary area of adjacent tiles.",
   "shortdescription" : "Freeform Marker",

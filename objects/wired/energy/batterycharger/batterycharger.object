@@ -5,7 +5,7 @@
   "shortdescription" : "Battery Rack",
   "race" : "generic",
   "price" : 200,
-  "objectType" : "wire",
+  
   "printable" : false,
 
   "inventoryIcon" : "batterychargericon.png",

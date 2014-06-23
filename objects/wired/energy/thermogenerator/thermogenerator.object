@@ -4,7 +4,7 @@
   "description" : "Connect to lava source and submerge in water to generate energy",
   "shortdescription" : "Thermoelectric Generator",
   "race" : "generic",
-  "objectType" : "wire",
+  
   "printable" : false,
 
   "inventoryIcon" : "thermogenerator.png:down",

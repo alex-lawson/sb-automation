@@ -1,7 +1,7 @@
 {
   "objectName" : "detector",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
   "description" : "Detects a variety of entity types",
   "shortdescription" : "Entity Detector",
   "race" : "generic",

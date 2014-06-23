@@ -1,7 +1,7 @@
 {
   "objectName" : "levitationpad",
   "rarity" : "Common",
-  "objectType" : "wire",
+  
 
   "category" : "wire",
   "price" : 350,

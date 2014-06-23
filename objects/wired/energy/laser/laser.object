@@ -1,6 +1,6 @@
 {
   "objectName" : "laser",
-  "objectType" : "wire",
+  
   "rarity" : "Common",
   "description" : "It's a laser",
   "shortdescription" : "Laser",
