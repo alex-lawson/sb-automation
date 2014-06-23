@@ -21,15 +21,117 @@ function entityConnectsAt(pipeName, position, pipeDirection)
   return false
 end
 
+function receiveBroadcastedEntities(pipeName, nodeId, entities, virtualNodes, fromEntity, fromNode)
+  local position = entity.position()
+  world.debugLine({position[1] + 1, position[2]}, {position[1] + 1, position[2] + 3}, "green")
+
+  local newEntities = {}
+  local pathToSource = {}
+  local localNode = 0
+  local appliedOffset = {0, 0}
+
+  --Get path to source entity
+  for _,connection in ipairs(entities) do
+    if connection.id == entity.id() then
+      pathToSource = reversePath(connection.path)
+      localNode = connection.nodeId
+      local offset = pathToSource[1] --This is the offset from the source entity
+      appliedOffset = {-offset[1] + pipes.nodes[pipeName][nodeId].dir[1], -offset[2] + pipes.nodes[pipeName][nodeId].dir[2]} --The offset to apply to all path nodes to make them relative to this object
+    end
+  end
+
+  --Add source entity
+  newEntities[1] = {id = fromEntity, nodeId = fromNode, path = offsetPath(pathToSource, appliedOffset)}
+
+  --Add the other entities
+  for _,connection in ipairs(entities) do
+    if connection.id ~= entity.id() then
+      local reroutedPath = reroutePath(pathToSource, connection.path)
+      newEntities[#newEntities+1] = {id = connection.id, nodeId = connection.nodeId, path = offsetPath(reroutedPath, appliedOffset)}
+    end
+  end
+
+  --Add virtual nodes
+  local newNodes = {}
+  for _,vNode in ipairs(virtualNodes) do
+    local reroutedPath = reroutePath(pathToSource, vNode.path)
+    newNodes[#newNodes+1] = {pos = vNode.pos, path = offsetPath(reroutedPath, appliedOffset)}
+  end
+
+  if pipes.nodeEntities == nil then pipes.nodeEntities = {} end
+  if pipes.nodeEntities[pipeName] == nil then pipes.nodeEntities[pipeName] = {} end
+  if pipes.virtualNodes == nil then pipes.virtualNodes = {} end
+  if pipes.virtualNodes[pipeName] == nil then pipes.virtualNodes[pipeName] = {} end
+
+  table.sort(newEntities, function(a,b) return #a.path < #b.path end)
+  table.sort(newNodes, function(a,b) return #a.path < #b.path end)
+
+  pipes.nodeEntities[pipeName][nodeId] = newEntities;
+  pipes.virtualNodes[pipeName][nodeId] = newNodes;
+
+  pipes.updateTimers[pipeName][nodeId] = -0.5;
+end
+
+function reversePath(path)
+  local newPath = {}
+  for i = #path, 1, -1 do
+    newPath[#newPath+1] = {path[i][1], path[i][2]}
+  end
+  return newPath
+end
+
+function offsetPath(path, offset)
+  local newPath = {}
+  for i,pos in ipairs(path) do
+    newPath[i] = {pos[1] + offset[1], pos[2] + offset[2]}
+  end
+  return newPath
+end
+
+function pathIntersection(firstPath, secondPath)
+  for firstIndex,pos in ipairs(firstPath) do
+    local secondIndex = table.containsVector2(secondPath, pos)
+    if secondIndex then
+      return firstIndex, secondIndex
+    end
+  end
+  return false
+end
+
+function reroutePath(firstPath, secondPath)
+  local newPath = {}
+
+  local firstIndex, secondIndex = pathIntersection(firstPath, secondPath)
+
+  --Add segment from this object to intersection
+  for i = 1, firstIndex do
+    newPath[#newPath+1] = {firstPath[i][1], firstPath[i][2]}
+  end
+
+  --Add segment from intersection to end object
+  for i = secondIndex, #secondPath do
+    newPath[#newPath+1] = {secondPath[i][1], secondPath[i][2]}
+  end
+
+  return newPath;
+end
+
 --HELPERS
 
---- Checks if a table (array only) contains a value
+--- Checks if a table (array only) contains a value (not recursive)
 -- @param table table - table to check
 -- @param value (w/e) - value to compare
 -- @returns true if table contains it, false if not
 function table.contains(table, value)
   for _,val in ipairs(table) do
     if value == val then return true end
+  end
+  return false
+end
+
+function table.containsVector2(table, value)
+  for i,val in ipairs(table) do
+    if val[1] == value[1] and val[2] == value[2] then return i end
   end
   return false
 end
@@ -90,7 +192,7 @@ pipes.varieties["cleanpipe"] = {
 -- @returns nil
 function pipes.init(pipeTypes)
 
-  pipes.updateTimer = 1 --Should be set to the same as updateInterval so it gets entities on the first update
+  pipes.updateTimers = {}
   pipes.updateInterval = 1
   
   pipes.types = {}
@@ -106,6 +208,7 @@ function pipes.init(pipeTypes)
     pipes.nodes[pipeName] = entity.configParameter(pipeType.nodesConfigParameter)
     pipes.nodeEntities[pipeName] = {}
     pipes.virtualNodes[pipeName] = {}
+    pipes.updateTimers[pipeName] = {}
   end
 
   pipes.rejectNode = {}
@@ -242,16 +345,14 @@ end
 --- Gets all the connected entities for a pipe type
 -- @param pipeName string - name of the pipe type to use
 -- @returns list of connected entities with format {nodeId = {{id = 1, nodeId = 1, path = {{1,0},{2,0}}}}
-function pipes.getNodeEntities(pipeName)
+function pipes.getNodeEntities(pipeName, pipeNode, nodeIndex)
   local position = entity.position()
   local nodeEntities = {}
   local virtualNodes = {}
   local nodesTable = {}
   
   if pipes.nodes[pipeName] == nil then return {} end
-  for i,pipeNode in ipairs(pipes.nodes[pipeName]) do
-    nodeEntities[i], virtualNodes[i] = pipes.walkPipes(pipeName, pipeNode.offset, pipeNode.dir)
-  end
+  nodeEntities, virtualNodes = pipes.walkPipes(pipeName, pipeNode.offset, pipeNode.dir, nodeIndex)
   return nodeEntities, virtualNodes
 end
 
@@ -260,18 +361,22 @@ end
 -- @returns nil
 function pipes.update(dt)
   local position = entity.position()
-  pipes.updateTimer = pipes.updateTimer + dt
   pipes.processPlacementQueue()
-  
-  if pipes.updateTimer >= pipes.updateInterval then
-  
-    --Get connected entities
-    for pipeName,pipeType in pairs(pipes.types) do
-      --Get inbound
-      pipes.nodeEntities[pipeName], pipes.virtualNodes[pipeName] = pipes.getNodeEntities(pipeName)
+
+  --Get connected entities
+  for pipeName,pipeType in pairs(pipes.types) do
+    if pipes.updateTimers[pipeName] == nil then pipes.updateTimers[pipeName] = {} end
+
+    for i,pipeNode in ipairs(pipes.nodes[pipeName]) do
+      if pipes.updateTimers[pipeName][i] == nil then pipes.updateTimers[pipeName][i] = pipes.updateInterval end
+
+      if pipes.updateTimers[pipeName][i] >= pipes.updateInterval then
+        pipes.nodeEntities[pipeName][i], pipes.virtualNodes[pipeName][i] = pipes.getNodeEntities(pipeName, pipeNode, i)
+        pipes.updateTimers[pipeName][i] = pipes.updateTimers[pipeName][i] - pipes.updateInterval;
+      end
+
+      pipes.updateTimers[pipeName][i] = pipes.updateTimers[pipeName][i] + dt
     end
-    
-    pipes.updateTimer = 0
   end
 
 end
@@ -292,37 +397,38 @@ end
 -- @param startOffset vec2 - Position *relative to the object* to start looking, should be set to a node's position
 -- @param startDir vec2 - Direction to start looking in, should be set to a node's direction
 -- @returns List of connected entities with ID, remote Node ID, and path info, sorted by nearest-first
-function pipes.walkPipes(pipeName, startOffset, startDir)
+function pipes.walkPipes(pipeName, startOffset, startDir, nodeId)
+  local position = entity.position();
+  world.debugLine(position, {position[1], position[2] + 3}, "red")
+
+
   local validEntities = {}
   local visitedTiles = {}
   local tilesToVisit = {}
-  local layerMode = nil
   local typeMode = nil
 
-  tilesToVisit[1] =  {pos = {startOffset[1] + startDir[1], startOffset[2] + startDir[2]}, layer = "foreground", dir = startDir, path = {}, neighbors = {pipes.reverseDir[startDir[1].."."..startDir[2]]} } 
+  tilesToVisit[1] =  {pos = {startOffset[1] + startDir[1], startOffset[2] + startDir[2]}, layer = nil, dir = startDir, path = {}, neighbors = {pipes.reverseDir[startDir[1].."."..startDir[2]]} } 
 
   while #tilesToVisit > 0 do
     local tile = tilesToVisit[1]
-    local layer, type = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile.pos), layerMode, typeMode)
+    local layer, type = pipes.getPipeTileData(pipeName, entity.toAbsolutePosition(tile.pos), tile.layer, typeMode)
 
     --If a tile, add connected spaces to the visit list
     if layer then
-      layerMode = layer
+      tile.layer = layer
       typeMode = type
       tile.path[#tile.path+1] = tile.pos --Add tile to the path
-
-      if tile.prev then 
-        table.insert(visitedTiles[tile.prev].neighbors, 1, tile.dir)
-        visitedTiles[tile.prev].layer = layer
-      end
-
 
       visitedTiles[tile.pos[1].."."..tile.pos[2]] = tile --Add to global visited
       for index,dir in ipairs(pipes.directions) do
         local newPos = {tile.pos[1] + dir[1], tile.pos[2] + dir[2]}
         if visitedTiles[newPos[1].."."..newPos[2]] == nil then --Don't check the tile we just came from, and don't check already visited ones
-          local newTile = {pos = newPos, prev = tile.pos[1].."."..tile.pos[2], layer = layerMode, neighbors = {pipes.otherDirections[index]}, dir = dir, path = table.copy(tile.path)}
+          local newTile = {pos = newPos, prev = tile.pos[1].."."..tile.pos[2], layer = tile.layer, neighbors = {}, dir = dir, path = table.copy(tile.path)}
           table.insert(tilesToVisit, 2, newTile)
+        else
+          --If it is visited we should add this tile to its neighbors
+          table.insert(visitedTiles[newPos[1].."."..newPos[2]].neighbors, 1, pipes.otherDirections[index])
+          table.insert(tile.neighbors, 1, {dir[1], dir[2]})
         end
       end
     --If not a tile, check for objects that might connect
@@ -334,7 +440,7 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
         for key,objectId in ipairs(connectedObjects) do
           local entNode = pipes.validEntity(pipeName, objectId, entity.toAbsolutePosition(tile.pos), tile.dir)
           if entNode and tile.prev then table.insert(visitedTiles[tile.prev].neighbors, 1, tile.dir) end
-          if objectId ~= entity.id() and entNode and table.contains(validEntities, objectId) == false then
+          if (objectId ~= entity.id() or entNode ~= nodeId) and entNode then
             validEntities[#validEntities+1] = {id = objectId, nodeId = entNode, path = table.copy(tile.path)}
           end
         end
@@ -350,6 +456,12 @@ function pipes.walkPipes(pipeName, startOffset, startDir)
   local virtualNodes = pipes.getVirtualNodes(visitedTiles)
 
   table.sort(validEntities, function(a,b) return #a.path < #b.path end)
+  table.sort(virtualNodes, function(a,b) return #a.path < #b.path end)
+
+  if next(validEntities) then
+    pipes.broadcastEntities(validEntities, virtualNodes, pipeName, nodeId)
+  end
+
   return validEntities, virtualNodes
 end
 
@@ -368,7 +480,13 @@ function pipes.getVirtualNodes(tiles)
   return vNodes
 end
 
+------BROADCASTING ENTITIES
 
+function pipes.broadcastEntities(entities, virtualNodes, pipeName, pipeNode)
+  for _,connectedEntity in ipairs(entities) do
+    world.callScriptedEntity(connectedEntity.id, 'receiveBroadcastedEntities', pipeName, connectedEntity.nodeId, entities, virtualNodes, entity.id(), pipeNode)
+  end
+end
 
 ------REPLACING TILES WITH THE RIGHT ones
 pipes.placeQueue = {}
@@ -440,6 +558,7 @@ function pipes.processPlacementQueue()
   for i=#pipes.placeQueue, 1, -1 do
     local tile = pipes.placeQueue[i]
     if world.material(tile.pos, tile.layer) or world.placeMaterial(tile.pos, tile.layer, tile.material) then
+      
       table.remove(pipes.placeQueue, i)
     end
   end
