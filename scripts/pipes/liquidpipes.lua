@@ -103,7 +103,7 @@ function peekPullLiquid(nodeId, filter)
       end
     end
   end
-  world.logInfo("%s", pullResult)
+  --world.logInfo("%s", pullResult)
   return pullResult
 end
 

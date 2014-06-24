@@ -1,9 +1,10 @@
 {
   "frameGrid" : {
-    "size" : [16, 16],
-    "dimensions" : [12, 1],
+    "size" : [16, 8],
+    "dimensions" : [14, 2],
     "names" : [
-      [ "idle", "error", "pump.1", "pump.2", "pump.3", "pump.4", "pump.5", "pump.6", "pump.7", "pump.8", "pump.9", "pump.10" ]
+      [ "off", "powered", "unpowered", "pump.1", "pump.2", "pump.3", "pump.4", "pump.5", "pump.6", "pump.7", "pump.8", "pump.9", "pump.10", "pump.11" ],
+      [ null, null, null, "error.1", "error.2", "error.3", "error.4", "error.5", "error.6", "error.7", "error.8", "error.9", "error.10", "error.11" ]
     ]
   }
 }

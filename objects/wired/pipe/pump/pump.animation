@@ -3,19 +3,23 @@
     "stateTypes" : {
       "pumping" : {
         "priority" : 0,
-        "default" : "idle",
+        "default" : "off",
 
         "states" : {
-          "idle" : {
-            "frames" : 1
-          },
+          "off" : {},
+          "powered" : {},
+          "unpowered" : {},
           "error" : {
-            "frames" : 1
+            "frames" : 11,
+            "cycle" : 0.5,
+            "mode" : "transition",
+            "transition" : "powered"
           },
           "pump" : {
-            "frames" : 10,
+            "frames" : 11,
             "cycle" : 0.5,
-            "mode" : "loop"
+            "mode" : "transition",
+            "transition" : "powered"
           }
         }
       }
@@ -24,19 +28,29 @@
       "pump" : {
         "properties" : {
           "offset" : [0, 0],
-          "centered" : false,
+          "centered" : true,
           "zLevel" : 3
         },
         "partStates" : {
           "pumping" : {
-            "idle" : {
+            "off" : {
               "properties" : {
-                "image" : "<partImage>:idle"
+                "image" : "<partImage>:off"
+              }
+            },
+            "powered" : {
+              "properties" : {
+                "image" : "<partImage>:powered"
+              }
+            },
+            "unpowered" : {
+              "properties" : {
+                "image" : "<partImage>:unpowered"
               }
             },
             "error" : {
               "properties" : {
-                "image" : "<partImage>:error"
+                "image" : "<partImage>:error.<frame>"
               }
             },
             "pump" : {

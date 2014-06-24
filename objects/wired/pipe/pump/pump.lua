@@ -1,14 +1,18 @@
 function init(virtual)
   if virtual == false then
     entity.setInteractive(true)
-    
     pipes.init({liquidPipe})
     energy.init()
-    
-    entity.setAnimationState("pumping", "idle")
+
+    if entity.direction() < 0 then
+      pipes.nodes["liquid"] = entity.configParameter("flippedLiquidNodes")
+    end
+
+    entity.setAnimationState("pumping", "off")
     
     self.pumping = false
     self.pumpRate = entity.configParameter("pumpRate")
+    self.energyConsumption = entity.configParameter("energyConsumptionRate") * self.pumpRate;
     self.pumpTimer = 0
 
     buildFilter()
@@ -40,37 +44,34 @@ function main(args)
   pipes.update(entity.dt())
   energy.update()
   
-  if storage.state then
-    local srcNode
-    local tarNode
-    if entity.direction() == 1 then
-      srcNode = 1
-      tarNode = 2
-    else
-      srcNode = 2
-      tarNode = 1
-    end
-    
+  if storage.state and energy.consumeEnergy(self.energyConsumption, true) then
     if self.pumpTimer > self.pumpRate then
-      local canGetLiquid = peekPullLiquid(srcNode, self.filter)
-      local canPutLiquid = peekPushLiquid(tarNode, canGetLiquid)
+      entity.setAnimationState("pumping", "powered")
+      local canGetLiquid = peekPullLiquid(1, self.filter)
+      local canPutLiquid = peekPushLiquid(2, canGetLiquid)
 
-      if canGetLiquid and canPutLiquid and energy.consumeEnergy() then
+      if canGetLiquid and canPutLiquid and energy.consumeEnergy(self.energyConsumption) then
         entity.setAnimationState("pumping", "pump")
         entity.setAllOutboundNodes(true)
         
-        local liquid = pullLiquid(srcNode, self.filter)
-        pushLiquid(tarNode, liquid)
+        local liquid = pullLiquid(1, self.filter)
+        pushLiquid(2, liquid)
       else
         entity.setAllOutboundNodes(false)
-        entity.setAnimationState("pumping", "error")
+        if canGetLiquid then
+          entity.setAnimationState("pumping", "error")
+        end
       end
-      self.pumpTimer = 0
+      self.pumpTimer = self.pumpTimer - self.pumpRate
     end
     self.pumpTimer = self.pumpTimer + entity.dt()
   else
-    entity.setAnimationState("pumping", "idle")
     entity.setAllOutboundNodes(false)
+    if not storage.state then
+      entity.setAnimationState("pumping", "off")
+    elseif not energy.consumeEnergy(self.energyConsumption, true) then
+      entity.setAnimationState("pumping", "unpowered")
+    end
   end
 end
 
