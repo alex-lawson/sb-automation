@@ -19,7 +19,7 @@ function pushItem(nodeId, item)
   if pushResult ~= true and next(pipes.virtualNodes["item"][nodeId]) then
     for _,vNode in ipairs(pipes.virtualNodes["item"][nodeId]) do
       local nodePos = {vNode.pos[1] + 0.5, vNode.pos[2] + 0.5}
-      if world.spawnItem(item.name, nodePos, item.count, item.data) then 
+      if world.spawnItem(item.name, nodePos, item.count, item.data.__content) then 
         pushResult = true
         break 
       end
@@ -121,7 +121,7 @@ function peekPullItem(nodeId, filter)
 end
 
 function returnItem(pos, item, returnCount)
-  world.spawnItem(item.name, pos, returnCount, item.data)
+  world.spawnItem(item.name, pos, returnCount, item.data.__content)
 end
 
 function isItemNodeConnected(nodeId)

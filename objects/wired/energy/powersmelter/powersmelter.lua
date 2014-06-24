@@ -127,7 +127,7 @@ function ejectOre()
   if storage.ore.name and next(storage.ore.data) == nil then
     world.spawnItem(storage.ore.name, {position[1] + 1.5, position[2] + 1}, storage.ore.count)
   elseif storage.ore.name then
-    world.spawnItem(storage.ore.name, {position[1] + 1.5, position[2] + 1}, storage.ore.count, storage.ore.data)
+    world.spawnItem(storage.ore.name, {position[1] + 1.5, position[2] + 1}, storage.ore.count, storage.ore.data.__content)
   end
   storage.ore = {}
 end

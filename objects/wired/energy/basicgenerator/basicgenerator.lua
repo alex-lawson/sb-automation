@@ -144,7 +144,7 @@ function ejectItem(item)
   if next(item.data) == nil then
     itemDropId = world.spawnItem(item.name, self.dropPoint, item.count)
   else
-    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count, item.data)
+    itemDropId = world.spawnItem(item.name, self.dropPoint, item.count, item.data.__content)
   end
   self.ignoreDropIds[itemDropId] = true
 end

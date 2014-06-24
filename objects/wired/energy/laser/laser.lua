@@ -278,7 +278,7 @@ function laserState.pickUpItems(stateData)
           item.count = item.count - result
         end
         local spawnPos = entity.toAbsolutePosition(self.directions[self.mirror[storage.curDir]])
-        world.spawnItem(item.name, spawnPos, item.count, item.data)
+        world.spawnItem(item.name, spawnPos, item.count, item.data.__content)
       end
     end
   end

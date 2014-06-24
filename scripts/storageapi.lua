@@ -268,7 +268,7 @@ function storageApi.drop(index, amount, pos)
             if not item.data or next(item.data) == nil then
                 drop = world.spawnItem(item.name, pos, amount)
             else
-                drop = world.spawnItem(item.name, pos, amount, item.data)
+                drop = world.spawnItem(item.name, pos, amount, item.data.__content)
             end
             if drop then
                 storage.sApi[index].count = item.count - amount

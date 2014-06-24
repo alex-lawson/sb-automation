@@ -57,7 +57,7 @@ function onItemPut(item, nodeId)
     if next(item.data) == nil then 
       world.spawnItem(item.name, self.dropPoint, item.count)
     else
-      world.spawnItem(item.name, self.dropPoint, item.count, item.data)
+      world.spawnItem(item.name, self.dropPoint, item.count, item.data.__content)
     end
     return true
   end
