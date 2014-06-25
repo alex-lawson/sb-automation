@@ -36,6 +36,7 @@ function receiveBroadcastedEntities(pipeName, nodeId, entities, virtualNodes, fr
       pathToSource = reversePath(connection.path)
       localNode = connection.nodeId
       local offset = pathToSource[1] --This is the offset from the source entity
+      if #pathToSource == 0 then offset = {0,0} end
       appliedOffset = {-offset[1] + pipes.nodes[pipeName][nodeId].dir[1], -offset[2] + pipes.nodes[pipeName][nodeId].dir[2]} --The offset to apply to all path nodes to make them relative to this object
     end
   end
