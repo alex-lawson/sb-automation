@@ -1,7 +1,7 @@
 {
   "objectName" : "thermogenerator",
   "rarity" : "Common",
-  "description" : "Connect to lava source and submerge in water to generate energy",
+  "description" : "Submerge in water to generate energy from world temperature. Connect to lava source to increase greatly energy generation.",
   "shortdescription" : "Thermoelectric Generator",
   "race" : "generic",
   "objectType" : "wire",
