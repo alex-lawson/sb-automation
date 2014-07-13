@@ -8,6 +8,8 @@ function init(virtual)
     self.lavaConsumptionRate = 10 --this is per tile, so multiply by 3 to get maximum total consumption
     self.energyPerLava = 0.2
     self.waterPerLava = 4
+	self.energyPerDegree = 0.025
+	self.waterPerDegree = 0.5
 
     setOrientation()
 
@@ -95,8 +97,33 @@ function generate()
       else
         entity.setParticleEmitterActive("steam"..i, false)
       end
-    else
-      entity.setParticleEmitterActive("steam"..i, false)
+	else
+	  local temperature = world.temperature(pos)
+	  if temperature > 0 then
+	    --check liquid at the given tile
+        local liquidSample = world.liquidAt(pos)
+        if liquidSample and liquidSample[1] == 1 and liquidSample[2] >= 300 then
+          --destroy water in the tile
+          local destroyed = world.destroyLiquid(pos)
+          
+          --evaporate some water
+          local consumeWater = temperature * self.waterPerDegree
+          if destroyed[2] > consumeWater then
+            world.spawnLiquid(pos, 1, destroyed[2] - consumeWater)
+          else
+            consumeWater = destroyed[2]
+          end
+        
+          --convert evaporated water to energy
+          energy.addEnergy(self.energyPerDegree * consumeWater / self.waterPerDegree)
+        
+          entity.setParticleEmitterActive("steam"..i, true)
+        else
+          entity.setParticleEmitterActive("steam"..i, false)
+        end
+	  else
+        entity.setParticleEmitterActive("steam"..i, false)
+	  end
     end
   end
 end
