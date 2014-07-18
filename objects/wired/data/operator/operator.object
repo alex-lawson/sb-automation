@@ -2,7 +2,7 @@
   "objectName" : "operator",
   "rarity" : "Common",
   "objectType" : "wire",
-  "description" : "Add, subtract, multiply, or divide two numbers.",
+  "description" : "Add, subtract, multiply, divide or modulo two numbers.",
   "shortdescription" : "Operator",
   "race" : "generic",
 

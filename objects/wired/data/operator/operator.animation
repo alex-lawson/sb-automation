@@ -16,6 +16,9 @@
           "divide" : {
             "frames" : 1
           },
+          "modulo" : {
+            "frames" : 1
+          },
           "flipped.add" : {
             "frames" : 1
           },
@@ -26,6 +29,9 @@
             "frames" : 1
           },
           "flipped.divide" : {
+            "frames" : 1
+          },
+          "flipped.modulo" : {
             "frames" : 1
           }
         }
@@ -59,6 +65,11 @@
               "properties" : {
                 "image" : "<partImage>:<color>.divide"
               }
+			},
+            "modulo" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.modulo"
+              }
             },
             "flipped.add" : {
               "properties" : {
@@ -78,6 +89,11 @@
             "flipped.divide" : {
               "properties" : {
                 "image" : "<partImage>:<color>.flipped.divide"
+              }
+			},
+            "flipped.modulo" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.modulo"
               }
             }
           }
