@@ -1,0 +1,8 @@
+{
+  "input" : [ ],
+  "output" : {
+    "item" : "advancedrandomizer",
+    "count" : 1
+  },
+  "groups" : [ "mod", "sfmod" ]
+}
