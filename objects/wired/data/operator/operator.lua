@@ -14,7 +14,7 @@ function init(virtual)
       storage.nodeStates = {}
     end
 
-    self.modes = { "add", "subtract", "multiply", "divide" }
+    self.modes = { "add", "subtract", "multiply", "divide", "modulo" }
     if storage.currentMode == nil then
       storage.currentMode = self.modes[1]
     end
@@ -75,6 +75,8 @@ function operate()
     storage.result = storage.data1 * storage.data2
   elseif storage.currentMode == "divide" then
     storage.result = storage.data1 / storage.data2
+  elseif storage.currentMode == "modulo" then
+    storage.result = storage.data1 % storage.data2
   end
 
   datawire.sendData(storage.result, "number", "all")
