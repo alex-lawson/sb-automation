@@ -57,7 +57,7 @@ function onNodeConnectionChange()
 end
 
 function validateData(data, dataType, nodeId, sourceEntityId)
-  return dataType == "number"
+  return dataType == "number" or storage.currentMode == "eq"
 end
 
 function onValidDataReceived(data, dataType, nodeId, sourceEntityId)

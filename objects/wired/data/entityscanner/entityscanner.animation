@@ -12,6 +12,12 @@
           },
           "currenthp" : {
             "frames" : 1
+          },
+          "name" : {
+            "frames" : 1
+          },
+          "handitem" : {
+            "frames" : 1
           }
         }
       }
@@ -38,6 +44,16 @@
             "currenthp" : {
               "properties" : {
                 "image" : "<partImage>:<color>.currenthp"
+              }
+            },
+            "name" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.name"
+              }
+            },
+            "handitem" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.handitem"
               }
             }
           }
