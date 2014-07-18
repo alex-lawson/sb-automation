@@ -21,7 +21,7 @@ function init(virtual)
       self.detectOrigin = entity.position()
     end
 
-    self.modes = { "maxhp", "currenthp" }
+    self.modes = { "maxhp", "currenthp", "name" , "handitem" }
     if storage.currentMode == nil then
       storage.currentMode = self.modes[1]
     end
@@ -69,10 +69,17 @@ function onDetect(entityId)
     local sample
     if storage.currentMode == "currenthp" then
       sample = math.floor(world.entityHealth(entityId)[1])
+	  datawire.sendData(sample, "number", 0)
     elseif storage.currentMode == "maxhp" then
       sample = math.floor(world.entityHealth(entityId)[2])
+	  datawire.sendData(sample, "number", 0)
+    elseif storage.currentMode == "name" then
+      sample = world.entityName(entityId) or ""
+	  datawire.sendData(sample, "string", 0)
+    elseif storage.currentMode == "handitem" then
+      sample = world.entityHandItem(entityId, "primary") or ""
+	  datawire.sendData(sample, "string", 0)
     end
-    datawire.sendData(sample, "number", 0)
   else
     datawire.sendData(0, "number", 0)
   end
