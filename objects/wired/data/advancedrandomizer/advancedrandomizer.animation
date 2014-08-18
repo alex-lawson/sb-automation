@@ -1,0 +1,36 @@
+{
+  "animatedParts" : {
+    "stateTypes" : {
+      "advancedrandomizerState" : {
+        "default" : "off",
+        "states" : {
+          "off" : {},
+          "flipped.off" : {}
+        }
+      }
+    },
+
+    "parts" : {
+      "advancedrandomizer" : {
+        "properties" : {
+          "centered" : false
+        },
+
+        "partStates" : {
+          "advancedrandomizerState" : {
+            "off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.off"
+              }
+            },
+            "flipped.off" : {
+              "properties" : {
+                "image" : "<partImage>:<color>.flipped.off"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
