@@ -51,7 +51,7 @@ function breakLayer(tileArea, targetLayer, dropItems)
   if dropItems then
     world.damageTiles(tileArea, targetLayer, entity.position(), "blockish", 9999)
   else
-    world.damageTiles(tileArea, targetLayer, entity.position(), "crushing", 9999)
+    world.damageTiles(tileArea, targetLayer, entity.position(), "blockish", 9999, 0)
   end
 end
 
@@ -162,7 +162,7 @@ end
 function cleanupInvisitiles(tileArea)
   for i, pos in ipairs(tileArea) do
     if world.material(pos, "background") == "invisitile" then
-      world.damageTiles({pos}, "background", entity.position(), "crushing", 9999)
+      world.damageTiles({pos}, "background", entity.position(), "blockish", 9999, 0)
     end
   end
 end

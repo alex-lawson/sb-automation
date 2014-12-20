@@ -54,13 +54,6 @@
       "damageConfig" : "/damage/damageresponse/groundnpc.config"
     },
 
-    "inateStatusEffects" : [
-      {
-        "kind" : "Protection",
-        "amount" : 5000.0
-      }
-    ],
-
     "mouthOffset" : [0, 0],
     "feetOffset" : [0, -8],
 

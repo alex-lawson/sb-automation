@@ -1,9 +1,0 @@
-{
-  "itemName" : "cleanpipeSE",
-  "rarity" : "Common",
-  "inventoryIcon" : "cleanpipeSE.png",
-  "dropCollision" : [-2.5, -2.0, 2.5, 2.0],
-  "description" : "South and east exits of a section of a clean Pipe.",
-  "shortdescription" : "Pipe SE Elbow",
-
-  "materialId" : 5739}

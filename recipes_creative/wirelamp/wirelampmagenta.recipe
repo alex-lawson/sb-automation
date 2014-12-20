@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "wirelampmagenta",
-    "count" : 1
-  },
-  "groups" : [ "mod", "sfmod" ]
-}

@@ -10,13 +10,6 @@
 
   "hydrophobic" : true,
 
-  "statusEffects" : [
-    {
-      "kind" : "Warmth",
-      "amount" : 8,
-      "range" : 4
-    } ],
-
   "lightColor" : [2, 188, 237],
   "flickerDistance" : 0.5,
   "flickerStrength" : 0.1,

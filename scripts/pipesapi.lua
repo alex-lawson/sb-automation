@@ -549,7 +549,7 @@ function pipes.replacePipes(tiles, type)
     local tileName = world.material(worldPos, tile.layer)
     local suggestedName = pipes.suggestTileName(tile, type)
     if tileName ~= suggestedName then
-        world.damageTiles({worldPos}, tile.layer, entity.position(), "crushing", 1000)
+        world.damageTiles({worldPos}, tile.layer, entity.position(), "blockish", 1000, 0)
         table.insert(pipes.placeQueue, {pos = worldPos, layer = tile.layer, material = suggestedName})
     end
   end

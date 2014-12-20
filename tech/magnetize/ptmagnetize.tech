@@ -1,5 +1,8 @@
 {
-  "script" : "ptmagnetize.lua",
+  "name" : "magnetize",
+  "type" : "head",
+
+  "scripts" : [ "ptmagnetize.lua" ],
   "actions" : [ "magnetizeActivate", "magnetizeDeactivate", "magnetizeReverse" ],
   "animator" : "ptmagnetize.animation",
 

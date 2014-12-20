@@ -1,8 +1,0 @@
-{
-  "input" : [ ],
-  "output" : {
-    "item" : "cleanpipehorizontal",
-    "count" : 1
-  },
-  "groups" : [ "mod", "sfmod" ]
-}

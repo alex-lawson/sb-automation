@@ -2,12 +2,7 @@
   "type" : "mannequin",
 
   "disableWornArmor" : true,
-  "inateStatusEffects" : [
-    {
-      "kind" : "Protection",
-      "amount" : 500.0
-    }
-  ],
+
   "levelVariance" : [1, 1],
   "damageTeam" : 0,
 
